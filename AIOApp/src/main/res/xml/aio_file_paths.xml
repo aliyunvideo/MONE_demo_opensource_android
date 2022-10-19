@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <!-- path设置为'.'时代表整个存储卡 Environment.getExternalStorageDirectory() + "/path/"   -->
+        <external-path
+            name="external_storage_root"
+            path="."/>
+        <cache-path
+            name="internal_cache"
+            path="." />
+        <files-path
+            name="internal_files"
+            path="." />
+        <external-files-path
+            name="external_files"
+            path="." />
+        <external-cache-path
+            name="external_cache"
+            path="." />
+    </paths>
+</resources>

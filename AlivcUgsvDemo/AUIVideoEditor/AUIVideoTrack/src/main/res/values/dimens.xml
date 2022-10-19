@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="track_height">44dp</dimen>
+    <dimen name="track_tail_width">15dp</dimen>
+    <dimen name="translate_icon_w">18dp</dimen>
+    <dimen name="track_line_he">2dp</dimen>
+    <dimen name="video_track_margin_start">17dp</dimen>
+    <dimen name="video_track_left_btn_width">44dp</dimen>
+    <dimen name="sub_track_height">24dp</dimen>
+    <dimen name="track_border_corner_radius">4dp</dimen>
+    <dimen name="dialog_border_corner_radius_4">4dp</dimen>
+</resources>

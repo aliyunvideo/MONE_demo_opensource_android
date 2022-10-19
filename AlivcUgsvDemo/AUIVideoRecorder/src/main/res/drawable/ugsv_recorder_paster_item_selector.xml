@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="2dp" />
+            <stroke android:width="1dp" android:color="@color/colourful_border_strong" />
+            <size android:width="@dimen/ugsv_recorder_chooser_paster_item_size" android:height="@dimen/ugsv_recorder_chooser_paster_item_size" />
+        </shape>
+    </item>
+</selector>

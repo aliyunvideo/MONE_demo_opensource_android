@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_beauty_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:background="@color/color_background_black">
+
+    <com.alivc.live.beautyui.component.CircleImageView
+        android:id="@+id/image_iv"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/beauty_mid_content_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:textColor="@drawable/selector_beauty_item"
+        android:textSize="11dp"
+        tools:text="@string/beauty_beauty" />
+
+</LinearLayout>

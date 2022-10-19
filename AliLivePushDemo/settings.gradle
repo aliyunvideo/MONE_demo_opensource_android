@@ -1,0 +1,21 @@
+include ':imageutil'
+include ':queenbeauty'
+include ':beautyui'
+include ':beauty'
+include ':alivc-livepusher-demo'
+if (file(livePushSdkSourceCode).exists()) {
+    include ':alivc-livepusher-lib'
+    project(':alivc-livepusher-lib').projectDir = file(livePushSdkSourceCode)
+}
+include ':AndroidThirdParty'
+project(':AndroidThirdParty').projectDir = new File(settingsDir, '../AndroidThirdParty')
+include ':AUIFoundation'
+project(':AUIFoundation').projectDir = new File(settingsDir, '../AUIFoundation')
+include ':AUIFoundation:AVTheme'
+project(':AUIFoundation:AVTheme').projectDir = new File(settingsDir, '../AUIFoundation/AVTheme')
+include ':AUIFoundation:AVBaseUI'
+project(':AUIFoundation:AVBaseUI').projectDir = new File(settingsDir, '../AUIFoundation/AVBaseUI')
+include ':AUIFoundation:AVMatisse'
+project(':AUIFoundation:AVMatisse').projectDir = new File(settingsDir, '../AUIFoundation/AVMatisse')
+include ':AUIFoundation:AVUtils'
+project(':AUIFoundation:AVUtils').projectDir = new File(settingsDir, '../AUIFoundation/AVUtils')

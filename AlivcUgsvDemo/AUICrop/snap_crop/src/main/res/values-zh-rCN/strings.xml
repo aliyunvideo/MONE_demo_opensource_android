@@ -1,0 +1,46 @@
+<resources>
+    <string name="aliyun_kbps">码率(kbps)</string>
+    <string name="aliyun_crop_frame_rate">帧率</string>
+    <string name="aliyun_crop_gop">关键帧间隔</string>
+    <string name="aliyun_kbps_hint">建议600-2000，默认0</string>
+    <string name="aliyun_crop_frame_rate_hint">建议20-30，默认30</string>
+    <string name="aliyun_crop_gop_hint">建议1-300，默认250</string>
+    <string name="aliyun_resolution">分辨率</string>
+    <string name="aliyun_crop_mode">裁剪模式</string>
+    <string name="aliyun_mode_fill">画面填充</string>
+    <string name="aliyun_mode_crop">画面裁剪</string>
+    <string name="aliyun_start_import">开始导入</string>
+    <string name="aliyun_gallery_all_media">相机胶卷</string>
+    <string name="aliyun_resolution_1_1">540*540</string>
+    <string name="aliyun_resolution_3_4">540*720</string>
+    <string name="aliyun_resolution_9_16">540*960</string>
+    <string name="aliyun_svideo_crop_quality">视频质量</string>
+    <string name="aliyun_svideo_crop_quality_low">低</string>
+    <string name="alivc_snap_quality_median">中</string>
+    <string name="alivc_snap_quality_high">高</string>
+    <string name="alivc_snap_quality_super">极高</string>
+    <string name="aliyun_video_codec">视频编码方式</string>
+    <string name="aliyun_hardware_encoder">硬编</string>
+    <string name="aliyun_openh264_encoder">OpenH264软编</string>
+    <string name="aliyun_video_crop_error">视频格式不支持</string>
+    <string name="aliyun_crop_error">裁剪失败</string>
+    <string name="aliyun_not_supported_audio">音频格式不支持</string>
+    <string name="aliyun_video_duration">%1$02d:%2$02d:%3$02d</string>
+    <string name="aliyun_next_camera_roll_import">下一步</string>
+    <string name="aliyun_total_duration_label_import">总时长</string>
+    <string name="aliyun_crop_ratio">视频比例</string>
+    <string name="alivc_snap_crop_ratio_1_1">1:1</string>
+    <string name="aliyun_record_ratio_9_16">9:16</string>
+    <string name="alivc_snap_crop_ratio_3_4">3:4</string>
+    <string name="aliyun_record_ratio_original">原比例</string>
+    <string name="aliyun_crop_resolution_360p">360p</string>
+    <string name="aliyun_crop_resolution_480p">480p</string>
+    <string name="aliyun_crop_resolution_540p">540p</string>
+    <string name="aliyun_crop_resolution_720p">720p</string>
+    <string name="aliyun_video_param_error">裁剪失败</string>
+    <string name="alivc_tip_crop_gif">暂时不支持gif文件裁剪</string>
+    <string name="aliyun_sdcard_not_ready">sdcard not ready</string>
+    <string name="alivc_crop_setting">裁剪设置</string>
+    <string name="alivc_crop_video_tip_error">视频错误</string>
+
+</resources>

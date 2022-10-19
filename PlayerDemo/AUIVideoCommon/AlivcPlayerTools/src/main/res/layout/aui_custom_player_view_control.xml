@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/black"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/audio_mode_bg"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:scaleType="centerCrop" />-->
+
+
+    <View
+        android:id="@+id/top_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shape_video_top_shadow" />
+
+    <View
+        android:id="@+id/bottom_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_video_bottom_shadow" />
+
+    <View
+        android:id="@+id/audio_mode_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#42464B" />
+
+    <include layout="@layout/layout_speed_up_tip"></include>
+
+    <!--screencost start-->
+    <FrameLayout
+        android:id="@+id/screen_cost_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/alivc_common_bg_black"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:id="@+id/fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_background"
+                android:layout_width="@dimen/alivc_common_height_icon_36"
+                android:layout_height="@dimen/alivc_common_height_icon_36"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/alivc_screen_cost_airplay" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/alivc_common_margin_8">
+
+                <TextView
+                    android:id="@+id/tv_screen_cost_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="@dimen/alivc_common_margin_12"
+                    android:text="@string/alivc_screen_costting"
+                    android:textColor="@color/alivc_common_font_gray_light"
+                    android:textSize="@dimen/alivc_common_font_16" />
+
+                <TextView
+                    android:id="@+id/tv_screen_cost_change_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_screen_cost_state"
+                    android:text="@string/alivc_screen_cost_chooser_device"
+                    android:textColor="@color/color_00f2ff"
+                    android:textSize="@dimen/alivc_common_font_12" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/alivc_common_margin_30"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_back_detail"
+                    style="@style/cost_btn_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/alivc_screen_cost_back"
+                    android:drawablePadding="@dimen/alivc_common_padding_5"
+                    android:text="@string/alivc_screen_cost_back_details" />
+
+                <TextView
+                    android:id="@+id/tv_exit"
+                    style="@style/cost_btn_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/alivc_screen_cost_quit"
+                    android:drawablePadding="@dimen/alivc_common_padding_5"
+                    android:text="@string/alivc_screen_cost_exit" />
+
+                <TextView
+                    android:id="@+id/tv_restart"
+                    style="@style/cost_btn_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/alivc_screen_cost_replay"
+                    android:drawablePadding="@dimen/alivc_common_padding_5"
+                    android:text="@string/alivc_screen_cost_replay"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </FrameLayout>
+    <!--screencost end-->
+
+    <!--title bar-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/alivc_title_back"
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:paddingStart="12dp"
+            android:paddingTop="4dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/alivc_audio_mode"
+            android:layout_width="45dp"
+            android:layout_height="36dp"
+            android:paddingTop="16dp"
+            android:paddingRight="25dp"
+            android:src="@drawable/audio_state_close"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/alivc_screen_cost"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/alivc_screen_cost"
+            android:layout_width="45dp"
+            android:layout_height="36dp"
+            android:paddingTop="16dp"
+            android:paddingRight="25dp"
+            android:src="@drawable/cast_screen_close"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/alivc_title_more"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/alivc_title_more"
+            android:layout_width="45dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end"
+            android:paddingTop="@dimen/alivc_common_padding_16"
+            android:paddingRight="25dp"
+            android:src="@drawable/alivc_more"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/full_float_video"
+            android:layout_width="44dp"
+            android:layout_height="38dp"
+            android:paddingTop="@dimen/alivc_common_padding_16"
+            android:paddingRight="25dp"
+            android:src="@drawable/float_play_open"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/alivc_audio_mode"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--title bar-->
+
+    <ImageView
+        android:id="@+id/alivc_screen_lock"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/alivc_screen_unlock" />
+
+    <ImageView
+        android:id="@+id/video_play_state_icon"
+        android:layout_width="43dp"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/video_pause_icon" />
+
+    <RelativeLayout
+        android:id="@+id/controlbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <!--全屏样式-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/alivc_info_large_bar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/alivc_common_margin_25"
+            android:layout_marginRight="@dimen/alivc_common_margin_25"
+            android:layout_marginBottom="@dimen/alivc_common_margin_9">
+
+            <TextView
+                android:id="@+id/alivc_info_large_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/alivc_info_large_seekbar"
+                app:layout_constraintBottom_toBottomOf="@id/alivc_info_large_seekbar"
+                android:textSize="@dimen/alivc_common_font_14"
+                tools:text="00::25" />
+
+            <TextView
+                android:id="@+id/alivc_info_large_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/alivc_info_large_seekbar"
+                app:layout_constraintBottom_toBottomOf="@id/alivc_info_large_seekbar"
+                android:textSize="@dimen/alivc_common_font_14"
+                tools:text="05::25" />
+
+            <Button
+                android:id="@+id/alivc_info_large_rate_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/alivc_rate_btn_nomal"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_14"
+                android:visibility="gone" />
+
+            <SeekBar
+                android:id="@+id/alivc_info_large_seekbar"
+                style="@style/alivc_info_seekbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/alivc_info_large_position"
+                app:layout_constraintEnd_toStartOf="@id/alivc_info_large_duration" />
+
+            <com.aliyun.player.alivcplayerexpand.view.function.MutiSeekBarView
+                android:id="@+id/alivc_info_large_mutiseekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/alivc_common_height_group_15"
+                android:layout_centerVertical="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/alivc_info_large_position"
+                app:layout_constraintEnd_toStartOf="@id/alivc_info_large_duration"
+                android:visibility="gone"/>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/full_screen_bottom_function_layout"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/alivc_common_margin_40"
+                android:layout_marginEnd="@dimen/alivc_common_margin_25"
+                app:layout_constraintTop_toBottomOf="@id/alivc_info_large_seekbar"
+                app:layout_constraintStart_toEndOf="@id/alivc_info_large_position"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingBottom="12dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/video_play_state_full_icon"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/video_pause_icon" />
+
+                <ImageView
+                    android:id="@+id/next_video"
+                    android:layout_width="44dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="20dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:visibility="gone"
+                    android:src="@drawable/next_video_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <CheckBox
+                    android:id="@+id/danmaku_btn"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/selector_danma"
+                    android:button="@null"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/next_video"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/iv_input_danmaku"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="25dp"
+                    android:background="@drawable/shape_danmaku_btn_bg"
+                    android:gravity="center_vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="65dp"
+                    android:text="@string/danmku_input_tip"
+                    android:textColor="@color/color_d4d4d4"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/danmaku_btn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_definition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:enabled="false"
+                    android:paddingEnd="24dp"
+                    android:text="@string/video_resolution_title"
+                    android:textColor="@color/uifabric_gray_400"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toStartOf="@id/alivc_screen_large_mode"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/video_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/video_speed_title"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_definition"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/video_series_select_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/select_series_title"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/video_speed"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/alivc_player_subtitle"
+                    android:textColor="@color/alivc_common_font_white_light"
+                    android:textSize="@dimen/alivc_common_font_12"
+                    android:visibility="gone"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/video_series_select_tv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_audio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/tv_subtitle"
+                    app:layout_constraintTop_toTopOf="@id/tv_subtitle"
+                    android:text="@string/alivc_player_audio"
+                    android:textColor="@color/alivc_common_font_white_light"
+                    android:textSize="@dimen/alivc_common_font_12" />
+
+                <TextView
+                    android:id="@+id/tv_bitrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/tv_subtitle"
+                    app:layout_constraintTop_toTopOf="@id/tv_subtitle"
+                    android:text="@string/alivc_player_bitrate"
+                    android:textColor="@color/alivc_common_font_white_light"
+                    android:textSize="@dimen/alivc_common_font_12" />
+
+                <ImageView
+                    android:id="@+id/alivc_screen_large_mode"
+                    android:layout_width="28dp"
+                    android:layout_height="26dp"
+                    android:padding="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/alivc_screen_mode_small" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/ll_track"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tv_audio,tv_bitrate"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.aliyun.player.alivcplayerexpand.view.dot.VideoDotLayout
+                android:id="@+id/video_dots_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/alivc_info_large_seekbar"
+                app:layout_constraintEnd_toEndOf="@id/alivc_info_large_seekbar"
+                app:layout_constraintBottom_toBottomOf="@id/alivc_info_large_seekbar"
+                android:layout_alignTop="@id/alivc_info_large_bar"
+                android:layout_marginStart="@dimen/video_dots_margin_start"
+                android:layout_marginEnd="@dimen/video_dots_margin_start" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--全屏样式-->
+
+        <!--小屏样式-->
+        <RelativeLayout
+            android:id="@+id/alivc_info_small_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:gravity="bottom"
+            android:paddingBottom="@dimen/alivc_common_margin_15"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/alivc_info_small_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="00:16" />
+
+            <SeekBar
+                android:id="@+id/alivc_info_small_seekbar"
+                style="@style/alivc_info_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/alivc_info_small_duration"
+                android:layout_toRightOf="@id/alivc_info_small_position" />
+
+
+            <com.aliyun.player.alivcplayerexpand.view.function.MutiSeekBarView
+                android:id="@+id/alivc_info_small_mutiseekbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/alivc_common_height_group_15"
+                android:layout_toLeftOf="@id/alivc_info_small_duration"
+                android:layout_toRightOf="@id/alivc_info_small_position"
+                android:paddingLeft="@dimen/alivc_common_padding_2"
+                android:paddingRight="@dimen/alivc_common_padding_2"
+                android:thumbOffset="@dimen/alivc_common_padding_8" />
+
+            <TextView
+                android:id="@+id/alivc_info_small_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="6dp"
+                android:layout_toLeftOf="@+id/half_float_video"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="04:56" />
+
+            <ImageView
+                android:id="@+id/half_float_video"
+                android:layout_width="30dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/alivc_screen_mode"
+                android:paddingStart="4dp"
+                android:paddingEnd="7dp"
+                android:visibility="gone"
+                android:src="@drawable/float_play_open" />
+
+            <ImageView
+                android:id="@+id/alivc_screen_mode"
+                android:layout_width="33dp"
+                android:layout_height="14dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:paddingStart="7dp"
+                android:paddingEnd="12dp"
+                android:src="@drawable/alivc_screen_mode_large" />
+
+        </RelativeLayout>
+        <!--小屏样式-->
+
+    </RelativeLayout>
+
+    <!--其他-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/alivc_common_margin_10"
+        android:layout_marginRight="@dimen/alivc_common_margin_10"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/alivc_screen_shot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/alivc_common_margin_5"
+            android:padding="5dp"
+            android:src="@drawable/alivc_screen_shot"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/alivc_screen_recoder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/alivc_common_margin_4"
+            android:src="@drawable/alivc_recorder"
+            android:visibility="gone" />
+
+    </LinearLayout>
+    <!--其他-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/seek_duration_tip_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        tools:background="@color/color_555555">
+
+        <TextView
+            android:id="@+id/seek_play_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="00:16"
+            android:textColor="@color/color_00f2ff"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/seek_video_duration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/seek_video_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="/04:56"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/seek_play_duration"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:textColor="@color/place_holder_color" />
+
+        <ProgressBar
+            android:id="@+id/seek_progress_play_duration"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/layer_list_video_seek_bar_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seek_video_duration" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

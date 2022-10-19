@@ -1,0 +1,23 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+    lintOptions {
+        warning 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidXRecyclerView
+    implementation externalAndroidXConstraintlayout
+    implementation externalGSON
+    implementation project(':AliyunVideoCommon')
+    implementation project(':AUIFoundation:AVTheme')
+}

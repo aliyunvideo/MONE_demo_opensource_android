@@ -1,0 +1,38 @@
+dependencies {
+
+    // svideo api
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //短视频专业版依赖库
+    api project(':AUIVideoEditor')
+    api project(':AUIVideoRecorder')
+    api project(':AUICrop:crop')
+    api project(':AliyunVideoCommon')
+    api project(':AUIFileDownloader')
+    api project(':AUIMedia')
+    api project(':AUIResample')
+    api project(':AUIUgsvBase')
+    api project(':QueenBeauty')
+    api project(':FaceunityBeauty')
+    api project(':AUIBeauty')
+    api project(':AUIVideoEditor:AUIEditorEffect')
+
+    api project(':AUIFoundation:AVTheme')
+    api project(':AUIFoundation:AVBaseUI')
+    api project(':AUIFoundation:AVMatisse')  //相册选择器
+
+    implementation externalARouter
+    annotationProcessor externalARouterCompiler
+
+    implementation (externalAliyunQueenUI) {
+        exclude group: 'com.aliyun.maliang.android', module: 'queen'
+    }
+    
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidXRecyclerView
+    implementation externalAndroidXConstraintlayout
+    implementation externalGSON
+    implementation externalOKHTTP
+//    implementation externalLeakcanary
+    implementation externalAndroidMultiDex
+}

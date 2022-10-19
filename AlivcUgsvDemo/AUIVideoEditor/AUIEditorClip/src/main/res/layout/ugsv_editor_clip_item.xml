@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="47dp"
+    android:layout_height="64dp" >
+
+    <ImageView
+        android:id="@+id/ugsv_editor_clip_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+    <TextView
+        android:id="@+id/ugsv_editor_clip_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:textFontWeight="400"
+        android:textColor="@color/text_strong"
+        android:gravity="center|center_horizontal" />
+
+    <View
+        android:id="@+id/ugsv_editor_clip_item_select"
+        android:layout_height="4dp"
+        android:layout_width="4dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:visibility="invisible"
+        android:background="@drawable/ugsv_editor_enhace_select_dot"/>
+
+</LinearLayout>

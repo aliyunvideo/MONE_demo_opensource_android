@@ -1,0 +1,59 @@
+<resources>
+    <string name="alivc_use_gpu">使用GPU</string>
+    <string name="alivc_kbps_hint">建议600-2000，默认0</string>
+    <string name="alivc_resolution_1_1">540*540</string>
+    <string name="alivc_resolution_3_4">540*720</string>
+    <string name="alivc_resolution_9_16">540*960</string>
+    <string name="alivc_video_duration">%1$02d:%2$02d:%3$02d</string>
+    <string name="alivc_next_camera_roll_import">下一步</string>
+    <string name="alivc_total_duration_label_import">总时长</string>
+    <string name="alivc_video_param_error">Failed to crop the video</string>
+    <string name="alivc_crop_setting_frame_rate_1">帧率</string>
+    <!--裁剪设置界面 -->
+    <string name="alivc_crop_setting_tittle">裁剪参数</string>
+    <string name="alivc_crop_setting_bps">码率(kbps)</string>
+    <string name="alivc_crop_setting_bps_hint">默认值为0, 根据视频质量参数计算</string>
+    <string name="alivc_crop_setting_frame_rate">帧率</string>
+    <string name="alivc_crop_setting_frame_rate_hint">建议20-30，默认30</string>
+    <string name="alivc_crop_setting_gop">关键帧间隔</string>
+    <string name="alivc_crop_setting_gop_hint">建议1-300，默认250</string>
+    <string name="alivc_crop_setting_resolution">分辨率</string>
+    <string name="alivc_crop_setting_resolution_360p">360p</string>
+    <string name="alivc_crop_setting_resolution_480p">480p</string>
+    <string name="alivc_crop_setting_resolution_540p">540p</string>
+    <string name="alivc_crop_setting_resolution_720p">720p</string>
+    <string name="alivc_crop_setting_resolution_1080p">1080p</string>
+    <string name="alivc_crop_setting_crop_mode">裁剪模式</string>
+    <string name="alivc_crop_setting_mode_fill">填充</string>
+    <string name="alivc_crop_setting_mode_crop">裁剪</string>
+    <string name="alivc_crop_setting_start_import">开始导入</string>
+    <string name="alivc_crop_setting_codec">视频编码方式</string>
+    <string name="alivc_crop_setting_encoder_hardware">硬编</string>
+    <string name="alivc_crop_setting_encoder_openh264">软编</string>
+    <string name="alivc_crop_setting_encoder_ffmpeg">FFmpeg软编</string>
+    <string name="alivc_crop_setting_ratio">视频比例</string>
+    <string name="alivc_crop_setting_ratio_1_1">1:1</string>
+    <string name="alivc_crop_setting_ratio_9_16">9:16</string>
+    <string name="alivc_crop_setting_ratio_3_4">3:4</string>
+    <string name="alivc_crop_setting_ratio_original">原比例</string>
+    <string name="alivc_crop_setting_quality">视频质量</string>
+    <string name="alivc_crop_setting_quality_super">优质</string>
+    <string name="alivc_crop_setting_quality_high">良好</string>
+    <string name="alivc_crop_setting_quality_meidan">一般</string>
+    <string name="alivc_crop_setting_quality_low">较差</string>
+    <!--end-->
+
+    <!--裁剪媒体选择页面-->
+    <string name="alivc_crop_media_tittle">相机胶卷</string>
+    <string name="alivc_crop_media_sdcard_not_ready">SDCARD 没有准备好</string>
+    <string name="alivc_crop_media_gif_not_support">暂时不支持gif文件裁剪</string>
+    <!--end-->
+
+    <!--视频裁剪页面-->
+    <string name="alivc_crop_video_tip_not_supported_audio">音频格式不支持</string>
+    <string name="alivc_crop_video_tip_not_supported_video">视频格式不支持</string>
+    <string name="alivc_crop_video_tip_crop_failed">裁剪失败</string>
+    <string name="alivc_crop_video_tip_error">视频错误</string>
+    <string name="alivc_crop_complete">完成剪辑</string>
+    <!--end-->
+</resources>

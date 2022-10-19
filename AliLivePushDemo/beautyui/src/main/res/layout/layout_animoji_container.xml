@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@color/color_bg_beauty_container"
+    android:orientation="vertical"
+    tools:background="@color/google_red">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/animoji_item_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background_transparent"
+        android:scrollbars="none"
+        tools:background="@color/google_blue">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/color_background_transparent"
+        android:gravity="center|bottom"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="12dp"
+        tools:background="@color/google_yellow">
+
+        <LinearLayout
+            android:id="@+id/animoji_reset_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:padding="10dp"
+            tools:background="@color/google_green"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_beauty_reset" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/beauty_reset"
+                android:textColor="@color/color_text_white"
+                android:textSize="11dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/animoji_put_away_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:src="@drawable/icon_beauty_put_away"
+            tools:background="@color/google_blue" />
+
+    </LinearLayout>
+
+</LinearLayout>

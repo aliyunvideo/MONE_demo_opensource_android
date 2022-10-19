@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2017 Alibaba Group Holding Limited.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="oval">
+    <stroke android:width="5dp" android:color="@color/alivc_common_bg_gray_darker"/>
+</shape>

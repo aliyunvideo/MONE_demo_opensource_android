@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aliyun.player.alivcplayerexpand" >
+
+    <application>
+        <service android:name=".view.dlna.service.ClingUpnpService" />
+        <service android:name=".background.BackgroundPlayService" />
+    </application>
+</manifest>

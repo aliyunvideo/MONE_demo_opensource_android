@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_half_screen_video_more_view_bg">
+
+    <View
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/shape_video_more_setting_page_head"
+        android:layout_height="48dp" />
+
+    <ImageView
+        android:src="@drawable/half_screen_video_more_back"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="12dp"
+        android:id="@+id/half_screen_video_more_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/video_more_setting_page_title"
+        app:layout_constraintBottom_toBottomOf="@+id/video_more_setting_page_title"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/video_more_setting_page_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="#111111"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="hhhh" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/video_page_setting_rcv"
+        android:layout_width="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_more_setting_page_title"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/video_more_cancel_tv"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginBottom="38dp"
+        android:gravity="center"
+        android:text="@string/alivc_common_cancel"
+        android:textColor="#181818"
+        android:textSize="14sp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_page_setting_rcv" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

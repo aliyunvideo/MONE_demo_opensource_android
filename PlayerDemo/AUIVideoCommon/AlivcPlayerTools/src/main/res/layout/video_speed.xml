@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/video_speed"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/black">
+
+        <RadioButton
+            android:id="@+id/video_speed_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:text="@string/video_speed_2.0x"
+            android:textColor="@drawable/video_more_tv" />
+
+
+        <RadioButton
+            android:id="@+id/video_speed_point_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/video_speed_1.5x"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_speed_point_two_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/video_speed_1.25x"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_speed_original"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/video_speed_1.0x"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_speed_three_fourths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/video_speed_0.75"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_speed_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_marginTop="24dp"
+            android:text="@string/video_speed_0.5"
+            android:textColor="@drawable/video_more_tv" />
+
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

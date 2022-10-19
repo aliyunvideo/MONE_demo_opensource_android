@@ -1,0 +1,54 @@
+{
+    
+    "pid": 7,
+    "fid": 2,
+    "du": 2.0,
+    "type": 2,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 420.0,
+    "h": 182.0,
+	"a": 0.0,
+	"fx": 0.0,
+	"fy": 0.0,
+	"fw": 0.0,
+	"fh": 0.0,
+	"n": "xinnian",
+    "c": 25.0,
+    "kerneframe": 20,
+    
+    "pExtend": 1,
+    "extendSection":0,
+    "frameArry": [
+                 {"time":0,"pic":0},
+                 {"time":0.08,"pic":1},
+                 {"time":0.16,"pic":2},
+                 {"time":0.24,"pic":3},
+                 {"time":0.32,"pic":4},
+                 {"time":0.4,"pic":5},
+                 {"time":0.48,"pic":6},
+                 {"time":0.56,"pic":7},
+                 {"time":0.64,"pic":8},
+                 {"time":0.72,"pic":9},
+                 {"time":0.8,"pic":10},
+                 {"time":0.88,"pic":11},
+                 {"time":0.96,"pic":12},
+                 {"time":1.04,"pic":13},
+                 {"time":1.12,"pic":14},
+                 {"time":1.2,"pic":15},
+                 {"time":1.28,"pic":16},
+                 {"time":1.36,"pic":17},
+                 {"time":1.44,"pic":18},
+                 {"time":1.52,"pic":19},
+                 {"time":1.6,"pic":20},
+                 {"time":1.68,"pic":21},
+                 {"time":1.76,"pic":22},
+                 {"time":1.84,"pic":23},
+                 {"time":1.92,"pic":24}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 2.0, "shrink":1, "minTime":1.0, "maxTime": 0.0}
+                 ]
+  
+}

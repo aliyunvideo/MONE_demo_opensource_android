@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="alivc_common_no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
+    <string name="alivc_common_no_record_bluetooth_permission">没有权限使用蓝牙，请开启蓝牙权限</string>
+    <string name="alivc_common_no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
+    <string name="alivc_common_no_read_phone_state_permission">没有读取用户数据的权限，请开启该权限</string>
+    <string name="alivc_common_no_write_external_storage_permission">没有文件写权限，请开启该权限</string>
+    <string name="alivc_common_no_read_external_storage_permission">没有文件读权限，请开启该权限</string>
+    <string name="list_empty_tip">列表为空</string>
+
+    <string name="aui_feed_flow_refresh_footer_load_more_with_no_data">一 我是有底线的 一</string>
+
+</resources>

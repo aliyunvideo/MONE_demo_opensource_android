@@ -1,0 +1,106 @@
+apply from: 'sdk_type_config.gradle'
+
+include ':AUIFoundation:AVTheme'
+include ':AUIFoundation:AVBaseUI'
+include ':AUIFoundation:AVMatisse'
+include ':AUIFoundation:AVUtils'
+include ':AIOApp'
+
+//-------------------------------播放器DEMO Start-------------------------------------
+if (hasPlayer()) {
+    include ':liveplayerapp'
+    project(':liveplayerapp').projectDir = new File("PlayerDemo/AUIPlayerApp")
+    include ':AUIVideoList'
+    project(':AUIVideoList').projectDir = new File("PlayerDemo/AUIVideoList")
+    include ':AUIFullScreen'
+    project(':AUIFullScreen').projectDir = new File("PlayerDemo/AUIFullScreen")
+    include ':AUIVideoZXing'
+    project(':AUIVideoZXing').projectDir = new File("PlayerDemo/zxing")
+    include ':AUIFlowFeed'
+    project(':AUIFlowFeed').projectDir = new File("PlayerDemo/AUIFlowFeed")
+    include ':AUIPlayerServer'
+    project(':AUIPlayerServer').projectDir = new File('PlayerDemo/AUIPlayerServer')
+    include ':AUIVideoCommon'
+    project(':AUIVideoCommon').projectDir = new File("PlayerDemo/AUIVideoCommon")
+    include ':AUIVideoCommon:common'
+    include ':AUIVideoCommon:database'
+    include ':AUIVideoCommon:easyfloat'
+    include ':AUIVideoCommon:skeleton'
+    include ':AUIVideoCommon:AliyunPlayerBase'
+    include ':AUIVideoCommon:AlivcPlayerTools'
+}
+//-------------------------------播放器DEMO End-------------------------------------
+
+//-------------------------------直播DEMO Start-------------------------------------
+if (hasLive()) {
+    include ':queenbeauty'
+    project(':queenbeauty').projectDir = new File("AliLivePushDemo/queenbeauty")
+    include ':imageutil'
+    project(':imageutil').projectDir = new File("AliLivePushDemo/imageutil")
+    include ':beautyui'
+    project(':beautyui').projectDir = new File("AliLivePushDemo/beautyui")
+    include ':beauty'
+    project(':beauty').projectDir = new File("AliLivePushDemo/beauty")
+    include ':livepusherapp'
+    project(':livepusherapp').projectDir = new File("AliLivePushDemo/alivc-livepusher-demo")
+    project(':livepusherapp').setBuildFileName('build_lib.gradle')
+}
+//-------------------------------直播DEMO End-------------------------------------
+
+//-------------------------------短视频DEMO Start-------------------------------------
+if (hasUGC()) {
+    include ':AUIMedia'
+    project(':AUIMedia').projectDir = new File("AlivcUgsvDemo/AUIMedia")
+    include ':AUICrop'
+    project(':AUICrop').projectDir = new File("AlivcUgsvDemo/AUICrop")
+    include ':AUICrop:crop'
+    include ':AUICrop:snap_crop'
+    include ':AUIVideoEditor'
+    project(':AUIVideoEditor').projectDir = new File("AlivcUgsvDemo/AUIVideoEditor")
+    include ':AUIVideoEditor:AUIEditorSticker'
+    project(':AUIVideoEditor:AUIEditorSticker').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIEditorSticker')
+    include ':AUIVideoEditor:AUIEditorCaption'
+    project(':AUIVideoEditor:AUIEditorCaption').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIEditorCaption')
+    include ':AUIVideoEditor:AUIEditorCommon'
+    project(':AUIVideoEditor:AUIEditorCommon').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIEditorCommon')
+    include ':AUIVideoEditor:AUIVideoTrack'
+    project(':AUIVideoEditor:AUIVideoTrack').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIVideoTrack')
+    include ':AUIVideoEditor:AUIEditorClip'
+    project(':AUIVideoEditor:AUIEditorClip').projectDir = new File("AlivcUgsvDemo/AUIVideoEditor/AUIEditorClip")
+    include ':AUIVideoEditor:AUIEditorEffect'
+    project(':AUIVideoEditor:AUIEditorEffect').projectDir = new File("AlivcUgsvDemo/AUIVideoEditor/AUIEditorEffect")
+    include ':AUIVideoRecorder'
+    project(':AUIVideoRecorder').projectDir = new File("AlivcUgsvDemo/AUIVideoRecorder")
+    include ':AUIFileDownloader'
+    project(':AUIFileDownloader').projectDir = new File("AlivcUgsvDemo/AUIFileDownloader")
+    include ':AUIResample'
+    project(':AUIResample').projectDir = new File("AlivcUgsvDemo/AUIResample")
+    include ':AUIUgsvBase'
+    project(':AUIUgsvBase').projectDir = new File("AlivcUgsvDemo/AUIUgsvBase")
+    include ':AUIMusic'
+    project(':AUIMusic').projectDir = new File("AlivcUgsvDemo/AUIMusic")
+    include ':AliyunVideoCommon'
+    project(':AliyunVideoCommon').projectDir = new File("AlivcUgsvDemo/AliyunVideoCommon")
+    include ':UGSVApp'
+    project(':UGSVApp').projectDir = new File("AlivcUgsvDemo/UGSVApp")
+    project(':UGSVApp').setBuildFileName('build_lib.gradle')
+    include ':AUIBeauty'
+    project(':AUIBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty")
+    include ':FaceunityBeauty'
+    project(':FaceunityBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty/FaceunityBeauty")
+    include ':QueenBeauty'
+    project(':QueenBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty/QueenBeauty")
+
+    File localFile = new File(getRootDir().absolutePath + "/local.properties")
+    if(localFile.exists()){
+        Properties localProperties = new Properties()
+        localProperties.load(localFile.newDataInputStream())
+        def sourceDebug = localProperties.getProperty('source.debug')
+        def setting_gradle = localProperties.getProperty('setting.gradle')
+        if(sourceDebug != null && setting_gradle != null && "true".equalsIgnoreCase(sourceDebug)){
+            apply from: file(setting_gradle)
+            project(':all-in-one').projectDir = new File(localProperties.getProperty('project.all_in_one.dir'))
+        }
+    }
+}
+//-------------------------------短视频DEMO End-------------------------------------

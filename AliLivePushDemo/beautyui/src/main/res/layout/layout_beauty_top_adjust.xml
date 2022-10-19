@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/beauty_top_adjust_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_background_transparent"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="4dp"
+    tools:background="@color/google_blue">
+
+    <TextView
+        android:id="@+id/beauty_top_adjust_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:textColor="@color/color_background_white"
+        android:textSize="13dp"
+        tools:text="磨皮" />
+
+    <ImageView
+        android:id="@+id/beauty_compare_iv"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:padding="8dp"
+        android:src="@drawable/icon_beauty_compare" />
+
+    <SeekBar
+        android:id="@+id/beauty_top_adjust_value_sb"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/beauty_compare_iv"
+        android:layout_toEndOf="@+id/beauty_top_adjust_title_tv"
+        android:max="100"
+        android:maxHeight="2dp"
+        android:minHeight="2dp"
+        android:progress="0"
+        android:progressDrawable="@drawable/layer_beauty_progressbar_bg"
+        android:thumb="@drawable/shape_beauty_seekbar_dot"
+        android:thumbOffset="5dp"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
+</RelativeLayout>

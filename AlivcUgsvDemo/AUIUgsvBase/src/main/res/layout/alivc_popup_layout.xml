@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/content_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/alivc_common_padding_2"
+        android:background="@drawable/alivc_popup_bg"
+        android:orientation="vertical"/>
+
+    <ImageView
+        android:id="@+id/arrow_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:contentDescription="Down arrow"
+        android:src="@drawable/alivc_popup_arrow_down"/>
+
+
+</LinearLayout>

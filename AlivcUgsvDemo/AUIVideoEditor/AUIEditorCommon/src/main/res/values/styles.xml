@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundedImage">
+        <attr name="iv_cornerRadius" format="dimension" />
+        <attr name="iv_topLeftCornerRadius" format="dimension" />
+        <attr name="iv_topRightCornerRadius" format="dimension" />
+        <attr name="iv_bottomLeftCornerRadius" format="dimension" />
+        <attr name="iv_bottomRightCornerRadius" format="dimension" />
+        <attr name="iv_borderWidth" format="dimension" />
+        <attr name="iv_borderColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="SquareProcessView">
+        <attr name="strokeWith" format="dimension|reference" />
+        <attr name="progressColor" format="color|reference" />
+        <attr name="currentProgress" format="integer" />
+    </declare-styleable>
+</resources>

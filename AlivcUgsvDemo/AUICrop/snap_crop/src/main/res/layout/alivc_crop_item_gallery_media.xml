@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aliyun.svideo.base.widget.SquareFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/alivc_common_padding_2"
+        >
+
+        <com.aliyun.ugsv.common.widget.RoundSquareView
+            android:id="@+id/aliyun_draft_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            app:roundWidth="0dp"
+            app:roundHeight="0dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_20"
+            android:layout_gravity="bottom"
+            android:id="@+id/aliyun_duration_layoput"
+            android:orientation="horizontal">
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:paddingLeft="5dp"-->
+                <!--android:src="@drawable/ic_video_qupai_recorder_22" />-->
+
+            <TextView
+                android:id="@+id/aliyun_draft_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="right"
+                android:paddingRight="@dimen/alivc_common_padding_5"
+                android:textColor="@color/alivc_common_font_white"
+                android:textSize="@dimen/alivc_common_font_12" />
+        </LinearLayout>
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:duplicateParentState="true"-->
+            <!--android:background="@drawable/drafts_chooser_qupai_list_item_bg"/>-->
+    </FrameLayout>
+
+</com.aliyun.svideo.base.widget.SquareFrameLayout>

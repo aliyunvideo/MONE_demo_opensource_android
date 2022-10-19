@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <ImageView
+            android:id="@+id/exit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/back"
+            android:scaleType="center" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/wating_push"
+            android:textColor="@color/title_color"
+            android:textSize="@dimen/view_size_text_16" />
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="116dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/top_bar_layout"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/animoji_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/icon_animoji"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center_horizontal"
+            android:text="@string/animoji"
+            android:textColor="@color/wheel_text_color_1"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/beauty_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/beauty_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center_horizontal"
+            android:text="@string/beauty"
+            android:textColor="@color/wheel_text_color_1"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/music"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/music" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center_horizontal"
+            android:text="@string/backgroud_music"
+            android:textColor="@color/wheel_text_color_1"
+            android:textSize="10sp" />
+
+
+        <ImageView
+            android:id="@+id/flash"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/selector_camera_flash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center_horizontal"
+            android:text="@string/flash"
+            android:textColor="@color/wheel_text_color_1"
+            android:textSize="10sp" />
+
+
+        <ImageView
+            android:id="@+id/camera"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/camera_on" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center_horizontal"
+            android:text="@string/camera"
+            android:textColor="@color/wheel_text_color_1"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/snapshot"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/screenshot" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="3dp"
+            android:text="@string/snapshot"
+            android:textColor="@color/wheel_text_color_1"
+            android:textSize="10sp" />
+    </LinearLayout>
+    </ScrollView>
+
+    <HorizontalScrollView
+        android:id="@+id/bottom_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:layout_alignParentBottom="true"
+        android:background="#66FCFCFD"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:id="@+id/action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:orientation="horizontal"
+            android:paddingStart="38dp"
+            android:paddingEnd="0dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/preview_button"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/preview_selector"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:text="@string/stop_preview_button"
+                android:textColor="@drawable/tools_tip_selector"
+                android:textSize="10sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/push_button"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/push_selector"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:text="@string/start_push"
+                android:textColor="@drawable/tools_tip_selector"
+                android:textSize="10sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/opera_button"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/stop_selector"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:text="@string/pause_button"
+                android:textColor="@drawable/tools_tip_selector"
+                android:textSize="10sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/restart_button"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/repush_selector"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:text="@string/repush_button"
+                android:textColor="@drawable/tools_tip_selector"
+                android:textSize="10sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/more"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/more_setting_selector"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:text="@string/more_setting_button"
+                android:textColor="@drawable/tools_tip_selector"
+                android:textSize="10sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/data"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/data_selector"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:text="@string/data_args"
+                android:textColor="@drawable/tools_tip_selector"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+    <com.alivc.live.beautyui.AnimojiContainerView
+        android:id="@+id/animoji_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+    <com.aliyunsdk.queen.menu.BeautyMenuPanel
+        android:id="@+id/beauty_beauty_menuPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+    <com.alivc.live.pusher.widget.DataView
+        android:id="@+id/ll_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_scroll"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="116dp" />
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/blank_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="bottom"
+        android:background="#00000000">
+
+        <com.aliyun.svideo.base.widget.beauty.skin.BeautyDefaultSkinSettingView
+            android:id="@+id/default_skin_setting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom" />
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_copyright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/alivc_common_padding_4"
+        android:paddingBottom="@dimen/alivc_common_padding_18"
+        android:gravity="center"
+        android:visibility="visible"
+        android:textSize="@dimen/alivc_common_font_12"
+        android:textColor="@color/alivc_common_font_white"/>
+
+
+</LinearLayout>

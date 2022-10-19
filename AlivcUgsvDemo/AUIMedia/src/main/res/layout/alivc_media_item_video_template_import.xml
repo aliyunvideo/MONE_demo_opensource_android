@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="85dp"
+    android:layout_height="102dp">
+
+    <FrameLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/alivc_common_white"
+            android:textSize="@dimen/alivc_common_font_14"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/iv_select"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_rect_template_import_select" />
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="10dp"
+        android:padding="2dp"
+        android:src="@drawable/alivc_media_icon_import_delete" />
+
+    <TextView
+        android:id="@+id/iv_index"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14"
+        android:textStyle="bold" />
+
+
+</FrameLayout>

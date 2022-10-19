@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.caption.viewmodel.CaptionResourceItemViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="@{viewModel::onClick}"
+        android:orientation="vertical"
+        android:padding="1dp"
+        >
+        <com.aliyun.svideo.editor.common.widget.RoundedRectangleImageView
+            android:layout_gravity="center"
+            android:id="@+id/imageView"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="centerInside"
+            app:iv_cornerRadius="4dp"
+            app:imageUrl="@{viewModel.resource.cover}"
+            app:imageResource="@{viewModel.resource.coverResId}"
+            app:placeholder="@{@drawable/caption_shape_place_holder_r4}"
+            app:error="@{@drawable/caption_shape_place_holder_r4}"
+            />
+    </FrameLayout>
+</layout>

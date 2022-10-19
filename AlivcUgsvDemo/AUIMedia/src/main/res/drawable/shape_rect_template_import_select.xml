@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle">
+    <stroke android:width="@dimen/alivc_common_line_2dp" android:color="@color/alivc_common_bg_red"/>
+    <corners android:radius="@dimen/alivc_common_radius_2" />
+</shape>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="item_playing" type="id" />
+    <item name="item_audio_mode" type="id" />
+
+</resources>

@@ -1,0 +1,118 @@
+import java.text.SimpleDateFormat
+
+apply from: '../cappbuild.gradle'
+apply plugin: 'com.android.application'
+
+ext.MTL_buildId = getEnvValue("MUPP_BUILD_ID", '')
+ext.MTL_buildTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())
+// special configurations, only used for test.
+ext.Interactive_AppID = getEnvValue("INTERACTIVE_APP_ID", '')
+ext.Interactive_AppKey = getEnvValue("INTERACTIVE_APP_KEY", '')
+ext.Interactive_PlayDomain = getEnvValue("INTERACTIVE_PLAY_DOMAIN", '')
+
+//@keria:cannot make method static
+String getEnvValue(key, defValue) {
+    def val = System.getProperty(key)
+    if (null != val) {
+        return val
+    }
+    val = System.getenv(key)
+    if (null != val) {
+        return val
+    }
+    return defValue
+}
+
+android {
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    dexOptions {
+        javaMaxHeapSize "3g"
+    }
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+    defaultConfig {
+        applicationId "com.alivc.live.pusher.demo"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        Properties properties = new Properties()
+        if (project.rootProject.file('local.properties').canRead()) {
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        }
+        resValue "string", "test_push_url", properties.getProperty("push.url", "")
+        resValue "string", "test_pull_url", properties.getProperty("pull.url", "")
+        resValue "string", "interactive_appid", properties.getProperty("interactive.appid", "")
+        resValue "string", "interactive_appkey", properties.getProperty("interactive.appkey", "")
+        resValue "string", "interactive_push_domain", properties.getProperty("interactive.push.domain", "")
+        resValue "string", "interactive_play_domain", properties.getProperty("interactive.play.domain", "")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME :'live' ]
+            }
+        }
+    }
+    buildTypes {
+        all {
+            buildConfigField "String", "MTL_BUILD_ID", "\"${MTL_buildId}\""
+            buildConfigField "String", "MTL_BUILD_TIMESTAMP", "\"${MTL_buildTimestamp}\""
+            buildConfigField "String", "INTERACTIVE_APP_ID", "\"${Interactive_AppID}\""
+            buildConfigField "String", "INTERACTIVE_APP_KEY", "\"${Interactive_AppKey}\""
+            buildConfigField "String", "INTERACTIVE_PLAY_DOMAIN", "\"${Interactive_PlayDomain}\""
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+//      解决animoji和queen库so重复问题
+        pickFirst '**/libc++_shared.so'
+        pickFirst '**/libMNN.so'
+        pickFirst '**/libMNN_CL.so'
+    }
+    publishNonDefault true
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        disable 'MissingTranslation'
+    }
+
+    allprojects {
+        repositories {
+            jcenter()
+            flatDir {
+                dirs 'src/main/libs'
+            }
+        }
+    }
+    resourcePrefix "push_"
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}
+
+apply from: './dependencies.gradle'

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/alivc_home_item_selector">
+    <ImageView
+        android:id="@+id/iv_item_image"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_download"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_item_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="10dp"
+        android:visibility="invisible"
+        >
+
+        <TextView
+            android:id="@+id/tv_item_hint"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="50dp"
+            android:layout_height="16dp"
+            android:gravity="right|center"
+            android:paddingRight="5dp"
+            android:layout_alignBottom="@+id/iv_item_hint"
+            android:textSize="10sp"
+            android:background="@drawable/aliyun_svideo_shape_race_logo_bg"
+            />
+        <ImageView
+            android:id="@+id/iv_item_hint"
+            android:layout_width="@dimen/alivc_common_size_icon_20"
+            android:layout_height="@dimen/alivc_common_size_icon_28"
+            android:scaleType="fitXY"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:text="名称"/>
+</RelativeLayout>

@@ -1,0 +1,60 @@
+{
+    
+    "pid": 2,
+    "fid": 0,
+    "du": 1.32,
+    "type": 0,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 390.0,
+    "h": 320.0,
+	"a": 0.0,
+	"fx": 0.0,
+	"fy": 0.0,
+	"fw": 0.0,
+	"fh": 0.0,
+	"n": "dawang",
+    "c": 17.0,
+    
+    "pText":"大王叫我\n来巡山呀~",
+    "tFont":"华康少女",
+    "tAngle":-15.0,
+    "tLeft":202.0,
+    "tTop":190.0,
+    "tWidth":275.0,
+    "tHeight":155.0,
+    "tR":255.0,
+    "tG":255.0,
+    "tB":255.0,
+    "fontId": 87,
+    "tBegin":0.24,
+    "tEnd":1.32,
+    
+    "pExtend": 1,
+    "extendSection":1,
+    "frameArry": [
+                 {"time":0,"pic":0},
+                 {"time":0.08,"pic":1},
+                 {"time":0.16,"pic":2},
+                 {"time":0.24,"pic":3},
+                 {"time":0.32,"pic":4},
+                 {"time":0.4,"pic":5},
+                 {"time":0.48,"pic":6},
+                 {"time":0.56,"pic":7},
+                 {"time":0.64,"pic":8},
+                 {"time":0.72,"pic":9},
+                 {"time":0.8,"pic":10},
+                 {"time":0.88,"pic":11},
+                 {"time":0.96,"pic":12},
+                 {"time":1.04,"pic":13},
+                 {"time":1.12,"pic":14},
+                 {"time":1.2,"pic":15},
+                 {"time":1.28,"pic":16}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 0.24, "shrink":1, "minTime":0.12, "maxTime": 0.24},
+                 {"beginTime": 0.24,"endTime": 1.32, "shrink":1, "minTime":0.54, "maxTime": 0.0}
+                 ]
+  
+}

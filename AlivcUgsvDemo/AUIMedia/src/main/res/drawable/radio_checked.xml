@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="oval">
+    <stroke android:width="6dp" android:color="@color/alivc_media_bg_btn_radio"/>
+    <size android:height="@dimen/alivc_common_size_icon_20" android:width="@dimen/alivc_common_size_icon_20"/>
+    <solid android:color="@color/alivc_media_bg_seek_bar"/>
+</shape>

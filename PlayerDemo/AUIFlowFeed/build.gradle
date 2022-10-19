@@ -1,0 +1,134 @@
+plugins {
+//    id 'com.android.application'
+    id 'com.android.library'
+    id 'kotlin-android'
+    id "org.jetbrains.kotlin.kapt"
+    id 'kotlin-android-extensions'
+
+}
+
+android {
+    compileSdkVersion externalCompileSdkVersion
+
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+    defaultConfig {
+//        applicationId "com.aliyun.apsaravideo.one"
+        minSdkVersion externalMinSdkVersion
+        targetSdkVersion externalTargetSdkVersion
+
+        multiDexEnabled true
+
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags "-std=c++11"
+//            }
+//        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        debug {
+            storeFile file("$rootDir/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+//    externalNativeBuild {
+//        cmake {
+//            path "src/main/cpp/CMakeLists.txt"
+//            version "3.10.2"
+//        }
+//    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    sourceSets.main {
+        jni.srcDirs = []
+        jniLibs.srcDir "src/main/libs"
+    }
+    useLibrary 'org.apache.http.legacy'
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':AUIPlayerServer')
+    implementation project(':AUIVideoCommon:skeleton')
+    implementation project(':AUIVideoCommon:AliyunPlayerBase')
+    implementation project(':AUIVideoCommon:common')
+    implementation project(':AUIVideoCommon:database')
+    implementation project(':AUIVideoCommon:easyfloat')
+    implementation project(':AUIVideoCommon:AlivcPlayerTools')
+
+    implementation project(':AUIFoundation:AVTheme')
+    implementation project(':AUIFoundation:AVUtils')
+    implementation project(':AUIFoundation:AVBaseUI')
+
+
+    implementation externalKotlinStdLib
+    implementation externalAndroidXCoreKtx
+    implementation externalAndroidX
+    implementation externalAndroidXFragmentKtx
+    implementation externalAndroidDesign
+    implementation externalAndroidXViewModelKtx
+    implementation externalAndroidXRuntimeKtx
+    implementation externalAndroidXLiveDataKtx
+    implementation externalAndroidMultiDex
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.ldoublem.loadingview:loadingviewlib:1.0'
+    implementation 'com.github.leavesC:ReactiveHttp:1.0.1'
+
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation ('com.github.lihangleo2:ShadowLayout:3.2.0'){
+        exclude group: "com.github.bumptech.glide"
+    }
+
+}
+

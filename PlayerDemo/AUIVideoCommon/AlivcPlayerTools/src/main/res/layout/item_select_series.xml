@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_dfm_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/alivc_common_height_group_90"
+    android:orientation="horizontal">
+    <FrameLayout
+        android:layout_width="@dimen/alivc_common_width_group_140"
+        android:layout_height="@dimen/alivc_common_height_group_82">
+        <ImageView
+            android:id="@+id/img_cover"
+            android:layout_width="@dimen/alivc_common_width_group_140"
+            android:layout_height="@dimen/alivc_common_height_group_82"/>
+
+        <TextView
+            android:id="@+id/tv_current_video"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="当前播放"
+            android:background="@drawable/alivc_dialog_cover_tips_bg"
+            android:drawableLeft="@drawable/alivc_dialog_series_play"
+            android:drawablePadding="@dimen/alivc_common_padding_5"
+            android:visibility="gone"
+            android:textColor="@color/color_00f2ff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/alivc_common_margin_12"
+        android:layout_marginEnd="@dimen/alivc_common_margin_16"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:id="@+id/tv_video_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/alivc_common_font_14"
+            tools:text="AirPlay" />
+
+        <TextView
+            android:id="@+id/tv_video_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:singleLine="true"
+            android:layout_marginBottom="@dimen/alivc_common_margin_16"
+            android:textColor="@color/color_888888"
+            android:textSize="@dimen/alivc_common_font_10"
+            tools:text="AirPlay" />
+
+
+
+    </FrameLayout>
+
+
+
+</LinearLayout>

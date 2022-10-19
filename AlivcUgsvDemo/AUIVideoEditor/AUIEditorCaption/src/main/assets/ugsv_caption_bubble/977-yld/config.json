@@ -1,0 +1,59 @@
+{
+    
+    "pid": 0,
+    "fid": 0,
+    "du": 1.2,
+    "type": 0,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 380.0,
+    "h": 295.0,
+    "a": 0.0,
+    "fx": 0.0,
+    "fy": 0.0,
+    "fw": 0.0,
+    "fh": 0.0,
+    "n": "yld",
+    "c": 4.0,
+    
+    "pText":"有亮点",
+    "tFont":"SentyTEA",
+    "fontId": 87,
+    "tLeft":153.0,
+    "tTop":155.0,
+    "tWidth":220.0,
+    "tHeight":150.0,
+    "tR":255,
+    "tG":241,
+    "tB":177,
+    "tBegin":0.2,
+    "tEnd":1.2,
+    
+    "strokeR":255,
+    "strokeG":138,
+    "strokeB":0,
+    "strokeWidth":4,
+
+    "pExtend": 1,
+    "extendSection":1,
+    "frameArry": [
+                 {"time":0.0,"pic":0},
+                 {"time":0.1,"pic":1},
+                 {"time":0.2,"pic":2},
+                 {"time":0.3,"pic":3},
+                 {"time":0.4,"pic":2},
+                 {"time":0.5,"pic":3},
+                 {"time":0.6,"pic":2},
+                 {"time":0.7,"pic":3},
+                 {"time":0.8,"pic":2},
+                 {"time":0.9,"pic":3},
+                 {"time":1.0,"pic":2},
+                 {"time":1.1,"pic":3}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 0.2, "shrink":0, "minTime":0.0, "maxTime": 0.2},
+                 {"beginTime": 0.2,"endTime": 1.2, "shrink":0, "minTime":0.8, "maxTime": 0}
+                 ]
+  
+}

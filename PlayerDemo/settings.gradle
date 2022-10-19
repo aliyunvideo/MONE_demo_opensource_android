@@ -1,0 +1,6 @@
+include ':app', ':aliliveplayer'
+def withExternalPlayer = System.getenv("ANDROID_ENABLE_EXTERNALPLAYER")
+
+if(withExternalPlayer != 'false') {
+    include ':ExternalPlayerExoLibrary'
+}

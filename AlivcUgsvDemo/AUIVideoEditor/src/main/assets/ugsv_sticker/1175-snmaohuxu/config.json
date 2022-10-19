@@ -1,0 +1,40 @@
+{
+    
+    "pid": 11,
+    "fid": 1,
+    "du": 0.96,
+    "type": 1,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 400.0,
+    "h": 220.0,
+	"a": 0.0,
+	"fx": 0.0,
+	"fy": -0.6,
+	"fw": 8.286,
+	"fh": 0.0,
+	"n": "snmaohuxu",
+    "c": 4.0,
+    
+    "pExtend": 1,
+    "extendSection":0,
+    "frameArry": [
+                 {"time":0,"pic":0},
+                 {"time":0.08,"pic":1},
+                 {"time":0.16,"pic":2},
+                 {"time":0.24,"pic":3},
+                 {"time":0.32,"pic":0},
+                 {"time":0.4,"pic":1},
+                 {"time":0.48,"pic":2},
+                 {"time":0.56,"pic":3},
+                 {"time":0.64,"pic":0},
+                 {"time":0.72,"pic":1},
+                 {"time":0.8,"pic":2},
+                 {"time":0.88,"pic":3}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 0.96, "shrink":0, "minTime":0.64, "maxTime": 0.0}
+                 ]
+  
+}

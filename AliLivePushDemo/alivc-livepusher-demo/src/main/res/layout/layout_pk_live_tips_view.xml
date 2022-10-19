@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="312dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_interact_live_dialog_bg">
+
+    <TextView
+        android:id="@+id/tv_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/text_strong"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_horizontal_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_input_user_id"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_interact_live_edit_bg"
+        android:gravity="start|center_vertical"
+        android:hint="@string/interact_live_connect_author_tips"
+        android:maxLines="1"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        android:textColor="@color/text_medium"
+        android:textColorHint="@color/text_ultraweak"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_input_room_id"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/shape_interact_live_edit_bg"
+        android:gravity="start|center_vertical"
+        android:hint="@string/interact_live_connect_room_tips"
+        android:maxLines="1"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        android:textColor="@color/text_medium"
+        android:textColorHint="@color/text_ultraweak"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/view_horizontal_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_input_user_id" />
+
+    <ImageView
+        android:id="@+id/iv_clear_user_id"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/et_input_user_id"
+        app:layout_constraintEnd_toEndOf="@id/et_input_user_id"
+        app:layout_constraintTop_toTopOf="@id/et_input_user_id" />
+
+    <ImageView
+        android:id="@+id/iv_clear_room_id"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/et_input_room_id"
+        app:layout_constraintEnd_toEndOf="@id/et_input_room_id"
+        app:layout_constraintTop_toTopOf="@id/et_input_room_id" />
+
+    <View
+        android:id="@+id/view_horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ic_ultraweak"
+        app:layout_constraintBottom_toTopOf="@id/tv_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="@string/interact_live_cancel"
+        android:textColor="@color/text_weak"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/view_vertical_line"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view_vertical_line"
+        android:layout_width="1dp"
+        android:layout_height="48dp"
+        android:background="@color/ic_ultraweak"
+        app:layout_constraintEnd_toStartOf="@id/tv_confirm"
+        app:layout_constraintStart_toEndOf="@id/tv_cancel"
+        app:layout_constraintTop_toTopOf="@id/tv_cancel" />
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="@string/interact_live_confirm"
+        android:textColor="@color/colourful_text_strong"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/view_vertical_line" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

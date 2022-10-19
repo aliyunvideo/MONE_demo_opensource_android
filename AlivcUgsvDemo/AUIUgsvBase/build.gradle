@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        consumerProguardFiles 'lib-proguard-rules.pro'
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidXRecyclerView
+    implementation externalAndroidXConstraintlayout
+    implementation project(':AliyunVideoCommon')
+    implementation project(':AUIMedia')
+    implementation externalGSON
+    implementation externalAlivcCore
+    implementation externalAlivcFFmpeg
+    api externalSvideopro
+}

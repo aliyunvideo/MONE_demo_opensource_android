@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="alivc_crop_bg_seek_bar_theme">#F05487</color>
+    <color name="alivc_crop_bg_btn_radio">#333b55</color>
+    <color name="alivc_crop_total_duration_value_normal">#6E768B</color>
+    <color name="alivc_corp_total_duration_value_over">#000021</color>
+</resources>

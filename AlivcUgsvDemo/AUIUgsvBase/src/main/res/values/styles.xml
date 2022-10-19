@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AliyunVideoUIStytle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="qusnap_background_color">@color/alivc_common_theme_primary</item>
+        <item name="qusnap_tint_color">@color/alivc_common_bg_pink</item>
+        <item name="qusnap_timeline_backgound_color">@color/alivc_common_bg_gray_bright</item>
+        <item name="qusnap_timeline_del_backgound_color">@color/alivc_svideo_bg_timeline_del_color</item>
+        <item name="qusnap_back_icon">@mipmap/aliyun_svideo_icon_back</item>
+        <item name="qusnap_switch_light_icon">@drawable/aliyun_svideo_snap_switch_light_selector</item>
+        <item name="qusnap_switch_light_icon_disable">@mipmap/aliyun_svideo_icon_light_dis</item>
+        <item name="qusnap_switch_light_icon_visibility">visible</item>
+        <item name="qusnap_switch_camera_icon">@drawable/aliyun_svideo_snap_switch_camera</item>
+        <item name="qusnap_switch_camera_icon_visibility">visible</item>
+        <item name="qusnap_beauty_icon">@drawable/aliyun_svideo_snap_switch_beauty</item>
+        <item name="qusnap_beauty_icon_visibility">visible</item>
+        <item name="qusnap_record_icon">@drawable/aliyun_svideo_snap_record_state_selector</item>
+        <item name="qusnap_delete_icon">@drawable/aliyun_svideo_snap_icon_delete</item>
+        <item name="qusnap_complete_icon">@drawable/aliyun_svideo_snap_icon_complete</item>
+        <item name="qusnap_gallery_icon">@mipmap/aliyun_svideo_icon_default</item>
+        <item name="qusnap_gallery_icon_visibility">visible</item>
+        <item name="qusnap_time_txt_color">@android:color/white</item>
+        <item name="qusnap_time_txt_size">15dp</item>
+        <item name="qusnap_time_txt_visibility">visible</item>
+        <item name="qusnap_time_line_pos_y">0dp</item>
+        <item name="qusnap_crop_sweep_left">@mipmap/aliyun_svideo_icon_sweep_left</item>
+        <item name="qusnap_crop_sweep_right">@mipmap/aliyun_svideo_icon_sweep_right</item>
+        <item name="qusnap_crop_seek_frame">@mipmap/aliyun_svideo_icon_frame</item>
+        <item name="qusnap_crop_seek_padding_color">@android:color/holo_red_dark</item>
+        <item name="qusnap_crop_icon_transform">@drawable/aliyun_svideo_snap_transform_selector</item>
+        <item name="qusnap_play_icon_transform">@drawable/aliyun_svideo_play_transform_selector</item>
+        <item name="qusnap_crop_icon_transform_visibility">visible</item>
+        <item name="qusnap_crop_time_txt_color">@android:color/white</item>
+        <item name="qusnap_crop_time_txt_size">15dp</item>
+        <item name="qusnap_crop_txt_visibility">visible</item>
+    </style>
+
+    <!-- 美颜底部tab style-->
+    <style name="BeautyChangeTabStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawableBottom">@drawable/alivc_beauty_level_tab_checked</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+        <item name="android:textColor">@color/alivc_beauty_level_text_selector</item>
+    </style>
+
+    <!-- 美颜美肌微调按钮 style-->
+    <style name="BeautyDetailBtnStyle">
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:background">@drawable/alivc_beauty_default_bt_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10.5dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+    </style>
+
+    <!-- 美颜美肌微调按钮文字 style-->
+    <style name="BeautyDetailTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">10.5dp</item>
+        <item name="android:textColor">#c3c5c6</item>
+        <item name="android:textSize">@dimen/alivc_common_font_12</item>
+
+    </style>
+
+    <!--<RadioButton-->
+        <!--android:id="@+id/beauty0"-->
+        <!--android:layout_width="45dp"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:background="@drawable/alivc_beauty_default_bt_selector"-->
+        <!--android:button="@null"-->
+        <!--android:gravity="center"-->
+        <!--android:text="0"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="14dp" />-->
+    <!---->
+    <style name="BeautyLevelBtnStyle">
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:background">@drawable/alivc_beauty_default_bt_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+    </style>
+    <style name="NextBtnStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">@dimen/alivc_common_font_12</item>
+        <item name="android:background">@drawable/alivc_svideo_bg_next</item>
+        <item name="android:layout_height">27dp</item>
+        <item name="android:layout_width">@dimen/alivc_common_width_tv_60</item>
+        <item name="android:text">@string/alivc_base_svideo_next</item>
+    </style>
+
+    <style name="record_bottom_dialog_animation">
+        <item name="android:windowEnterAnimation">@anim/aliyun_video_anim_trans_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/aliyun_video_anim_layout_bottom_out</item>
+    </style>
+    <style name="QUDemoFullStyle" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

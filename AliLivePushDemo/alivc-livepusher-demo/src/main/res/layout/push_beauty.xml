@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="horizontal"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/beauty_switch"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_marginRight="20dp"
+        android:textSize="@dimen/font_size_40px"
+        android:textColor="@color/text_blue"
+        android:text="@string/beauty_off" />
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/beauty_cheekpink"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_28px" />
+
+            <SeekBar
+                android:id="@+id/beauty_cheekpink_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="15" />
+
+            <TextView
+                android:id="@+id/cheekpink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="15"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/beauty_white"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_28px" />
+
+            <SeekBar
+                android:id="@+id/beauty_white_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="70" />
+
+            <TextView
+                android:id="@+id/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="70"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/beauty_skin_smooth"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_28px" />
+
+            <SeekBar
+                android:id="@+id/beauty_skin_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="40" />
+
+            <TextView
+                android:id="@+id/skin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="40"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/beauty_ruddy"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_28px" />
+
+            <SeekBar
+                android:id="@+id/beauty_ruddy_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="40" />
+
+            <TextView
+                android:id="@+id/ruddy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="40"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_24px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/beauty_thinface"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_28px" />
+
+            <SeekBar
+                android:id="@+id/beauty_thinface_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="40" />
+
+            <TextView
+                android:id="@+id/thinface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="40"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_24px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/beauty_shortenface"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_28px" />
+
+            <SeekBar
+                android:id="@+id/beauty_shortenface_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="50" />
+
+            <TextView
+                android:id="@+id/shortenface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="50"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_24px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/beauty_bigeye"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_28px" />
+
+            <SeekBar
+                android:id="@+id/beauty_bigeye_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="30" />
+
+            <TextView
+                android:id="@+id/bigeye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="30"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_24px" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

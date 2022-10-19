@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugsv_editor_effect_title">特效</string>
+    <string name="ugsv_editor_filter_title">滤镜</string>
+    <string name="ugsv_editor_filter_origin">原始</string>
+</resources>

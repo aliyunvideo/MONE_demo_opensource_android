@@ -1,0 +1,150 @@
+plugins {
+    id 'com.android.application'
+}
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        applicationId "com.aliyun.aio.demo"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
+
+        ndk {
+            abiFilters "armeabi-v7a",'arm64-v8a'
+        }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        flavorDimensions "versionCode"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: 'app']
+            }
+        }
+
+    }
+    signingConfigs {
+        debug {
+            //TODO: 设置您的签名信息
+        }
+        release {
+            //TODO: 设置您的签名信息
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.debug
+            buildConfigField("int","APK_TYPE", "0")
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' ,
+                    "$rootDir/AliLivePushDemo/alivc-livepusher-demo/proguard-rules.pro",
+                    "$rootDir/AlivcUgsvDemo/UGSVApp/proguard-rules.pro"
+                    "$rootDir/PlayerDemo/AUIPlayerApp/proguard-rules.pro"
+//            signingConfig signingConfigs.release
+            buildConfigField("int","APK_TYPE", APK_TYPE)
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            // 名称_android_版本号.apk
+            outputFileName = "AIOApp_v${defaultConfig.versionName}_c${defaultConfig.versionCode}.apk"
+        }
+    }
+
+    //推流配置
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/beans.xml'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+//      解决animoji和queen库so重复问题
+        pickFirst '**/libc++_shared.so'
+        pickFirst '**/libMNN.so'
+        pickFirst '**/libMNN_CL.so'
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+}
+
+configurations {
+    aioimplementation
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidDesign
+    implementation externalAndroidXConstraintlayout
+    implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIFoundation:AVTheme')
+    if (hasLive()) {
+        println("hasLive implementation project(':livepusherapp')")
+        implementation project(':livepusherapp')
+    }
+    if (hasPlayer()) {
+        println("hasPlayer implementation project(':liveplayerapp')")
+        implementation project(':liveplayerapp')
+    }
+    if (hasUGC()) {
+        println("hasUGSV implementation project(':UGSVApp')")
+        implementation project(':UGSVApp')
+    }
+    implementation externalAndroidMultiDex
+    implementation externalAndroidDesign
+
+    implementation  'com.umeng.umsdk:common:9.4.7'// 必选
+    implementation  'com.umeng.umsdk:asms:1.4.1'// 必选
+
+    implementation externalARouter
+    annotationProcessor externalARouterCompiler
+
+    testImplementation externalJunit
+    androidTestImplementation externalTestJunit
+    androidTestImplementation externalEspresso
+    aioimplementation externalAllInOne
+}
+
+import java.security.MessageDigest
+def digest = MessageDigest.getInstance('MD5')
+
+afterEvaluate {
+    File localFile = new File(getRootDir().absolutePath + "/local.properties")
+    if(localFile.exists()){
+        Properties localProperties = new Properties()
+        localProperties.load(localFile.newDataInputStream())
+        def sourceDebug = localProperties.getProperty('source.debug')
+        if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
+            return
+        }
+    }
+    def configuration = project.configurations.getByName('aioimplementation')
+    def dstPath = projectDir.absolutePath + "/build/outputs/aar/"
+    configuration.each { aioFile ->
+        println aioFile.absolutePath
+        println dstPath
+        copy {
+            from aioFile.absolutePath
+            into dstPath
+        }
+        digest.update(aioFile.bytes)
+        file(dstPath + digest.digest().encodeHex().toString() + ".md5").text = "empty"
+    }
+}

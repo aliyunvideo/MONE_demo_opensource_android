@@ -1,0 +1,57 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        maven { url "https://jitpack.io" }
+        maven { url "http://lib.gcssloop.com:8081/repository/gcssloop-central/" }
+
+        google()
+        jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven {
+//            url 'http://mvnrepo.alibaba-inc.com/nexus/content/groups/public'
+            url 'https://maven.aliyun.com/repository/releases'
+        }
+    }
+    apply from: 'AndroidThirdParty/config.gradle'
+    apply from: '../sdk_type_config.gradle'
+    dependencies {
+        classpath externalAndroidBuildGradlePlugin
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        maven { url "https://jitpack.io" }
+        maven { url "http://lib.gcssloop.com:8081/repository/gcssloop-central/" }
+        maven { url 'http://4thline.org/m2' }
+
+        google()
+        jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven {
+//            url 'http://mvnrepo.alibaba-inc.com/nexus/content/groups/public'
+            url 'https://maven.aliyun.com/repository/releases'
+        }
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

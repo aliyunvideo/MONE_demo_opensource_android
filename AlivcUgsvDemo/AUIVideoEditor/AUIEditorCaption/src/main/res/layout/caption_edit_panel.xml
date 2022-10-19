@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.caption.viewmodel.CaptionEditViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@color/bg_weak"
+        android:clickable="true"
+        android:focusable="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/border_infrared"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:onClick="@{viewModel::onCancelClick}"
+            android:src="@drawable/ic_editor_cancel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/captionEditText"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="55dp"
+            android:background="@drawable/caption_border_fg_strong_r15"
+            android:hint="@string/ugsv_caption_effect_text_default"
+            android:maxLines="1"
+            android:paddingStart="11dp"
+            android:paddingEnd="11dp"
+            android:textColor="@color/text_strong"
+            android:textColorHint="@color/text_ultraweak"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toRightOf="@id/btn_back"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_back"
+            app:layout_constraintBottom_toBottomOf="@id/btn_back"
+            >
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/captionEditTabs"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            app:tabGravity="center"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="1dp"
+            app:tabMinWidth="30dp"
+            app:tabPaddingEnd="10dp"
+            app:tabPaddingStart="10dp"
+            app:tabTextAppearance="@style/UgsvTabLayoutTextStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/captionEditText"/>
+
+        <View
+            android:id="@+id/tab_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/border_infrared"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/captionEditTabs"
+            />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/captionEditTabsPages"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_divider"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

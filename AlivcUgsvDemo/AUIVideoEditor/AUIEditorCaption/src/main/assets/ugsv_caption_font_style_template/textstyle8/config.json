@@ -1,0 +1,13 @@
+{
+  "color": "#ffffffff",
+  "bgcolor": "#fffe891e",
+  "outline": {
+    "color": "#fffe891e",
+    "width": 2
+  },
+  "shadow": {
+    "color": "#fff7f3e2",
+    "x": 2,
+    "y": 4
+  }
+}

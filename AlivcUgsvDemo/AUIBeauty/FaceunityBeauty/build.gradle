@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+    }
+    dependencies {
+        implementation project(':AUIUgsvBase')
+        implementation project(':AliyunVideoCommon')
+        implementation project(':AUIBeauty')
+        implementation externalFaceUnity
+        implementation externalAndroidXAppcompat
+        implementation externalAndroidXRecyclerView
+        implementation externalAndroidXConstraintlayout
+        implementation externalGSON
+    }
+}

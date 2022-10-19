@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_beauty_detail"
+        android:layout_width="@dimen/alivc_common_size_icon_24"
+        android:layout_height="@dimen/alivc_common_size_icon_24"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginEnd="@dimen/alivc_common_margin_16"
+        android:layout_marginRight="@dimen/alivc_common_margin_16"
+        android:background="@mipmap/aliyun_svideo_icon_detail" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/alivc_common_height_group_45"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/alivc_common_margin_10"
+        >
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
+        <RadioGroup
+            android:id="@+id/beauty_normal_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/beauty0"
+                style="@style/BeautyLevelBtnStyle"
+                android:text="@string/alivc_base_beauty_custom_face" />
+
+            <RadioButton
+                android:id="@+id/beauty1"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                android:layout_marginStart="@dimen/alivc_common_margin_10"
+                android:text="@string/alivc_base_beauty_grace_face" />
+
+            <RadioButton
+                android:id="@+id/beauty2"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                android:layout_marginStart="@dimen/alivc_common_margin_10"
+                android:text="@string/alivc_base_beauty_fine_face" />
+
+            <RadioButton
+                android:id="@+id/beauty3"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                android:layout_marginStart="@dimen/alivc_common_margin_10"
+                android:text="@string/alivc_base_beauty_celebrity_face" />
+
+            <RadioButton
+                android:id="@+id/beauty4"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                android:layout_marginStart="@dimen/alivc_common_margin_10"
+                android:text="@string/alivc_base_beauty_lovely_face" />
+            <RadioButton
+                android:id="@+id/beauty5"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                android:layout_marginStart="@dimen/alivc_common_margin_10"
+                android:text="@string/alivc_base_beauty_baby_face" />
+
+        </RadioGroup>
+    </HorizontalScrollView>
+    </FrameLayout>>
+
+    <TextView
+        android:id="@+id/tv_copyright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/alivc_common_padding_4"
+        android:paddingBottom="@dimen/alivc_common_padding_18"
+        android:gravity="center"
+        android:visibility="visible"
+        android:textSize="@dimen/alivc_common_font_12"
+        android:text="@string/alivc_base_beauty_race_copyright"
+        android:textColor="@color/alivc_common_font_white"/>
+
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spingar">
+        <item>上海</item>
+        <item>新加坡</item>
+        <item>预发</item>
+        <item>日常</item>
+    </string-array>
+</resources>

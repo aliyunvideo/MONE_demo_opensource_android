@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:clipChildren="false"
+    tools:ignore="MissingDefaultResource">
+    <!-- 轨道横向滚动容器 -->
+    <com.aliyun.svideo.track.view.EditScroller
+        android:id="@+id/editScroller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:fadingEdge="none"
+        android:splitMotionEvents="false">
+
+        <!-- 主轨道容器 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:splitMotionEvents="false">
+
+            <!-- 视频轨道容器 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mVideoTrackContainer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/track_height"
+                android:layout_marginTop="10dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- 主轨 -->
+                <com.aliyun.svideo.track.view.MainTrackLayout
+                    android:id="@+id/mMultiTrackLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/track_height"
+                    android:layout_marginStart="61dp"
+                    android:clipChildren="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 其它轨道容器 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="54dp"
+            android:clipChildren="true"
+            android:clipToPadding="true">
+
+            <!-- 轨道列表竖向滚动容器 -->
+            <ScrollView
+                android:id="@+id/y_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="61dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:fadingEdge="none">
+
+                <LinearLayout
+                    android:id="@+id/sub_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="86dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
+
+                    <!-- 次级轨道 -->
+                    <com.aliyun.svideo.track.view.AutoScrollTackLayout
+                        android:id="@+id/subTrack"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+    </com.aliyun.svideo.track.view.EditScroller>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="128dp"
+        android:layout_gravity="center"
+        android:background="@color/text_strong"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

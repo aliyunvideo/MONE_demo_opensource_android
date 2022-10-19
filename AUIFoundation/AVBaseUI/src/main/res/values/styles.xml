@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AVActionBar_Style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+    </style>
+
+    <style name="AIO.BaseDialog" parent="Theme.AppCompat.Dialog">
+
+    </style>
+
+    <style name="AIO.BottomSheetDialog" parent="AIO.BaseDialog">
+        <item name="android:backgroundDimAmount">0</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="ugsv_bottom_dialog_animation">
+        <item name="android:windowEnterAnimation">@anim/ugsv_anim_trans_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/ugsv_anim_layout_bottom_out</item>
+    </style>
+    <style name="AV_ProgressBar_Horizontal_Style"
+        parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorAccent">@color/colourful_fill_strong</item>
+    </style>
+</resources>

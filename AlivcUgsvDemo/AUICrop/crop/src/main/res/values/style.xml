@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="alivc_crop_line_style" parent="@android:style/Widget.EditText">
+
+        <item name="android:maxLines">2</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/text_strong</item>
+        <item name="android:textColorHint">@color/text_weak</item>
+        <item name="android:background">@drawable/alivc_crop_round_bkg</item>
+        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+    </style>
+
+    <style name="alivc_crop_btn_style">
+        <item name="android:background">@drawable/alivc_crop_btn_bg</item>
+        <item name="android:layout_width">52dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_strong</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+
+
+    <style name="Crop_MySwitchTheme" >
+        <item name="colorControlActivated">@color/alivc_common_bg_cyan_light</item>
+        <item name="colorSwitchThumbNormal">@color/alivc_common_bg_white_bright</item>
+        <item name="android:colorForeground">@color/alivc_common_bg_white_alpha_10</item>
+    </style>
+</resources>

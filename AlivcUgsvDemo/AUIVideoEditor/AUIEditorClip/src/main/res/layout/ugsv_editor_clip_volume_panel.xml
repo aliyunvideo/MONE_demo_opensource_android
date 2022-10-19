@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.clip.volume.VolumePanelViewModel" />
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/speed_panel_space"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{viewModel.onSpaceClick}"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="238dp"
+            android:layout_marginTop="42dp"
+            android:background="@color/bg_weak"
+            android:clickable="true"
+            android:focusable="true">
+            <include
+                android:id="@+id/action_bar"
+                layout="@layout/panel_action_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                app:viewModel="@{viewModel.actionBarViewModel}"/>
+
+            <TextView
+                android:id="@+id/ugsv_origin_title"
+                android:layout_width="48dp"
+                android:layout_height="18dp"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/action_bar"
+                android:layout_marginTop="30dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/ugsv_editor_volume_title"
+                android:lineHeight="18sp"/>
+
+            <SeekBar
+                android:id="@+id/ugsv_editor_origin_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/action_bar"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/ugsv_origin_title"
+                android:layout_toLeftOf="@+id/ugsv_origin_progress"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:max="100"
+                android:maxHeight="1dp"
+                android:progress="@={viewModel.originProgress}"
+                android:progressDrawable="@drawable/ugsv_editor_enhance_seekbar_bg"
+                android:thumb="@drawable/ugsv_editor_enhace_thumb" />
+
+            <TextView
+                android:id="@+id/ugsv_origin_progress"
+                android:layout_width="48dp"
+                android:layout_height="18dp"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/action_bar"
+                android:layout_marginTop="30dp"
+                android:gravity="center_vertical|right"
+                android:text="@{viewModel.originProgressText}"
+                android:lineHeight="18sp"/>
+
+
+            <TextView
+                android:id="@+id/ugsv_music_title"
+                android:layout_width="48dp"
+                android:layout_height="18dp"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_below="@+id/ugsv_editor_origin_seekbar"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/ugsv_editor_volume_title"
+                android:lineHeight="18sp"/>
+
+            <SeekBar
+                android:id="@+id/ugsv_editor_music_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ugsv_editor_origin_seekbar"
+                android:layout_marginTop="14dp"
+                android:layout_toLeftOf="@+id/ugsv_origin_progress"
+                android:layout_toRightOf="@+id/ugsv_origin_title"
+                android:max="100"
+                android:maxHeight="1dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:progress="@={viewModel.musicProgress}"
+                android:progressDrawable="@drawable/ugsv_editor_enhance_seekbar_bg"
+                android:thumb="@drawable/ugsv_editor_enhace_thumb" />
+
+            <TextView
+                android:id="@+id/ugsv_music_progress"
+                android:layout_width="48dp"
+                android:layout_height="18dp"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/ugsv_editor_origin_seekbar"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical|right"
+                android:text="@{viewModel.musicProgressText}"
+                android:lineHeight="18sp"/>
+
+            <ImageView
+                android:id="@+id/ugsv_editor_enhance_check_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="11dp"
+                android:onClick="@{viewModel.onCheckAllClick}"
+                android:src="@drawable/ugsv_editor_clip_uncheck"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

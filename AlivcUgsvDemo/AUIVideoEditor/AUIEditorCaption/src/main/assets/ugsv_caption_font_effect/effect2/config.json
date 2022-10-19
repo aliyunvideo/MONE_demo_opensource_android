@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "color":"#000000",
+  "texture": "lieheng.png",
+  "outline1": {
+    "type": "normal",
+    "data":[
+      {
+        "color": "#ffffff",
+        "width": 8
+      },
+      {
+        "color": "#000000",
+        "width": 15
+      }
+    ]
+  }
+}

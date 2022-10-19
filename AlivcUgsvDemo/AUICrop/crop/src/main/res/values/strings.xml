@@ -1,0 +1,75 @@
+<resources>
+
+    <string name="alivc_use_gpu">GPU</string>
+    <string name="alivc_kbps_hint">Default: 0, Recommended: 600 to 2000</string>
+    <string name="alivc_resolution_1_1">540*540</string>
+    <string name="alivc_resolution_3_4">540*720</string>
+    <string name="alivc_resolution_9_16">540*960</string>
+    <string name="alivc_video_duration">%1$02d:%2$02d:%3$02d</string>
+    <string name="alivc_next_camera_roll_import">Next</string>
+    <string name="alivc_total_duration_label_import">Duration</string>
+    <string name="alivc_video_param_error">Failed to crop the video</string>
+    <string name="alivc_crop_setting_frame_rate_1">FPS</string>
+    <!--crop setting page-->
+    <string name="alivc_crop_setting_tittle">Crop Setting</string>
+    <string name="alivc_crop_setting_bps">Bit Rate(kbps)</string>
+    <string name="alivc_crop_setting_bps_hint">Depends on video quality. Default: 0</string>
+    <string name="alivc_crop_setting_frame_rate">Fps</string>
+    <string name="alivc_crop_setting_frame_rate_hint">Default: 30, Recommended: 20 to 30</string>
+    <string name="alivc_crop_setting_gop">Keyframe Interval</string>
+    <string name="alivc_crop_setting_gop_hint">Default: 250, Recommended: 1 to 300</string>
+    <string name="alivc_crop_setting_resolution">Resolution</string>
+    <string name="alivc_crop_setting_resolution_360p">360p</string>
+    <string name="alivc_crop_setting_resolution_480p">480p</string>
+    <string name="alivc_crop_setting_resolution_540p">540p</string>
+    <string name="alivc_crop_setting_resolution_720p">720p</string>
+    <string name="alivc_crop_setting_resolution_1080p">1080p</string>
+    <string name="alivc_crop_setting_crop_mode">Crop Mode</string>
+    <string name="alivc_crop_setting_mode_fill">Padding</string>
+    <string name="alivc_crop_setting_mode_crop">Crop</string>
+    <string name="alivc_crop_setting_start_import">Crop Video</string>
+    <string name="alivc_crop_setting_codec">Encoding</string>
+    <string name="alivc_crop_setting_encoder_hardware">Hardware</string>
+    <string name="alivc_crop_setting_encoder_openh264">Software</string>
+    <string name="alivc_crop_setting_encoder_ffmpeg">FFmpeg Software</string>
+    <string name="alivc_crop_setting_ratio">Aspect Ratio</string>
+    <string name="alivc_crop_setting_ratio_1_1">1:1</string>
+    <string name="alivc_crop_setting_ratio_9_16">9:16</string>
+    <string name="alivc_crop_setting_ratio_3_4">3:4</string>
+    <string name="alivc_crop_setting_ratio_original">Original</string>
+    <string name="alivc_crop_setting_quality">Video Quality</string>
+    <string name="alivc_crop_setting_quality_super">Ultra High</string>
+    <string name="alivc_crop_setting_quality_high">High</string>
+    <string name="alivc_crop_setting_quality_meidan">Medium</string>
+    <string name="alivc_crop_setting_quality_low">Low</string>
+    <!--end-->
+
+    <!--crop media select page-->
+    <string name="alivc_crop_media_tittle">Photos</string>
+    <string name="alivc_crop_media_sdcard_not_ready">SDCARD not ready</string>
+    <string name="alivc_crop_media_gif_not_support">GIF files are not supported</string>
+    <!--end-->
+
+    <!--video crop page-->
+    <string name="alivc_crop_video_tip_not_supported_audio">The audio format is invalid</string>
+    <string name="alivc_crop_video_tip_not_supported_video">The video format is invalid</string>
+    <string name="alivc_crop_video_tip_crop_failed">Failed to crop the video</string>
+    <string name="alivc_crop_video_tip_error">Video error</string>
+    <string name="alivc_crop_complete">Crop Completed</string>
+    <!--end-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>

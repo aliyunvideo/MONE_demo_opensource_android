@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mTabTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:lines="1"
+    android:paddingStart="40dp"
+    android:paddingEnd="40dp"
+    android:textColor="@color/tab_unselted_color"
+    android:textSize="17sp">
+
+</TextView>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="6dp"
+        android:paddingBottom="25dp"
+        tools:background="@color/black">
+
+        <TextView
+            android:id="@+id/audio_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/alivc_scale"
+            android:textColor="@color/color_bbbbbb"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RadioGroup
+            android:id="@+id/video_scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audio_title">
+
+            <RadioButton
+                android:id="@+id/video_scale_auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:text="@string/auto_video_scale"
+                android:textColor="@drawable/video_more_tv" />
+
+            <RadioButton
+                android:id="@+id/video_scale_zoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:button="@null"
+                android:text="@string/auto_video_zoom"
+                android:textColor="@drawable/video_more_tv" />
+
+            <RadioButton
+                android:id="@+id/video_scale_tensile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:button="@null"
+                android:text="@string/auto_video_tensile"
+                android:textColor="@drawable/video_more_tv" />
+        </RadioGroup>
+
+        <View
+            android:id="@+id/diver_decoder"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/alivc_common_bg_white_alpha_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_scale" />
+
+        <TextView
+            android:id="@+id/video_decoder_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/decoder_type"
+            android:textColor="@color/color_bbbbbb"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diver_decoder" />
+
+
+        <RadioGroup
+            android:id="@+id/video_decoder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_decoder_title">
+
+            <RadioButton
+                android:id="@+id/video_hard_decoder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:text="@string/hard_decode"
+                android:textColor="@drawable/video_more_tv" />
+
+            <RadioButton
+                android:id="@+id/video_soft_decoder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:button="@null"
+                android:text="@string/soft_decode"
+                android:textColor="@drawable/video_more_tv" />
+        </RadioGroup>
+
+
+        <View
+            android:id="@+id/diver_auto_list_play"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/alivc_common_bg_white_alpha_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_decoder" />
+
+        <TextView
+            android:id="@+id/list_play_setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/list_play_setting_title"
+            android:textColor="@color/color_bbbbbb"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diver_auto_list_play" />
+
+        <CheckBox
+            android:id="@+id/video_more_list_play__setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:textColor="@color/alivc_common_font_white_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_play_setting_title" />
+
+        <View
+            android:id="@+id/diver_background_play"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/alivc_common_bg_white_alpha_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_more_list_play__setting_btn" />
+
+        <TextView
+            android:id="@+id/background_play_setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/background_play_setting_title"
+            android:textColor="@color/color_bbbbbb"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diver_background_play" />
+
+        <CheckBox
+            android:id="@+id/video_more_background_play_setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:textColor="@color/alivc_common_font_white_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/background_play_setting_title" />
+
+
+        <View
+            android:id="@+id/danmaku_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/alivc_common_bg_white_alpha_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_more_background_play_setting_btn" />
+
+        <TextView
+            android:id="@+id/video_danmaku_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/damkun_location"
+            android:textColor="@color/color_bbbbbb"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/danmaku_divider" />
+
+
+        <RadioGroup
+            android:id="@+id/danmaku_rg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_danmaku_title">
+
+            <RadioButton
+                android:id="@+id/danmaku_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:text="@string/location_top"
+                android:textColor="@drawable/video_more_tv" />
+
+            <RadioButton
+                android:id="@+id/danmaku_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:button="@null"
+                android:text="@string/location_bottom"
+                android:textColor="@drawable/video_more_tv" />
+
+            <RadioButton
+                android:id="@+id/danmaku_unlimit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:button="@null"
+                android:text="@string/location_unlimit"
+                android:textColor="@drawable/video_more_tv" />
+        </RadioGroup>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

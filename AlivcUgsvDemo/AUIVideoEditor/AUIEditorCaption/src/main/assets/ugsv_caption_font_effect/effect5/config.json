@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "color":"#061A52",
+  "outline1": {
+    "type": "normal",
+    "data":[
+      {
+        "color": "#EEE9C4",
+        "width": 6
+      },
+      {
+        "color": "#98210B",
+        "width": 10
+      }
+    ]
+  }
+}

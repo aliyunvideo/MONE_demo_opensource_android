@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_weak"
+    android:fitsSystemWindows="true"
+    tools:context=".AUIVideoEditorActivity">
+
+    <!-- 渲染布局 -->
+    <FrameLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="44dp"
+        android:layout_above="@id/layout_control_play">
+
+        <SurfaceView
+            android:id="@+id/v_surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <!-- 顶替控制栏 -->
+    <RelativeLayout
+        android:id="@+id/ugsv_editor_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_av_action_bar_back" />
+
+        <TextView
+            android:id="@+id/ugsv_editor_toolbar_next"
+            android:layout_width="60dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:text="@string/ugsv_editor_toolbar_next"
+            android:background="@drawable/ugsv_editor_toolbar_next_bg"
+            android:textColor="@color/text_strong"/>
+
+    </RelativeLayout>
+
+    <!-- 控制栏布局 -->
+    <RelativeLayout
+        android:id="@+id/layout_control_play"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="114dp"
+        android:background="#141416"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <!-- 常规状态 -->
+        <RelativeLayout
+            android:id="@+id/layout_normal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/text_weak"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/btn_play"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_btn_control_pause" />
+
+            <ImageView
+                android:id="@+id/btn_full"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_btn_control_full" />
+        </RelativeLayout>
+
+        <!-- 全屏状态下 状况控件 -->
+        <FrameLayout
+            android:id="@+id/layout_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/btn_full_play"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_btn_control_pause" />
+
+            <TextView
+                android:id="@+id/tv_cur_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="32dp"
+                android:text="00:00"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="72dp"
+                android:layout_marginEnd="72dp"
+                android:maxHeight="1dp"
+                android:progressDrawable="@drawable/ugsv_editor_enhance_seekbar_bg"
+                android:thumb="@drawable/ugsv_editor_enhace_thumb" />
+
+            <TextView
+                android:id="@+id/tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="32dp"
+                android:text="00:00"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/btn_contract"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/ic_btn_control_contract" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <!-- 底部菜单容器 -->
+    <FrameLayout
+        android:id="@+id/layout_bottom_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_weak">
+
+        <FrameLayout
+            android:id="@+id/layout_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="114dp"
+            android:layout_gravity="center">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_bottom_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+    <!-- 面板容器 -->
+    <FrameLayout
+        android:id="@+id/layout_panel_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <FrameLayout
+        android:id="@+id/activity_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

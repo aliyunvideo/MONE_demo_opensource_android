@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/sub_track_height">
+
+    <com.aliyun.svideo.track.view.MoveView
+        android:id="@+id/leftMoveBar"
+        android:layout_width="@dimen/track_tail_width"
+        android:layout_height="@dimen/sub_track_height"
+        android:background="@drawable/ugsv_ic_editor_sub_clip_left_move_bar" />
+
+    <View
+        android:id="@+id/mContentView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_track_height"
+        android:layout_toEndOf="@+id/leftMoveBar"
+        android:background="@drawable/shape_caption_bg" />
+
+    <com.aliyun.svideo.track.view.MoveView
+        android:id="@+id/rightMoveBar"
+        android:layout_width="@dimen/track_tail_width"
+        android:layout_height="@dimen/sub_track_height"
+        android:layout_toEndOf="@+id/mContentView"
+        android:background="@drawable/ugsv_ic_editor_sub_clip_right_move_bar" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_track_height"
+        android:layout_alignStart="@+id/mContentView"
+        android:layout_alignEnd="@+id/mContentView"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/text_strong"
+        android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/iv_mark"
+        android:layout_width="@dimen/sub_track_height"
+        android:layout_height="@dimen/sub_track_height"
+        android:layout_alignStart="@+id/mContentView"
+        android:layout_marginLeft="2dp" />
+
+    <View
+        android:id="@+id/trackTopLine"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/track_line_he"
+        android:layout_alignStart="@+id/mContentView"
+        android:layout_alignTop="@+id/mContentView"
+        android:layout_alignEnd="@+id/mContentView"
+        android:background="#ffffff"
+        android:visibility="visible" />
+
+    <View
+        android:id="@+id/trackBottomLine"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/track_line_he"
+        android:layout_alignStart="@+id/mContentView"
+        android:layout_alignEnd="@+id/mContentView"
+        android:layout_alignBottom="@+id/mContentView"
+        android:background="#ffffff"
+        android:visibility="visible" />
+
+</RelativeLayout>

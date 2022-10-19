@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="alivc_media_bg_seek_bar">#F05487</color>
+    <color name="alivc_media_bg_btn_radio">#333b55</color>
+    <color name="alivc_media_font_total_duration_title">#6E768B</color>
+    <color name="alivc_media_total_duration_value_normal">#6E768B</color>
+    <color name="alivc_media_total_duration_value_over">#000021</color>
+    <color name="alivc_media_switch_thumble_normal">#FFF1F1F1</color>
+</resources>

@@ -1,0 +1,117 @@
+import java.text.SimpleDateFormat
+
+ext{
+    //构建完成是否输出相应outdemo文件
+    COPY_FILE = true
+    //是否使用外网maven
+    USE_PUBLIC_MAVEN = true
+    //各个渠道名称
+    SVIDEO_BASE = "svideosnap"
+    SVIDEO_STANDARD = "svideostandard"
+    SVIDEO_PRO = "svideopro"
+//    SVIDEO_RACE = "svideorace"
+    PUBLISH = "pusher"
+    PLAYER = "playeronly"
+    PLAYER_OBS = "playerobs"
+    UPLOAD = "upload"
+    ALIVE = "liveonly"
+    ALIVIDEOCALL = "videocall"
+    ALIAUDIOCALL = "audiocall"
+    ALL = "allmodule"
+    LITTLEVIDEO = "littlevideo"
+    LONGVIDEO = 'longvideo'
+    TEMP = "temp"
+    //渠道名
+    buildProductType = ALL
+    //短视频版本号
+    SVIDEO_VERSION_NAME = VERSION_NAME
+    SVIDEO_VERSION_CODE = VERSION_CODE
+    //RACE版本号
+    RACE_VERSION_NAME = 'v1.2.0'
+    //趣视频版本号
+    QVIDEO_VERSION_NAME = "v1.4.1"
+    //上传版本号
+    UPLOAD_VERSION_NAME = "v1.5.5"
+    //播放器版本号
+    PLAYER_VERSION_NAME = "v3.4.9"
+    //长视频版本号
+    LONGVIDEO_VERSION_NAME = "v1.0.0"
+    PATH_BASE = "/out"
+    //输出文件所在路径
+    PATH_OUT = PATH_BASE
+
+
+    //输出工程代码所在路径
+    PATH_OUT_DEMO = "/out/demo"
+    //压缩文件名称
+    ZIP_NAME = "/${buildProductType}.zip"
+    currentTime = new SimpleDateFormat("yyyyMMdd").format(new Date())
+    //获取当前渠道名称
+    gradle.startParameter.taskNames.each {
+
+        if (it.toLowerCase().contains(SVIDEO_BASE)){
+            buildProductType = SVIDEO_BASE
+            ZIP_NAME =  "/ApsaraVideo_shortVideoBase_${SVIDEO_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraVideoShortVideoBase"
+        }else if (it.toLowerCase().contains(SVIDEO_STANDARD)){
+            buildProductType = SVIDEO_STANDARD
+            ZIP_NAME =  "/ApsaraVideo_shortVideoST_${SVIDEO_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraVideoShortVideoStandard"
+        }else if (it.toLowerCase().contains(SVIDEO_PRO)){
+            buildProductType = SVIDEO_PRO
+            ZIP_NAME =  "/ApsaraVideo_shortVideoPro_${SVIDEO_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraVideoShortVideoPro"
+        }/*else if (it.toLowerCase().contains(SVIDEO_RACE)){
+            buildProductType = SVIDEO_RACE
+            ZIP_NAME =  "/ApsaraVideo_Race_${RACE_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraVideoRace"
+        }*/else if (it.toLowerCase().contains(PUBLISH)){
+            buildProductType = PUBLISH
+            ZIP_NAME = "/${buildProductType}"
+        }else if (it.toLowerCase().contains(PLAYER)){
+            buildProductType = PLAYER
+            ZIP_NAME = "/ApsaraVideo_videoPlay_${PLAYER_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraVideoPlayer"
+        }else if(it.toLowerCase().contains(LONGVIDEO)){
+            buildProductType = LONGVIDEO
+            ZIP_NAME = "/ApsaraVideo_longVideo_${LONGVIDEO_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraLongVideo"
+        }else if (it.toLowerCase().contains(UPLOAD)){
+            buildProductType = UPLOAD
+            ZIP_NAME =  "/ApsaraVideo_Upload_${UPLOAD_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraUpload"
+        }else if (it.toLowerCase().contains(ALIVE)){
+            buildProductType = ALIVE
+            ZIP_NAME = "/${buildProductType}"
+        }else if(it.toLowerCase().contains(ALIVIDEOCALL)){
+            buildProductType = ALIVIDEOCALL
+            ZIP_NAME = "/${buildProductType}"
+        }else if(it.toLowerCase().contains(ALIAUDIOCALL)){
+            buildProductType = ALIVIDEOCALL
+            ZIP_NAME = "/${buildProductType}"
+        }else if (it.toLowerCase().contains(ALL)){
+            buildProductType = ALL
+            ZIP_NAME = "/${buildProductType}"
+        }else if (it.toLowerCase().contains(LITTLEVIDEO)){
+            buildProductType = LITTLEVIDEO
+            ZIP_NAME =  "/ApsaraVideo_QuVideo_${QVIDEO_VERSION_NAME}_Android_${currentTime}"
+            PATH_OUT = PATH_BASE+ZIP_NAME
+            PATH_OUT_DEMO = "${PATH_OUT}/demo/ApsaraVideoQuVideo"
+        }else if(it.toLowerCase().contains(TEMP)){
+            buildProductType = TEMP
+            ZIP_NAME = "/${buildProductType}"
+        }
+    }
+
+    println "buildProductType : "+buildProductType
+    println "PATH_OUT_DEMO : "+PATH_OUT_DEMO
+    println "ZIP_NAME : "+ZIP_NAME
+    println "PATH_OUT : "+PATH_OUT
+}

@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+}
+
+dependencies {
+    api project(':AUIVideoEditor:AUIEditorCommon')
+    implementation project(path: ':AUIVideoEditor:AUIVideoTrack')
+    implementation externalSvideopro
+    implementation externalAndroidXCoreKtx
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidDesign
+    implementation externalAndroidViewPager2
+    implementation externalAndroidXCollectionKtx
+    implementation externalAndroidXFragmentKtx
+    implementation externalAndroidXActivityKtx
+    implementation externalAndroidXLiveDataKtx
+    implementation externalAndroidXRuntimeKtx
+    implementation externalAndroidXViewModelKtx
+    implementation project(path: ':AliyunVideoCommon')
+
+}

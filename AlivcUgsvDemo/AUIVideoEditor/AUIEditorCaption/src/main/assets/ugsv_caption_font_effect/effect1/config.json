@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "color":"#F757D3",
+  "outline1": {
+    "type": "normal",
+    "data":[
+      {
+        "color": "#5350DD",
+        "width": 2
+      },
+      {
+        "color": "#B5FAA7",
+        "width": 4
+      },
+      {
+        "color": "#FFFFFF",
+        "width": 6
+      }
+    ]
+  },
+  "outline2": {
+    "type": "normal",
+    "data":[
+      {
+        "color": "#6E58F8",
+        "width": 8
+      },
+      {
+        "color": "#69F88C",
+        "width": 10
+      },
+      {
+        "color": "#FA55D8",
+        "width": 12
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+<resources>
+    <string name="aliyun_kbps">Bit Rate(kbps)</string>
+    <string name="aliyun_crop_frame_rate">FPS</string>
+    <string name="aliyun_crop_gop">Keyframe Interval</string>
+    <string name="aliyun_kbps_hint">Default: 0, Recommended: 600 to 2000</string>
+    <string name="aliyun_crop_frame_rate_hint">Default: 30, Recommended: 20 to 30</string>Default: 30, Recommended: 20 to 30
+    <string name="aliyun_crop_gop_hint">Default: 250, Recommended: 1 to 300</string>
+    <string name="aliyun_resolution">Resolution</string>
+    <string name="aliyun_crop_mode">Crop Mode</string>
+    <string name="aliyun_mode_fill">Padding</string>
+    <string name="aliyun_mode_crop">Crop</string>
+    <string name="aliyun_start_import">Crop Video</string>
+    <string name="aliyun_gallery_all_media">Photos</string>
+    <string name="aliyun_resolution_1_1">540*540</string>
+    <string name="aliyun_resolution_3_4">540*720</string>
+    <string name="aliyun_resolution_9_16">540*960</string>
+    <string name="aliyun_svideo_crop_quality">Quality</string>
+    <string name="aliyun_svideo_crop_quality_low">Low</string>
+    <string name="alivc_snap_quality_median">Medium</string>
+    <string name="alivc_snap_quality_high">High</string>
+    <string name="alivc_snap_quality_super">Highest</string>
+    <string name="aliyun_video_codec">Encoding</string>
+    <string name="aliyun_hardware_encoder">Hardware</string>
+    <string name="aliyun_openh264_encoder">OpenH264 Software</string>
+    <string name="aliyun_video_crop_error">The video format is invalid</string>
+    <string name="aliyun_crop_error">Failed to crop the video</string>
+    <string name="aliyun_not_supported_audio">The audio format is invalid</string>
+    <string name="aliyun_video_duration">%1$02d:%2$02d:%3$02d</string>
+    <string name="aliyun_next_camera_roll_import">Next</string>
+    <string name="aliyun_total_duration_label_import">Duration</string>
+    <string name="aliyun_crop_ratio">Aspect Ratio</string>
+    <string name="alivc_snap_crop_ratio_1_1">1:1</string>
+    <string name="aliyun_record_ratio_9_16">9:16</string>
+    <string name="alivc_snap_crop_ratio_3_4">3:4</string>
+    <string name="aliyun_record_ratio_original">Original</string>
+    <string name="aliyun_crop_resolution_360p">360p</string>
+    <string name="aliyun_crop_resolution_480p">480p</string>
+    <string name="aliyun_crop_resolution_540p">540p</string>
+    <string name="aliyun_crop_resolution_720p">720p</string>
+    <string name="aliyun_video_param_error">Failed to crop the video</string>
+    <string name="alivc_tip_crop_gif">GIF files are not supported</string>
+    <string name="aliyun_sdcard_not_ready">sdcard not ready</string>
+    <string name="alivc_crop_setting">crop setting</string>
+    <string name="alivc_crop_video_tip_error">Video error</string>
+
+</resources>

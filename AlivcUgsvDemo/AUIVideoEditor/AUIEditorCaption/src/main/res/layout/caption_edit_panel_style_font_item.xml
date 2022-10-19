@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.caption.viewmodel.CaptionResourceItemViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="@{viewModel::onClick}"
+        android:orientation="vertical"
+        android:background="@{viewModel.checked ? @drawable/edit_resource_item_checked : @drawable/edit_resource_item_unchecked}"
+        android:padding="2dp"
+        android:minWidth="54dp"
+        android:minHeight="28dp"
+        >
+
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_strong"
+            android:textSize="12sp"
+            android:gravity="bottom|center_horizontal"
+            android:text="@{viewModel.resource.name}"
+            />
+    </FrameLayout>
+</layout>

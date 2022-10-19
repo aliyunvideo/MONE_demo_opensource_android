@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:layout_gravity="bottom"
+    android:clickable="true"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_def_copyright"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_size_icon_24"
+            android:gravity="center|left"
+            android:textSize="@dimen/alivc_common_font_12"
+            android:textColor="@color/alivc_common_font_white"
+            />
+
+        <ImageView
+            android:id="@+id/iv_beauty_detail"
+            android:layout_width="@dimen/alivc_common_size_icon_24"
+            android:layout_height="@dimen/alivc_common_size_icon_24"
+            android:layout_marginEnd="@dimen/alivc_common_margin_16"
+            android:layout_marginRight="@dimen/alivc_common_margin_16"
+            android:background="@mipmap/aliyun_svideo_icon_detail"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/alivc_common_height_group_45"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/alivc_common_margin_10"
+        >
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            >
+        <RadioGroup
+            android:id="@+id/beauty_normal_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/beauty0"
+                style="@style/BeautyLevelBtnStyle"
+                android:text="0" />
+
+            <RadioButton
+                android:id="@+id/beauty1"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="1" />
+
+            <RadioButton
+                android:id="@+id/beauty2"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/beauty3"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/beauty4"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="4" />
+
+            <RadioButton
+                android:id="@+id/beauty5"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="5" />
+        </RadioGroup>
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            >
+        <RadioGroup
+            android:id="@+id/beauty_advanced_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/beauty_advanced_0"
+                style="@style/BeautyLevelBtnStyle"
+                android:text="0" />
+
+            <RadioButton
+                android:id="@+id/beauty_advanced_1"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="1" />
+
+            <RadioButton
+                android:id="@+id/beauty_advanced_2"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/beauty_advanced_3"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/beauty_advanced_4"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="4" />
+
+            <RadioButton
+                android:id="@+id/beauty_advanced_5"
+                style="@style/BeautyLevelBtnStyle"
+                android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                android:layout_marginStart="@dimen/alivc_common_margin_15"
+                android:text="5" />
+        </RadioGroup>
+        </HorizontalScrollView>
+    </FrameLayout>
+</LinearLayout>

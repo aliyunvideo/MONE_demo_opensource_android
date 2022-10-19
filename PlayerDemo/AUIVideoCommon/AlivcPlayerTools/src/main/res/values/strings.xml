@@ -1,0 +1,319 @@
+<resources>
+    <string name="alivc_player_settings_title">Playback Settings</string>
+
+    <string name="alivc_speed_one_times">Normal</string>
+    <string name="alivc_speed_optf_times">1.25X</string>
+    <string name="alivc_speed_opt_times">1.5X</string>
+    <string name="alivc_speed_twice_times">2.0X</string>
+    <string name="alivc_speed_mode">Fast Speed Play</string>
+    <string name="alivc_speed_tips">the current video has switched to %1$s speed rate</string>
+    <string name="alivc_left_side">Left</string>
+    <string name="alivc_brightness">brightness</string>
+    <string name="alivc_control">&#160;control</string>
+    <string name="alivc_center">Middle</string>
+    <string name="alivc_progress">progress</string>
+    <string name="alivc_right_side">Right</string>
+    <string name="alivc_volume">volume</string>
+
+    <string name="input_vid_here">Please input vid here</string>
+    <string name="inout_accesskeyid_here">input accesskeyId here </string>
+    <string name="input_accesskeysecret_here">input accesskeySecret here</string>
+    <string name="input_securitytoken_here">input securityToken here </string>
+    <string name="input_url_here">Enter a URL </string>
+    <string name="start_player_ui">Play Video</string>
+    <string name="start_player_setting">Play by VID or URL</string>
+    <string name="request_vidsts_fail">Request a vidsts failed</string>
+    <string name="play_url_null_toast">Play video URL cannot be null</string>
+    <string name="clear_logs">clear logs</string>
+
+    <string name="log_prepare_success"> &#160;prepared successfully</string>
+    <string name="toast_prepare_success">Prepared successfully</string>
+    <string name="log_play_completion">&#160;video ended</string>
+    <string name="toast_play_compleion">video ended</string>
+    <string name="log_player_create_success"> &#160;create a player successfully</string>
+    <string name="log_open_url_success"> &#160;open an url successfully</string>
+    <string name="log_request_stream_success"> &#160;get a streaming successfully</string>
+    <string name="log_start_open_stream"> &#160;start to open a streaming</string>
+    <string name="log_first_frame_played"> &#160;the first frame showed</string>
+    <string name="log_seek_completed">&#160;seek operation completed</string>
+    <string name="log_play_stopped">&#160;play operation stopped</string>
+    <string name="log_seek_start">&#160;seek operation started</string>
+    <string name="log_play_pause">&#160;play operation pause</string>
+    <string name="log_play_start">&#160;play operation start</string>
+    <string name="log_change_quality_success">&#160;Video quality switched successfully</string>
+    <string name="log_change_quality_fail">&#160;Video quality switched unsuccessfully</string>
+
+    <string name="alivc_checkbox_all_select">All</string>
+    <string name="alivc_download_edit">Edit</string>
+
+    <string name="add_to_download">To add</string>
+    <string name="no_download_right">No permission for downloading</string>
+    <string name="encrypted">Encrypted</string>
+    <string name="encrypted_no">Unencrypted</string>
+    <string name="choose_a_definition_to_download">Please choose a definition to download</string>
+    <string name="choose_downloaditem">Choose download item</string>
+    <string name="choose_download_sharpness">Quality</string>
+    <string name="already_downloaded">Local</string>
+    <string name="download_caching">Downloading</string>
+    <string name="download_prepare">preparing</string>
+    <string name="download_wait">waiting</string>
+    <string name="download_downloading">downloading</string>
+    <string name="download_pause">pausing</string>
+    <string name="download_error">error</string>
+    <string name="download_no_downloaded">You haven’t downloaded the video yet</string>
+    <string name="download_no_downloaded_tips">You can click the download button to add video</string>
+    <string name="alivc_delete_confirm">Do you want to delete the selected video?</string>
+    <string name="alivc_start_download">Download</string>
+    <string name="alivc_native_video">Local Videos</string>
+    <string name="alivc_download_video">download video</string>
+    <string name="alivc_check_list_close">Skip Ad</string>
+    <string name="alivc_adv_video_tips">Video Ad</string>
+
+    <string name="alivc_dialog_sure">Ok</string>
+    <string name="alivc_dialog_cancle">Cancel</string>
+    <string name="alivc_speed">speed</string>
+    <string name="alivc_video_download_finish_tips">The video is downloaded</string>
+    <string name="alivc_video_downloading_tips">Downloading video. Please wait</string>
+
+    <!--scaleModel-->
+    <string name="alivc_scale">scale model</string>
+    <string name="alivc_scale_aspect_fit">Scale Aspect Fit</string>
+    <string name="alivc_scale_aspect_fill">Scale Apsect Fill</string>
+    <string name="alivc_scale_to_fill">Scale To Fill</string>
+
+    <!--loop-->
+    <string name="alivc_loop_title">Loop</string>
+    <string name="alivc_loop_open">Open</string>
+    <string name="alivc_loop_close">Close</string>
+
+    <!--quality-->
+    <string name="alivc_sq_definition">SQ</string>
+    <string name="alivc_hq_definition">HQ</string>
+    <string name="alivc_fd_definition">LD</string>
+    <string name="alivc_ld_definition">SD</string>
+    <string name="alivc_sd_definition">HD</string>
+    <string name="alivc_hd_definition">Ultra HD</string>
+    <string name="alivc_k2_definition">2K (2560 * 1440)</string>
+    <string name="alivc_k4_definition">4K (3840 * 2160)</string>
+    <string name="alivc_od_definition">Original</string>
+
+    <string name="alivc_mts_xld_definition">Highest</string>
+    <string name="alivc_mts_ld_definition">LD</string>
+    <string name="alivc_mts_sd_definition">SD</string>
+    <string name="alivc_mts_fhd_definition">Ultra HD</string>
+    <string name="alivc_mts_hd_definition">HD</string>
+
+    <string name="alivc_tips_trailer">You can only watch the first 5 minutes of the video</string>
+    <string name="alivc_tips_trailer_end">Sorry, the preview is over</string>
+    <string name="alivc_danmaku_setting_title">Bullet Screen Settings</string>
+    <string name="alivc_danmaku_setting_alpha">Opacity</string>
+    <string name="alivc_danmaku_setting_speed">Bullet Speed</string>
+    <string name="alivc_danmaku_setting_region">Screen Size</string>
+    <string name="alivc_danmaku_setting_default">Reset</string>
+    <string name="alivc_screen_cost_exit">Quit</string>
+    <string name="alivc_screen_cost_back_details">Back Details</string>
+    <string name="alivc_screen_cost_replay">Replay</string>
+    <string name="alivc_screen_cost_chooser_device">Chooser Devices</string>
+
+    <string name="alivc_danmaku_screen_cost_title">Attachable Device</string>
+    <string name="alivc_screen_costting">Projecting...</string>
+    <string name="alivc_screen_cost_scanning">Scanning...</string>
+    <string name="alivc_screen_cost_device_empty">No other devices were found</string>
+
+    <string name="alivc_danmaku_text_1">Bullet screen text. You can click the brush icon to send the text</string>
+    <string name="alivc_danmaku_text_2">This video is awesome</string>
+    <string name="alivc_danmaku_text_3">Hello</string>
+    <string name="alivc_player_delete_failed">The path does not exist</string>
+    <string name="alivc_player_redownload">The resource does not exist or it is not downloaded</string>
+    <string name="alivc_player_get_sts_failed">No STS token is available</string>
+    <string name="alivc_not_support_download">The specified video type cannot be downloaded...</string>
+    <string name="alivc_not_support_trailer">You cannot download video previews</string>
+    <string name="alivc_marquee_test">Sample Scrolling Text</string>
+    <string name="alivc_danmaku_position_quarter">1/4 screen</string>
+    <string name="alivc_danmaku_position_half">1/2 screen</string>
+    <string name="alivc_danmaku_position_Three_fourths">3/4 screen</string>
+    <string name="alivc_danmaku_position_unlimit">Full</string>
+    <string name="alivc_not_choose_video">Select at least one video</string>
+
+    <string name="alivc_btn_download">Download</string>
+    <string name="alivc_btn_projection">Projection</string>
+    <string name="alivc_player_device_name">Device</string>
+
+    <string name="alivc_send">Send</string>
+    <string name="alivc_player_trailer_open">Become VIP</string>
+    <string name="alivc_player_trailer_play_again">Play Again</string>
+    <string name="alivc_player_trailer_tips">Become VIP to watch the entire video.</string>
+    <string name="alivc_player_trailer_player_tips">You can only watch the first five minutes</string>
+    <string name="alivc_player_not_check_any_browser">未检测到浏览器</string>
+    <string name="alivc_player_play_screening_fail">投屏失败</string>
+    <string name="alivc_player_local_not_support_screencost">本地视频不支持投屏功能</string>
+
+    <string name="alivc_player_cache_toast_4g">Connect to a WiFi or enable Download on Provider Network</string>
+    <string name="alivc_player_doawload_operator">Download on Provider Network</string>
+
+    <string name="alivc_player_audio">Audio</string>
+    <string name="alivc_player_bitrate">Bitrate</string>
+    <string name="alivc_player_subtitle">Subtitle</string>
+    <string name="alivc_player_definition">Definition</string>
+
+    <string name="alivc_player_cancel_subtitle">Cancel Subtitle</string>
+    <string name="alivc_player_share">Share To</string>
+    <string name="alivc_player_snap_shot_save_success">Picture has Saved</string>
+
+    <string name="alivc_player_setting">Settings</string>
+
+    <!--缓存页面-->
+    <string name="alivc_player_cache_video_edit">Edit</string>
+    <string name="alivc_player_download_video_delete">Delete</string>
+    <string name="alivc_player_download_video_all_selected">Select All</string>
+    <string name="alivc_player_download_video_un_all_selected">Clear All</string>
+    <string name="alivc_player_download_video_not_cachevideo">- No cached video is found -</string>
+    <string name="alivc_player_cache_video_title">Cache Videos</string>
+    <string name="alivc_player_cache_ing">Downloading</string>
+    <string name="alivc_player_cache_fail">Download Failure</string>
+    <string name="alivc_player_cache_wait">Waitingd</string>
+    <string name="alivc_player_cache_stop">Pause</string>
+    <string name="alivc_player_video_cache_storage_tips">Videos Cached%s,Space Remaining%s</string>
+    <string name="alivc_player_video_download_sts_and_auth_is_empty">VidSts/VidAuth is Null</string>
+
+    <string name="alivc_player_video_stream">视频流</string>
+    <string name="alivc_player_audio_stream">音频流</string>
+
+    <string name="alivc_player_tips_content">RTS_SERVER_MAYBE_DISCONNECT</string>
+    <string name="alivc_player_tips_wait">Waiting</string>
+    <string name="alivc_player_tips_exit">Exit</string>
+    <string name="auto_video_scale">自适应</string>
+    <string name="auto_video_zoom">放大</string>
+    <string name="auto_video_tensile">拉伸</string>
+    <string name="decoder_type">解码模式</string>
+    <string name="hard_decode">硬解</string>
+    <string name="soft_decode">软解</string>
+    <string name="video_speed_0.5">0.5X</string>
+    <string name="video_speed_0.75">0.75X</string>
+    <string name="video_speed_1.0x">1.0X</string>
+    <string name="video_speed_1.25x">1.25X</string>
+    <string name="video_speed_1.5x">1.5X</string>
+    <string name="video_speed_2.0x">2.0X</string>
+    <string name="select_series_title">选集</string>
+    <string name="video_speed_title">倍速</string>
+    <string name="video_resolution_title">自动</string>
+    <string name="audio_mode_back">返回视频</string>
+    <string name="audio_mode_title">在锁屏和切换到后台时也能播放音频</string>
+    <string name="damkun_location">弹幕位置</string>
+    <string name="list_play_setting_title">列表内视频自动播放</string>
+    <string name="background_play_setting_title">切换至后台继续播放</string>
+    <string name="contrast_play_tip">已为您切换到上次观看位置</string>
+    <string name="danmku_input_tip">发送弹幕，加入讨论</string>
+    <string name="danmku_open_tip">已开启弹幕</string>
+    <string name="danmku_close_tip">已关闭弹幕</string>
+    <string name="video_dot_tip">看点</string>
+    <string name="location_top">顶部</string>
+    <string name="location_location_top_tip">弹幕位置切换为顶部</string>
+    <string name="location_bottom">底部</string>
+    <string name="location_location_bottom_tip">弹幕位置切换为底部</string>
+    <string name="location_unlimit">不限</string>
+    <string name="location_location_unlimit_tip">弹幕位置切换为不限</string>
+    <string name="video_speed_tip">快进中</string>
+
+    <string name="alivc_net_disable">No network is found. Check your network and try again</string>
+
+    <string name="alivc_download_delete">Delete</string>
+    <string name="prepare_download_item">To prepare download-item</string>
+    <string name="alivc_local_video_deleted">The video is deleted</string>
+
+    <!--tab-->
+    <string name="alivc_tab_video_list">Videos</string>
+
+    <string name="alivc_sd_card_permission">No permission to access the sdcard</string>
+    <string name="alivc_video_not_found">The resource does not exist or it is not downloaded</string>
+
+    <string name="alivc_video_not_support_download">not support url download...</string>
+
+    <string name="alivc_refresh_sts">Refresh Sts</string>
+    <string name="alivc_refresh_with_vid">Refresh By Vid</string>
+    <string name="alivc_refresh_vid_empty">vid is empty</string>
+
+
+    <string name="alivc_download_list_button">Download\nList</string>
+
+    <string name="alivc_player_cache_success">Cache Success</string>
+    <string name="alivc_player_switch_to_software_video_decoder">Switch to SoftWareVideoDecoder</string>
+    <string name="alivc_player_rts_server_recoverr">RTS Server Recover</string>
+    <string name="alivc_player_agree_camera_permission">You must agree the camera permission request before you use the code scan function</string>
+
+    <!--播放设置-->
+    <string name="alivc_player_type_title">Player Source</string>
+    <string name="alivc_player_type_edit">Edit</string>
+    <string name="alivc_player_type_edit_finish">Finish</string>
+    <string name="alivc_player_setting_title">Player Config</string>
+    <string name="alivc_player_setting_play_type_default">Default</string>
+    <string name="alivc_player_setting_play_type_url">URL</string>
+    <string name="alivc_player_setting_play_type_sts">STS</string>
+    <string name="alivc_player_setting_play_type_mps">MPS</string>
+    <string name="alivc_player_setting_play_type_auth">AUTH</string>
+    <string name="alivc_player_setting_play_type_live_sts">LiveSts</string>
+    <string name="alivc_player_setting_decode_type_title">Decoder Type</string>
+    <string name="alivc_player_setting_decode_type_soft">软解</string>
+    <string name="alivc_player_setting_decode_type_hard">硬解</string>
+    <string name="alivc_player_setting_mirror_type_title">Mirror</string>
+    <string name="alivc_player_setting_mirror_type_none">None</string>
+    <string name="alivc_player_setting_mirror_type_vertical">Vertical</string>
+    <string name="alivc_player_setting_mirror_type_horizontal">Horizontal</string>
+    <string name="alivc_player_setting_rotate_type_title">Rotate</string>
+    <string name="alivc_player_setting_rotate_type_0">0</string>
+    <string name="alivc_player_setting_rotate_type_90">90</string>
+    <string name="alivc_player_setting_rotate_type_180">180</string>
+    <string name="alivc_player_setting_rotate_type_270">270</string>
+    <string name="alivc_player_setting_auto_switch">自适应码率</string>
+    <string name="alivc_player_setting_seek_module">seek模式</string>
+    <string name="alivc_player_setting_enable_background">后台播放</string>
+    <string name="alivc_player_setting_auto_open">Open</string>
+    <string name="alivc_player_setting_auto_close">Close</string>
+    <string name="alivc_player_setting_seek_accurate">精准Seek</string>
+    <string name="alivc_player_setting_seek_inaccurate">非精准Seek</string>
+
+    <!--播放参数-->
+    <string name="alivc_player_config_title">播放参数设置</string>
+    <string name="alivc_player_config_start_buffer_level">启播</string>
+    <string name="alivc_player_config_high_buffer_level">卡顿恢复</string>
+    <string name="alivc_player_config_max_buffer_packet_duration">最大缓存值</string>
+    <string name="alivc_player_config_max_delay_time">直播最大延迟</string>
+    <string name="alivc_player_config_net_work_time_out">网络超时</string>
+    <string name="alivc_player_config_probe_size">probe大小</string>
+    <string name="alivc_player_config_referrer">请求referer</string>
+    <string name="alivc_player_config_http_proxy">httpProxy代理</string>
+    <string name="alivc_player_config_retry_count">网络重试次数</string>
+    <string name="alivc_player_config_enable_cachet">开启自定义缓存</string>
+    <string name="alivc_player_config_enable_sei">开启SEI</string>
+    <string name="alivc_player_config_enable_clean_when_stop">停止显示最后帧</string>
+    <string name="alivc_player_config_max_duration">缓存最大时长</string>
+    <string name="alivc_player_config_max_size">缓存最大空间</string>
+
+
+    <string name="alivc_player_confirm_config">使用此配置</string>
+    <string name="alivc_player_normal_config">默认配置</string>
+
+    <!--change track tips-->
+    <string name="alivc_player_track_change_error">Track change Error : %s --- %s</string>
+    <string name="alivc_player_track_bitrate_change_success">video bitrate change To : %s</string>
+    <string name="alivc_player_track_definition_change_success">video definition change To : %s</string>
+    <string name="alivc_player_track_change_success">change to : %s</string>
+
+    <string name="alivc_player_download_repeat_add">Has Add</string>
+
+
+
+    <string name="aui_player_develper_mode_audio">音频</string>
+    <string name="aui_player_develper_mode_video">视频</string>
+    <string name="aui_player_develper_mode_decoder">编解码器：</string>
+    <string name="aui_player_develper_mode_hardware">硬件加速：</string>
+    <string name="aui_player_develper_mode_bitrate">比特率：</string>
+    <string name="aui_player_develper_mode_hint">请输入</string>
+
+    <string name="aui_player_develper_mode_drop_frame">丢帧：</string>
+    <string name="aui_player_develper_mode_resolution_ratio">分辨率：</string>
+    <string name="aui_player_develper_mode_framerate">帧率：</string>
+    <string name="aui_player_develper_mode_color_standard">颜色标准:</string>
+
+
+</resources>

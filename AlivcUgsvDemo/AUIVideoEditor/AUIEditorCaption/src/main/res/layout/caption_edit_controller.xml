@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.caption.viewmodel.CaptionBorderViewModel" />
+    </data>
+
+    <com.aliyun.svideo.editor.caption.widget.CaptionBorderView
+        android:id="@+id/aliyun_edit_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.aliyun.svideo.editor.caption.widget.CaptionBorderControllerView
+            android:tag="caption_placeholder"
+            android:id="@+id/captionEditControllerContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:minWidth="30dp"
+            android:minHeight="30dp"
+            android:background="@drawable/caption_edit_controller_border_selector" />
+
+        <ImageView
+            android:id="@+id/captionEditControllerDelete"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:layout_gravity="left|top"
+            android:onClick="@{viewModel::onDeleteClick}"
+            android:src="@drawable/caption_edit_controller_delete_selector" />
+
+        <ImageView
+            android:id="@+id/captionEditControllerTransform"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/caption_edit_controller_transform_selector" />
+
+        <ImageView
+            android:id="@+id/captionEditControllerEdit"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:layout_gravity="right|top"
+            android:onClick="@{viewModel::onEditClick}"
+            android:src="@drawable/caption_edit_controller_edit_selector" />
+
+    </com.aliyun.svideo.editor.caption.widget.CaptionBorderView>
+</layout>

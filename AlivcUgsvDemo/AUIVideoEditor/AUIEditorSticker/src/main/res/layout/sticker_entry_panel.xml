@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.sticker.viewmodel.StickerEntryViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:orientation="vertical"
+        android:background="@color/bg_weak"
+        android:clickable="true"
+        android:focusable="true">
+
+        <include
+            android:id="@+id/action_bar"
+            layout="@layout/panel_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:viewModel="@{viewModel.actionBarViewModel}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.aliyun.svideo.track.MultiTrackContainer
+                android:id="@+id/multiTrackContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/border_infrared"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginStart="20dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="@string/ugsv_add_sticker"
+                android:gravity="center"
+                android:onClick="@{viewModel::onAddStickerClick}"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp"
+                android:background="@drawable/sticker_border_ultraweak_r12"
+                android:drawablePadding="4dp"
+                app:drawableLeft="@{@drawable/ic_editor_plus}"
+                app:drawableSize="@{@dimen/ugsv_panel_bubble_bottom_bar_drawleft_size}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="27dp"
+                android:src="@drawable/ic_editor_delete"
+                android:onClick="@{viewModel::onDeleteStickerClick}"
+                android:visibility="@{viewModel.currentStickerValid ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

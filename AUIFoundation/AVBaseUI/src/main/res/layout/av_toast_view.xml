@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:background="@drawable/av_toast_bg">
+
+    <TextView
+        android:id="@+id/av_base_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_strong"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:minWidth="84dp"
+        android:maxWidth="170dp"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

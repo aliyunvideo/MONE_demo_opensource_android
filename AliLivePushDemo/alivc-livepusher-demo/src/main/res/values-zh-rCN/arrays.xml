@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="log_labels">
+        <item>当前CPU：</item>
+        <item>当前Memory：</item>
+        <item>视频采集帧率：</item>
+        <!--<item>音频采集帧率：</item>-->
+        <item>音频编码码率：</item>
+        <item>音频编码帧率：</item>
+        <item>视频渲染帧率：</item>
+        <item>视频编码模式：</item>
+        <item>视频编码码率：</item>
+        <item>视频编码帧率：</item>
+        <item>视频编码总帧数：</item>
+        <item>视频编码总耗时：</item>
+        <item>视频编码器设置参数：</item>
+        <item>音频输出码率：</item>
+        <item>视频输出码率：</item>
+        <item>缓存音频帧总数：</item>
+        <item>缓存视频帧总数：</item>
+        <item>视频上传帧率：</item>
+        <item>音频上传帧率：</item>
+        <item>当前上传视频帧PTS：</item>
+        <item>当前上传音频帧PTS：</item>
+        <item>上一个视频关键帧PTS：</item>
+        <item>缓冲区中最后一帧视频：</item>
+        <item>缓冲区中最后一帧音频：</item>
+        <item>数据上传总大小：</item>
+        <item>视频推流总耗时：</item>
+        <item>当前视频流已发送总帧数：</item>
+        <item>视频丢帧总数：</item>
+        <item>视频丢帧次数：</item>
+        <item>总的断网次数：</item>
+        <item>总的重连次数：</item>
+        <item>视频延迟时长：</item>
+        <item>音频延迟时长：</item>
+        <item>当前上传帧大小：</item>
+        <!--<item>音视频pts差异：</item>-->
+        <!--<item>两秒内上传数据总大小：</item>-->
+        <item>缓冲队列中曾经最大的视频帧size：</item>
+        <item>缓冲队列中曾经最大的音频帧size：</item>
+        <item>待发送队列中最后一个视频包的pts：</item>
+        <item>待发送队列中最后一个音频包的pts：</item>
+        <item>当前发送的音视频包pts diff：</item>
+        <item>音频编码器队列中帧缓存数：</item>
+        <item>视频编码器队列中帧缓存数：</item>
+        <item>渲染队列中帧缓存数：</item>
+        <item>每帧平均渲染时长：</item>
+    </string-array>
+
+</resources>

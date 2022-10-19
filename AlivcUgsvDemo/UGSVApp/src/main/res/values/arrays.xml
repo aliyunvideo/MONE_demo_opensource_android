@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spingar">
+        <item>ShangHai</item>
+        <item>Singapore</item>
+        <item>Preview</item>
+        <item>Daily</item>
+    </string-array>
+</resources>

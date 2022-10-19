@@ -1,0 +1,67 @@
+{
+    
+    "pid": 3,
+    "fid": 0,
+    "du": 1.44,
+    "type": 0,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 400.0,
+    "h": 320.0,
+	"a": 0.0,
+	"fx": 0.0,
+	"fy": 0.0,
+	"fw": 0.0,
+	"fh": 0.0,
+	"n": "keaiqp",
+    "c": 18.0,
+    
+    "pText":"可爱",
+    "tFont":"SentyTEA",
+    "fontId": 63,
+    "tAngle":0.0,  
+    "tLeft":205.6,
+    "tTop":164.8,
+    "tWidth":310,
+    "tHeight":210,
+    "tR":255,
+    "tG":85,
+    "tB":200,
+    "tBegin":0.24,
+    "tEnd":1.28,
+
+    "strokeR":255,
+    "strokeG":236,
+    "strokeB":236,
+    "strokeWidth":4,    
+
+    "pExtend": 1,
+    "extendSection":1,
+    "frameArry": [
+                 {"time":0,"pic":0},
+                 {"time":0.08,"pic":1},
+                 {"time":0.16,"pic":2},
+                 {"time":0.24,"pic":3},
+                 {"time":0.32,"pic":4},
+                 {"time":0.4,"pic":5},
+                 {"time":0.48,"pic":6},
+                 {"time":0.56,"pic":7},
+                 {"time":0.64,"pic":8},
+                 {"time":0.72,"pic":9},
+                 {"time":0.8,"pic":10},
+                 {"time":0.88,"pic":11},
+                 {"time":0.96,"pic":12},
+                 {"time":1.04,"pic":13},
+                 {"time":1.12,"pic":14},
+                 {"time":1.2,"pic":15},
+                 {"time":1.28,"pic":16},
+                 {"time":1.36,"pic":17}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 0.24, "shrink":0, "minTime":0.0, "maxTime": 0.24},
+                 {"beginTime": 0.24,"endTime": 1.28, "shrink":0, "minTime":0.8, "maxTime": 0.0},
+                 {"beginTime": 1.28,"endTime": 1.44, "shrink":0, "minTime":0.0, "maxTime": 0.16}                 
+                 ]
+  
+}

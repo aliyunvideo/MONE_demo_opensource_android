@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        consumerProguardFiles 'lib-proguard-rules.pro'
+    }
+    lintOptions {
+        warning 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation project(':AUIUgsvBase')
+    implementation externalAndroidXRecyclerView
+    implementation project(':AliyunVideoCommon')
+    implementation project(':AUIMedia')
+    implementation project(':AUIFoundation:AVTheme')
+    implementation project(':AUIVideoEditor:AUIVideoTrack')
+    implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIFoundation:AVMatisse')
+    implementation externalAndroidXConstraintlayout
+}

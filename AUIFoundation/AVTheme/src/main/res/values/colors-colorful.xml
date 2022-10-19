@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colourful_text_strong">#4DCFE1</color>
+
+    <color name="colourful_ic_strong">#4DCFE1</color>
+
+    <color name="colourful_border_strong">#4DCFE1</color>
+    <color name="colourful_border_weak">#B2EBF2</color>
+
+    <color name="colourful_fill_ultrastrong">#F7355D</color>
+    <color name="colourful_fill_strong">#4DCFE1</color>
+    <color name="colourful_fill_strong_a30">#4D4DCFE1</color>
+    <color name="colourful_fg_strong">#4DCFE1</color>
+</resources>

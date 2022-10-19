@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:id="@+id/video_dot_content_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="27dp"
+        android:background="@drawable/shape_video_dot_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_goneMarginBottom="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/video_dots_view"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/shape_dot_tip_bg"
+            android:drawableEnd="@drawable/video_dot_tip_icon"
+            android:drawableRight="@drawable/video_dot_tip_icon"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="10dp"
+            android:text="@string/video_dot_tip"
+            android:textColor="@color/color_00f2ff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/video_dot_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="1:32"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@color/color_cccccc"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/video_dot_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="196dp"
+            android:paddingStart="12dp"
+            android:paddingLeft="12dp"
+            android:paddingEnd="12dp"
+            android:paddingRight="12dp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:text="看点看点卡卡卡卡卡卡卡卡"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="kslsllslsllslslsl" />
+
+    </LinearLayout>
+
+    <com.aliyun.player.alivcplayerexpand.view.dot.VideoDotsView
+        android:id="@+id/video_dots_view"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        app:selected_dot_color="#9c00f2ff"
+        app:dot_color="@color/color_cccccc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

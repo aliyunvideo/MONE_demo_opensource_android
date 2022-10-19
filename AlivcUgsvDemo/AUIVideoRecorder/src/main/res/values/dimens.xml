@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 公共 -->
+    <dimen name="ugsv_recorder_common_line_height">1dp</dimen>
+
+    <!-- 顶部栏 -->
+    <dimen name="ugsv_recorder_top_bar_height">44dp</dimen>
+
+    <!-- 侧边栏 -->
+
+    <!-- 变速面板 -->
+
+    <!-- 底部栏 -->
+
+    <!-- 效果选择器 -->
+    <dimen name="ugsv_recorder_chooser_title_height">45dp</dimen>
+    <dimen name="ugsv_recorder_chooser_content_height">140dp</dimen>
+    <dimen name="ugsv_recorder_chooser_paster_content_height">193dp</dimen>
+    <dimen name="ugsv_recorder_chooser_item_size">55dp</dimen>
+    <dimen name="ugsv_recorder_chooser_paster_item_size">60dp</dimen>
+
+    <!-- 倒计时 -->
+    <dimen name="ugsv_recorder_panel_countdown_text">90sp</dimen>
+
+</resources>

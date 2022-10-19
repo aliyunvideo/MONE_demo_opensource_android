@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.clip.speed.SpeedPanelViewModel" />
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/speed_panel_space"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{viewModel.onSpaceClick}"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="238dp"
+            android:layout_marginTop="42dp"
+            android:background="@color/bg_weak"
+            android:clickable="true"
+            android:focusable="true">
+            <include
+                android:id="@+id/action_bar"
+                layout="@layout/panel_action_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                app:viewModel="@{viewModel.actionBarViewModel}"/>
+
+            <com.aliyun.aio.avbaseui.widget.AVTickSeekbar
+                android:id="@+id/ugsv_eidtor_speed_tickbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/action_bar"/>
+
+            <TextView
+                android:id="@+id/ugsv_editor_speed_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_alignParentBottom="true"
+                android:textFontWeight="400"
+                android:drawablePadding="2dp"
+                android:drawableLeft="@drawable/ic_editor_sub_panel_reset"
+                android:text="@string/ugsv_editor_clip_reset"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="16dp"
+                android:onClick="@{viewModel.onResetClick}"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_weak"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

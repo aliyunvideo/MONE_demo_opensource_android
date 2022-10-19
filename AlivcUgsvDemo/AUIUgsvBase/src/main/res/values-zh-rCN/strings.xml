@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugc_app_name">阿里云短视频</string>
+    <string name="alivc_base_version">SDK版本信息</string>
+    <!-- 美颜相关  start -->
+    <string name="alivc_base_beauty">美颜</string>
+    <string name="alivc_base_beauty_face">美肌</string>
+    <string name="alivc_base_beauty_shape">美型</string>
+    <string name="alivc_base_fine_tune">微调</string>
+    <string name="alivc_base_stickers">人脸贴纸</string>
+    <string name="alivc_base_filter">滤镜</string>
+    <string name="alivc_record_anim_filter">动效滤镜</string>
+
+    <string name="alivc_base_beauty_buffing">磨皮</string>
+    <string name="alivc_base_beauty_whitening">美白</string>
+    <string name="alivc_base_beauty_blush">红润</string>
+    <string name="alivc_base_beauty_sharpen">锐化</string>
+    <string name="alivc_base_beauty_bigeye">大眼</string>
+    <string name="alivc_base_beauty_thinface">瘦脸</string>
+    <string name="alivc_base_beauty_cutface">窄脸</string>
+    <string name="alivc_base_beauty_longface">脸长</string>
+    <string name="alivc_base_beauty_lowerjaw">下巴</string>
+    <string name="alivc_base_beauty_thinnose">瘦鼻</string>
+    <string name="alivc_base_beauty_mouthwidth">唇宽</string>
+    <string name="alivc_base_beauty_thinmandible">下颌</string>
+    <string name="alivc_base_beauty_cutcheek">颧骨</string>
+
+
+
+    <string name="alivc_base_beauty_level_advanced">高级</string>
+    <string name="alivc_base_beauty_level_normal">普通</string>
+    <!--美颜脸型-->
+    <string name="alivc_base_beauty_natural_face">自然脸</string>
+    <string name="alivc_base_beauty_square_face">方脸</string>
+    <string name="alivc_base_beauty_round_face">圆脸</string>
+    <string name="alivc_base_beauty_long_face">长脸</string>
+    <string name="alivc_base_beauty_pear_face">梨形脸</string>
+
+    <string name="alivc_base_beauty_default_face">默认</string>
+    <string name="alivc_base_beauty_grace_face">优雅</string>
+    <string name="alivc_base_beauty_fine_face">精致</string>
+    <string name="alivc_base_beauty_celebrity_face">网红</string>
+    <string name="alivc_base_beauty_lovely_face">可爱</string>
+    <string name="alivc_base_beauty_baby_face">婴儿</string>
+    <string name="alivc_base_beauty_custom_face">自定义</string>
+    <!-- 美颜相关  end   -->
+    <string name="alivc_base_tips_fine_tuning">点击可微调</string>
+    <string name="alivc_base_beauty_copyright">高级美颜美型由faceunity提供</string>
+    <string name="alivc_base_beauty_race_copyright">高级美颜美型由race提供</string>
+    <string name="alivc_base_beauty_queen_copyright">高级美颜美型由queen提供</string>
+    <string name="alivc_setting_rendering_faceunity">FaceUnity</string>
+    <string name="alivc_setting_rendering_queen">Queen</string>
+    <string name="alivc_setting_rendering_default">默认</string>
+    <string name="alivc_base_beauty_copyright_link">如何获取</string>
+    <string name="alivc_base_svideo_next">下一步</string>
+    <string name="alivc_base_svideo_save">保存</string>
+    <string name="alivc_develop_url">测试环境</string>
+    <string name="alivc_pre_release_url">预发布环境</string>
+    <string name="alivc_release_url">正式环境</string>
+
+</resources>

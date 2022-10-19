@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MusicCircleProgressBar">
+        <attr name="musicBackgroundWidth" format="dimension"/>
+        <attr name="musicBackgroundHeight" format="dimension"/>
+        <attr name="musicProgressWidth" format="dimension"/>
+        <attr name="musicProgressThickness" format="dimension"/>
+        <attr name="musicBackgroundColor" format="color|reference"/>
+        <attr name="musicProgressColor" format="color|reference"/>
+        <attr name="musicProgressThicknessColor" format="color|reference"/>
+    </declare-styleable>
+
+    <style name="MusicPanelStyle" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

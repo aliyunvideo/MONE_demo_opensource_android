@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="alivc_player_theme_blue">#379DF2</color>
+    <color name="alivc_player_theme_green">#57AB44</color>
+    <color name="alivc_player_theme_orange">#EE7C33</color>
+    <color name="alivc_player_theme_red">#E94033</color>
+
+    <color name="alivc_longvideo_font_black">#262626</color>
+    <color name="alivc_blue">#379DF2</color>
+    <color name="alivc_green">#57AB44</color>
+    <color name="alivc_orange">#EE7C33</color>
+    <color name="alivc_red">#E94033</color>
+
+    <color name="alivc_player_font_info_duration">#9f9e9e</color>
+    <color name="alivc_color_rate_item">#4c000000</color>
+
+    <color name="colorPrimary">#1e222d</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="alivc_player_color_gray_danmu_bg">#444546</color>
+    <color name="alivc_player_color_gray_danmu_et_bg">#323233</color>
+
+    <color name="add_download_info_background">#373d41</color>
+    <color name="alivc_player_list_item_press">#2d3342</color>
+
+    <color name="alivc_player_bg_action_list_dialog">#1e2321</color>
+    <color name="alivc_player_font_speed_blue">#379DF2</color>
+
+    <color name="alivc_player_type_selector_checked">#00C1DE</color>
+    <color name="alivc_player_type_selector_normal">#343742</color>
+
+    <!--progressbar的背景色-->
+    <color name="alivc_player_bg_progress_front">#CFD8DC</color>
+    <color name="alivc_player_bg_progress_rear">#ECEFF1</color>
+
+    <color name="alivc_player_download_title_bg_gray">#2EF8F8F8</color>
+    <color name="alivc_player_font_more">#8C8C8C</color>
+
+    <color name="color_bbbbbb">#bbbbbb</color>
+    <color name="color_00f2ff">#00F2FF</color>
+    <color name="color_3300f2ff">#3300F2FF</color>
+    <color name="color_d4d4d4">#D4D4D4</color>
+    <color name="alivc_player_config_edit_background">#343742</color>
+
+
+
+
+
+    <!--其他一些常用颜色，除字体、背景色、线-->
+    <color name="alivc_common_white">#ffffffff</color>
+    <color name="alivc_common_gray_999">#999</color>
+    <color name="alivc_common_cyan_light">#00C1DE</color>
+
+    <!--公用字体颜色-->
+    <color name="alivc_common_font_black">#000000</color>
+    <color name="alivc_common_font_black_alpha_30">#4d000000</color>
+    <color name="alivc_common_font_black_alpha_70">#B3000000</color>
+
+    <color name="alivc_common_font_white">#ffffffff</color>
+    <color name="alivc_common_font_white_light">#e7e7e7</color>
+    <color name="alivc_common_font_white_alpha_50">#80FFFFFF</color>
+    <color name="alivc_common_font_gray_light">#C3C5C6</color>
+    <color name="alivc_common_font_gray_darker">#aaa</color>
+    <color name="alivc_common_font_gray_75">#757575</color>
+    <color name="alivc_common_font_gray_333">#333</color>
+    <color name="alivc_common_font_red">#FC4347</color>
+    <color name="alivc_common_font_cyan_light">#00C1DE</color>
+    <color name="alivc_common_font_gray_333333">#333333</color>
+    <color name="alivc_common_font_red_wine">#FE4110</color>
+    <color name="alivc_common_font_gray_999">#999999</color>
+    <color name="alivc_common_font_gray_8B8B8B">#8B8B8B</color>
+
+    <!--主题色，代表应用整体风格的颜色-->
+    <color name="alivc_common_theme_primary">#232A42</color>
+    <color name="alivc_common_theme_primary_alpha_50">#7f232A42</color>
+    <color name="alivc_common_theme_primary_dark">#1B2133</color>
+    <color name="alivc_common_theme_primary_darker">#1e222d</color>
+    <color name="alivc_common_theme_primary_light">#373d41</color>
+    <color name="alivc_common_theme_primary_light_alpha_90">#E6373d41</color>
+
+    <!--公用背景色，包含前景色、填充色-->
+    <color name="alivc_common_bg_transparent">#00000000</color>
+    <color name="alivc_common_bg_white">#ffffffff</color>
+    <color name="alivc_common_bg_white_alpha_10">#1affffff</color>
+    <color name="alivc_common_bg_white_alpha_15">#26ffffff</color>
+    <color name="alivc_common_bg_white_alpha_20">#33ffffff</color>
+    <color name="alivc_common_bg_white_alpha_30">#4dffffff</color>
+    <color name="alivc_common_bg_white_alpha_40">#66ffffff</color>
+    <color name="alivc_common_bg_white_alpha_50">#7FFFFFFF</color>
+    <color name="alivc_common_bg_white_alpha_60">#99FFFFFF</color>
+    <color name="alivc_common_bg_white_bright">#fff1f1f1</color>
+    <color name="alivc_common_bg_gray_darker">#aaa</color>
+    <color name="alivc_common_bg_gray_light">#C3C5C6</color>
+    <color name="alivc_common_bg_gray_bright">#D8D8D8</color>
+
+    <color name="alivc_common_bg_black">#ff000000</color>
+    <color name="alivc_common_bg_black_alpha_30">#4d000000</color>
+    <color name="alivc_common_bg_black_alpha_40">#66000000</color>
+    <color name="alivc_common_bg_black_alpha_50">#7f000000</color>
+    <color name="alivc_common_bg_black_alpha_60">#99000000</color>
+    <color name="alivc_common_bg_black_alpha_70">#B3000000</color>
+    <color name="alivc_common_bg_black_alpha_80">#CC000000</color>
+    <color name="alivc_common_bg_black_alpha_90">#E3000000</color>
+    <color name="alivc_common_bg_orange">#FC7729</color>
+    <color name="alivc_common_bg_cyan">#119797</color>
+    <color name="alivc_common_bg_cyan_light">#00C1DE</color>
+    <color name="alivc_common_bg_red">#FC4347</color>
+    <color name="alivc_common_bg_red_darker">#FE4110</color>
+    <color name="alivc_common_bg_pink">#EF4B81</color>
+    <color name="alivc_common_bg_white_gray">#F5F5F5</color>
+
+    <!--公用线的颜色，包含边界线的颜色-->
+    <color name="alivc_common_line_gray_bright">#D7D8D9</color>
+    <color name="alivc_common_line_gray_light">#C3C5C6</color>
+    <color name="alivc_common_line_gray_darker">#aaa</color>
+    <color name="alivc_common_line_cyan_light">#00C1DE</color>
+    <color name="alivc_common_line_white_alpha_30">#4DFFFFFF</color>
+    <color name="alivc_common_line_red">#FFff0000</color>
+    <color name="video_seek_bar_played_bg">#00F2FF</color>
+
+</resources>

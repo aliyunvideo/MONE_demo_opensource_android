@@ -1,0 +1,51 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/google" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+        println("buildscript is building TYPE = " + TEST)
+        if ("TRUE".equalsIgnoreCase(TEST)) {
+            println("buildscript is test building")
+            maven { url 'http://mvnrepo.alibaba-inc.com/mvn/repository' }
+        }
+
+        maven { url 'https://repo1.maven.org/maven2/' }
+    }
+    apply from: '../AndroidThirdParty/config.gradle'
+    dependencies {
+        classpath externalAndroidBuildGradlePlugin
+        classpath externalAndroidKotlinPlugin
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
+
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/google" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+        if ("TRUE".equalsIgnoreCase(TEST)) {
+            maven { url 'http://mvnrepo.alibaba-inc.com/mvn/repository' }
+        }
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'http://4thline.org/m2' }
+        maven { url 'https://repo1.maven.org/maven2/' }
+        flatDir { dirs 'src/main/libs' }
+    }
+
+    buildDir = new File(rootDir, "gradle-build/${path.replaceAll(':', '/')}")
+
+    Properties localProperties = new Properties()
+    localProperties.load(new File(getRootDir().absolutePath + "/local.properties").newDataInputStream())
+    def dir = localProperties.getProperty('svideo.sdk.dir')
+    if(dir != null){
+        apply from: dir + "/android/config.gradle"
+    }
+}
+

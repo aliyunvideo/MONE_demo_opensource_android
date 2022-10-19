@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="alivc_svideo_bg_balloon_tip_cyan">#e626b8e9</color>
+    <color name="alivc_svideo_font_compose_tip">#bcbcbc</color>
+
+    <color name="alivc_svideo_bg_timeline_del_color">#ffcc0000</color>
+
+    <color name="alivc_svideo_bg_next_enable">#FC4448 </color>
+
+</resources>

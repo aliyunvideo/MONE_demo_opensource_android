@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.clip.trasition.TransitionPanelViewModel" />
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/speed_panel_space"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{viewModel.onSpaceClick}"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="238dp"
+            android:layout_marginTop="42dp"
+            android:background="@color/bg_weak"
+            android:clickable="true"
+            android:focusable="true">
+            <include
+                android:id="@+id/action_bar"
+                layout="@layout/panel_action_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                app:viewModel="@{viewModel.actionBarViewModel}"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/editor_transition_recyclerview"
+                android:layout_below="@id/action_bar"
+                android:layout_marginTop="30dp"
+                android:clipToPadding="true"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/ugsv_editor_transition_check_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="11dp"
+                android:onClick="@{viewModel.onCheckAllClick}"
+                android:src="@drawable/ugsv_editor_clip_uncheck"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

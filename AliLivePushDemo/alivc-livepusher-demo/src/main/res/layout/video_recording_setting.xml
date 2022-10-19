@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_weak"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/bg_medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_weak"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_av_action_bar_back" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="0dp"
+                android:background="@color/fill_weak"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/qr_code"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/ic_live_scan"
+                    android:scaleType="fitXY" />
+
+                <EditText
+                    android:id="@+id/url_editor"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="@string/view_string_hint_push_url"
+                    android:singleLine="true"
+                    android:textColor="@color/text_ultraweak"
+                    android:textColorHint="@color/text_ultraweak"
+                    android:textSize="@dimen/view_size_text_14" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/border_medium" />
+
+        <TextView
+            android:id="@+id/note_text"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:background="@color/tips_color"
+            android:gravity="center"
+            android:text="@string/screen_note"
+            android:textColor="@color/wheel_white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:background="@color/bg_medium"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/resolution_label"
+            android:textColor="@color/text_ultraweak"
+            android:textSize="@dimen/font_size_24px" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_size_45"
+            android:orientation="horizontal"
+            android:paddingEnd="20dp">
+
+            <SeekBar
+                android:id="@+id/resolution_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:progressDrawable="@drawable/av_seekbar_drawable"
+                android:layout_marginEnd="30dp"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progress="80"
+                android:theme="@style/Push_SeekBar_Style" />
+
+            <TextView
+                android:id="@+id/resolution_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:text="@string/setting_resolution_540P"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginStart="20dp"
+            android:background="@color/border_medium" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="100dp"
+                android:text="@string/push_orientation"
+                android:textColor="@color/text_strong"
+                android:textSize="@dimen/font_size_30px" />
+
+            <TextView
+                android:id="@+id/main_orientation"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="center_vertical|end"
+                android:paddingEnd="23dp"
+                android:text="@string/portrait"
+                android:textColor="@color/text_strong"
+                android:textSize="@dimen/font_size_30px" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:src="@drawable/ic_av_arrow_right" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginStart="20dp"
+            android:background="@color/border_medium" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_size_45"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="100dp"
+                android:text="@string/narrowband_hd"
+                android:textColor="@color/text_strong"
+                android:textSize="@dimen/font_size_30px" />
+
+            <Switch
+                android:id="@+id/narrowband_hd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end|center_vertical"
+                android:checked="true"
+                android:textOff=""
+                android:textOn=""
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/pushStatusTex"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="42dp"
+        android:background="@drawable/shape_rect_blue"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:text="@string/start_push"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_size_28px" />
+</FrameLayout>
+
+
+
+
+
+

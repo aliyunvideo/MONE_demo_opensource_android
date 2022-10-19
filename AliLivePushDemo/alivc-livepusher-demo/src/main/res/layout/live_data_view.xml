@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:parentTag="android.widget.LinearLayout"
+    android:orientation="vertical"
+    tools:background="@color/wheel_black"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/local_info"
+        android:layout_marginLeft="16dp"
+        android:textColor="#00BCD4"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_data"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/title_color"
+        android:layout_marginTop="3dp"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"/>
+
+</merge>

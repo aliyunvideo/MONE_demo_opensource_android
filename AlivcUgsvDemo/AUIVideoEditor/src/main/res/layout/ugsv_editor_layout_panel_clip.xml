@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="238dp"
+    android:background="@color/bg_weak">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:src="@drawable/ic_av_actionbar_close" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.aliyun.aio.avbaseui.widget.AVPanelItemView
+            android:id="@+id/ugsv_editor_item_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:itemName="@string/ugsv_editor_speed"
+            tools:imageEnable="@drawable/ugsv_ic_editor_speed"
+            tools:imageDisable="@drawable/ugsv_ic_editor_speed_disable"
+            tools:textColorEnable="@color/text_strong"
+            tools:textColorDisable="@color/text_weak"
+            tools:statusEnable="true"
+            />
+
+        <com.aliyun.aio.avbaseui.widget.AVPanelItemView
+            android:id="@+id/ugsv_editor_item_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:itemName="@string/ugsv_editor_volume"
+            tools:imageEnable="@drawable/ugsv_ic_editor_volume"
+            tools:imageDisable="@drawable/ugsv_ic_editor_volume_disable"
+            tools:textColorEnable="@color/text_strong"
+            tools:textColorDisable="@color/text_weak"
+            tools:statusEnable="true"
+            />
+
+        <com.aliyun.aio.avbaseui.widget.AVPanelItemView
+            android:id="@+id/ugsv_editor_item_audio_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:itemName="@string/ugsv_editor_audio_effect"
+            tools:imageEnable="@drawable/ic_editor_clip_audio_effect"
+            tools:textColorEnable="@color/text_strong"
+            tools:textColorDisable="@color/text_weak"
+            tools:statusEnable="true"
+            />
+
+        <com.aliyun.aio.avbaseui.widget.AVPanelItemView
+            android:id="@+id/ugsv_editor_item_enhance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:itemName="@string/ugsv_editor_enhance"
+            tools:imageEnable="@drawable/ugsv_ic_editor_enhance"
+            tools:imageDisable="@drawable/ugsv_ic_editor_enhance_disable"
+            tools:textColorEnable="@color/text_strong"
+            tools:textColorDisable="@color/text_weak"
+            tools:statusEnable="true"
+            />
+
+        <com.aliyun.aio.avbaseui.widget.AVPanelItemView
+            android:id="@+id/ugsv_editor_item_transition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:itemName="@string/ugsv_editor_item_transition"
+            tools:imageEnable="@drawable/ugsv_ic_editor_transition"
+            tools:imageDisable="@drawable/ugsv_ic_editor_transition_disable"
+            tools:textColorEnable="@color/text_strong"
+            tools:textColorDisable="@color/text_weak"
+            tools:statusEnable="false"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>

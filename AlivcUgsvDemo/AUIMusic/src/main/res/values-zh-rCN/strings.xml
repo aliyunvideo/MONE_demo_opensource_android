@@ -1,0 +1,14 @@
+<resources>
+    <string name="alivc_music_network_not_connect">网络没有连接，请检查网络</string>
+    <string name="alivc_music_no_free_memory">剩余磁盘空间不足</string>
+    <string name="alivc_music_empty_music">无音乐</string>
+    <string name="ugsv_music_select_music">音乐</string>
+    <string name="alivc_music_online_music">在线音乐</string>
+    <string name="alivc_music_local_music">本地音乐</string>
+    <string name="alivc_music_copyright">由太合音乐DMH提供服务</string>
+    <string name="alivc_music_copyright_link">如何获取</string>
+    <string name="alivc_music_complete">完成</string>
+    <string name="ugsv_music_use">使用</string>
+
+    <string name="alivc_music_play_url_null">播放地址为空</string>
+</resources>

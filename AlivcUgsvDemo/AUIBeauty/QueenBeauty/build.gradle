@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+    }
+
+
+    packagingOptions {
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        exclude 'lib/arm64-v8a/libc++_shared.so'
+        exclude 'lib/armeabi-v7a/libc++_shared.so'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    dependencies {
+        implementation project(':AUIUgsvBase')
+        implementation project(':AliyunVideoCommon')
+        implementation project(':AUIFoundation:AVTheme')
+        implementation project(':AUIBeauty')
+        if (!hasQueen()){
+            implementation externalAliyunQueen
+        } else {
+            implementation externalAllInOne
+        }
+        implementation (externalAliyunQueenUI) {
+            exclude group: 'com.aliyun.maliang.android', module: 'queen'
+        }
+        implementation externalAndroidXAppcompat
+        implementation externalAndroidXRecyclerView
+        implementation externalAndroidXConstraintlayout
+        implementation externalGSON
+    }
+}

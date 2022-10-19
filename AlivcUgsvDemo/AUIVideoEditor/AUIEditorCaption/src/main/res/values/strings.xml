@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugsv_add_caption">文字</string>
+    <string name="ugsv_caption_tab_flower_text">花字</string>
+    <string name="ugsv_caption_tab_bubble">气泡</string>
+    <string name="ugsv_caption_tab_style">样式</string>
+    <string name="ugsv_caption_tab_animation">动画</string>
+    <string name="ugsv_caption_animation_duration">时长</string>
+    <string name="ugsv_caption_effect_text_default">输入文字</string>
+    <string name="ugsv_caption_style_color">颜色</string>
+    <string name="ugsv_caption_style_default_font">默认</string>
+    <string name="ugsv_caption_tip_text_limit">字数超出限制</string>
+
+    <string-array name="ugsv_caption_animation_list">
+        <item>无</item>
+        <item>向上移动</item>
+        <item>向下移动</item>
+        <item>向左移动</item>
+        <item>向右移动</item>
+        <item>线性擦除</item>
+        <item>淡入淡出</item>
+        <item>缩放</item>
+        <item>打字机</item>
+        <item>钟摆</item>
+        <item>雨刷</item>
+        <item>波浪</item>
+        <item>螺旋上升</item>
+        <item>心跳</item>
+        <item>圆形扫描</item>
+        <item>波浪弹入</item>
+    </string-array>
+</resources>

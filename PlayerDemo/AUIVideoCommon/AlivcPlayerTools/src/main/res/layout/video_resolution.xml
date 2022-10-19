@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/video_resolution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/black">
+
+        <RadioButton
+            android:id="@+id/video_resolution_xld"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:text="@string/alivc_mts_xld_definition"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_resolution_ld"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/alivc_mts_ld_definition"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_resolution_sd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/alivc_mts_sd_definition"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_resolution_hd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/alivc_mts_hd_definition"
+            android:textColor="@drawable/video_more_tv" />
+
+        <RadioButton
+            android:id="@+id/video_resolution_fhd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:button="@null"
+            android:text="@string/alivc_mts_fhd_definition"
+            android:textColor="@drawable/video_more_tv" />
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

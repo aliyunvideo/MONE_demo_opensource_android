@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="#80000000">
+
+    <com.alivc.live.pusher.widget.MaxHeightLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_bg"
+            android:minHeight="125dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:id="@+id/dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:textColor="@color/text_strong"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:text="18dp大标题"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/dialog_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <FrameLayout
+                    android:id="@+id/dialog_content_container2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ScrollView
+                        android:id="@+id/dialog_content_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:scrollbars="none">
+
+                        <!-- 解决内部滑动问题 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/dialog_tip_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:includeFontPadding="false"
+                                android:lineSpacingExtra="3dp"
+                                android:textColor="@color/text_strong"
+                                android:textSize="14sp"
+                                tools:text="14dp提示内容" />
+
+                        </LinearLayout>
+
+                    </ScrollView>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/dialog_expand_content_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/dialog_btn_top_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/border_ultraweak"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dialog_cancel_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:text="取消"
+                    android:textColor="@color/colourful_text_strong"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <View
+                    android:id="@+id/dialog_btn_line"
+                    android:layout_width="0.5dp"
+                    android:layout_height="52dp"
+                    android:background="@color/border_ultraweak"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/dialog_confirm_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:text="确定"
+                    android:textColor="@color/colourful_text_strong"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 解决弹窗中心点与屏幕高度45%的位置重合 -->
+        <View
+            android:id="@+id/dialog_bottom_space"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+    </com.alivc.live.pusher.widget.MaxHeightLayout>
+</FrameLayout>

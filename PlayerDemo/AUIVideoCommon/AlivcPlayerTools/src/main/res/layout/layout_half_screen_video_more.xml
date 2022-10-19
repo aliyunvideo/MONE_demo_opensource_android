@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_half_screen_video_more_view_bg">
+
+    <ImageView
+        android:id="@+id/video_more_video_speed"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/video_more_video_speed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/video_more_video_speed_tv"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/video_speed_title"
+        android:textColor="@color/color_555555"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/video_more_video_speed"
+        app:layout_constraintStart_toStartOf="@+id/video_more_video_speed"
+        app:layout_constraintTop_toBottomOf="@+id/video_more_video_speed" />
+
+    <ImageView
+        android:id="@+id/video_more_video_definition"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:alpha="0.5"
+        android:enabled="false"
+        android:src="@drawable/video_more_video_definition"
+        app:layout_constraintStart_toEndOf="@+id/video_more_video_speed"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/video_more_video_definition_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/alivc_player_definition"
+        android:alpha="0.5"
+        android:enabled="false"
+        android:textColor="@color/color_555555"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/video_more_video_definition"
+        app:layout_constraintStart_toStartOf="@+id/video_more_video_definition"
+        app:layout_constraintTop_toBottomOf="@+id/video_more_video_definition" />
+
+    <ImageView
+        android:id="@+id/video_more_video_damkun"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/video_more_damkun_setting"
+        app:layout_constraintStart_toEndOf="@+id/video_more_video_definition"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/video_more_video_damkun_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/damkun_location"
+        android:textColor="@color/color_555555"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/video_more_video_damkun"
+        app:layout_constraintStart_toStartOf="@+id/video_more_video_damkun"
+        app:layout_constraintTop_toBottomOf="@+id/video_more_video_damkun" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/color_eeeeee"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_more_video_speed_tv" />
+
+
+    <TextView
+        android:id="@+id/video_more_list_play_setting_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="37dp"
+        android:gravity="center"
+        android:text="@string/list_play_setting_title"
+        android:textColor="#181818"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+
+    <CheckBox
+        android:id="@+id/video_more_list_play_setting_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/setting_btn"
+        android:button="@null"
+        android:textColor="@color/alivc_common_font_white_light"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/video_more_list_play_setting_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/video_more_list_play_setting_tv" />
+
+
+    <TextView
+        android:id="@+id/background_play_setting_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="@string/background_play_setting_title"
+        android:textColor="#181818"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_more_list_play_setting_tv" />
+
+
+    <CheckBox
+        android:id="@+id/video_more_background_play_setting_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/setting_btn"
+        android:button="@null"
+        android:textColor="@color/alivc_common_font_white_light"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/background_play_setting_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_play_setting_tv" />
+
+
+    <TextView
+        android:id="@+id/video_more_cancel_tv"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginBottom="38dp"
+        android:gravity="center"
+        android:text="@string/alivc_common_cancel"
+        android:textColor="#181818"
+        android:textSize="14sp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_more_background_play_setting_btn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

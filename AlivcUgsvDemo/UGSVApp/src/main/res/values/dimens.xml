@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_home_points_item_margin">2dp</dimen>
+    <dimen name="alivc_home_points_item_margin">2dp</dimen>
+</resources>

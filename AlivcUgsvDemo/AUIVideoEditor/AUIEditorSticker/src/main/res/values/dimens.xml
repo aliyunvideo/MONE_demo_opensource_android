@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ugsv_panel_bubble_bottom_bar_drawleft_size">12dp</dimen>
+    <dimen name="ugsv_panel_sticker_tab_page_space">4dp</dimen>
+</resources>

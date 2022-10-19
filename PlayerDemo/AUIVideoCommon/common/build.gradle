@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion externalCompileSdkVersion
+    buildToolsVersion externalBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion externalMinSdkVersion
+        targetSdkVersion externalTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    def refresh_layout_versin = '2.0.3'
+
+    implementation project(':AUIVideoCommon:skeleton')
+    implementation project(':AUIFoundation:AVTheme')
+    implementation project(':AUIFoundation:AVUtils')
+
+    implementation externalAndroidX
+    implementation externalAndroidDesign
+    implementation externalKotlinStdLib
+    implementation externalGlide
+    api 'org.greenrobot:eventbus:3.2.0'
+    api 'com.drakeet.multitype:multitype:4.2.0'
+    api 'jp.wasabeef:blurry:4.0.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api "com.scwang.smart:refresh-layout-kernel:${refresh_layout_versin}"  //核心必须依赖
+    api "com.scwang.smart:refresh-header-material:${refresh_layout_versin}"    //谷歌刷新头
+    api "com.scwang.smart:refresh-footer-classics:${refresh_layout_versin}"    //经典加载
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'//loading 动画
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.20"
+    //适配状态栏
+    // 基础依赖包，必须要依赖
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    // fragment快速实现（可选）
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+    // kotlin扩展（可选）
+    implementation 'com.gyf.immersionbar:immersionbar-ktx:3.0.0'
+
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    api 'com.makeramen:roundedimageview:2.3.0'
+    api 'com.github.lihangleo2:ShadowLayout:3.2.0'
+
+
+}

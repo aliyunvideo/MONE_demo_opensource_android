@@ -1,0 +1,170 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+def sourceDebug = null
+File localFile = new File(getRootDir().absolutePath + "/local.properties")
+Properties localProperties = new Properties()
+if(localFile.exists()){
+    localProperties.load(localFile.newDataInputStream())
+    sourceDebug = localProperties.getProperty('source.debug')
+}
+
+if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
+    apply from: file(localProperties.getProperty('config.gradle'))
+
+    def targetListStr = ""
+    for (target in gradle.ext.TARGET_LIST) {
+        targetListStr += target + ";"
+    }
+    println "[Gradle] Target list: " + targetListStr
+
+    for (target in gradle.ext.TARGET_LIST) {
+        def targetGradleConfigKey = target + ".gradle"
+        if (gradle.ext.TEMPLATE_PROPERTIES.containsKey(targetGradleConfigKey)) {
+            def templatePath = gradle.ext.TEMPLATE_PROPERTIES.getProperty(targetGradleConfigKey)
+            apply from: file(gradle.ext.TEMPLATE_PROPERTIES_PATH + templatePath)
+            println "[Gradle Ext]: load gradle config to envalue ext, path:" + templatePath
+            continue
+        }
+    }
+
+    ext {
+        if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
+            TARGET_LIST_STR = targetListStr
+            BUILD_FOR_AIO = true
+            def media_core_path = localProperties.getProperty('project.media_core.dir')
+            def media_core_build_id = "git -C ${media_core_path} rev-parse --short HEAD".execute().text.trim()
+            MEDIA_CORE_BUILD_ID = media_core_build_id
+            MEDIA_CORE_PATH = media_core_path
+            ALL_IN_ONE_PATH = localProperties.getProperty('root.all_in_one.dir') + "/"
+            WEBRTC_JAVA_CLASS_PATH_SUFFIX = "aio"
+            ACPM_PATH = ALL_IN_ONE_PATH + 'ACPM/'
+        }
+    }
+
+    buildscript {
+       repositories {
+           maven {
+               allowInsecureProtocol = true
+               url "http://maven.aliyun.com/nexus/content/repositories/jcenter"
+           }
+           maven {
+               allowInsecureProtocol = true
+               url "http://maven.aliyun.com/nexus/content/repositories/google"
+           }
+           maven {
+               allowInsecureProtocol = true
+               url "http://maven.aliyun.com/nexus/content/repositories/releases"
+           }
+           maven {
+               allowInsecureProtocol = true
+               url "http://lib.gcssloop.com:8081/repository/gcssloop-central/"
+           }
+           maven {
+               allowInsecureProtocol = true
+               url 'http://mvnrepo.alibaba-inc.com/mvn/repository'
+           }
+           maven { url 'https://repo1.maven.org/maven2/' }
+           maven { url 'https://jitpack.io' }
+       }
+    }
+    allprojects {
+        repositories {
+            maven {
+                allowInsecureProtocol = true
+                url "http://maven.aliyun.com/nexus/content/repositories/jcenter"
+            }
+            maven {
+                allowInsecureProtocol = true
+                url "http://maven.aliyun.com/nexus/content/repositories/google"
+            }
+            maven {
+                allowInsecureProtocol = true
+                url 'http://maven.aliyun.com/nexus/content/groups/public/'
+            }
+            maven {
+                allowInsecureProtocol = true
+                url "http://lib.gcssloop.com:8081/repository/gcssloop-central/"
+            }
+            maven { url "https://maven.aliyun.com/repository/releases" }
+            maven {
+                allowInsecureProtocol = true
+                url 'http://mvnrepo.alibaba-inc.com/mvn/repository'
+            }
+            maven { url 'https://repo1.maven.org/maven2/' }
+            maven {
+                allowInsecureProtocol = true
+                url 'http://4thline.org/m2'
+            }
+            maven { url 'https://jitpack.io' }
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/jcenter" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/google" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/releases" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
+        }
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'https://jitpack.io' }
+    }
+    apply from: 'AndroidThirdParty/config.gradle'
+    apply from: 'sdk_type_config.gradle'
+    dependencies {
+        classpath externalAndroidBuildGradlePlugin
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+        classpath 'com.github.kezong:fat-aar:1.3.6'
+    }
+}
+
+allprojects {
+    repositories {
+         maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/jcenter" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/google" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url 'http://maven.aliyun.com/nexus/content/groups/public/' 
+        }
+        maven { url "https://maven.aliyun.com/repository/releases" }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
+        }
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { 
+            allowInsecureProtocol = true
+            url 'http://4thline.org/m2' 
+        }
+        maven { url 'https://jitpack.io' }
+        google()
+        jcenter()
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

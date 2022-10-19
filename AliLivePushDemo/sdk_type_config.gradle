@@ -1,0 +1,84 @@
+
+class AIOSdkType {
+    public static final def AliVCSDK_Standard = "AliVCSDK_Standard"
+    public static final def AliVCSDK_Premium = "AliVCSDK_Premium"
+    public static final def AliVCSDK_UGC = "AliVCSDK_UGC"
+    public static final def AliVCSDK_UGCPro = "AliVCSDK_UGCPro"
+    public static final def AliVCSDK_BasicLive = "AliVCSDK_BasicLive"
+    public static final def AliVCSDK_InteractiveLive = "AliVCSDK_InteractiveLive"
+    public static final def AliVCSDK_StandardLive = "AliVCSDK_StandardLive"
+    public static final def AliVCSDK_PremiumLive = "AliVCSDK_PremiumLive"
+}
+
+def AIO_SDK_TYPE = "AliVCSDK_Premium"
+if (hasProperty("SDK_TYPE")) {
+    AIO_SDK_TYPE = SDK_TYPE
+}
+
+def IS_AIO = true
+if (hasProperty("allInOne")) {
+    IS_AIO = allInOne
+}
+
+def hasLive() {
+    def sdkType = "AliVCSDK_Premium"
+    if (hasProperty("SDK_TYPE")) {
+        sdkType = SDK_TYPE
+    }
+    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_BasicLive.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_StandardLive.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
+}
+
+def hasUGC() {
+    def sdkType = "AliVCSDK_Premium"
+    if (hasProperty("SDK_TYPE")) {
+        sdkType = SDK_TYPE
+    }
+    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_UGC.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_UGCPro.equalsIgnoreCase(sdkType)
+}
+
+def hasRTS() {
+    return false
+}
+
+def hasPlayer() {
+    return true
+}
+
+def hasQueen() {
+    def sdkType = "AliVCSDK_Premium"
+    if (hasProperty("SDK_TYPE")) {
+        sdkType = SDK_TYPE
+    }
+    def isAio = true
+    if (hasProperty("allInOne")) {
+        isAio = allInOne
+    }
+    if (!isAio) {
+        return false
+    }
+    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_UGCPro.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_StandardLive.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
+}
+
+def hasEnhanceFeature() {
+    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType)
+}
+
+ext {
+    hasLive = this.&hasLive
+    hasUGC = this.&hasUGC
+    hasPlayer = this.&hasPlayer
+    hasQueen = this.&hasQueen
+    hasRTS = this.&hasRTS
+    hasEnhanceFeature = this.&hasEnhanceFeature
+}

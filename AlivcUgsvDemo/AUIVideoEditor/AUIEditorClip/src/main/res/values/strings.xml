@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugsv_editor_speed_title">Speed</string>
+    <string name="ugsv_editor_clip_reset">Reset</string>
+    <string name="ugsv_editor_enhance_title">Enhance</string>
+    <string name="ugsv_editor_audio_effect_title">AudioEffect</string>
+    <string name="ugsv_editor_clip_none">None</string>
+    <string name="ugsv_editor_enhance_brightness">Brightness</string>
+    <string name="ugsv_editor_enhance_contrast">Contrast</string>
+    <string name="ugsv_editor_enhance_saturation">Saturation</string>
+    <string name="ugsv_editor_enhance_vignetting">Vignetting</string>
+    <string name="ugsv_editor_enhance_sharpness">Sharpness</string>
+
+    <string name="ugsv_editor_audio_effect_lolita">Lolita</string>
+    <string name="ugsv_editor_audio_effect_uncle">Uncle</string>
+    <string name="ugsv_editor_audio_effect_reverb">KTV</string>
+    <string name="ugsv_editor_audio_effect_echo">Echo</string>
+    <string name="ugsv_editor_audio_effect_robot">Robot</string>
+    <string name="ugsv_editor_audio_effect_big_devil">BigDevil</string>
+    <string name="ugsv_editor_audio_effect_minions">Minions</string>
+    <string name="ugsv_editor_audio_effect_dialect">Dialect</string>
+
+    <string name="ugsv_editor_tansition_title">Transition</string>
+    <string name="ugsv_editor_tansition_fivestar">Five Star</string>
+    <string name="ugsv_editor_tansition_translate_left">Left</string>
+    <string name="ugsv_editor_tansition_translate_right">Right</string>
+    <string name="ugsv_editor_tansition_translate_up">Up</string>
+    <string name="ugsv_editor_tansition_translate_down">Down</string>
+    <string name="ugsv_editor_tansition_fade">Fade</string>
+    <string name="ugsv_editor_tansition_circle">Circle</string>
+    <string name="ugsv_editor_tansition_shutter">Shutter</string>
+
+    <string name="ugsv_editor_volume_title">Volume</string>
+    <string name="ugsv_editor_volume_origin">Origin</string>
+    <string name="ugsv_editor_volume_music">Music</string>
+</resources>

@@ -1,0 +1,118 @@
+apply plugin: 'com.android.application'
+android {
+    resourcePrefix "ugc_"
+    compileSdkVersion androidCompileSdkVersion
+    defaultConfig {
+        applicationId "com.aliyun.apsaravideo"
+        minSdkVersion externalLiveMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
+        multiDexEnabled true
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        buildConfigField("boolean","isFinal", TEST == "TRUE" ? "true" : "false")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME :'ugsv' ]
+            }
+        }
+    }
+
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/beans.xml'
+    }
+
+
+    signingConfigs {
+        debug {
+
+        }
+
+        release {
+
+        }
+    }
+
+    buildTypes {
+        debug {
+//            shrinkResources true
+            multiDexEnabled true
+            minifyEnabled false
+//            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("int", "APK_TYPE", "0")
+        }
+
+        release {
+            multiDexEnabled true
+            minifyEnabled true
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("int", "APK_TYPE", APK_TYPE)
+        }
+    }
+
+    flavorDimensions "versionCode"
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+//    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+
+    // svideo api
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //短视频专业版依赖库
+    implementation project(':AUIVideoEditor')
+//    implementation project(':AUIRecorder:pro_record')
+    implementation project(':AUICrop:crop')
+    implementation project(':AliyunVideoCommon')
+    implementation project(':AUIFileDownloader')
+    implementation project(':AUIResample')
+    implementation project(':AUIUgsvBase')
+    implementation project(':QueenBeauty')
+    implementation project(':FaceunityBeauty')
+    implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIFoundation:AVTheme')
+
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidXRecyclerView
+    implementation externalAndroidXConstraintlayout
+    implementation externalGSON
+    implementation externalOKHTTP
+//    implementation externalLeakcanary
+    implementation externalAndroidMultiDex
+
+}
+apply from: './dependencies.gradle'
+
+
+
+

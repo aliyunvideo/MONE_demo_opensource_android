@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <!-- 顶部栏 -->
+    <RelativeLayout
+        android:id="@+id/ugsv_recorder_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ugsv_recorder_top_bar_height"
+        android:background="@color/bg_medium">
+
+        <ImageView
+            android:id="@+id/ugsv_recorder_back"
+            style="@style/ugsv_recorder_top_bar_back"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_av_action_bar_back" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/ugsv_recorder_back"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ugsv_recorder_countdown"
+                style="@style/ugsv_recorder_top_bar_icon"
+                android:src="@drawable/ic_ugsv_recorder_countdown" />
+
+            <ImageView
+                android:id="@+id/ugsv_recorder_flash"
+                style="@style/ugsv_recorder_top_bar_icon"
+                android:src="@drawable/ic_ugsv_recorder_flash_on" />
+
+            <ImageView
+                android:id="@+id/ugsv_recorder_camera_switch"
+                style="@style/ugsv_recorder_top_bar_icon"
+                android:src="@drawable/ic_ugsv_recorder_camera" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ugsv_recorder_common_line_height"
+            android:layout_below="@id/ugsv_recorder_back"
+            android:background="@color/border_infrared" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ugsv_recorder_music"
+        style="@style/ugsv_recorder_side_bar_item"
+        android:layout_below="@id/ugsv_recorder_top_bar"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/alivc_record_iv_music"
+            style="@style/ugsv_recorder_side_bar_icon"
+            android:src="@drawable/ic_ugsv_recorder_music" />
+
+        <TextView
+            android:id="@+id/tv_music"
+            style="@style/ugsv_recorder_side_bar_text"
+            android:text="@string/ugsv_recorder_control_music" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ugsv_recorder_filter"
+        style="@style/ugsv_recorder_side_bar_item"
+        android:layout_below="@id/ugsv_recorder_music">
+
+        <ImageView
+            style="@style/ugsv_recorder_side_bar_icon"
+            android:src="@drawable/ic_ugsv_recorder_filter" />
+
+        <TextView
+            style="@style/ugsv_recorder_side_bar_text"
+            android:text="@string/ugsv_recorder_control_filter" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ugsv_recorder_ratio"
+        style="@style/ugsv_recorder_side_bar_item"
+        android:layout_below="@id/ugsv_recorder_filter">
+
+        <ImageView
+            android:id="@+id/alivc_aspect_iv_ratio"
+            style="@style/ugsv_recorder_side_bar_icon"
+            android:src="@drawable/ic_ugsv_recorder_ratio_9_16" />
+
+        <TextView
+            android:id="@+id/alivc_record_aspect_ratio_tv_change"
+            style="@style/ugsv_recorder_side_bar_text"
+            android:text="@string/ugsv_recorder_control_ratio" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/alivc_record_anim_filter"
+        style="@style/ugsv_recorder_side_bar_item"
+        android:layout_below="@id/ugsv_recorder_ratio">
+
+        <ImageView
+            android:id="@+id/alivc_record_iv_effect"
+            style="@style/ugsv_recorder_side_bar_icon"
+            android:src="@drawable/ic_ugsv_recorder_effects" />
+
+        <TextView
+            android:id="@+id/alivc_record_tv_effect"
+            style="@style/ugsv_recorder_side_bar_text"
+            android:text="@string/ugsv_recorder_control_effect" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/alivc_record_take_photo"
+        style="@style/ugsv_recorder_side_bar_item"
+        android:layout_below="@id/alivc_record_anim_filter">
+
+        <ImageView
+            android:id="@+id/alivc_record_iv_take_photo"
+            style="@style/ugsv_recorder_side_bar_icon"
+            android:src="@drawable/ic_ugsv_recorder_takephoto" />
+
+        <TextView
+            android:id="@+id/alivc_record_tv_take_photo"
+            style="@style/ugsv_recorder_side_bar_text"
+            android:text="@string/ugsv_recorder_control_photo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ugsv_recorder_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ugsv_recorder_rate_bar"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="39dp"
+            android:layout_marginRight="39dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/ugsv_recorder_rate_bar_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/aliyun_rate_quarter"
+                style="@style/ugsv_recorder_rate_bar_btn"
+                android:text="@string/ugsv_recorder_control_slowest" />
+
+            <TextView
+                android:id="@+id/aliyun_rate_half"
+                style="@style/ugsv_recorder_rate_bar_btn"
+                android:text="@string/ugsv_recorder_control_rate_slow" />
+
+            <TextView
+                android:id="@+id/aliyun_rate_origin"
+                style="@style/ugsv_recorder_rate_bar_btn"
+                android:text="@string/ugsv_recorder_control_rate_standard" />
+
+            <TextView
+                android:id="@+id/aliyun_rate_double"
+                style="@style/ugsv_recorder_rate_bar_btn"
+                android:text="@string/ugsv_recorder_control_rate_fast" />
+
+            <TextView
+                android:id="@+id/aliyun_rate_double_power2"
+                style="@style/ugsv_recorder_rate_bar_btn"
+                android:text="@string/ugsv_recorder_control_rate_fastest" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="144dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp">
+
+            <FrameLayout
+                android:id="@+id/ugsv_recorder_record_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/ugsv_recorder_record_btn_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="1dp"
+                    android:src="@drawable/ic_ugsv_recorder_record_btn" />
+
+                <com.aliyun.svideo.recorder.views.AUIRecordProgressView
+                    android:id="@+id/ugsv_recorder_record_btn_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:isShowText="no"
+                    app:progress="0"
+                    app:progressType="stroke"
+                    app:ringBgColor="@color/fill_infrared"
+                    app:ringFgColor="@color/colourful_fill_ultrastrong"
+                    app:ringWidth="3dp" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/ugsv_recorder_record_time"
+                style="@style/ugsv_recorder_font_shadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/ugsv_recorder_record_btn"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:text="00:00"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/ugsv_recorder_props"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/ugsv_recorder_record_btn"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_gif_effect"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_ugsv_recorder_props" />
+
+                <TextView
+                    style="@style/ugsv_recorder_font_shadow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:gravity="center"
+                    android:text="@string/ugsv_recorder_control_props"
+                    android:textColor="@color/text_strong"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ugsv_recorder_beauty"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/ugsv_recorder_props"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ugsv_recorder_beauty_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_ugsv_recorder_beauty" />
+
+                <TextView
+                    style="@style/ugsv_recorder_font_shadow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:gravity="center"
+                    android:text="@string/ugsv_recorder_control_beauty"
+                    android:textColor="@color/text_strong"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ugsv_recorder_delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/ugsv_recorder_record_btn"
+                android:drawableLeft="@drawable/ic_ugsv_recorder_delete"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:padding="6dp"
+                android:paddingLeft="14dp"
+                android:text="@string/ugsv_recorder_control_delete"
+                android:textColor="@color/text_strong"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/ugsv_recorder_finish_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/ugsv_recorder_delete_btn"
+                android:padding="10dp"
+                android:src="@drawable/ic_ugsv_recorder_finish" />
+
+            <com.aliyun.svideo.recorder.views.StringScrollPicker
+                android:id="@+id/alivc_video_picker_view"
+                android:layout_width="216dp"
+                android:layout_height="37dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:spv_end_color="@color/text_medium"
+                app:spv_is_circulation="false"
+                app:spv_max_text_size="12sp"
+                app:spv_min_text_size="12sp"
+                app:spv_orientation="horizontal"
+                app:spv_start_color="@color/text_strong" />
+        </RelativeLayout>
+    </LinearLayout>
+</merge>

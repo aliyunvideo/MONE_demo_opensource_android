@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.sticker.viewmodel.StickerResourceItemViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="@{viewModel::onClick}"
+        android:orientation="vertical"
+        android:background="@{viewModel.checked ? @drawable/edit_resource_item_checked : @drawable/edit_resource_item_unchecked}"
+        android:padding="10dp"
+        >
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/imageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            app:imageUrl="@{viewModel.resource.cover}"
+            app:imageResource="@{viewModel.resource.coverResId}"
+            />
+    </FrameLayout>
+</layout>

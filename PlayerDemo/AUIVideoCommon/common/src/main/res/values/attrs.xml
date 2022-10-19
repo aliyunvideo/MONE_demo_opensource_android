@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HVScrollView">
+        <!--水平内容宽度是否充满，默认false自适应-->
+        <attr name="fillViewportH" format="boolean" />
+        <!--垂直内容高度是否充满，默认false自适应-->
+        <attr name="fillViewportV" format="boolean" />
+        <!--滚动方向，默认both双向滚动-->
+        <attr name="scrollOrientation">
+            <enum name="none" value="0" />
+            <enum name="horizontal" value="1" />
+            <enum name="vertical" value="2" />
+            <enum name="both" value="3" />
+        </attr>
+        <!--内容是否居中显示，默认右上角对齐-->
+        <attr name="childLayoutCenter" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="BubbleSeekBar">
+        <attr name="bsb_min" format="float|reference" /> <!--min < max, default: 0.0f-->
+        <attr name="bsb_max" format="float|reference" /> <!--min < max, default: 100.0f-->
+        <attr name="bsb_progress" format="float|reference" /> <!--real time progress value, default: min-->
+        <attr name="bsb_is_float_type" format="boolean" /> <!--support for float type-->
+        <attr name="bsb_track_size" format="dimension|reference" /> <!--height of right-track(on the right of thumb), default: 2dp-->
+        <!--height of left-track(on the left of thumb), default: 2dp higher than right-track's height-->
+        <attr name="bsb_second_track_size" format="dimension|reference" />
+        <attr name="bsb_thumb_radius" format="dimension|reference" /> <!--radius of thumb, default: 2dp higher than left-track's height-->
+        <!--radius of thumb when be dragging, default: 2 times of left-track's height-->
+        <attr name="bsb_thumb_radius_on_dragging" format="dimension|reference" />
+        <attr name="bsb_track_color" format="color|reference" /> <!--color of right-track, default: R.color.colorPrimary-->
+        <attr name="bsb_second_track_color" format="color|reference" /> <!--color of left-track, default: R.color.colorAccent-->
+        <attr name="bsb_thumb_color" format="color|reference" /> <!--color of thumb, default: same as left-track's color-->
+        <attr name="bsb_section_count" format="integer|reference" /> <!--shares of whole progress(max - min), default: 10-->
+        <attr name="bsb_show_section_mark" format="boolean" /> <!--show demarcation points or not, default: false-->
+        <attr name="bsb_auto_adjust_section_mark" format="boolean" /> <!--auto scroll to the nearest section_mark or not, default: false-->
+        <attr name="bsb_show_section_text" format="boolean" /> <!--show section-text or not, default: false-->
+        <attr name="bsb_section_text_size" format="dimension|reference" /> <!--text size of section-text, default: 14sp-->
+        <attr name="bsb_section_text_color" format="color|reference" /> <!--text color of section-text, default: same as right-track's color-->
+        <!--text position of section-text relative to track, sides, bottom_sides, below_section_mark, default: sides-->
+        <attr name="bsb_section_text_position">
+            <enum name="sides" value="0" />
+            <enum name="bottom_sides" value="1" />
+            <enum name="below_section_mark" value="2" />
+        </attr>
+        <attr name="bsb_section_text_interval" format="integer" /> <!--the interval of two section-text, default: 1-->
+        <attr name="bsb_show_thumb_text" format="boolean" /> <!--show real time progress-text under thumb or not, default: false-->
+        <attr name="bsb_thumb_text_size" format="dimension|reference" /> <!--text size of progress-text, default: 14sp-->
+        <attr name="bsb_thumb_text_color" format="color|reference" /> <!--text color of progress-text, default: same as left-track's color-->
+        <attr name="bsb_show_progress_in_float" format="boolean" /> <!--show bubble-progress in float or not, default: false-->
+        <attr name="bsb_touch_to_seek" format="boolean" /> <!--touch anywhere on track to quickly seek, default: false-->
+        <attr name="bsb_seek_step_section" format="boolean" /> <!--seek one step by one section, the progress is discrete, default: false-->
+        <attr name="bsb_seek_by_section" format="boolean" /> <!--seek by section, the progress may not be linear, default: false-->
+        <attr name="bsb_bubble_color" format="color|reference" /> <!--color of bubble, default: same as left-track's color-->
+        <attr name="bsb_bubble_text_size" format="dimension|reference" /> <!--text size of bubble-progress, default: 14sp-->
+        <attr name="bsb_bubble_text_color" format="color|reference" /> <!--text color of bubble-progress, default: #ffffffff-->
+        <attr name="bsb_anim_duration" format="integer" /> <!--duration of animation, default: 200ms-->
+        <attr name="bsb_always_show_bubble" format="boolean" /> <!--bubble shows all time, default: false-->
+        <attr name="bsb_always_show_bubble_delay" format="integer" /> <!--the delay duration before bubble shows all the time, default: 200ms-->
+        <attr name="bsb_hide_bubble" format="boolean" /> <!--hide bubble, default: false-->
+        <attr name="bsb_rtl" format="boolean" /> <!--right to left, default: false-->
+        <attr name="bsb_track_section_point_color" format="color|reference"></attr>
+        <attr name="bsb_track_section_point_size" format="dimension|reference"></attr>
+        <attr name="android:enabled" />
+    </declare-styleable>
+    <declare-styleable name="ScaleScrollView">
+        <attr name="ssv_item_interval" format="dimension|reference"></attr><!-- 刻度的宽度-->
+        <attr name="ssv_item_width" format="dimension|reference"></attr><!-- 刻度的宽度-->
+        <attr name="ssv_text_size" format="dimension|reference"></attr><!-- 文字的大小-->
+        <attr name="ssv_text_color" format="color|reference"></attr><!-- 文字的颜色 -->
+        <attr name="ssv_item_color" format="color|reference"></attr><!-- 大刻度的颜色 -->
+        <attr name="ssv_second_item_color" format="color|reference"></attr><!-- 小刻度的颜色 -->
+        <attr name="ssv_indicator_color" format="color|reference"></attr><!-- 刻度的颜色-->
+        <attr name="ssv_section_count" format="integer"></attr><!-- 默认的刻度个数-->
+        <attr name="ssv_section_item_count" format="integer"></attr><!-- 默认的刻度个数-->
+    </declare-styleable>
+</resources>

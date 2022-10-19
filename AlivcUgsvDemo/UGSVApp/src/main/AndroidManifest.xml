@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.aliyun.alivcsolution"
+    android:installLocation="preferExternal">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--自动更新URI跳转安装时需要-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <application
+        android:name="com.aliyun.alivcsolution.MutiApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/ugc_app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name="com.aliyun.alivcsolution.SplashActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/ugc_app_name"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.MyAppTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--  RELEASE_KEY       MoCTfuQ391Z01mNqG8f8786e23c8a457a8ff8d5faedc1040c-->
+        <!--  PRE_RELEASE_KEY   KoETnmCmxJ1e1ZXDj0eb2ddb6c81c4cb7b9912df65e6d8eb2-->
+
+        <!-- TODO: 此处替换为您的LicenseKey-->
+        <meta-data
+            android:name="com.aliyun.alivc_license.licensekey"
+            android:value="MoCTfuQ391Z01mNqG8f8786e23c8a457a8ff8d5faedc1040c"/>
+
+        <!-- TODO: 此处替换为您的LicenseFile-->
+        <meta-data
+            android:name="com.aliyun.alivc_license.licensefile"
+            android:value="assets/cert/release.crt"/>
+
+        <activity android:name="com.aliyun.alivcsolution.MainActivity"
+            android:theme="@style/AVAppTheme"
+            android:exported="true"
+            android:screenOrientation="portrait" android:launchMode="singleTask">
+        </activity>
+        <activity
+            android:name=".setting.MoreSettingActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AVAppTheme">
+        </activity>
+        <activity android:name=".setting.AlivcCropSettingActivity"
+            android:theme="@style/AVAppTheme"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".setting.AlivcEditorSettingActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:theme="@style/AVAppTheme"
+            android:exported="true"
+            android:configChanges="uiMode"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".setting.AlivcRecordSettingActivity"
+            android:theme="@style/AVAppTheme"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:configChanges="uiMode"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+    </application>
+
+</manifest>

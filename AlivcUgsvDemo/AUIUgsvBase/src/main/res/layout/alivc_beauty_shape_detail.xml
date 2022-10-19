@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/blank_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.aliyun.svideo.base.widget.beauty.seekbar.BeautySeekBar
+        android:id="@+id/beauty_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_group_48" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_group_180"
+        android:background="@color/alivc_common_bg_black_alpha_70">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_45">
+
+            <TextView
+                android:id="@+id/tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                android:drawableLeft="@mipmap/aliyun_svideo_icon_back"
+                android:drawablePadding="@dimen/alivc_common_padding_5"
+                android:gravity="center"
+                android:padding="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_base_beauty_default_face"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/alivc_common_padding_10"
+                android:gravity="center_vertical"
+                android:text="@string/alivc_base_fine_tune"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <ImageView
+                android:id="@+id/iv_reset"
+                android:layout_width="@dimen/alivc_common_size_icon_44"
+                android:layout_height="@dimen/alivc_common_size_icon_44"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/alivc_common_margin_5"
+                android:padding="@dimen/alivc_common_padding_10"
+                android:src="@drawable/icon_reset" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_line_1px"
+            android:layout_marginTop="44.5dp"
+            android:background="#c3c5c6" />
+
+        <LinearLayout
+            android:id="@+id/alivc_beauty_face"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/alivc_common_margin_5"
+            android:layout_marginTop="@dimen/alivc_common_margin_85"
+            android:layout_marginRight="@dimen/alivc_common_margin_5"
+            android:gravity="center"
+            android:orientation="vertical">
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <RadioGroup
+                        android:id="@+id/beauty_detail_shape_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/alivc_common_height_group_45"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/beauty_cut_face"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:drawableStart="@mipmap/aliyun_svideo_icon_cut_face"
+                            android:drawableLeft="@mipmap/aliyun_svideo_icon_cut_face"
+                            />
+
+                        <RadioButton
+                            android:id="@+id/beauty_thin_face"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:drawableStart="@drawable/icon_thin_face"
+                            android:drawableLeft="@drawable/icon_thin_face" />
+                        <RadioButton
+                            android:id="@+id/beauty_long_face"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:drawableStart="@mipmap/aliyun_svideo_icon_long_face"
+                            android:drawableLeft="@mipmap/aliyun_svideo_icon_long_face" />
+                        <RadioButton
+                            android:id="@+id/beauty_lower_jaw"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:drawableStart="@mipmap/aliyun_svideo_icon_lower_jaw"
+                            android:drawableLeft="@mipmap/aliyun_svideo_icon_lower_jaw" />
+                        <RadioButton
+                            android:id="@+id/beauty_big_eye"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:drawableStart="@drawable/icon_big_eye"
+                            android:drawableLeft="@drawable/icon_big_eye" />
+                        <RadioButton
+                            android:id="@+id/beauty_thin_nose"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:drawableStart="@mipmap/aliyun_svideo_icon_thin_nose"
+                            android:drawableLeft="@mipmap/aliyun_svideo_icon_thin_nose"
+                            />
+
+                        <RadioButton
+                            android:id="@+id/beauty_mouth_width"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:drawableStart="@mipmap/aliyun_svideo_icon_mouth_width"
+                            android:drawableLeft="@mipmap/aliyun_svideo_icon_mouth_width"
+                            />
+                        、
+                        <RadioButton
+                            android:id="@+id/beauty_thin_mandible"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:drawableStart="@mipmap/aliyun_svideo_icon_thin_mandible"
+                            android:drawableLeft="@mipmap/aliyun_svideo_icon_thin_mandible"
+                            />
+                        <RadioButton
+                            android:id="@+id/beauty_cut_cheek"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            style="@style/BeautyDetailBtnStyle"
+                            android:drawableStart="@mipmap/aliyun_svideo_icon_cut_cheek"
+                            android:drawableLeft="@mipmap/aliyun_svideo_icon_cut_cheek"
+                            />
+
+                    </RadioGroup>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/alivc_common_margin_5"
+                        android:layout_marginLeft="@dimen/alivc_common_margin_5"
+                        android:layout_marginRight="@dimen/alivc_common_margin_5"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:text="@string/alivc_base_beauty_cutface" />
+
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_thinface" />
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_longface" />
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_lowerjaw" />
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_bigeye" />
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_thinnose" />
+
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_mouthwidth" />
+
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_thinmandible" />
+
+                        <TextView
+                            style="@style/BeautyDetailTextStyle"
+                            android:layout_marginLeft="@dimen/alivc_common_margin_10"
+                            android:text="@string/alivc_base_beauty_cutcheek" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>>
+
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+</LinearLayout>

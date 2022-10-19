@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_strong">#FCFCFD</color>
+    <color name="text_medium">#E6E7EC</color>
+    <color name="text_weak">#B2B7C4</color>
+    <color name="text_ultraweak">#747A8C</color>
+    <color name="text_infrared">#1C1D22</color>
+
+    <color name="ic_strong">#F4F4F6</color>
+    <color name="ic_weak">#747A8C</color>
+    <color name="ic_ultraweak">#3A3D48</color>
+
+    <color name="border_strong">#747A8C</color>
+    <color name="border_medium">#3A3D48</color>
+    <color name="border_weak">#3A3D48</color>
+    <color name="border_ultraweak">#3A3D48</color>
+    <color name="border_infrared">#23262F</color>
+
+    <color name="fg_strong">#23262F</color>
+    <color name="bg_medium">#141416</color>
+    <color name="bg_weak">#1C1D22</color>
+
+    <color name="fill_strong">#494F61</color>
+    <color name="fill_medium">#3A3D48</color>
+    <color name="fill_weak">#23262F</color>
+    <color name="fill_ultraweak">#E6E7EC</color>
+    <color name="fill_infrared">#FCFCFD</color>
+
+    <color name="tsp_fill_medium">#B2141416</color>
+    <color name="tsp_fill_weak">#661C1E22</color>
+
+</resources>

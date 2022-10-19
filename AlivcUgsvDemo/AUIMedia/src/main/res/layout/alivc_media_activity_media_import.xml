@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              >
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:background="@color/alivc_common_theme_primary"
+            android:layout_height="?android:attr/actionBarSize"
+            android:id="@+id/gallery_actionBar">
+
+        <ImageButton
+                android:id="@+id/gallery_closeBtn"
+                style="?android:attr/actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:contentDescription="@null"
+                android:src="@drawable/alivc_media_icon_back" />
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/topPanel"
+                android:orientation="horizontal">
+            <TextView
+                    android:id="@+id/gallery_title"
+                    android:textColor="@color/alivc_common_font_white"
+                    android:textSize="@dimen/alivc_common_font_18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/alivc_common_margin_4"
+                    android:id="@+id/gallery_drawer"
+                    android:src="@drawable/aliyun_media_gallery_drowdown_selector"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/alivc_common_theme_primary"
+            android:id="@+id/gallery_container">
+        <!--底部空出tab的高度-->
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/gallery_media"/>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_select"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_group_150"
+        android:layout_gravity="bottom"
+        android:background="@color/alivc_common_theme_primary"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_duration_title"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginLeft="@dimen/alivc_common_margin_8"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:text="@string/alivc_media_total_duration_label_import"
+            android:gravity="center"
+            android:textColor="@color/alivc_media_font_total_duration_title"
+            android:textSize="@dimen/alivc_common_font_12" />
+
+        <TextView
+            android:id="@+id/tv_duration_value"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/alivc_common_margin_2"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:layout_toRightOf="@id/tv_duration_title"
+            android:textColor="@color/selector_video_duration"
+            android:textSize="@dimen/alivc_common_font_12" />
+
+        <Button
+            android:id="@+id/btn_next_step"
+            android:layout_width="60dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:layout_marginBottom="@dimen/alivc_common_margin_8"
+            android:layout_marginRight="@dimen/alivc_common_margin_8"
+            android:background="@drawable/aliyun_media_shape_next_button"
+            android:text="@string/alivc_media_next_camera_roll_import"
+            android:textColor="@color/selector_next_btn"
+            android:textSize="@dimen/alivc_common_font_12" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_selected_video"
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            android:layout_below="@id/btn_next_step"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/alivc_common_margin_8"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

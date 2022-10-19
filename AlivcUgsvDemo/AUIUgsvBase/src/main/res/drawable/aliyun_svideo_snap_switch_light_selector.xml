@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/aliyun_svideo_icon_light_auto" android:state_selected="false" android:state_activated="true"/>
+    <item android:drawable="@mipmap/aliyun_svideo_icon_light_on" android:state_selected="true" android:state_activated="false" />
+    <item android:drawable="@mipmap/aliyun_svideo_icon_light_off" android:state_selected="true" android:state_activated="true" />
+    <item android:drawable="@mipmap/aliyun_svideo_icon_light_on"/>
+</selector>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="font_size_40px">20.0sp</dimen>
+    <dimen name="font_size_36px">18.0sp</dimen>
+    <dimen name="font_size_32px">16.0sp</dimen>
+    <dimen name="font_size_30px">15.0sp</dimen>
+    <dimen name="font_size_28px">14.0sp</dimen>
+    <dimen name="font_size_24px">12.0sp</dimen>
+    <dimen name="view_line_width">0.1dp</dimen>
+    <dimen name="view_size_text_14">14dp</dimen>
+    <dimen name="view_size_text_16">16dp</dimen>
+    <dimen name="view_size_text_17">17dp</dimen>
+    <dimen name="view_margin_36">36dp</dimen>
+    <dimen name="view_margin_2">2dp</dimen>
+    <dimen name="view_margin_8">8dp</dimen>
+    <dimen name="view_margin_9">9dp</dimen>
+    <dimen name="view_margin_10">10dp</dimen>
+    <dimen name="view_margin_12">12dp</dimen>
+    <dimen name="view_margin_15">15dp</dimen>
+    <dimen name="view_margin_18">18dp</dimen>
+    <dimen name="view_margin_20">20dp</dimen>
+    <dimen name="view_margin_22">22dp</dimen>
+    <dimen name="view_margin_24">24dp</dimen>
+    <dimen name="view_margin_25">25dp</dimen>
+    <dimen name="view_margin_30">30dp</dimen>
+    <dimen name="view_margin_40">40dp</dimen>
+    <dimen name="view_margin_65">65dp</dimen>
+    <dimen name="view_margin_75">75dp</dimen>
+    <dimen name="view_margin_85">85dp</dimen>
+    <dimen name="view_margin_110">110dp</dimen>
+    <dimen name="view_margin_140">140dp</dimen>
+    <dimen name="view_margin_261">261dp</dimen>
+    <dimen name="view_margin_310">310dp</dimen>
+    <dimen name="view_margin_330">330dp</dimen>
+    <dimen name="view_width_size_64">64dp</dimen>
+    <dimen name="view_height_size_32">32dp</dimen>
+    <dimen name="view_height_size_36">36dp</dimen>
+    <dimen name="view_height_size_44">44dp</dimen>
+    <dimen name="view_height_size_45">45dp</dimen>
+    <dimen name="view_version_size_text_12">12dp</dimen>
+
+</resources>

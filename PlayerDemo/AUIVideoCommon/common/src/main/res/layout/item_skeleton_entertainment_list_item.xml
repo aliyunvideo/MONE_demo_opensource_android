@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp">
+
+    <View
+        android:id="@+id/img_news"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/place_holder_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="14dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@color/place_holder_color"
+        app:layout_constraintEnd_toEndOf="@+id/img_news"
+        app:layout_constraintStart_toStartOf="@+id/img_news"
+        app:layout_constraintTop_toBottomOf="@+id/img_news" />
+
+
+    <View
+        android:id="@+id/icon_portrait"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/shape_place_holder_icon"
+        app:layout_constraintStart_toStartOf="@+id/img_news"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <View
+        android:id="@+id/tv_content"
+        android:layout_width="50dp"
+        android:background="@color/place_holder_color"
+        android:layout_height="14dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/icon_portrait"
+        app:layout_constraintStart_toEndOf="@+id/icon_portrait"
+        app:layout_constraintTop_toTopOf="@+id/icon_portrait" />
+
+
+    <View
+        android:id="@+id/tv_comment"
+        android:layout_width="20dp"
+        android:layout_height="14dp"
+        android:layout_marginEnd="12dp"
+        android:background="@color/place_holder_color"
+        app:layout_constraintBottom_toBottomOf="@+id/icon_portrait"
+        app:layout_constraintEnd_toEndOf="@+id/img_news"
+        app:layout_constraintTop_toTopOf="@+id/icon_portrait" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

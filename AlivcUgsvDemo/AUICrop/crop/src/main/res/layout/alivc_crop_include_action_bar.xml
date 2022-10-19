@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_tittle_60">
+        <ImageView
+            android:id="@+id/aliyun_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/aliyun_svideo_icon_back"
+            android:layout_marginLeft="@dimen/alivc_common_keyline_20"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/aliyun_actionbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/alivc_common_font_white"
+            android:text="@string/alivc_crop_setting_tittle"
+            android:textSize="@dimen/alivc_common_font_14"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

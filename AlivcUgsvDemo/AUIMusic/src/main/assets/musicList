@@ -1,0 +1,211 @@
+{
+    "result": "true",
+    "requestId": "c084164b-7156-417c-b405-6800fa4fccb6",
+    "message": "",
+    "code": "200",
+    "data": {
+        "musicList": [
+            {
+                "artistName": "李宇春",
+                "duration": "210434",
+                "image": "https://img01.dmhmusic.com/0101/M00/97/D6/ChR45GGvNJWAeQ_NAAj8ggsUYNc514.jpg",
+                "musicId": "T10038932370",
+                "source": "TaiHe",
+                "title": "下个，路口，见"
+            },
+            {
+                "artistName": "洛天依",
+                "duration": "175048",
+                "image": "https://img01.dmhmusic.com/0104/M00/92/E9/ChR45GGvLamAWr93AAH4Jrv_ZQA433.jpg",
+                "musicId": "T10038932573",
+                "source": "TaiHe",
+                "title": "神经病之歌"
+            },
+            {
+                "artistName": "许嵩",
+                "duration": "241896",
+                "image": "https://img01.dmhmusic.com/0104/M00/62/04/ChR45GDxdYqAD4VwAAHWRa6yrVE792.jpg",
+                "musicId": "T10038826794",
+                "source": "TaiHe",
+                "title": "有何不可"
+            },
+            {
+                "artistName": "林俊杰",
+                "duration": "281577",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/9F/ChR45GGvMW2AYS9oAAPG_4j5rcs982.jpg",
+                "musicId": "T10038980150",
+                "source": "TaiHe",
+                "title": "醉赤壁"
+            },
+            {
+                "artistName": "许嵩",
+                "duration": "255572",
+                "image": "https://img01.dmhmusic.com/0102/M00/61/6E/ChR45WDxdBeAWdurAAGR_5F33rA009.jpg",
+                "musicId": "T10038891593",
+                "source": "TaiHe",
+                "title": "庐州月"
+            },
+            {
+                "artistName": "大张伟",
+                "duration": "226300",
+                "image": "https://img01.dmhmusic.com/0102/M00/2D/56/ChR45GAIYReAHhzaADJ-Impw1LA613.jpg",
+                "musicId": "T10044081863",
+                "source": "TaiHe",
+                "title": "阳光彩虹小白马"
+            },
+            {
+                "artistName": "By2",
+                "duration": "208999",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/82/ChR45WGvL46AAk9YAAW1A3_Ms-Q137.jpg",
+                "musicId": "T10038936980",
+                "source": "TaiHe",
+                "title": "无敌帅"
+            },
+            {
+                "artistName": "戴荃",
+                "duration": "320976",
+                "image": "https://img01.dmhmusic.com/0103/M00/95/6A/ChR45WGvm7OAaityAACsnsYdzVU891.jpg",
+                "musicId": "T10048485543",
+                "source": "TaiHe",
+                "title": "嫦娥"
+            },
+            {
+                "artistName": "胡彦斌",
+                "duration": "256315",
+                "image": "https://img01.dmhmusic.com/0101/M00/6F/C8/ChR45WEU5C-AJQ9XAAsBHLidkrc138.jpg",
+                "musicId": "T10041237459",
+                "source": "TaiHe",
+                "title": "Hello (Remix)"
+            },
+            {
+                "artistName": "魏如萱",
+                "duration": "186054",
+                "image": "https://img01.dmhmusic.com/0210/M00/C7/97/ChR4613Aa62ANXGOAAHxn1URRCg006.jpg",
+                "musicId": "T10038828921",
+                "source": "TaiHe",
+                "title": "外星人爱我"
+            },
+            {
+                "artistName": "靖佩瑶",
+                "duration": "248049",
+                "image": "https://img01.dmhmusic.com/0102/M00/69/8F/ChR45GEGAxSAX8trABXuS0nQszg402.jpg",
+                "musicId": "T10048898497",
+                "source": "TaiHe",
+                "title": "放轻松"
+            },
+            {
+                "artistName": "",
+                "duration": "235743",
+                "image": "https://img01.dmhmusic.com/0103/M00/6B/86/ChR45GENAw2AZlPHAIvo8SEtVNU971.jpg",
+                "musicId": "T10046199822",
+                "source": "TaiHe",
+                "title": "成为你的鹿"
+            },
+            {
+                "artistName": "Pia Fraus",
+                "duration": "198058",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/92/ChR45WGvS3OAfsbQAArpIKzkdw8194.jpg",
+                "musicId": "T10053159131",
+                "source": "TaiHe",
+                "title": "You're Not in Love"
+            },
+            {
+                "artistName": "萧贺硕",
+                "duration": "61321",
+                "image": "https://img01.dmhmusic.com/0102/M00/CC/42/ChR45V28qI6AVCR2AADloEQcI5c210.jpg",
+                "musicId": "T10038866155",
+                "source": "TaiHe",
+                "title": "小熊舞曲"
+            },
+            {
+                "artistName": "Pia Fraus",
+                "duration": "234048",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/92/ChR45WGvS3OAfsbQAArpIKzkdw8194.jpg",
+                "musicId": "T10053159124",
+                "source": "TaiHe",
+                "title": "Hidden Parks"
+            },
+            {
+                "artistName": "Yelyah",
+                "duration": "220372",
+                "image": "https://img01.dmhmusic.com/0102/M00/D4/98/ChR45GJmlNGAQw5-AAebUQ9flMI046.jpg",
+                "musicId": "T10046454222",
+                "source": "TaiHe",
+                "title": "It's A Party"
+            },
+            {
+                "artistName": "Pia Fraus",
+                "duration": "244055",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/92/ChR45WGvS3OAfsbQAArpIKzkdw8194.jpg",
+                "musicId": "T10053159127",
+                "source": "TaiHe",
+                "title": "Mr. Land Freezer"
+            },
+            {
+                "artistName": "Andrew Farstar",
+                "duration": "194761",
+                "image": "https://img01.dmhmusic.com/0103/M00/BA/76/ChR45WIwk12AbfCAAAI0fMg5CAM977.jpg",
+                "musicId": "T10046349060",
+                "source": "TaiHe",
+                "title": "My Infatuation (Love Vibration)"
+            },
+            {
+                "artistName": "Pia Fraus",
+                "duration": "251508",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/92/ChR45WGvS3OAfsbQAArpIKzkdw8194.jpg",
+                "musicId": "T10053159126",
+                "source": "TaiHe",
+                "title": "Slow Boat Fades Out"
+            },
+            {
+                "artistName": "Pia Fraus",
+                "duration": "228707",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/92/ChR45WGvS3OAfsbQAArpIKzkdw8194.jpg",
+                "musicId": "T10053159125",
+                "source": "TaiHe",
+                "title": "Love Sports"
+            },
+            {
+                "artistName": "Andrew Farstar",
+                "duration": "307745",
+                "image": "https://img01.dmhmusic.com/0103/M00/BA/76/ChR45WIwk12AbfCAAAI0fMg5CAM977.jpg",
+                "musicId": "T10046349071",
+                "source": "TaiHe",
+                "title": "Stars Won't Lie (Instrumental)"
+            },
+            {
+                "artistName": "Andrew Farstar",
+                "duration": "226060",
+                "image": "https://img01.dmhmusic.com/0103/M00/BA/76/ChR45WIwk12AbfCAAAI0fMg5CAM977.jpg",
+                "musicId": "T10046349062",
+                "source": "TaiHe",
+                "title": "This Is How I Feel"
+            },
+            {
+                "artistName": "Andrew Farstar",
+                "duration": "255386",
+                "image": "https://img01.dmhmusic.com/0103/M00/BA/76/ChR45WIwk12AbfCAAAI0fMg5CAM977.jpg",
+                "musicId": "T10046349066",
+                "source": "TaiHe",
+                "title": "Love Is"
+            },
+            {
+                "artistName": "Pia Fraus",
+                "duration": "250301",
+                "image": "https://img01.dmhmusic.com/0105/M00/97/92/ChR45WGvS3OAfsbQAArpIKzkdw8194.jpg",
+                "musicId": "T10053159128",
+                "source": "TaiHe",
+                "title": "Sweet Sunday Snow"
+            },
+            {
+                "artistName": "Andrew Farstar",
+                "duration": "208042",
+                "image": "https://img01.dmhmusic.com/0103/M00/BA/76/ChR45WIwk12AbfCAAAI0fMg5CAM977.jpg",
+                "musicId": "T10046349069",
+                "source": "TaiHe",
+                "title": "Being Human"
+            }
+        ],
+        "total": "37"
+    }
+}

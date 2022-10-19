@@ -1,0 +1,26 @@
+<resources>
+    <string name="aio_app_name">视频云MOne</string>
+    <string name="aio_app_title">视频云终端\nSDK</string>
+    <string name="aio_tv_main_version">version = 1.0</string>
+
+    <string name="aio_live_push">直播</string>
+    <string name="aio_live_push_desc">直播推流、播放</string>
+    <string name="aio_live_push_camera">摄像头推流</string>
+    <string name="aio_live_push_screen">屏幕推流</string>
+    <string name="aio_live_push_player">直播播放</string>
+    <string name="aio_live_player">播放器</string>
+    <string name="aio_live_player_desc">常见播放样式</string>
+    <string name="aio_ugsv">短视频</string>
+    <string name="aio_ugsv_desc">短视频拍摄、编辑</string>
+    <string name="aio_ugsv_camera">视频拍摄</string>
+    <string name="aio_ugsv_editor">视频编辑</string>
+    <string name="aio_ugsv_crop">视频裁剪</string>
+    <string name="aio_ugsv_draft">草稿箱</string>
+    <string name="aio_ugsv_template">视频模板</string>
+
+    <string name="aio_solution">场景应用</string>
+    <string name="aio_solution_desc">场景应用</string>
+
+    <string name="aio_btn_cancel">取消</string>
+    <string name="aio_btn_ok">确定</string>
+</resources>

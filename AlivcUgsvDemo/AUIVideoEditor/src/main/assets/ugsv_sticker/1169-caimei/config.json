@@ -1,0 +1,35 @@
+{
+    
+    "pid": 0,
+    "fid": 1,
+    "du": 1.5,
+    "type": 1,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 150.0,
+    "h": 270.0,
+	"a": 0.0,
+	"fx": -1.583,
+	"fy": 0.673,
+	"fw": 4.708,
+	"fh": 0.0,
+	"n": "caimei",
+    "c": 6.0,
+    "kerneframe": 0,
+    
+    "pExtend": 1,
+    "extendSection":0,
+    "frameArry": [
+                 {"time":0,"pic":0},
+                 {"time":0.25,"pic":1},
+                 {"time":0.5,"pic":2},
+                 {"time":0.75,"pic":3},
+                 {"time":1,"pic":4},
+                 {"time":1.25,"pic":5}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 1.5, "shrink":1, "minTime":0.75, "maxTime": 0.0}
+                 ]
+  
+}

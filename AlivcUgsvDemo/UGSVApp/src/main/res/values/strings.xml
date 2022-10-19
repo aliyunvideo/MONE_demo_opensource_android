@@ -1,0 +1,104 @@
+<resources>
+    <string name="ugc_app_name">ShortVideo</string>
+    <string name="race_app_name">Race</string>
+    <string name="solution_apsarav">ApsaraV</string>
+    <string name="solution_push">Publish</string>
+    <string name="solution_live_room">Live Room</string>
+    <string name="solution_player">Player</string>
+    <string name="solution_svideo">Svideo</string>
+    <string name="solution_upload">Upload</string>
+    <string name="solution_recorder">Recorder</string>
+    <string name="solution_camera">Camera</string>
+    <string name="solution_crop">Crop</string>
+    <string name="solution_race_beauty">Race Beauty</string>
+    <string name="solution_draft_box">draft box</string>
+    <string name="solution_template">Template</string>
+    <string name="solution_mix">Mix</string>
+    <string name="solution_edit">Edit</string>
+    <string name="solution_community">community</string>
+    <string name="solution_videocall">Video Call</string>
+    <string name="solution_audiocall">Audio Call</string>
+    <string name="edit">Import Settings</string>
+
+
+    <string name="solution_home_welcome_hint">WELCOME TO START THE \nVIDEO JOURNEY</string>
+    <string name="solution_wait_remind">Product features are under development...</string>
+    <string name="solution_unable_merge_remind">Unable Merge Desx</string>
+    <string name="resetstr">Switch Success, reloading data...</string>
+    <string name="alivc_apsara_video_regist">© 2009&#8211;2018 Copyright by Alibaba Cloud All rights reserved</string>
+    <string name="aliyun_min_record_duration_more_than">The minimum length must be greater than 0 seconds.</string>
+    <string name="aliyun_min_record_duration_less_than">The minimum length cannot be greater than 300 seconds.</string>
+
+    <string name="aliyun_max_record_duration_more_than">The maximum length must be greater than 0 seconds</string>
+    <string name="aliyun_max_record_duration_less_than">The maximum length connot be greater than 300 seconds</string>
+
+    <string name="alivc_apsara_video_title">Aparsara Video</string>
+    <string name="alivc_recorder_queen_hint">Queen</string>
+
+    <!-- setting -->
+    <string name="ugsv_setting_more">More</string>
+    <string name="ugsv_setting_desc">Jump to set more parameters.</string>
+
+    <string name="alivc_recorder_setting_min_record_duration">Minimum Length</string>
+    <string name="alivc_recorder_setting_max_record_duration">Maximum Length</string>
+    <string name="alivc_recorder_setting_bit_rate">Bit Rate(kbps)</string>
+    <string name="alivc_recorder_setting_frame_rate">FPS</string>
+    <string name="alivc_recorder_setting_quality">Quality</string>
+    <string name="alivc_recorder_setting_gop">Keyframe Interval</string>
+    <string name="alivc_recorder_setting_resolution">Resolution</string>
+    <string name="alivc_recorder_setting_ratio">Aspect Ratio</string>
+    <string name="alivc_recorder_setting_min_record_duration_hint">Default: 2 seconds. The minimum length must be greater than 0.</string>
+    <string name="alivc_recorder_setting_max_record_duration_hint">Default: 15 seconds, Maximum: 300 seconds</string>
+    <string name="alivc_recorder_setting_gop_hint">Default: 30, Recommended: 1 to 300</string>
+    <string name="alivc_recorder_setting_start_record">Record</string>
+    <string name="alivc_recorder_setting_tittle">Record Settings</string>
+    <string name="alivc_recorder_setting_resolution_360p">360p</string>
+    <string name="alivc_recorder_setting_resolution_480p">480p</string>
+    <string name="alivc_recorder_setting_resolution_540p">540p</string>
+    <string name="alivc_recorder_setting_resolution_720p">720p</string>
+    <string name="alivc_recorder_setting_ratio_1_1">1:1</string>
+    <string name="alivc_recorder_setting_ratio_9_16">9:16</string>
+    <string name="alivc_recorder_setting_ratio_3_4">3:4</string>
+    <string name="alivc_recorder_setting_quality_low">Low</string>
+    <string name="alivc_recorder_setting_quality_meidan">Medium</string>
+    <string name="alivc_recorder_setting_quality_high">High</string>
+    <string name="alivc_recorder_setting_quality_super">Ultra High</string>
+    <string name="alivc_recorder_setting_codec">Encoding</string>
+    <string name="alivc_recorder_setting_encoder_hardware">Hardware</string>
+    <string name="alivc_recorder_setting_encoder_openh264">Software</string>
+    <string name="alivc_recorder_setting_encoder_ffmpeg">FFmpeg Software</string>
+    <string name="alivc_recorder_setting_tip_duration_error">The minimum length cannot be greater than the maximum length</string>
+    <string name="alivc_recorder_setting_close_skin_filter">Skin Filter Open</string>
+    <string name="alivc_recorder_setting_open_skin_filter">Skin Filter Close</string>
+    <string name="alivc_recorder_setting_close_face_detection">Face Detection Close</string>
+    <string name="alivc_recorder_setting_open_face_detection">Face Detection Open</string>
+    <string name="alivc_recorder_setting_start">Start</string>
+    <string name="alivc_recorder_setting_width">Width</string>
+    <string name="alivc_recorder_setting_height">Height</string>
+    <string name="alivc_recorder_setting_video_style">Record Mode</string>
+    <string name="alivc_recorder_setting_general_text">Normal</string>
+    <string name="alivc_recorder_setting_duet_original">Original</string>
+    <string name="alivc_recorder_setting_duet_recorded">Recorded</string>
+    <string name="alivc_recorder_setting_duet_mute">Mute</string>
+    <string name="alivc_recorder_setting_duet_mix">Mix</string>
+    <string name="alivc_recorder_setting_mix_text">Duet</string>
+    <string name="alivc_recorder_setting_duet_source_mode">Duet Source Mode</string>
+    <string name="alivc_recorder_setting_duet_background">Duet Background</string>
+    <string name="alivc_recorder_setting_duet_round_corner">Video Border</string>
+    <string name="alivc_recorder_setting_duet_round_corner_blue">Border</string>
+    <string name="alivc_recorder_setting_duet_background_no">No Setting</string>
+    <string name="alivc_recorder_setting_duet_background_red">Red</string>
+    <string name="alivc_recorder_setting_duet_background_image">Image</string>
+    <string name="alivc_recorder_setting_duet_bg_scale_mode">Duet Background Image Fit</string>
+    <string name="alivc_recorder_setting_duet_bg_scale_mode_fill">Fill</string>
+    <string name="alivc_recorder_setting_duet_bg_scale_mode_crop">Crop</string>
+    <string name="alivc_recorder_setting_duet_bg_scale_mode_stretch">Stretch</string>
+    <string name="alivc_recorder_setting_rendering_mode">Rendering Mode</string>
+    <string name="alivc_recorder_setting_watermark">Add watermark</string>
+    <string name="alivc_recorder_setting_multi_text">Multi</string>
+
+    <string name="aliyun_start_mix_record">Select a video to create a duet</string>
+    <string name="alivc_recorder_record_dialog_permission_remind">Please allow ApsaraVideo to access Photos/camera/sdcard first</string>
+    <string name="alivc_recorder_record_dialog_not_setting">Cancel</string>
+
+</resources>

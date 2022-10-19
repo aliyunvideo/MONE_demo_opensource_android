@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_audio_mode_notification_bg">
+
+    <ImageView
+        android:id="@+id/audio_mode_notification_cover"
+        android:layout_width="92dp"
+        android:layout_height="52dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="13dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_notification_music_logo" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/audio_mode_notification_cover"
+        android:layout_alignTop="@+id/audio_mode_notification_cover"
+        android:layout_toEndOf="@+id/audio_mode_notification_cover"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标题"
+            android:lines="1"
+            android:ellipsize="end"
+            android:paddingEnd="40dp"
+            android:textColor="#111111"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="艺术家"
+            android:lines="1"
+            android:ellipsize="end"
+            android:paddingEnd="40dp"
+            android:textColor="#99000000" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/audio_mode_notification_close_icon"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="14dp"
+        android:src="@drawable/notification_close"
+        />
+
+    <ImageView
+        android:id="@+id/btn_pre"
+        android:layout_width="18dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="75dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_start"
+        android:layout_alignTop="@+id/btn_start"
+        android:src="@drawable/notification_pre_series_enable" />
+
+    <ImageView
+        android:id="@+id/btn_start"
+        android:layout_width="18dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="23dp"
+        android:src="@drawable/notification_play_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:layout_below="@+id/audio_mode_notification_cover"
+        />
+
+    <ImageView
+        android:id="@+id/btn_next"
+        android:layout_width="18dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="75dp"
+        android:layout_below="@+id/btn_start"
+        android:layout_alignTop="@+id/btn_start"
+        android:src="@drawable/notification_next_series_enable"
+        android:layout_alignParentRight="true"
+        />
+
+</RelativeLayout>

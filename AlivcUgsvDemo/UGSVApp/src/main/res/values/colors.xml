@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1e222d</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff00c1de</color>
+
+    <color name="gray_bg">#66CDC9C9</color>
+    <color name="gray_a3a3a3">#a3a3a3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="aliyun_black">#000000</color>
+    <color name="alivc_record_color_home_hint">#FF8400</color>
+</resources>

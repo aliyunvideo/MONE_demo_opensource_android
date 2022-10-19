@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.aliyun.aio.demo">
+    <uses-sdk tools:overrideLibrary="com.alivc.videochat, com.aliyun.animoji"/>
+    <application
+        tools:replace="android:name, android:icon, android:label, android:allowBackup, android:theme"
+        android:name=".AIOApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/aio_ic_launcher"
+        android:roundIcon="@mipmap/aio_ic_launcher"
+        android:label="@string/aio_app_name"
+        android:theme="@style/AVAppTheme"
+        android:usesCleartextTraffic="true"
+        tools:remove="networkSecurityConfig"
+        android:supportsRtl="true">
+        <activity android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/aio_app_name"
+            android:configChanges="orientation|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.aliyun.alivcsolution.SplashActivity"
+            android:exported="true">
+
+            <intent-filter tools:node="removeAll">
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.aliyun.player.demo.SourceChooseActivity"
+            android:exported="true">
+            <intent-filter tools:node="removeAll">
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            tools:remove="alwaysRetainTaskState, clearTaskOnLaunch, windowSoftInputMode, configChanges"
+            android:name="com.alivc.live.pusher.demo.MainActivity"
+            android:exported="true">
+            <intent-filter tools:node="removeAll">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <provider
+            tools:replace="authorities,exported,grantUriPermissions"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                tools:node="replace"
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/aio_file_paths" />
+        </provider> <!-- license key -->
+
+        <!-- TODO: 此处替换为您的LicenseKey-->
+        <meta-data
+            tools:node="replace"
+            android:name="com.aliyun.alivc_license.licensekey"
+            android:value="MoCTfuQ391Z01mNqG8f8786e23c8a457a8ff8d5faedc1040c"/>
+        <!-- TODO: 此处替换为您的LicenseFile-->
+        <meta-data
+            tools:node="replace"
+            android:name="com.aliyun.alivc_license.licensefile"
+            android:value="assets/cert/release.crt"/>
+
+    </application>
+
+</manifest>

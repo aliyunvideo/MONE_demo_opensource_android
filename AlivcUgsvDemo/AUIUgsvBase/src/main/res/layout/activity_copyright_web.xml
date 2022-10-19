@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".base.CopyrightWebActivity"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:background="@color/alivc_common_theme_primary"
+        android:layout_height="?android:attr/actionBarSize"
+        android:id="@+id/gallery_actionBar">
+
+        <ImageButton
+            android:id="@+id/ib_back"
+            style="?android:attr/actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:contentDescription="@null"
+            android:src="@mipmap/aliyun_svideo_icon_back" />
+        <TextView
+            android:id="@+id/gallery_title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/alivc_common_font_15"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+    </FrameLayout>
+    <WebView
+        android:id="@+id/alivc_copyright_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dm_scale_width">1dp</dimen>
+    <dimen name="dm_text_padding">2dp</dimen>
+    <dimen name="scale_view_width">60dp</dimen>
+    <dimen name="main_list_left_margin">6dp</dimen>
+    <dimen name="defaultShadowRadius">5dp</dimen>
+    <dimen name="defaultBlurRadius">5dp</dimen>
+</resources>

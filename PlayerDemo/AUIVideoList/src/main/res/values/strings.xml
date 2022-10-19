@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AUIVideoList</string>
+    
+    <string name="aui_video_list_coming_soon">敬请期待~</string>
+    <string name="aui_video_list_gesture_title">上滑查看跟多视频</string>
+</resources>

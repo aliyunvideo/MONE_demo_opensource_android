@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.publish.PublishViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@color/bg_medium">
+
+        <com.aliyun.aio.avbaseui.widget.AVActionBar
+            android:id="@+id/av_base_title"
+            style="@style/AVActionBar_Style"
+            app:showTitle="true"
+            app:showLeftView="true"
+            app:showRightView="false"
+            app:leftImageSrc="@drawable/ic_av_action_bar_back"
+            app:rightImageSrc="@drawable/ic_actionbar_more"
+            app:title="@string/ugsv_editor_publish_title"
+            android:background="@color/bg_weak"
+            />
+
+        <com.aliyun.svideo.editor.common.widget.RoundedRectangleImageView
+            android:id="@+id/ugsv_editor_pic"
+            android:layout_width="103dp"
+            android:layout_height="145dp"
+            android:layout_below="@+id/av_base_title"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:background="@color/bg_weak"
+            android:onClick="@{viewModel.onChooseCover}"
+            app:iv_cornerRadius="3dp"/>
+
+        <TextView
+            android:id="@+id/ugsv_editor_pic_select"
+            android:layout_width="103dp"
+            android:layout_height="27dp"
+            android:textSize="14sp"
+            android:textColor="@color/text_strong"
+            android:layout_alignBottom="@+id/ugsv_editor_pic"
+            android:layout_alignLeft="@+id/ugsv_editor_pic"
+            android:text="@string/ugsv_editor_publish_select_pic"
+            android:onClick="@{viewModel.onChooseCover}"
+            android:background="@drawable/ugsv_editor_select_pic_bg"
+            android:gravity="center"/>
+
+        <View
+            android:id="@+id/empty_view"
+            android:layout_below="@id/ugsv_editor_pic"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/fill_weak"
+            />
+
+        <EditText
+            android:id="@+id/ugsv_editor_publish_desc"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/empty_view"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="14sp"
+            android:textColorHint="@color/text_weak"
+            android:hint="@string/ugsv_editor_publish_select_hit"
+            android:maxLength="@{viewModel.maxTextCount}"
+            android:background="@null"
+            android:text="@={viewModel.desText}"
+            android:lineHeight="22dp"
+            android:textFontWeight="500"
+            android:textColor="@color/text_strong"/>
+
+        <TextView
+            android:id="@+id/ugsv_editor_public_text_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_weak"
+            android:layout_alignBottom="@+id/ugsv_editor_publish_desc"
+            android:layout_alignLeft="@+id/ugsv_editor_publish_desc"
+            android:text="@{viewModel.getTextCount}"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/ugsv_editor_public_btn"
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textColor="@color/text_strong"
+            android:textFontWeight="500"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:text="@string/ugsv_editor_publish_title"
+            android:onClick="@{viewModel.onPublish}"
+            android:background="@drawable/ugsv_editor_public_btn_bg"
+            />
+
+    </RelativeLayout>
+</layout>

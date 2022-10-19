@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+    }
+    flavorDimensions "versionCode"
+    productFlavors {
+        svideopro {
+            ndk {
+                abiFilters "armeabi-v7a","arm64-v8a"
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        buildConfigField("boolean","isFinal", "false")
+        buildConfigField("int","VERSION_CODE", VERSION_CODE)
+        buildConfigField("String","VERSION_NAME", "\"" + VERSION_NAME + "\"")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME :'ugsv' ]
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField("int", "APK_TYPE", "0")
+        }
+        release {
+            buildConfigField("int", "APK_TYPE", APK_TYPE)
+        }
+    }
+}
+apply from: './dependencies.gradle'
+

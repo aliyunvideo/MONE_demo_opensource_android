@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="log_labels">
+        <item>CPU usage:</item>
+        <item>Memory usage:</item>
+        <item>Video capture fps:</item>
+        <!--<item>音频采集帧率：</item>-->
+        <item>Audio encoder bitrate:</item>
+        <item>Audio encoder fps:</item>
+        <item>Video render fps:</item>
+        <item>Video encoder model:</item>
+        <item>Video encoder bitrate:</item>
+        <item>Video encoder fps:</item>
+        <item>Total fps of video encoder:</item>
+        <item>Total time costs of video encoder:</item>
+        <item>Video encoder settings:</item>
+        <item>Audio output bitrate:</item>
+        <item>Video output bitrate:</item>
+        <item>Total Number of audio cache frames:</item>
+        <item>Total Number of video cache frames:</item>
+        <item>Video upload fps:</item>
+        <item>Audio upload fps:</item>
+        <item>PTS of current uploaded video frame:</item>
+        <item>PTS of current uploaded audio frame PTS:</item>
+        <item>PTS of the last video keyframe:</item>
+        <item>Final video frame in cache:</item>
+        <item>Final audio frame in cache：</item>
+        <item>Total size of data uploaded:</item>
+        <item>Total time costs of pushing</item>
+        <item>Total number of video frames sent:</item>
+        <item>Total number of viedo frames dropped:</item>
+        <item>The times of video frames dropped:</item>
+        <item>Total times of network disconnected:</item>
+        <item>Total times of network reconnected:</item>
+        <item>Video delay duration:</item>
+        <item>Audio delay duration:</item>
+        <item>Size of current frame uploaded</item>
+        <!--<item>音视频pts差异：</item>-->
+        <!--<item>两秒内上传数据总大小：</item>-->
+        <item>The max size of video frame in cache:</item>
+        <item>The max size of audio frame in cache:</item>
+        <item>The pts of last video frame which is waiting for sending:</item>
+        <item>The pts of last audio frame which is waiting for sending:</item>
+        <item>The pts difference of current frame:</item>
+        <item>The cache size of audio encoder:</item>
+        <item>The cache size of video encoder:</item>
+        <item>The cache size of render queue:</item>
+        <item>The average duration of per frame rendered:</item>
+    </string-array>
+
+
+</resources>

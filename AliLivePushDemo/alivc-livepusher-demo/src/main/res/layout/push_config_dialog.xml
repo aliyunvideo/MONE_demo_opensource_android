@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="304dp"
+    android:background="@color/bg_weak"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/cancel"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/cancle"
+        android:textSize="15sp"
+        android:textColor="@color/colourful_text_strong"
+        android:layout_width="62dp"
+        android:layout_height="39dp"/>
+
+    <TextView
+        android:id="@+id/confirm_button"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/btn_confirm"
+        android:textSize="15sp"
+        android:textColor="@color/colourful_text_strong"
+        android:layout_width="62dp"
+        android:layout_height="39dp"/>
+
+    <View
+        android:id="@+id/div"
+        app:layout_constraintTop_toBottomOf="@+id/cancel"
+        android:layout_width="match_parent"
+        android:background="@color/border_medium"
+        android:layout_height="1px"/>
+
+    <com.alivc.live.pusher.widget.OptionSelectorView
+        android:id="@+id/optionSelectorView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/div"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

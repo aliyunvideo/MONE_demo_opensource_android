@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugsv_editor_speed_title">变速</string>
+    <string name="ugsv_editor_enhance_title">增强</string>
+    <string name="ugsv_editor_audio_effect_title">变声</string>
+    <string name="ugsv_editor_clip_reset">重置</string>
+    <string name="ugsv_editor_clip_none">无</string>
+    <string name="ugsv_editor_enhance_brightness">亮度</string>
+    <string name="ugsv_editor_enhance_contrast">对比度</string>
+    <string name="ugsv_editor_enhance_saturation">饱和度</string>
+    <string name="ugsv_editor_enhance_vignetting">暗角</string>
+    <string name="ugsv_editor_enhance_sharpness">锐度</string>
+
+    <string name="ugsv_editor_audio_effect_lolita">萝莉</string>
+    <string name="ugsv_editor_audio_effect_uncle">大叔</string>
+    <string name="ugsv_editor_audio_effect_reverb">KTV</string>
+    <string name="ugsv_editor_audio_effect_echo">回声</string>
+    <string name="ugsv_editor_audio_effect_robot">机器人</string>
+    <string name="ugsv_editor_audio_effect_big_devil">大魔王</string>
+    <string name="ugsv_editor_audio_effect_minions">小黄人</string>
+    <string name="ugsv_editor_audio_effect_dialect">方言</string>
+
+    <string name="ugsv_editor_tansition_title">转场</string>
+    <string name="ugsv_editor_tansition_fivestar">五角星</string>
+    <string name="ugsv_editor_tansition_translate_left">向左移动</string>
+    <string name="ugsv_editor_tansition_translate_right">向右移动</string>
+    <string name="ugsv_editor_tansition_translate_up">向上移动</string>
+    <string name="ugsv_editor_tansition_translate_down">向下移动</string>
+    <string name="ugsv_editor_tansition_fade">淡入淡出</string>
+    <string name="ugsv_editor_tansition_circle">圆形</string>
+    <string name="ugsv_editor_tansition_shutter">百叶窗</string>
+
+    <string name="ugsv_editor_volume_title">音量</string>
+    <string name="ugsv_editor_volume_origin">原声</string>
+    <string name="ugsv_editor_volume_music">音乐</string>
+</resources>

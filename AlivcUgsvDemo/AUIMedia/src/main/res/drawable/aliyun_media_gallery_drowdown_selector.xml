@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@mipmap/aliyun_svideo_icon_up" android:state_activated="true"/>
+    <item android:drawable="@mipmap/aliyun_svideo_icon_down"/>
+
+</selector>

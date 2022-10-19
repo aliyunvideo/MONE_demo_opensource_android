@@ -1,0 +1,26 @@
+<resources>
+    <string name="aio_app_name">MOne</string>
+    <string name="aio_app_title">Aliyun Video Cloud\nOne SDK</string>
+    <string name="aio_tv_main_version">version = 1.0</string>
+
+    <string name="aio_live_push">Live Push</string>
+    <string name="aio_live_push_desc">Live Push and Play</string>
+    <string name="aio_live_push_camera">Camera Live Push</string>
+    <string name="aio_live_push_screen">Screen Live Push</string>
+    <string name="aio_live_push_player">Live Player</string>
+    <string name="aio_live_player">Player</string>
+    <string name="aio_live_player_desc">Common Playback Styles</string>
+    <string name="aio_ugsv">ShortVideo</string>
+    <string name="aio_ugsv_desc">ShortVideo Recorder and Editor</string>
+    <string name="aio_ugsv_camera">Take Video</string>
+    <string name="aio_ugsv_editor">Video Editor</string>
+    <string name="aio_ugsv_crop">Video Crop</string>
+    <string name="aio_ugsv_draft">Video Draft</string>
+    <string name="aio_ugsv_template">Video Template</string>
+
+    <string name="aio_solution">More Solution</string>
+    <string name="aio_solution_desc">More Solution</string>
+
+    <string name="aio_btn_cancel">Cancel</string>
+    <string name="aio_btn_ok">OK</string>
+</resources>

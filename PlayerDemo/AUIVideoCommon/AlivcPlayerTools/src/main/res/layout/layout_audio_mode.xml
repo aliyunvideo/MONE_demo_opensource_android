@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/audio_mode_bg"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <View
+        android:id="@+id/audio_mode_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:background="#42464B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/audio_mode_portrait"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="13dp"
+        android:src="@drawable/default_portrait_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/audio_mode_play_state_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/video_pause_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/audio_mode_portrait"
+        app:layout_constraintEnd_toEndOf="@+id/audio_mode_portrait"
+        app:layout_constraintStart_toStartOf="@+id/audio_mode_portrait"
+        app:layout_constraintTop_toTopOf="@+id/audio_mode_portrait" />
+
+    <TextView
+        android:id="@+id/audio_mode_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/audio_mode_title"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/audio_mode_back_video"
+        app:layout_constraintTop_toTopOf="@+id/audio_mode_portrait" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/audio_mode_audio_wave_play"
+        app:layout_constraintStart_toStartOf="@+id/audio_mode_title"
+        app:layout_constraintTop_toBottomOf="@+id/audio_mode_title" />
+
+
+    <LinearLayout
+        android:id="@+id/audio_mode_back_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:background="@drawable/shape_audio_mode_back_tv_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/audio_mode_portrait"
+        app:layout_constraintStart_toEndOf="@+id/audio_mode_portrait">
+
+        <ImageView
+            android:id="@+id/audio_mode_back_icon"
+            android:layout_width="12dp"
+            android:layout_height="10dp"
+            android:src="@drawable/audio_mode_back" />
+
+        <TextView
+            android:id="@+id/audio_mode_back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:text="@string/audio_mode_back"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/audio_mode_back_video_click"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="21dp"
+        android:alpha="0"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="6dp"
+        android:src="@drawable/replay_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/audio_mode_back_video"
+        app:layout_constraintEnd_toEndOf="@+id/audio_mode_back_video"
+        app:layout_constraintStart_toStartOf="@+id/audio_mode_back_video"
+        app:layout_constraintTop_toTopOf="@+id/audio_mode_back_video" />
+
+    <LinearLayout
+        android:id="@+id/audio_mode_replay"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shape_audio_mode_back_tv_bg"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="6dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/audio_mode_back_video"
+        app:layout_constraintStart_toEndOf="@+id/audio_mode_back_video"
+        app:layout_constraintTop_toTopOf="@+id/audio_mode_back_video"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/audio_more_replay_icon"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/replay_icon" />
+
+        <TextView
+            android:id="@+id/audio_more_replay_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:text="@string/alivc_replay"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

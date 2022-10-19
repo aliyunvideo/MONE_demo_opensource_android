@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="thumbGradient">#eeeeee</color>
+    <color name="trackGradient">#888888</color>
+
+    <color name="red">#ffff0000</color>
+    <color name="darker_gray">#aaa</color>
+    <color name="text_blue">#2d44f4</color>
+
+    <color name="yellow">#ffff00</color>
+    <color name="transparent">#50000000</color>
+
+    <color name="text_green">#00c0fb</color>
+    <color name="text_black">#333333</color>
+    <color name="wheel_white">#FFFFFF</color>
+    <color name="alivc_version_color">#8C8C8C</color>
+    <color name="wheel_text_color_2">#666666</color>
+    <color name="alivc_color_gry">#e0e0e0</color>
+    <color name="wheel_text_color_1">#333333</color>
+    <color name="alivc_color_black">#000</color>
+    <color name="color_bg_model">#F9F9F9</color>
+    <color name="text_color_model_name">#161A23</color>
+    <color name="color_bg_border_model">#dde0e5</color>
+    <color name="color_background_green">#1AED99</color>
+    <color name="color_background_black_alpha_30">#3323262F</color>
+    <color name="color_title_text_black">#111111</color>
+    <color name="color_background_white">#ffffffff</color>
+    <color name="wheel_black">#000000</color>
+    <color name="color_text_white">#fff</color>
+    <color name="color_text_grey">#A1A1A1</color>
+    <color name="grey_bg_color">#F4F4F4</color>
+    <color name="title_bg_grey_color">#FAFAFA</color>
+    <color name="switch_bar_on_color">#365AFF</color>
+    <color name="tips_color">#D93026</color>
+    <color name="title_color">#555555</color>
+    <color name="color_07C2DE">#07C2DE</color>
+    <color name="shape_red_rectangle">#F53F3F</color>
+    <color name="border_medium">#3A3D48</color>
+    <color name="text_strong">#FCFCFD</color>
+    <color name="fill_weak">#23262F</color>
+    <color name="colourful_border_weak">#B2EBF2</color>
+    <color name="bg_weak">#1C1D22</color>
+    <color name="text_medium">#E6E7EC</color>
+    <color name="text_ultraweak">#747A8C</color>
+    <color name="colourful_ic_strong">#4DCFE1</color>
+    <color name="border_infrared">#23262F</color>
+    <color name="ic_ultraweak">#3A3D48</color>
+    <color name="text_weak">#B2B7C4</color>
+    <color name="colourful_text_strong">#4DCFE1</color>
+     <color name="push_btn_border_color">#EDEDED</color>
+</resources>

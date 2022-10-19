@@ -1,0 +1,44 @@
+<resources>
+    <string name="alivc_media_setting_import_edit">导入编辑</string>
+    <string name="alivc_media_frame_rate">帧率</string>
+    <string name="alivc_media_gop">关键帧间隔</string>
+    <string name="alivc_media_frame_rate_hint">建议20-30，默认30</string>
+    <string name="alivc_media_gop_hint">建议1-300，默认250</string>
+    <string name="alivc_media_resolution">分辨率</string>
+    <string name="alivc_media_crop_mode">裁剪模式</string>
+    <string name="alivc_media_mode_fill">填充</string>
+    <string name="alivc_media_mode_crop">裁剪</string>
+    <string name="alivc_media_start_import">开始导入</string>
+    <string name="alivc_media_gallery_all_media">相机胶卷</string>
+    <string name="alivc_media_resolution_1_1">540*540</string>
+    <string name="alivc_media_resolution_3_4">540*720</string>
+    <string name="alivc_media_resolution_9_16">540*960</string>
+    <string name="alivc_media_video_quality">Quality</string>
+    <string name="alivc_media_video_quality_low">低</string>
+    <string name="alivc_media_video_quality_meidan">中</string>
+    <string name="alivc_media_video_quality_high">高</string>
+    <string name="alivc_media_video_quality_super">极高</string>
+    <string name="alivc_media_wait">请稍候</string>
+    <string name="alivc_media_video_crop_erroe">视频格式不支持</string>
+    <string name="alivc_media_sdcard_not_ready">SDCARD 没有准备好</string>
+    <string name="alivc_media_video_duration">%1$02d:%2$02d:%3$02d</string>
+    <string name="alivc_media_next_camera_roll_import">下一步</string>
+    <string name="alivc_media_message_max_duration_import">视频总时长不超过5分钟，请裁剪后继续!</string>
+    <string name="alivc_media_total_duration_label_import">总时长</string>
+    <string name="alivc_media_please_select_video">请选择视频</string>
+    <string name="alivc_media_film_tail">片尾</string>
+    <string name="alivc_media_film_denoise">降噪</string>
+    <string name="alivc_media_film_transcode">转码</string>
+    <string name="alivc_media_watermark">水印</string>
+    <string name="alivc_media_film_transcode_tip">当视频大于1080P时，转码到1080P以下</string>
+    <string name="alivc_media_watermark_tip">添加阿里云logo水印</string>
+    <string name="alivc_media_mix_recorder_film_transcode_tip">当视频大于540P时，转码到540P以下</string>
+    <string name="alivc_media__hardware_encoder">硬编</string>
+    <string name="alivc_media__openh264_encoder">OpenH264软编</string>
+
+    <string name="alivc_media_aliyun_video_codec">Encoding</string>
+
+    <string name="alivc_media_video_short_error">视频太短，无法导入</string>
+    <string name="alivc_media_video_template_import">导入%s段素材</string>
+
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/av_loading_dialog_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="14dp"
+        android:paddingTop="12dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/av_loading_dialog_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/av_loading_dialog_icon" />
+
+        <TextView
+            android:id="@+id/av_loading_dialog_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:ellipsize="middle"
+            android:gravity="center"
+            android:maxWidth="198dp"
+            android:maxLines="2"
+            android:minWidth="112dp"
+            android:textColor="@color/text_strong"
+            android:textSize="14sp" />
+    </LinearLayout>
+</FrameLayout>

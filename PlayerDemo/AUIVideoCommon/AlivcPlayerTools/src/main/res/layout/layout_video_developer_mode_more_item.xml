@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="32dp"
+        android:paddingStart="6dp"
+        android:paddingBottom="34dp"
+        android:paddingEnd="1dp"
+        tools:background="@color/black">
+
+        <!--  音频  -->
+        <TextView
+            android:id="@+id/audio_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aui_player_develper_mode_audio"
+            android:textColor="@color/color_bbbbbb"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_audio_decoder_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:layout_marginTop="@dimen/alivc_common_margin_12"
+            android:text="@string/aui_player_develper_mode_decoder"
+            app:layout_constraintTop_toBottomOf="@id/audio_title"
+            app:layout_constraintStart_toStartOf="@id/audio_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_audio_decoder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="xxxx"
+            app:layout_constraintTop_toTopOf="@id/tv_audio_decoder_title"
+            app:layout_constraintStart_toEndOf="@id/tv_audio_decoder_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_audio_hardware_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="@string/aui_player_develper_mode_hardware"
+            app:layout_constraintTop_toTopOf="@id/tv_audio_decoder_title"
+            app:layout_constraintStart_toEndOf="@id/tv_audio_decoder"
+            android:layout_marginStart="32dp"
+            android:textSize="16sp"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_audio_hardware"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:textColor="@color/color_ffffff"
+            app:layout_constraintStart_toEndOf="@id/tv_audio_hardware_title"
+            app:layout_constraintTop_toTopOf="@id/tv_audio_hardware_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_audio_hardware_title"/>
+
+        <TextView
+            android:id="@+id/tv_audio_bitrate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:layout_marginTop="12dp"
+            android:text="@string/aui_player_develper_mode_bitrate"
+            app:layout_constraintTop_toBottomOf="@id/tv_audio_decoder_title"
+            app:layout_constraintStart_toStartOf="@id/tv_audio_decoder_title"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_audio_bitrate"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:textColorHint="@color/color_bbbbbb"
+            android:background="@null"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:hint="@string/aui_player_develper_mode_hint"
+            app:layout_constraintStart_toEndOf="@id/tv_audio_bitrate_title"
+            app:layout_constraintTop_toTopOf="@id/tv_audio_bitrate_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_audio_bitrate_title"/>
+
+        <View
+            android:id="@+id/diver_decoder"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/alivc_common_bg_white_alpha_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_audio_bitrate" />
+
+        <!-- 视频 -->
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/aui_player_develper_mode_video"
+            android:textColor="@color/color_bbbbbb"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/audio_title"
+            app:layout_constraintTop_toBottomOf="@id/diver_decoder"/>
+
+        <TextView
+            android:id="@+id/tv_video_decoder_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:layout_marginTop="@dimen/alivc_common_margin_12"
+            android:text="@string/aui_player_develper_mode_decoder"
+            app:layout_constraintTop_toBottomOf="@id/video_title"
+            app:layout_constraintStart_toStartOf="@id/video_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_video_decoder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="xxxx"
+            app:layout_constraintTop_toTopOf="@id/tv_video_decoder_title"
+            app:layout_constraintStart_toEndOf="@id/tv_video_decoder_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_video_hardware_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="@string/aui_player_develper_mode_hardware"
+            app:layout_constraintTop_toTopOf="@id/tv_video_decoder_title"
+            app:layout_constraintStart_toEndOf="@id/tv_video_decoder"
+            android:layout_marginStart="32dp"
+            android:textSize="16sp"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_video_hardware"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:textColor="@color/color_ffffff"
+            app:layout_constraintStart_toEndOf="@id/tv_video_hardware_title"
+            app:layout_constraintTop_toTopOf="@id/tv_video_hardware_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_video_hardware_title"/>
+
+        <TextView
+            android:id="@+id/tv_video_bitrate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:layout_marginTop="12dp"
+            android:text="@string/aui_player_develper_mode_bitrate"
+            app:layout_constraintTop_toBottomOf="@id/tv_video_decoder_title"
+            app:layout_constraintStart_toStartOf="@id/tv_video_decoder_title"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_video_bitrate"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:textColorHint="@color/color_bbbbbb"
+            android:background="@null"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:hint="@string/aui_player_develper_mode_hint"
+            app:layout_constraintStart_toEndOf="@id/tv_video_bitrate_title"
+            app:layout_constraintTop_toTopOf="@id/tv_video_bitrate_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_video_bitrate_title"/>
+
+        <TextView
+            android:id="@+id/tv_video_drop_frame_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:layout_marginStart="29dp"
+            android:text="@string/aui_player_develper_mode_drop_frame"
+            app:layout_constraintTop_toTopOf="@id/tv_video_bitrate_title"
+            app:layout_constraintStart_toEndOf="@id/et_video_bitrate"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_video_drop_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="xxxx"
+            app:layout_constraintTop_toTopOf="@id/tv_video_drop_frame_title"
+            app:layout_constraintStart_toEndOf="@id/tv_video_drop_frame_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_video_resolution_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:layout_marginTop="12dp"
+            android:text="@string/aui_player_develper_mode_resolution_ratio"
+            app:layout_constraintTop_toBottomOf="@id/tv_video_bitrate_title"
+            app:layout_constraintStart_toStartOf="@id/tv_video_decoder_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/et_video_resolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="xxxx"
+            app:layout_constraintStart_toEndOf="@id/tv_video_resolution_title"
+            app:layout_constraintTop_toTopOf="@id/tv_video_resolution_title"/>
+
+        <TextView
+            android:id="@+id/tv_video_framerate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="@string/aui_player_develper_mode_framerate"
+            app:layout_constraintTop_toTopOf="@id/et_video_resolution"
+            app:layout_constraintStart_toStartOf="@id/tv_video_drop_frame_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_video_fps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="xxxx"
+            app:layout_constraintTop_toTopOf="@id/tv_video_framerate_title"
+            app:layout_constraintStart_toEndOf="@id/tv_video_framerate_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_video_color_standard_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:layout_marginTop="12dp"
+            android:text="@string/aui_player_develper_mode_color_standard"
+            app:layout_constraintTop_toBottomOf="@id/tv_video_resolution_title"
+            app:layout_constraintStart_toStartOf="@id/tv_video_decoder_title"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/et_video_color_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ffffff"
+            android:text="xxxx"
+            app:layout_constraintStart_toEndOf="@id/tv_video_color_standard_title"
+            app:layout_constraintTop_toTopOf="@id/tv_video_color_standard_title"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

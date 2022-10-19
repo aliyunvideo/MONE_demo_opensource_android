@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+}
+
+dependencies {
+    api project(':AUIFoundation:AVBaseUI')
+    api project(':AUIFoundation:AVTheme')
+    implementation project(':AliyunVideoCommon')
+    implementation externalSvideopro
+    kapt externalGlideAnnotation
+    kapt externalGlideProcessor
+    api (externalGlide){
+        exclude group: "com.android.support"
+    }
+    implementation externalAndroidXCoreKtx
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidDesign
+    api externalAndroidXCollectionKtx
+    api externalAndroidXFragmentKtx
+    api externalAndroidXActivityKtx
+    api externalAndroidXLiveDataKtx
+    api externalAndroidXRuntimeKtx
+    api externalAndroidXViewModelKtx
+    api externalGSON
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+}

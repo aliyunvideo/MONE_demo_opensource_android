@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+    <style name="Theme.MyAppTheme" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/alivc_lanch_loading</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="alivc_record_line_style" parent="@android:style/Widget.EditText">
+
+        <item name="android:maxLines">2</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/text_strong</item>
+        <item name="android:textColorHint">@color/text_weak</item>
+        <item name="android:background">@drawable/alivc_record_round_bkg</item>
+        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+    </style>
+    <style name="alivc_record_btn_style" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/alivc_record_btn_bg</item>
+        <item name="android:layout_width">52dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_strong</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+    <style name="NoBackgroundDlgStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

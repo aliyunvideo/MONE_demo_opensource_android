@@ -1,0 +1,64 @@
+{
+    
+    "pid": 0,
+    "fid": 0,
+    "du": 1.6,
+    "type": 0,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 500.0,
+    "h": 300.0,
+	"a": 0.0,
+	"fx": 0.0,
+	"fy": 0.0,
+	"fw": 0.0,
+	"fh": 0.0,
+	"n": "fakaixin",
+    "c": 16.0,
+    
+    "pText":"伐开心",
+    "tFont":"SentyTEA",
+    "fontId": 53,
+    "tAngle":-8.0, 
+    "tLeft":270,
+    "tTop":200,
+    "tWidth":400.0,
+    "tHeight":200,
+    "tR":255,
+    "tG":247,
+    "tB":172,
+    "tBegin":0.3,
+    "tEnd":1.6,
+    
+    "strokeR":31,
+    "strokeG":40,
+    "strokeB":156,
+    "strokeWidth":4,
+
+    "pExtend": 1,
+    "extendSection":1,
+    "frameArry": [
+                 {"time":0,"pic":0},
+                 {"time":0.1,"pic":1},
+                 {"time":0.2,"pic":2},
+                 {"time":0.3,"pic":3},
+                 {"time":0.4,"pic":4},
+                 {"time":0.5,"pic":5},
+                 {"time":0.6,"pic":6},
+                 {"time":0.7,"pic":7},
+                 {"time":0.8,"pic":8},
+                 {"time":0.9,"pic":9},
+                 {"time":1,"pic":10},
+                 {"time":1.1,"pic":11},
+                 {"time":1.2,"pic":12},
+                 {"time":1.3,"pic":13},
+                 {"time":1.4,"pic":14},
+                 {"time":1.5,"pic":15}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 0.3, "shrink":0, "minTime":0.0, "maxTime": 0.3},
+                 {"beginTime": 0.3,"endTime": 1.5, "shrink":0, "minTime":0.8, "maxTime": 0}                
+                 ]
+  
+}

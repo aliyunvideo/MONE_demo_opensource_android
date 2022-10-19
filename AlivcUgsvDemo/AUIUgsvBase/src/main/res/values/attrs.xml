@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="QuViewFanProgressBar">
+        <attr name="circleMaxProgress" format="float|reference"/>
+        <attr name="circleProgress" format="float|reference"/>
+        <attr name="internalRadius" format="dimension|reference"/>
+        <attr name="outRadius" format="dimension|reference|enum">
+            <enum name="match_parent" value="-1"/>
+        </attr>
+        <attr name="internalBackgroundColor" format="color|reference"/>
+        <attr name="outBackgroundColor" format="color|reference"/>
+        <attr name="startAngle" format="float|reference"/>
+        <attr name="internalAlpha" format="float|reference"/>
+        <attr name="outAlpha" format="float|reference"/>
+        <attr name="centerX" format="float|reference"/>
+        <attr name="centerY" format="float|reference"/>
+        <attr name="outDirection" format="enum">
+            <enum name="clockwise" value="1"/>
+            <enum name="counterclockwise" value="-1"/>
+        </attr>
+        <attr name="internalDirection" format="enum">
+            <enum name="clockwise" value="1"/>
+            <enum name="counterclockwise" value="-1"/>
+        </attr>
+        <attr name="initStyle" format="enum">
+            <enum name="fill" value="1"/>
+            <enum name="empty" value="0"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="QuViewCircularImageView">
+        <attr name="android:src" />
+    </declare-styleable>
+
+    <declare-styleable name="QuViewCircleProgressBar">
+        <attr name="backgroundWidth" format="dimension"/>
+        <attr name="backgroundHeight" format="dimension"/>
+        <attr name="progressWidth" format="dimension"/>
+        <attr name="progressThickness" format="dimension"/>
+        <attr name="backgroundColor" format="color|reference"/>
+        <attr name="progressColor" format="color|reference"/>
+        <attr name="progressThicknessColor" format="color|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="QuViewAlertDialog">
+        <attr name="progressLayout" format="reference"/>
+        <attr name="horizontalProgressLayout" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="QuViewPagerSlidingTabStrip">
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsIndicatorPadding" format="dimension" />
+        <attr name="pstsTabPaddingLeftRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsTextAllCaps" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="PageIndicatorView">
+        <attr name="pi_SelectedBackground" format="reference"></attr>
+        <attr name="pi_NormalBackground" format="reference"></attr>
+        <attr name="pi_Margin" format="dimension|reference"></attr>
+        <attr name="pi_DotSize" format="dimension|reference"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="QuSnap">
+        <attr name="qusnap_background_color" format="reference"/>
+        <attr name="qusnap_tint_color" format="reference"/>
+        <attr name="qusnap_timeline_backgound_color" format="reference"/>
+        <attr name="qusnap_timeline_del_backgound_color" format="reference"/>
+        <attr name="qusnap_back_icon" format="reference"/>
+        <attr name="qusnap_back_icon_disable" format="reference"/>
+        <attr name="qusnap_beauty_icon" format="reference"/>
+        <attr name="qusnap_beauty_icon_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_switch_camera_icon" format="reference"/>
+        <attr name="qusnap_switch_camera_icon_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_switch_light_icon" format="reference"/>
+        <attr name="qusnap_switch_light_icon_disable" format="reference"/>
+        <attr name="qusnap_switch_light_icon_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_gallery_icon" format="reference"/>
+        <attr name="qusnap_gallery_icon_disable" format="reference"/>
+        <attr name="qusnap_gallery_icon_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_record_icon" format="reference"/>
+        <attr name="qusnap_record_icon_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_delete_icon" format="reference"/>
+        <attr name="qusnap_delete_icon_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_complete_icon" format="reference"/>
+        <attr name="qusnap_complete_icon_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_time_txt_color" format="reference"/>
+        <attr name="qusnap_time_txt_size" format="dimension"/>
+        <attr name="qusnap_time_txt_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_time_line_pos_y" format="dimension"/>
+        <attr name="qusnap_crop_sweep_left" format="reference"/>
+        <attr name="qusnap_crop_sweep_right" format="reference"/>
+        <attr name="qusnap_crop_seek_frame" format="reference"/>
+        <attr name="qusnap_crop_seek_padding_color" format="reference"/>
+        <attr name="qusnap_crop_icon_transform" format="reference"/>
+        <attr name="qusnap_play_icon_transform" format="reference"/>
+        <attr name="qusnap_crop_icon_transform_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+        <attr name="qusnap_crop_time_txt_color" format="reference"/>
+        <attr name="qusnap_crop_time_txt_size" format="dimension"/>
+        <attr name="qusnap_crop_txt_visibility" format="integer">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="IndicatorSeekBar">
+        //seekBar
+        <attr name="isb_max" format="float" /><!-- the max value of seekBar to seek, default 100-->
+        <attr name="isb_min" format="float" /><!-- the min value of seekBar to seek, default 0 -->
+        <attr name="isb_progress" format="float" /><!-- the current progress value of seekBar, default 0-->
+        <attr name="isb_clear_default_padding" format="boolean" /><!-- set seekBar's leftPadding&rightPadding to zero, default false, default padding is 16dp-->
+        <attr name="isb_forbid_user_seek" format="boolean" /><!--prevent user from touching to seek, default false-->
+        <attr name="isb_touch_to_seek" format="boolean" /><!--user change the thumb's location by touching thumb/touching track,true for touching track to seek. false for touching thumb; default true-->
+        <attr name="isb_progress_value_float" format="boolean" /><!--set the value of seekBar to float type, default false-->
+        <attr name="isb_seek_bar_type"><!-- the type for seekBar, default 0.-->
+            <enum name="continuous" value="0" />
+            <enum name="continuous_texts_ends" value="1" />
+            <enum name="discrete_ticks" value="2" />
+            <enum name="discrete_ticks_texts" value="3" /><!--has below text-->
+            <enum name="discrete_ticks_texts_ends" value="4" /><!--has below text of both ends of seekBar-->
+        </attr>
+        //indicator
+        <attr name="isb_indicator_type"><!-- the type for indicator, default rectangle_rounded_corner/0.-->
+            <enum name="rectangle_rounded_corner" value="0" />
+            <enum name="rectangle" value="1" />
+            <enum name="circular_bubble" value="2" />
+            <enum name="custom" value="3" /><!--choose custom type that you can set the custom indicator layout you want.-->
+        </attr>
+        <attr name="isb_show_indicator" format="boolean" /><!-- show indicator or not when seeking, default true-->
+        <attr name="isb_indicator_color" format="color|reference" /><!-- indicator's color, default #FF4081-->
+        <attr name="isb_indicator_custom_layout" format="reference" /><!-- when you set indicator type to custom , you can set this layout indicator layout you want-->
+        <attr name="isb_indicator_custom_top_content_layout" format="reference" /> <!--set this layout indicator top view you want, no effect arrow , effect on indicator type : rectangle or rectangle_rounded_corner-->
+        <attr name="isb_indicator_text_color" format="color|reference" /><!-- indicator's text color, default #FF4081 , work on indicator type : rectangle or rectangle_rounded_corner-->
+        <attr name="isb_indicator_text_size" format="dimension|reference" /><!-- indicator's text size, default 13sp,  work on indicator type : rectangle or rectangle_rounded_corner-->
+        <attr name="isb_indicator_stay" format="boolean" /><!-- indicator is visible when SeekBar visible, gone when SeekBar gone-->
+        //track
+        <attr name="isb_track_background_bar_size" format="dimension|reference" /><!-- set indicatorSeekBar's track background bar size, default 2dp-->
+        <attr name="isb_track_background_bar_color" format="color|reference" /><!-- set indicatorSeekBar's track background bar color, default #D7D7D7-->
+        <attr name="isb_track_progress_bar_size" format="dimension|reference" /><!-- set indicatorSeekBar's track progress bar size, default 2dp-->
+        <attr name="isb_track_progress_bar_color" format="color|reference" /><!-- set indicatorSeekBar's track progress bar color, default #FF4081-->
+        <attr name="isb_track_rounded_corners" format="boolean" /><!-- set indicatorSeekBar's track's both ends's corners to rounded/square, default false-->
+        //thumb
+        <attr name="isb_thumb_progress_stay" format="boolean" /><!-- set thumb below text to stay after seek, default false, work on seekBar type : continuous / discrete_ticks-->
+        <attr name="isb_thumb_color" format="color|reference" /><!--set thumb's color, default #FF4081-->
+        <attr name="isb_thumb_width" format="dimension|reference" /><!--set thumb's size, default 14dp, thumb size will be limited in 30dp-->
+        <attr name="isb_thumb_drawable" format="reference" /><!--set custom thumb's drawable you want,thumb size will be limited in 30dp, if drawable less than 30dp ,will show in raw size -->
+        //tick
+        <attr name="isb_tick_drawable" format="reference" /><!--set custom tick's drawable you want, custom drawable will be limited in 30dp, if less than 30dp ,will show in raw size-->
+        <attr name="isb_tick_color" format="color|reference" /><!--set tick's color, default #FF4081-->
+        <attr name="isb_tick_num" format="integer" /><!--seekBar's tick count, default 5-->
+        <attr name="isb_tick_size" format="dimension|reference" /><!--set the tick width, default 10dp,custom drawable will be limited in 30dp, if less than 30dp ,will show in raw size-->
+        <attr name="isb_tick_both_end_hide" format="boolean" /><!--hide 2 ticks on the seekBar's both ends, default false-->
+        <attr name="isb_tick_on_thumb_left_hide" format="boolean" /><!--hide the ticks on the seekBar's thumb left, default false-->
+        <attr name="isb_tick_type"><!--select the tick shape type, default rectangle/1-->
+            <enum name="none" value="0" />
+            <enum name="rec" value="1" />
+            <enum name="oval" value="2" />
+        </attr>
+        //text
+        <attr name="isb_text_color" format="color|reference" /><!--set the color of text below tick, default #FF4081-->
+        <attr name="isb_text_left_end" format="string|reference" /><!--set the text below seekBar left end, default min value string, work on seekBar type :CONTINUOUS_TEXTS_ENDS/DISCRETE_TICKS_TEXTS/DISCRETE_TICKS_TEXTS_ENDS-->
+        <attr name="isb_text_right_end" format="string|reference" /><!--set the text below seekBar right end, default max value string, work on seekBar type :CONTINUOUS_TEXTS_ENDS/DISCRETE_TICKS_TEXTS/DISCRETE_TICKS_TEXTS_ENDS-->
+        <attr name="isb_text_size" format="dimension|reference" /><!--set the text size of tick below text, default 13sp-->
+        <attr name="isb_text_array" format="reference" /><!--set the texts below tick to replace default progress text, default string of progress, work on seekBar type :DISCRETE_TICKS_TEXTS-->
+        <attr name="isb_text_typeface"><!--select the text typeface, default normal-->
+            <enum name="normal" value="0" />
+            <enum name="monospace" value="1" />
+            <enum name="sans" value="2" />
+            <enum name="serif" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

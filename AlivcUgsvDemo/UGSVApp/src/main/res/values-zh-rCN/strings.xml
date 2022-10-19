@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugc_app_name">阿里云短视频</string>
+    <string name="solution_apsarav">ApsaraV</string>
+    <string name="solution_push">直播推流</string>
+    <string name="solution_live_room">互动直播</string>
+    <string name="solution_player">视频播放</string>
+    <string name="solution_svideo">短视频</string>
+    <string name="solution_upload">视频上传</string>
+    <string name="solution_recorder">视频拍摄</string>
+    <string name="solution_camera">魔法相机</string>
+    <string name="solution_crop">视频裁剪</string>
+    <string name="solution_edit">视频编辑</string>
+    <string name="solution_race_beauty">美颜美型</string>
+    <string name="solution_draft_box">草稿箱</string>
+    <string name="solution_template">模板</string>
+    <string name="solution_mix">视频拼接</string>
+    <string name="solution_community">趣视频</string>
+    <string name="solution_videocall">视频通话</string>
+    <string name="solution_audiocall">语音通话</string>
+
+
+    <string name="action_settings">Settings</string>
+    <string name="record">拍摄</string>
+    <string name="magic_camera">魔法相机</string>
+    <string name="edit">导入编辑</string>
+    <string name="crop">导入裁剪</string>
+    <string name="live">直播</string>
+    <string name="ui">UI组件</string>
+    <string name="need_permission">请给予相应的权限</string>
+    <string name="help">其他</string>
+
+    <string name="solution_wait_remind">产品功能正在开发中...</string>
+    <string name="solution_unable_merge_remind">上传和短视频存在冲突,协调解决中..</string>
+    <string name="resetstr">切换成功，正在重新加载数据...</string>
+
+    <string name="aliyun_min_record_duration_more_than">最小时长必须大于0秒</string>
+    <string name="aliyun_min_record_duration_less_than">最小时长必须小于300秒</string>
+
+    <string name="aliyun_max_record_duration_more_than">最大时长必须大于0秒</string>
+    <string name="aliyun_max_record_duration_less_than">最大时长必须小于300秒</string>
+
+    <string name="alivc_apsara_video_regist">© 2009&#8211;2018 Copyright by Alibaba Cloud All rights reserved</string>
+    <string name="alivc_apsara_video_title">阿里视频云</string>
+    <string name="alivc_videocall_permisson_text"><![CDATA[需要访问 \"录音\"、\"摄像头\" 和 \"外部存储器\",否则会影响绝大部分功能使用, 请到 \"应用信息 -> 权限\" 中设置！]]></string>
+    <string name="alivc_videocall_go_setting">去设置</string>
+    <string name="alivc_videocall_not_setting">暂不设置</string>
+
+    <!-- 设置页 -->
+    <string name="ugsv_setting_more">更多设置</string>
+    <string name="ugsv_setting_desc">跳转设置更多参数</string>
+
+    <!--设置界面-->
+    <string name="alivc_recorder_setting_min_record_duration">最小时长</string>
+    <string name="alivc_recorder_setting_max_record_duration">最大时长</string>
+    <string name="alivc_recorder_setting_bit_rate">码率(kbps)</string>
+    <string name="alivc_recorder_setting_frame_rate">帧率</string>
+    <string name="alivc_recorder_setting_quality">视频质量</string>
+    <string name="alivc_recorder_setting_gop">关键帧间隔</string>
+    <string name="alivc_recorder_setting_duet_source_mode">合拍音频类型</string>
+    <string name="alivc_recorder_setting_resolution">分辨率</string>
+    <string name="alivc_recorder_setting_ratio">视频比例</string>
+    <string name="alivc_recorder_setting_min_record_duration_hint">最小时长大于0，默认值2S</string>
+    <string name="alivc_recorder_setting_max_record_duration_hint">不超过300S，默认值15S</string>
+    <string name="alivc_recorder_setting_gop_hint">建议1-300，默认30 </string>
+    <string name="alivc_recorder_setting_start_record">启动录制界面</string>
+    <string name="alivc_recorder_setting_tittle">录制设置</string>
+    <string name="alivc_recorder_setting_resolution_360p">360p</string>
+    <string name="alivc_recorder_setting_resolution_480p">480p</string>
+    <string name="alivc_recorder_setting_resolution_540p">540p</string>
+    <string name="alivc_recorder_setting_resolution_720p">720p</string>
+    <string name="alivc_recorder_setting_ratio_1_1">1:1</string>
+    <string name="alivc_recorder_setting_ratio_9_16">9:16</string>
+    <string name="alivc_recorder_setting_ratio_3_4">3:4</string>
+    <string name="alivc_recorder_setting_quality_low">较差</string>
+    <string name="alivc_recorder_setting_quality_meidan">一般</string>
+    <string name="alivc_recorder_setting_quality_high">良好</string>
+    <string name="alivc_recorder_setting_quality_super">优质</string>
+    <string name="alivc_recorder_setting_codec">视频编码方式</string>
+    <string name="alivc_recorder_setting_encoder_hardware">硬编</string>
+    <string name="alivc_recorder_setting_encoder_openh264">软编</string>
+    <string name="alivc_recorder_setting_encoder_ffmpeg">FFmpeg软编</string>
+    <string name="alivc_recorder_setting_tip_duration_error">最小时长不能大于最大时长, 请重新设置!!!</string>
+    <string name="alivc_recorder_setting_width">宽</string>
+    <string name="alivc_recorder_setting_height">高</string>
+    <string name="alivc_recorder_setting_start">开始</string>
+    <string name="alivc_recorder_setting_close_skin_filter">美颜关</string>
+    <string name="alivc_recorder_setting_open_skin_filter">美颜开</string>
+    <string name="alivc_recorder_setting_close_face_detection">人脸检测关</string>
+    <string name="alivc_recorder_setting_open_face_detection">人脸检测开</string>
+    <string name="alivc_recorder_setting_duet_original">视频原音</string>
+    <string name="alivc_recorder_setting_duet_recorded">录制声音</string>
+    <string name="alivc_recorder_setting_duet_mute">视频静音</string>
+    <string name="alivc_recorder_setting_duet_mix">混音</string>
+    <string name="alivc_recorder_setting_video_style">拍摄方式</string>
+    <string name="alivc_recorder_setting_rendering_mode">高级美颜</string>
+    <string name="alivc_recorder_setting_watermark">添加水印</string>
+    <string name="alivc_recorder_setting_general_text">普通</string>
+    <string name="alivc_recorder_setting_mix_text">合拍</string>
+    <string name="alivc_recorder_setting_duet_background">合拍背景</string>
+    <string name="alivc_recorder_setting_duet_round_corner">视频边框</string>
+    <string name="alivc_recorder_setting_duet_round_corner_blue">边框</string>
+    <string name="alivc_recorder_setting_duet_background_no">不设置</string>
+    <string name="alivc_recorder_setting_duet_background_red">红色</string>
+    <string name="alivc_recorder_setting_duet_background_image">图片</string>
+
+    <string name="alivc_recorder_setting_duet_bg_scale_mode">背景图片模式</string>
+    <string name="alivc_recorder_setting_duet_bg_scale_mode_fill">填充</string>
+    <string name="alivc_recorder_setting_duet_bg_scale_mode_crop">裁切</string>
+    <string name="alivc_recorder_setting_duet_bg_scale_mode_stretch">拉伸</string>
+    <string name="alivc_recorder_setting_multi_text">多源录制</string>
+
+    <string name="aliyun_start_mix_record">选择合拍视频</string>
+    <string name="alivc_recorder_record_dialog_permission_remind">需要访问 "相册"、"摄像头" 和 "外部存储器",否则会影响绝大部分功能使用, 请到 "应用信息 -> 权限" 中设置！</string>
+    <string name="alivc_recorder_record_dialog_not_setting">暂不设置</string>
+
+</resources>

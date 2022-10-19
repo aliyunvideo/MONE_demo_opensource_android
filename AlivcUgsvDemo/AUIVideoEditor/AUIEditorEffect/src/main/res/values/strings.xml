@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugsv_editor_effect_title">Effect</string>
+    <string name="ugsv_editor_filter_title">Filter</string>
+    <string name="ugsv_editor_filter_origin">Origin</string>
+</resources>

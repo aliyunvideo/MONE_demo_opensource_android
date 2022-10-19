@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.sticker.viewmodel.StickerEditViewModel" />
+    </data>
+
+    <com.aliyun.svideo.editor.sticker.widget.StickerBorderControllerView
+        android:id="@+id/edit_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/stickerBorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:background="@drawable/sticker_edit_controller_border_selector" />
+
+        <ImageView
+            android:id="@+id/stickerControllerDelete"
+            android:layout_width="@dimen/alivc_common_size_icon_44"
+            android:layout_height="@dimen/alivc_common_size_icon_44"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:layout_gravity="left|top"
+            android:onClick="@{viewModel::onDeleteStickerClick}"
+            android:padding="@dimen/alivc_common_padding_10"
+            android:src="@drawable/sticker_edit_controller_delete_selector" />
+
+        <ImageView
+            android:id="@+id/stickerControllerTransform"
+            android:layout_width="@dimen/alivc_common_size_icon_44"
+            android:layout_height="@dimen/alivc_common_size_icon_44"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:layout_gravity="right|bottom"
+            android:padding="@dimen/alivc_common_padding_10"
+            android:src="@drawable/sticker_edit_controller_transform_selector" />
+
+
+    </com.aliyun.svideo.editor.sticker.widget.StickerBorderControllerView>
+</layout>

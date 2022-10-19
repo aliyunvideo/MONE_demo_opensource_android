@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 公共 -->
+    <style name="ugsv_recorder_font_shadow">
+        <item name="android:shadowColor">@color/text_medium</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">0.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <!-- 顶部栏 -->
+    <style name="ugsv_recorder_top_bar_back">
+        <item name="android:layout_width">66dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="ugsv_recorder_top_bar_icon">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <!-- 侧边栏 -->
+    <style name="ugsv_recorder_side_bar_item">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="ugsv_recorder_side_bar_icon">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="ugsv_recorder_side_bar_text" parent="ugsv_recorder_font_shadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textColor">@color/text_strong</item>
+    </style>
+
+    <!-- 变速面板 -->
+    <style name="ugsv_recorder_rate_bar_btn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/ugsv_recorder_rate_bar_btn_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/ugsv_recorder_rate_bar_btn_bg</item>
+    </style>
+
+    <!-- 效果选择器 -->
+    <style name="ugsv_recorder_chooser_item_icon">
+        <item name="android:layout_width">@dimen/ugsv_recorder_chooser_item_size</item>
+        <item name="android:layout_height">@dimen/ugsv_recorder_chooser_item_size</item>
+    </style>
+
+    <style name="ugsv_recorder_chooser_item_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="QUDemoFullStyle" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="QUDemoFullFitStyle" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+
+    <declare-styleable name="RoundedView">
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="topLeftCornerRadius" format="dimension" />
+        <attr name="topRightCornerRadius" format="dimension" />
+        <attr name="bottomLeftCornerRadius" format="dimension" />
+        <attr name="bottomRightCornerRadius" format="dimension" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url "https://maven.aliyun.com/repository/releases" }
+        maven {
+            allowInsecureProtocol = true
+            url "http://mvnrepo.alibaba-inc.com/mvn/repository"
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://mvnrepo.alibaba-inc.com/nexus/content/repositories/snapshots'
+        }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/releases" }
+    }
+    apply from: 'config-stable.gradle'
+    apply from: '../sdk_type_config.gradle'
+    apply from: '../AndroidThirdParty/config.gradle'
+    dependencies {
+        classpath 'com.kezong:fat-aar:1.3.3'
+        classpath externalAndroidBuildGradlePlugin
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url "https://maven.aliyun.com/repository/releases" }
+        maven {
+            allowInsecureProtocol = true
+            url "http://mvnrepo.alibaba-inc.com/mvn/repository"
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://mvnrepo.alibaba-inc.com/nexus/content/repositories/snapshots'
+        }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/releases/' }
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

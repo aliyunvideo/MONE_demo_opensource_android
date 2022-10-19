@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:parentTag="android.widget.LinearLayout"
+    android:orientation="vertical"
+    tools:background="@color/wheel_black"
+    android:layout_height="wrap_content">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_gravity="end|center_vertical">
+
+        <TextView
+            android:id="@+id/tv_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/wheel_white"
+            android:background="@color/color_background_black_alpha_30"
+            android:layout_marginTop="3dp"
+            android:textSize="12sp" />
+
+    </androidx.core.widget.NestedScrollView>
+
+</merge>

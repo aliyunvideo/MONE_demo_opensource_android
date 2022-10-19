@@ -1,0 +1,59 @@
+{
+    
+    "pid": 0,
+    "fid": 0,
+    "du": 1.2,
+    "type": 0,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 274.0,
+    "h": 253.0,
+	"a": 0.0,
+	"fx": 0.0,
+	"fy": 0.0,
+	"fw": 0.0,
+	"fh": 0.0,
+	"n": "jingxi",
+    "c": 6.0,
+    
+    "pText":"惊喜",
+    "tFont":"SentyTEA",
+    "fontId": 87,
+    "tLeft":133.0,
+    "tTop":120.0,
+    "tWidth":232.0,
+    "tHeight":150.0,
+    "tR":255,
+    "tG":1,
+    "tB":109,
+    "tBegin":0.4,
+    "tEnd":1.2,
+    
+    "strokeR":255,
+    "strokeG":255,
+    "strokeB":255,
+    "strokeWidth":4,
+
+    "pExtend": 1,
+    "extendSection":1,
+    "frameArry": [
+                 {"time":0.0,"pic":0},
+                 {"time":0.1,"pic":1},
+                 {"time":0.2,"pic":2},
+                 {"time":0.3,"pic":3},
+                 {"time":0.4,"pic":4},
+                 {"time":0.5,"pic":5},
+                 {"time":0.6,"pic":4},
+                 {"time":0.7,"pic":5},
+                 {"time":0.8,"pic":4},
+                 {"time":0.9,"pic":5},
+                 {"time":1.0,"pic":4},
+                 {"time":1.1,"pic":5}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 0.4, "shrink":0, "minTime":0.0, "maxTime": 0.4},
+                 {"beginTime": 0.4,"endTime": 1.2, "shrink":0, "minTime":0.8, "maxTime": 0}
+                 ]
+  
+}

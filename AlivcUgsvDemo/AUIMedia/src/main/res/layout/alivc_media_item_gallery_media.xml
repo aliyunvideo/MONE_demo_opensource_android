@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aliyun.svideo.base.widget.SquareFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/alivc_common_padding_2">
+
+        <com.aliyun.ugsv.common.widget.RoundSquareView
+            android:id="@+id/draft_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            app:roundHeight="0dp"
+            app:roundWidth="0dp" />
+
+        <LinearLayout
+            android:id="@+id/duration_layoput"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_20"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/draft_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="right"
+                android:paddingRight="@dimen/alivc_common_padding_5"
+                android:textColor="@color/alivc_common_font_white"
+                android:textSize="@dimen/alivc_common_font_12" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/alivc_common_bg_black_alpha_80" />
+
+    </FrameLayout>
+
+</com.aliyun.svideo.base.widget.SquareFrameLayout>

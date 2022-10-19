@@ -1,0 +1,59 @@
+{
+    
+    "pid": 4,
+    "fid": 2,
+    "du": 1.5,
+    "type": 2,
+    "x": 320.0,
+    "y": 320.0,
+    "w": 500.0,
+    "h": 250.0,
+	"a": 0.0,
+	"fx": 0.0,
+	"fy": 0.0,
+	"fw": 0.0,
+	"fh": 0.0,
+	"n": "fuwa",
+    "c": 15.0,
+    "kerneframe": 8,
+    
+    "pExtend": 1,
+    "extendSection":0,
+    "frameArry": [
+                 {"time":0,"pic":0},
+                 {"time":0.05,"pic":1},
+                 {"time":0.1,"pic":2},
+                 {"time":0.15,"pic":3},
+                 {"time":0.2,"pic":4},
+                 {"time":0.25,"pic":5},
+                 {"time":0.3,"pic":6},
+                 {"time":0.35,"pic":7},
+                 {"time":0.4,"pic":8},
+                 {"time":0.45,"pic":9},
+                 {"time":0.5,"pic":10},
+                 {"time":0.55,"pic":11},
+                 {"time":0.6,"pic":12},
+                 {"time":0.65,"pic":13},
+                 {"time":0.7,"pic":14},
+                 {"time":0.75,"pic":0},
+                 {"time":0.8,"pic":1},
+                 {"time":0.85,"pic":2},
+                 {"time":0.9,"pic":3},
+                 {"time":0.95,"pic":4},
+                 {"time":1,"pic":5},
+                 {"time":1.05,"pic":6},
+                 {"time":1.1,"pic":7},
+                 {"time":1.15,"pic":8},
+                 {"time":1.2,"pic":9},
+                 {"time":1.25,"pic":10},
+                 {"time":1.3,"pic":11},
+                 {"time":1.35,"pic":12},
+                 {"time":1.4,"pic":13},
+                 {"time":1.45,"pic":14}
+                 ],
+    
+    "timeArry": [
+                 {"beginTime": 0.0,"endTime": 1.5, "shrink":1, "minTime":0.75, "maxTime": 0.0}
+                 ]
+  
+}

@@ -1,0 +1,51 @@
+apply from: 'script_config.gradle'
+include ':UGSVApp'
+
+include ':AUIMedia'//短视频媒体选择
+include ':AUIResample'//音频重采样
+include ':AUICrop:crop'//裁剪模块
+include ':AUICrop:snap_crop'//基础版裁剪模块
+
+include ':AUIVideoEditor:AUIEditorCommon'
+project(':AUIVideoEditor:AUIEditorCommon').projectDir = new File(settingsDir, 'AUIVideoEditor/AUIEditorCommon')
+include ':AUIVideoEditor:AUIEditorCaption'
+project(':AUIVideoEditor:AUIEditorCaption').projectDir = new File(settingsDir, 'AUIVideoEditor/AUIEditorCaption')
+include ':AUIVideoEditor:AUIEditorSticker'
+project(':AUIVideoEditor:AUIEditorSticker').projectDir = new File(settingsDir, 'AUIVideoEditor/AUIEditorSticker')
+include ':AUIVideoEditor:AUIVideoTrack'
+project(':AUIVideoEditor:AUIVideoTrack').projectDir = new File(settingsDir, 'AUIVideoEditor/AUIVideoTrack')
+include ':AUIVideoEditor:AUIEditorClip'
+project(':AUIVideoEditor:AUIEditorClip').projectDir = new File("AUIVideoEditor/AUIEditorClip")
+include ':AUIVideoEditor:AUIEditorEffect'
+project(':AUIVideoEditor:AUIEditorEffect').projectDir = new File("AUIVideoEditor/AUIEditorEffect")
+
+include ':AUIVideoEditor'//编辑模块
+include ':AUIFileDownloader' //短视频下载模块 --- 包含资源下载、SQLite数据库操作
+include ':AUIVideoRecorder'//拍摄模块
+include ':AUIUgsvBase'//短视频基础模块 --- 包含短视频sdk，短视频共有参数，配置等
+include ':AUIMusic'//音乐模块
+include ':AliyunVideoCommon'//公共模块 --- 不依赖其他任何模块，共有的工具类、自定义控件等
+include ':AUIVodUpload'//上传模块
+
+project(':AUIUgsvBase').setBuildFileName('realBuild.gradle')
+include ':AUIBeauty'
+include ':FaceunityBeauty'
+project(':FaceunityBeauty').projectDir = new File("AUIBeauty/FaceunityBeauty")
+include ':QueenBeauty'
+project(':QueenBeauty').projectDir = new File("AUIBeauty/QueenBeauty")
+
+include ':AUIFoundation:AVBaseUI'
+project(':AUIFoundation:AVBaseUI').projectDir = new File(settingsDir, '../AUIFoundation/AVBaseUI')
+
+include ':AUIFoundation:AVTheme'
+project(':AUIFoundation:AVTheme').projectDir = new File(settingsDir, '../AUIFoundation/AVTheme')
+
+include ':AUIFoundation:AVMatisse'
+project(':AUIFoundation:AVMatisse').projectDir = new File(settingsDir, '../AUIFoundation/AVMatisse')
+Properties rootProperties = new Properties()
+rootProperties.load(new File(getRootDir().absolutePath + "/local.properties").newDataInputStream())
+def setting_gradle = rootProperties.getProperty('setting.gradle')
+if(setting_gradle != null)
+{
+    apply from: setting_gradle
+}

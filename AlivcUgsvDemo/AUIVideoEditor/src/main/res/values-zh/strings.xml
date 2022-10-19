@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ugsv_editor_music">音乐</string>
+    <string name="ugsv_editor_transition">剪辑·转场</string>
+    <string name="ugsv_editor_caption">文字</string>
+    <string name="ugsv_editor_sticker">贴纸</string>
+    <string name="ugsv_editor_filter">滤镜</string>
+    <string name="ugsv_editor_effect">特效</string>
+
+    <string name="ugsv_editor_speed">变速</string>
+    <string name="ugsv_editor_volume">音量</string>
+    <string name="ugsv_editor_audio_effect">变声</string>
+    <string name="ugsv_editor_enhance">增强</string>
+    <string name="ugsv_editor_item_transition">转场</string>
+
+    <string name="ugsv_editor_toolbar_next">下一步</string>
+
+    <string name="ugsv_editor_publish_title">发布</string>
+    <string name="ugsv_editor_publish_select_pic">选封面</string>
+    <string name="ugsv_editor_publish_select_hit">填写并使用合适的话题描述</string>
+
+    <string name="ugsv_editor_compose_composing">努力导出中…</string>
+    <string name="ugsv_editor_compose_tips">请努力保持屏幕点亮，不要锁屏或切换程序</string>
+    <string name="ugsv_editor_compose_confirm_tips">视频正在导出中，确定放弃导出吗</string>
+
+    <string name="ugsv_editor_upload_failed">上传失败</string>
+    <string name="ugsv_editor_upload_param_error">上传参数错误</string>
+    <string name="ugsv_editor_upload_success">上传成功</string>
+</resources>

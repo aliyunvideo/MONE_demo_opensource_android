@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="MySwitchTheme">
+        <item name="colorControlActivated">@color/colourful_fill_strong</item>
+        <item name="colorSwitchThumbNormal">@color/fill_infrared</item>
+        <item name="android:colorForeground">@color/fg_strong</item>
+    </style>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="beauty_reset">重置</string>
+
+    <string name="beauty_beauty">美颜</string>
+    <string name="beauty_makeup">美妆</string>
+    <string name="beauty_lut">滤镜</string>
+    <string name="beauty_material">贴纸</string>
+
+</resources>

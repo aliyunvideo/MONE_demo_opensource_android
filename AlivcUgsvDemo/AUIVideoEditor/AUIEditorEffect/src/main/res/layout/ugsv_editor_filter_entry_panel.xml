@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.aliyun.svideo.editor.filter.VideoFilterEntryViewModel" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@color/bg_weak"
+        android:clickable="true"
+        android:focusable="true">
+
+        <include
+            android:id="@+id/action_bar"
+            layout="@layout/panel_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:viewModel="@{viewModel.actionBarViewModel}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/video_filter_recyclerview"
+            android:layout_below="@id/action_bar"
+            android:layout_marginTop="30dp"
+            android:clipToPadding="true"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp" />
+
+    </RelativeLayout>
+</layout>

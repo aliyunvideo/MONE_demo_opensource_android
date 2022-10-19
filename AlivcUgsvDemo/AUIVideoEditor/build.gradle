@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
+}
+
+dependencies {
+
+    implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIFoundation:AVTheme')
+    implementation project(':AUIFoundation:AVMatisse')  //相册选择器
+
+    implementation project(':AUIMusic')
+    implementation project(':AUIVideoEditor:AUIEditorSticker')
+    implementation project(':AUIVideoEditor:AUIEditorCaption')
+    implementation project(':AUIVideoEditor:AUIVideoTrack')
+    implementation project(':AUIVideoEditor:AUIEditorClip')
+    implementation project(':AUIVideoEditor:AUIEditorEffect')
+    implementation externalSvideopro
+
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidDesign
+    implementation externalAndroidXConstraintlayout
+    implementation project(path: ':AUIUgsvBase')
+    implementation project(path: ':AliyunVideoCommon')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation externalAndroidXActivityKtx
+    implementation externalAndroidXLiveDataKtx
+    implementation externalAndroidXRuntimeKtx
+    implementation externalAndroidXViewModelKtx
+}

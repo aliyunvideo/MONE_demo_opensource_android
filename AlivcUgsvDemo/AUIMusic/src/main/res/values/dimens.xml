@@ -1,0 +1,12 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="aliyun_activity_horizontal_margin">16dp</dimen>
+    <dimen name="aliyun_activity_vertical_margin">16dp</dimen>
+    <dimen name="aliyun_fab_margin">16dp</dimen>
+    <dimen name="aliyun_effect_content_height">100dp</dimen>
+    <dimen name="list_item_space">10dp</dimen>
+    <dimen name="font_size_28px">14.0sp</dimen>
+    <dimen name="fout_size_36px">18sp</dimen>
+    <dimen name="alivc_record_title_icon_padding">5dp</dimen>
+    <dimen name="alivc_record_title_icon_margin">10dp</dimen>
+</resources>
