@@ -28,6 +28,12 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+    signingConfigs {
+        release {
+        }
+        debug {
+        }
+    }
     dexOptions {
         javaMaxHeapSize "3g"
     }
@@ -74,6 +80,7 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -100,7 +107,6 @@ android {
 
     allprojects {
         repositories {
-            jcenter()
             flatDir {
                 dirs 'src/main/libs'
             }

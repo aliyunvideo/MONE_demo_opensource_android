@@ -26,4 +26,8 @@
     <string name="ugsv_editor_upload_failed">上传失败</string>
     <string name="ugsv_editor_upload_param_error">上传参数错误</string>
     <string name="ugsv_editor_upload_success">上传成功</string>
+    <string name="ugsv_editor_compose_success">合成成功，请前往相册查看</string>
+
+    <string name="ugsv_editor_clip_radius">圆角</string>
+    <string name="ugsv_editor_clip_border_size">边框</string>
 </resources>

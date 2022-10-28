@@ -4,7 +4,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -13,6 +16,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.aliyun.aio.avtheme.AVBaseThemeApplication;
 import com.aliyun.aio.demo.utils.ReflectUtils;
+import com.aliyun.common.utils.Assert;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -38,11 +42,7 @@ public class AIOApplication extends AVBaseThemeApplication {
         if(mUgcApplication != null) {
             ReflectUtils.reflect(mUgcApplication).method("attachBaseContext",base);
         }
-        mPlayerApplication = createChildApplication("com.alivc.live.pusher.demo.LiveApplication");
-        if (mPlayerApplication != null) {
-            ReflectUtils.reflect(mPlayerApplication).method("attachBaseContext",base);
-        }
-        mPushApplication = createChildApplication("com.aliyun.player.demo.PlayerApplication");
+        mPushApplication = createChildApplication("com.alivc.live.pusher.demo.LiveApplication");
         if (mPushApplication != null) {
             ReflectUtils.reflect(mPushApplication).method("attachBaseContext",base);
         }
@@ -51,11 +51,23 @@ public class AIOApplication extends AVBaseThemeApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        try {
+            ApplicationInfo appInfo = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            String licenseKey = appInfo.metaData.getString("com.aliyun.alivc_license.licensekey");
+            if (TextUtils.isEmpty(licenseKey)) {
+                throw new RuntimeException("\n\n\n" +
+                        "=============================================================================================\n" +
+                        "=        视频云终端SDK，License未设置\n" +
+                        "=        请到阿里云官网(https://ice.console.aliyun.com/sdks/mine/list)申请，\n" +
+                        "=        并设置到项目AIOApp/src/main/AndroidManifest.xml 中 com.aliyun.alivc_license.licensekey meta标签中\n" +
+                        "=============================================================================================\n\n\n");
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         if (mUgcApplication != null) {
             mUgcApplication.onCreate();
-        }
-        if (mPlayerApplication != null) {
-            mPlayerApplication.onCreate();
         }
         if (mPushApplication != null) {
             mPushApplication.onCreate();
@@ -77,9 +89,6 @@ public class AIOApplication extends AVBaseThemeApplication {
         if (mUgcApplication != null) {
             mUgcApplication.onConfigurationChanged(newConfig);
         }
-        if (mPlayerApplication != null) {
-            mPlayerApplication.onConfigurationChanged(newConfig);
-        }
         if (mPushApplication != null) {
             mPushApplication.onConfigurationChanged(newConfig);
         }
@@ -92,9 +101,6 @@ public class AIOApplication extends AVBaseThemeApplication {
         if (mUgcApplication != null) {
             mUgcApplication.onLowMemory();
         }
-        if (mPlayerApplication != null) {
-            mPlayerApplication.onLowMemory();
-        }
         if (mPushApplication != null) {
             mPushApplication.onLowMemory();
         }
@@ -106,9 +112,6 @@ public class AIOApplication extends AVBaseThemeApplication {
         if (mUgcApplication != null) {
             mUgcApplication.onTrimMemory(level);
         }
-        if (mPlayerApplication != null) {
-            mPlayerApplication.onTrimMemory(level);
-        }
         if (mPushApplication != null) {
             mPushApplication.onTrimMemory(level);
         }
@@ -119,9 +122,6 @@ public class AIOApplication extends AVBaseThemeApplication {
         super.onTerminate();
         if (mUgcApplication != null) {
             mUgcApplication.onTerminate();
-        }
-        if (mPlayerApplication != null) {
-            mPlayerApplication.onTerminate();
         }
         if (mPushApplication != null) {
             mPushApplication.onTerminate();

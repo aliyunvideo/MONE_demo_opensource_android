@@ -1,8 +1,10 @@
 package com.aliyun.aio.demo;
 
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.widget.GridView;
 
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,7 +20,13 @@ import com.alibaba.android.arouter.launcher.ARouter;
 public class MainActivity extends AVBaseThemeActivity {
 
     private GridView mGridView;
+    private TextView mAliyunSdkPrivacy;
     private MainGridAdapter mMainGridAdapter;
+    /**
+     * 阿里云视频服务隐私权政策
+     * 需要在启动的时候给用户弹窗，客户允许之后再注册SDK
+     */
+    private final static String PRIVACY_SDK = "https://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud202112151438_20307.html?spm=a2c4g.11186623.0.0.10c739ebi5cK2M";
 
     private static final int INDEX_LIVE = 0;
     private static final int INDEX_UGSV = 1;
@@ -42,6 +50,13 @@ public class MainActivity extends AVBaseThemeActivity {
         mGridView = findViewById(R.id.aio_main_grid_view);
         mMainGridAdapter = new MainGridAdapter(this, mItemClickListener);
         mGridView.setAdapter(mMainGridAdapter);
+        mAliyunSdkPrivacy = findViewById(R.id.aliyun_sdk_privacy);
+        /**
+         * 阿里云视频服务隐私权政策
+         * 需要在启动的时候给用户弹窗，客户允许之后再注册SDK
+         */
+        mAliyunSdkPrivacy.setText(R.string.aio_aliyun_sdk_privacy);
+        mAliyunSdkPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 

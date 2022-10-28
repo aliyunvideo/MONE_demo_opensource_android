@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_weak">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_av_action_bar_back"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="@string/interact_live"
+        android:textColor="@color/text_strong"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/interact_setting"
+        android:textColor="@color/text_strong"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_confirm"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_user_id_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/interact_live_user_id"
+                android:textColor="@color/text_strong"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_user_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:hint="@string/interact_live_user_id_hint"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/text_medium"
+                android:textColorHint="@color/text_medium"
+                android:theme="@style/AUIEditText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_user_id_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_id_title" />
+
+            <ImageView
+                android:id="@+id/iv_user_id_clear"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/transparent"
+                android:padding="5dp"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="@id/et_user_id"
+                app:layout_constraintEnd_toEndOf="@id/et_user_id"
+                app:layout_constraintTop_toTopOf="@id/et_user_id" />
+
+            <TextView
+                android:id="@+id/tv_room_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/interact_live_room_id"
+                android:textColor="@color/text_strong"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/tv_user_id_title"
+                app:layout_constraintTop_toBottomOf="@id/et_user_id" />
+
+            <EditText
+                android:id="@+id/et_room_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:hint="@string/interact_live_user_id_hint"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/text_medium"
+                android:textColorHint="@color/text_medium"
+                android:theme="@style/AUIEditText"
+                app:layout_constraintEnd_toEndOf="@id/et_user_id"
+                app:layout_constraintStart_toStartOf="@id/tv_user_id_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_room_number" />
+
+            <ImageView
+                android:id="@+id/iv_room_id_clear"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/transparent"
+                android:padding="5dp"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="@id/et_room_id"
+                app:layout_constraintEnd_toEndOf="@id/et_room_id"
+                app:layout_constraintTop_toTopOf="@id/et_room_id" />
+
+            <fragment
+                android:id="@+id/fragment_app_info"
+                android:name="com.aliyun.interactive_common.InteractLiveAppInfoFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/et_room_id" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_app_info">
+
+                <com.aliyun.interactive_live.widget.InteractLiveRadioButton
+                    android:id="@+id/radio_button_anchor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:ilrb_text="@string/interact_live_anchor" />
+
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="1dp" />
+
+                <com.aliyun.interactive_live.widget.InteractLiveRadioButton
+                    android:id="@+id/radio_button_audience"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:ilrb_text="@string/interact_live_audience" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/shape_rect_blue"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:text="@string/interact_live_confirm"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

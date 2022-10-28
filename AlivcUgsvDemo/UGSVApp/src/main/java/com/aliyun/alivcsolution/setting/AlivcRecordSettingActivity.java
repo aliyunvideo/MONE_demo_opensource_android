@@ -10,8 +10,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 
-import android.Manifest;
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,87 +19,86 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+
+import com.aliyun.aio.avbaseui.avdialog.AVCommonPickerDialog;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 import com.aliyun.alivcsolution.R;
-import com.aliyun.alivcsolution.model.AlivcMixBorderParam;
 import com.aliyun.svideo.base.utils.FastClickUtil;
 import com.aliyun.svideo.base.widget.ProgressDialog;
+import com.aliyun.svideo.crop.CropConfig;
+import com.aliyun.svideo.editor.EditorConfig;
 import com.aliyun.svideo.recorder.AUIVideoRecorderEntrance;
-import com.aliyun.svideo.recorder.bean.AUIRecorderInputParam;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
+import com.aliyun.svideo.recorder.RecorderConfig;
+import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
 import com.aliyun.svideosdk.common.struct.common.VideoQuality;
 import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
-import com.aliyun.svideosdk.mixrecorder.MixAudioSourceType;
-import com.aliyun.ugsv.auibeauty.api.constant.BeautySDKType;
 
 /**
  * 视频录制模块的 录制参数设置界面 原RecorderSettingTest Created by Administrator on 2017/3/2.
  */
 
-public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements View.OnClickListener, AVCommonPickerDialog.OnPickListener {
     private static final int BACKGROUND_COLOR = Color.BLUE;
     private static final String BACKGROUND_IMAGE_PATH
         = "/sdcard/Android/data/com.aliyun.apsaravideo/files/mytest.jpg";
-    private EditText minDurationEt, maxDurationEt, gopEt;
+    private EditText minDurationEt, maxDurationEt;
     private ImageView mBackBtn;
-    //视频质量选择按钮
-    private Button mQualitySuperBtn, mQualityHighBtn, mQualityNomalBtn, mQualityLowBtn;
-    //视频比例选择按钮
-    private View mSettingRatioGroup;
-    private Button mRecordRatio9P16Btn, mRecordRatio3P4Btn, mRecordRatio1P1Btn;
-    //视频分辨率选择按钮
-    private Button mRecordResolutionP360Btn, mRecordResolutionP480Btn, mRecordResolutionP540Btn,
-            mRecordResolutionP720Btn;
-    //合拍音频模式选择按钮
-    private Button mDuetOriginal, mDuetRecorded, mDuetMute, mDuetMix;
-    //合拍背景色
-    private Button mDuetBackgroundNo, mDuetBackgroundColor, mDuetBackgroundImage;
-    //合拍背景填充模式
-    private Button mMixBgFillMode, mMixBgCropMode, mMixBgStretchMode;
-    //视频圆角边框
-    private Button mDuetCornerBorderNo, mDuetCornerBorderYes;
-    /**
-     * 视频编码方式选择按钮
-     */
-    private Button mEncorderHardwareBtn, mEncorderOpenh264Btn;
-    private Button mStartRecord;
-    private View mMixSourceGroup, mMixBackgroundGroup, mMixBgScaleModeGroup, mMixVideoCornerBorder, mTranscodeGroup;
 
-    /**
-     * 拍摄方式选择按钮 普通，合拍，View录制
-     */
-    private Button mRecordGeneral, mRecordMix, mRecordView;
-    /**
-     * 渲染方式选择按钮 faceunity，race
-     */
-    private Button mRecordFaceUnity, mRecordQueen, mRecordDefault;
-    private boolean mHasWaterMark = false;
-    private int mResolutionMode, mRatioMode;
-    private MixAudioSourceType mMixAudioSourceType;
-    private VideoQuality mVideoQuality;
-    private VideoCodecs mVideoCodec = VideoCodecs.H264_SOFT_OPENH264;
-    private BeautySDKType mRenderingMode = BeautySDKType.QUEEN;
+    private Button mStartRecord;
     private Switch mSwitchFlip;
-    private Switch mSwitchWatermark;
     private Switch mSwitchAutoClearTemp;
-    private int mBackgroundColor;
-    private String mBackgroundImage;
-    private int mMixBgScaleMode = 0; //displayMode 0：crop 1：fill 2：exact fit
+    private Switch mSwitchJumpEdit;
     private boolean isNeedTranscode = false;
     private AsyncTask<Void, Void, Void> copyAssetsTask;
-    private AlivcMixBorderParam mMixBorderParam;
 
     /**
      * 转码开关
      */
     private SwitchCompat mVideoTranscodeSwitch;
+
+    private RelativeLayout mVideoRatioLayout;
+    private TextView mTvVideoRatio;
+    private AVCommonPickerDialog.ArgsSelector mVideoRatio;
+    private static final int REQUEST_CODE_RATIO = 0x11;
+
+    private RelativeLayout mVideoResolutionLayout;
+    private TextView mTvVideoResolution;
+    private AVCommonPickerDialog.ArgsSelector mVideoResolution;
+    private static final int REQUEST_CODE_RESOLUTION = 0x12;
+
+    private RelativeLayout mVideoCropModeLayout;
+    private TextView mTvVideoCropMode;
+    private AVCommonPickerDialog.ArgsSelector mVideoCropMode;
+    private static final int REQUEST_CODE_CROP_MODE = 0x13;
+
+    private RelativeLayout mVideoCodecModeLayout;
+    private TextView mTvVideoCodecMode;
+    private AVCommonPickerDialog.ArgsSelector mVideoCodecMode;
+    private static final int REQUEST_CODE_CODEC_MODE = 0x14;
+
+    private RelativeLayout mVideoQualityLayout;
+    private TextView mTvVideoQuality;
+    private AVCommonPickerDialog.ArgsSelector mVideoQuality;
+    private static final int REQUEST_CODE_QUALITY = 0x15;
+
+    private RelativeLayout mVideoFrameRateLayout;
+    private EditText mFrameRateEdit;
+
+    private RelativeLayout mVideoGopLayout;
+    private EditText mGopEdit;
+
+    private RelativeLayout mVideoCodeRateLayout;
+    private EditText mBitRateEdit;
+
+    private AVCommonPickerDialog mPickerDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,6 +107,7 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
         setContentView(R.layout.aliyun_svideo_activity_recorder_setting);
         copyAssets();
         initView();
+        initData();
     }
 
     private void recordEnable() {
@@ -117,117 +115,95 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
     }
 
     private void initView() {
-        minDurationEt = (EditText)findViewById(R.id.aliyun_min_duration_edit);
-        maxDurationEt = (EditText)findViewById(R.id.aliyun_max_duration_edit);
-        mSwitchFlip = (Switch)findViewById(R.id.alivc_record_switch_flip);
-        mSwitchWatermark = (Switch)findViewById(R.id.alivc_record_switch_watermark);
-        mSwitchWatermark.setChecked(mHasWaterMark);
-        mSwitchAutoClearTemp = findViewById(R.id.alivc_record_switch_auto_clear);
-        gopEt = (EditText)findViewById(R.id.aliyun_gop_edit);
+        minDurationEt = (EditText)findViewById(R.id.ed_min_duration);
+        maxDurationEt = (EditText)findViewById(R.id.ed_max_duration);
+        mSwitchFlip = (Switch)findViewById(R.id.ugsv_video_flip);
+        mSwitchAutoClearTemp = findViewById(R.id.ugsv_video_clear_cache);
+        mSwitchJumpEdit = findViewById(R.id.ugsv_edit_after_record);
 
         mStartRecord = findViewById(R.id.aliyun_start_record);
         mStartRecord.setOnClickListener(this);
+
         mBackBtn = (ImageView)findViewById(R.id.aliyun_back);
         mBackBtn.setOnClickListener(this);
 
-        mQualitySuperBtn = findViewById(R.id.alivc_video_quality_super);
-        mQualitySuperBtn.setOnClickListener(this);
-        mQualityHighBtn = findViewById(R.id.alivc_video_quality_high);
-        mQualityHighBtn.setOnClickListener(this);
-        mQualityNomalBtn = findViewById(R.id.alivc_video_quality_normal);
-        mQualityNomalBtn.setOnClickListener(this);
-        mQualityLowBtn = findViewById(R.id.alivc_video_quality_low);
-        mQualityLowBtn.setOnClickListener(this);
-        //视频分辨率选择相关按钮
-        mRecordResolutionP360Btn = findViewById(R.id.alivc_record_resolution_360p);
-        mRecordResolutionP480Btn = findViewById(R.id.alivc_record_resolution_480p);
-        mRecordResolutionP540Btn = findViewById(R.id.alivc_record_resolution_540p);
-        mRecordResolutionP720Btn = findViewById(R.id.alivc_record_resolution_720p);
-        mRecordResolutionP360Btn.setOnClickListener(this);
-        mRecordResolutionP480Btn.setOnClickListener(this);
-        mRecordResolutionP540Btn.setOnClickListener(this);
-        mRecordResolutionP720Btn.setOnClickListener(this);
-        //视频编码相关按钮
-        mEncorderHardwareBtn = findViewById(R.id.alivc_record_encoder_hardware);
-        mEncorderOpenh264Btn = findViewById(R.id.alivc_record_encoder_openh264);
-        mEncorderHardwareBtn.setOnClickListener(this);
-        mEncorderOpenh264Btn.setOnClickListener(this);
+        //视频质量按钮初始化
+        mVideoRatioLayout = findViewById(R.id.video_ratio_layout);
+        mVideoRatioLayout.setOnClickListener(this);
+        mTvVideoRatio = findViewById(R.id.tv_video_ratio);
 
-        //视频比例相关按钮
-        mSettingRatioGroup = findViewById(R.id.alivc_recorder_setting_ratio_group);
-        mRecordRatio9P16Btn = findViewById(R.id.alivc_video_ratio_9_16);
-        mRecordRatio3P4Btn = findViewById(R.id.alivc_video_ratio_3_4);
-        mRecordRatio1P1Btn = findViewById(R.id.alivc_video_ratio_1_1);
-        mRecordRatio9P16Btn.setOnClickListener(this);
-        mRecordRatio3P4Btn.setOnClickListener(this);
-        mRecordRatio1P1Btn.setOnClickListener(this);
+        mVideoResolutionLayout = findViewById(R.id.video_resolution_layout);
+        mVideoResolutionLayout.setOnClickListener(this);
+        mTvVideoResolution = findViewById(R.id.tv_video_resolution);
 
-        //拍摄方式
-        mRecordGeneral = findViewById(R.id.alivc_video_record_general);
-        mRecordMix = findViewById(R.id.alivc_video_record_mix);
-        mRecordMix.setOnClickListener(this);
-        mRecordGeneral.setOnClickListener(this);
-        mRecordView = findViewById(R.id.alivc_video_record_view);
-        mRecordView.setOnClickListener(this);
+        mVideoCropModeLayout = findViewById(R.id.video_crop_mode_layout);
+        mVideoCropModeLayout.setOnClickListener(this);
+        mTvVideoCropMode = findViewById(R.id.tv_video_crop_mode);
 
-        //渲染方式
-        mRecordFaceUnity = findViewById(R.id.alivc_video_record_faceunity);
-        mRecordQueen = findViewById(R.id.alivc_video_record_queen);
-        mRecordDefault = findViewById(R.id.alivc_video_record_default);
-        mRecordFaceUnity.setOnClickListener(this);
-        mRecordQueen.setOnClickListener(this);
-        mRecordDefault.setOnClickListener(this);
+        mVideoCodecModeLayout = findViewById(R.id.video_codec_layout);
+        mVideoCodecModeLayout.setOnClickListener(this);
+        mTvVideoCodecMode= findViewById(R.id.tv_video_codec);
 
-        //合拍音频选择模式
-        mMixSourceGroup = findViewById(R.id.alivc_mix_recorder_source_group);
-        mDuetOriginal = findViewById(R.id.alivc_video_record_duet_original);
-        mDuetRecorded = findViewById(R.id.alivc_video_record_duet_recorded);
-        mDuetMute = findViewById(R.id.alivc_video_record_duet_mute);
-        mDuetMix = findViewById(R.id.alivc_video_record_duet_mix);
-        mDuetOriginal.setOnClickListener(this);
-        mDuetRecorded.setOnClickListener(this);
-        mDuetMute.setOnClickListener(this);
-        mDuetMix.setOnClickListener(this);
+        mVideoQualityLayout = findViewById(R.id.video_quality_layout);
+        mVideoQualityLayout.setOnClickListener(this);
+        mTvVideoQuality = findViewById(R.id.tv_video_quality);
 
-        //合拍背景色选择
-        mMixBackgroundGroup = findViewById(R.id.alivc_mix_recorder_background_group);
-        mDuetBackgroundNo = findViewById(R.id.alivc_video_record_duet_background_no);
-        mDuetBackgroundColor = findViewById(R.id.alivc_video_record_duet_background_color);
-        mDuetBackgroundImage = findViewById(R.id.alivc_video_record_duet_background_image);
-        mDuetBackgroundNo.setOnClickListener(this);
-        mDuetBackgroundColor.setOnClickListener(this);
-        mDuetBackgroundImage.setOnClickListener(this);
+        mVideoFrameRateLayout= findViewById(R.id.video_frame_rate_layout);
+        mVideoFrameRateLayout.setOnClickListener(this);
+        mFrameRateEdit = findViewById(R.id.ed_video_frame_rate);
 
-        //合拍视频边框
-        mMixVideoCornerBorder = findViewById(R.id.alivc_mix_recorder_round_corner);
-        mDuetCornerBorderNo = findViewById(R.id.alivc_video_record_duet_round_border_no);
-        mDuetCornerBorderYes = findViewById(R.id.alivc_video_record_duet_round_border_yes);
-        mDuetCornerBorderNo.setOnClickListener(this);
-        mDuetCornerBorderYes.setOnClickListener(this);
+        mVideoGopLayout = findViewById(R.id.video_gop_layout);
+        mVideoGopLayout.setOnClickListener(this);
+        mGopEdit = (EditText) findViewById(R.id.ed_video_gop);
 
-        mMixBgScaleModeGroup = findViewById(R.id.alivc_mix_bg_scale_mode_group);
-        mMixBgFillMode = findViewById(R.id.alivc_mix_bg_scale_mode_fill);
-        mMixBgCropMode = findViewById(R.id.alivc_mix_bg_scale_mode_crop);
-        mMixBgStretchMode = findViewById(R.id.alivc_mix_bg_scale_mode_stretch);
-        mMixBgFillMode.setOnClickListener(this);
-        mMixBgCropMode.setOnClickListener(this);
-        mMixBgStretchMode.setOnClickListener(this);
+        mVideoCodeRateLayout = findViewById(R.id.video_code_rate_layout);
+        mVideoCodeRateLayout.setOnClickListener(this);
+        mBitRateEdit = findViewById(R.id.ed_video_code_rate);
 
-        mTranscodeGroup = findViewById(R.id.alivc_mix_recorder_transcode_group);
-        mVideoTranscodeSwitch = findViewById(R.id.video_transcode_switch);
-        mVideoTranscodeSwitch.setOnCheckedChangeListener(this);
-        mVideoTranscodeSwitch.setChecked(isNeedTranscode);
+    }
 
-        //初始化配置
-        onRatioSelected(mRecordRatio9P16Btn);
-        onEncoderSelected(mEncorderHardwareBtn);
-        onResolutionSelected(mRecordResolutionP720Btn);
-        onQualitySelected(mQualityHighBtn);
-        onRecordSelected(mRecordGeneral);
-        onRenderingSelected(mRecordQueen);
-        onDuetAudioModeSelected(mDuetOriginal);
-        onDuetBackgroundSelected(mDuetBackgroundNo);
-        onDuetVideoBorderUnSetting();
+    private void initData() {
+        RecorderConfig.Companion.getInstance().reset();
+
+        mVideoRatio = new AVCommonPickerDialog.ArgsSelector();
+        mVideoRatio.mRequestCode = REQUEST_CODE_RATIO;
+        mVideoRatio.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_ratio_9_16), EditorConfig.RATIO_MODE_9_16));
+        mVideoRatio.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_ratio_3_4), EditorConfig.RATIO_MODE_3_4));
+        mVideoRatio.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_ratio_1_1), EditorConfig.RATIO_MODE_1_1));
+        mVideoRatio.mSelectedIndex = 0;
+        mVideoRatio.mTitle = getResources().getString(R.string.alivc_crop_setting_ratio);
+
+        mVideoResolution = new AVCommonPickerDialog.ArgsSelector();
+        mVideoResolution.mRequestCode = REQUEST_CODE_RESOLUTION;
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_1080p), EditorConfig.RESOLUTION_1080P));
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_720p), EditorConfig.RESOLUTION_720P));
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_540p), EditorConfig.RESOLUTION_540P));
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_360p), EditorConfig.RESOLUTION_360P));
+        mVideoResolution.mSelectedIndex = 1;
+        mVideoResolution.mTitle = getResources().getString(R.string.alivc_crop_setting_resolution);
+
+        mVideoCropMode = new AVCommonPickerDialog.ArgsSelector();
+        mVideoCropMode.mRequestCode = REQUEST_CODE_CROP_MODE;
+        mVideoCropMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_mode_fill), VideoDisplayMode.FILL));
+        mVideoCropMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_mode_crop),  VideoDisplayMode.SCALE));
+        mVideoCropMode.mSelectedIndex = 0;
+        mVideoCropMode.mTitle = getResources().getString(R.string.alivc_media_crop_mode);
+
+        mVideoCodecMode = new AVCommonPickerDialog.ArgsSelector();
+        mVideoCodecMode.mRequestCode = REQUEST_CODE_CODEC_MODE;
+        mVideoCodecMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_encoder_hardware), VideoCodecs.H264_HARDWARE));
+        mVideoCodecMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_encoder_openh264), VideoCodecs.H264_SOFT_OPENH264));
+        mVideoCodecMode.mSelectedIndex = 0;
+        mVideoCodecMode.mTitle = getResources().getString(R.string.alivc_crop_setting_codec);
+
+        mVideoQuality = new AVCommonPickerDialog.ArgsSelector();
+        mVideoQuality.mRequestCode = REQUEST_CODE_QUALITY;
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_super), VideoQuality.SSD));
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_high), VideoQuality.HD));
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_meidan), VideoQuality.SD));
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_low), VideoQuality.LD));
+        mVideoQuality.mSelectedIndex = 1;
+        mVideoQuality.mTitle = getResources().getString(R.string.alivc_crop_setting_quality);
     }
 
     private void copyAssets() {
@@ -243,9 +219,22 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView == mVideoTranscodeSwitch) {
-            isNeedTranscode = isChecked;
+    public void onSubmit(int requestCode, AVCommonPickerDialog.PickerItem pickerItem) {
+        if (requestCode == REQUEST_CODE_RATIO) {
+            RecorderConfig.Companion.getInstance().setRatio((Float) pickerItem.mAttachValue);
+            mTvVideoRatio.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_RESOLUTION) {
+            RecorderConfig.Companion.getInstance().setResolution((Integer) pickerItem.mAttachValue);
+            mTvVideoResolution.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_CODEC_MODE) {
+            RecorderConfig.Companion.getInstance().setCodec((VideoCodecs) pickerItem.mAttachValue);
+            mTvVideoCodecMode.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_CROP_MODE) {
+            RecorderConfig.Companion.getInstance().setVideoDisplayMode((VideoDisplayMode) pickerItem.mAttachValue);
+            mTvVideoCropMode.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_QUALITY) {
+            RecorderConfig.Companion.getInstance().setVideoQuality((VideoQuality)pickerItem.mAttachValue);
+            mTvVideoQuality.setText(pickerItem.mItemName);
         }
     }
 
@@ -315,7 +304,9 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
             }
             int min = 2000;
             int max = 15000;
-            int gop = 30;
+            int gop = 250;
+            int fps = 30;
+            int bitrate = EditorConfig.DEFAULT_BITRATE;
 
             String minDuration = minDurationEt.getText().toString().trim();
             if (!TextUtils.isEmpty(minDuration)) {
@@ -365,7 +356,7 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
                 return;
             }
 
-            String gopValue = gopEt.getText().toString().trim();
+            String gopValue = mGopEdit.getText().toString().trim();
             if (!TextUtils.isEmpty(gopValue)) {
                 try {
                     gop = Integer.parseInt(gopValue);
@@ -373,323 +364,63 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
                     Log.e("ERROR", "input error");
                 }
             }
-            AUIRecorderInputParam recordParam = new AUIRecorderInputParam.Builder()
-                    .setResolutionMode(mResolutionMode)
-                    .setRatioMode(mRatioMode)
-                    .setMaxDuration(max)
-                    .setMinDuration(min)
-                    .setVideoQuality(mVideoQuality)
-                    .setGop(gop)
-                    .setVideoCodec(mVideoCodec)
-                    .setIsUseFlip(mSwitchFlip.isChecked())
-                    .setIsAutoClearTemp(mSwitchAutoClearTemp.isChecked())
-                    .setVideoRenderingMode(mRenderingMode)
-                    .setWaterMark(mSwitchWatermark.isChecked())
-                    .setMixAudioSourceType(mMixAudioSourceType)
-                    .setMixBackgroundColor(mBackgroundColor)
-                    .setMixBackgroundImagePath(mBackgroundImage)
-                    .setMixBackgroundImageMode(mMixBgScaleMode)
-                    .setMixNeedTranscode(isNeedTranscode)
-                    .build();
-            AUIVideoRecorderEntrance.startRecord(this, recordParam);
+
+            String fpsValue = mFrameRateEdit.getText().toString().trim();
+            if (!TextUtils.isEmpty(fpsValue)) {
+                try {
+                    fps = Integer.parseInt(fpsValue);
+                } catch (Exception e) {
+                    Log.e("ERROR", "input error");
+                }
+            }
+
+            String bitrateValue = mBitRateEdit.getText().toString().trim();
+            if (!TextUtils.isEmpty(bitrateValue)) {
+                try {
+                    bitrate = Integer.parseInt(bitrateValue);
+                } catch (Exception e) {
+                    Log.e("ERROR", "input error");
+                }
+            }
+
+            RecorderConfig.Companion.getInstance().setMinDuration(min);
+            RecorderConfig.Companion.getInstance().setMaxDuration(max);
+            RecorderConfig.Companion.getInstance().setGop(gop);
+            RecorderConfig.Companion.getInstance().setFps(fps);
+            if (bitrate != -1) {
+                RecorderConfig.Companion.getInstance().setBitRate(bitrate);
+            }
+            RecorderConfig.Companion.getInstance().setVideoFlip(mSwitchFlip.isChecked());
+            RecorderConfig.Companion.getInstance().setNeedEdit(mSwitchJumpEdit.isChecked());
+            RecorderConfig.Companion.getInstance().setClearCache(mSwitchAutoClearTemp.isChecked());
+
+            AUIVideoRecorderEntrance.startRecord(this);
         } else if (v == mBackBtn) {
             finish();
-        } else if (v == mEncorderHardwareBtn || v == mEncorderOpenh264Btn) {
-            onEncoderSelected(v);
-        } else if (v == mQualityHighBtn || v == mQualityLowBtn || v == mQualitySuperBtn
-                   || v == mQualityNomalBtn) {
-            onQualitySelected(v);
-        } else if (v == mRecordRatio1P1Btn || v == mRecordRatio3P4Btn || v == mRecordRatio9P16Btn) {
-            onRatioSelected(v);
-        } else if (v == mRecordResolutionP360Btn || v == mRecordResolutionP480Btn
-                   || mRecordResolutionP540Btn == v
-                   || v == mRecordResolutionP720Btn) {
-            onResolutionSelected(v);
-        } else if ((v == mRecordGeneral)) {
-            onRecordSelected(v);
-        } else if (v == mRecordMix) {
-            onRecordSelected(v);
-        } else if (v == mRecordView) {
-            onRecordSelected(v);
-        } else if ((v == mRecordFaceUnity)) {
-            onRenderingSelected(v);
-        } else if (v == mRecordQueen) {
-            onRenderingSelected(v);
-        } else if (v == mRecordDefault){
-            onRenderingSelected(v);
-        } else if (v == mDuetOriginal || v == mDuetRecorded || v == mDuetMute || v == mDuetMix) {
-            onDuetAudioModeSelected(v);
-        } else if (v == mDuetBackgroundNo || v == mDuetBackgroundColor
-                   || v == mDuetBackgroundImage) {
-            onDuetBackgroundSelected(v);
-        } else if (v == mMixBgFillMode || v == mMixBgCropMode
-                   || v == mMixBgStretchMode) {
-            onDuetBackgroundScaleMode(v);
-        } else if (v == mDuetCornerBorderNo) {
-            onDuetVideoBorderUnSetting();
-        } else if (v == mDuetCornerBorderYes) {
-            onDuetVideoBorderSetting();
+        } if (v == mVideoRatioLayout) {
+            mVideoRatio.mSelectedIndex = mVideoRatio.findSelectedIndexByText(CropConfig.Companion.getInstance().getRatio());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoRatio).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoRatio.mTitle);
+        } else if (v == mVideoResolutionLayout) {
+            mVideoResolution.mSelectedIndex = mVideoResolution.findSelectedIndexByText(CropConfig.Companion.getInstance().getResolution());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoResolution).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoResolution.mTitle);
+        } else if (v == mVideoCropModeLayout) {
+            mVideoCropMode.mSelectedIndex = mVideoCropMode.findSelectedIndexByText(CropConfig.Companion.getInstance().getVideoDisplayMode());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoCropMode).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoCropMode.mTitle);
+        } else if (v == mVideoCodecModeLayout) {
+            mVideoCodecMode.mSelectedIndex = mVideoCodecMode.findSelectedIndexByText(CropConfig.Companion.getInstance().getCodec());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoCodecMode).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoCodecMode.mTitle);
+        } else if (v == mVideoQualityLayout) {
+            mVideoQuality.mSelectedIndex = mVideoQuality.findSelectedIndexByText(CropConfig.Companion.getInstance().getVideoQuality());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoQuality).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoQuality.mTitle);
         }
     }
 
-    private void onDuetVideoBorderUnSetting() {
-        mMixBorderParam = null;
-        mDuetCornerBorderYes.setSelected(false);
-        mDuetCornerBorderNo.setSelected(true);
-    }
 
-    private void onDuetVideoBorderSetting() {
-        mMixBorderParam = new AlivcMixBorderParam.Builder()
-        .borderWidth(10)
-        .cornerRadius(30)
-        .borderColor(Color.WHITE)
-        .build();
-        mDuetCornerBorderYes.setSelected(true);
-        mDuetCornerBorderNo.setSelected(false);
-    }
-    /**
-     * 拍摄方式选择
-     */
-    private void onRecordSelected(View view) {
-        mRecordGeneral.setSelected(false);
-        mRecordMix.setSelected(false);
-        mRecordView.setSelected(false);
-        if (view == mRecordView) {
-            mStartRecord.setText(getResources().getText(R.string.alivc_recorder_setting_start_record));
-            mRecordView.setSelected(true);
-            mMixBackgroundGroup.setVisibility(View.VISIBLE);
-            mMixSourceGroup.setVisibility(View.GONE);
-            mTranscodeGroup.setVisibility(View.GONE);
-            mMixVideoCornerBorder.setVisibility(View.VISIBLE);
-            if (mDuetBackgroundImage.isSelected()) {
-                mMixBgScaleModeGroup.setVisibility(View.VISIBLE);
-                onDuetBackgroundScaleMode(null);
-            } else {
-                mMixBgScaleModeGroup.setVisibility(View.GONE);
-            }
-
-            mSettingRatioGroup.setVisibility(View.GONE);
-        } else if (view == mRecordMix) {
-            mStartRecord.setText(getResources().getText(R.string.aliyun_start_mix_record));
-            mRecordMix.setSelected(true);
-            mMixBackgroundGroup.setVisibility(View.VISIBLE);
-            mMixSourceGroup.setVisibility(View.VISIBLE);
-            mTranscodeGroup.setVisibility(View.VISIBLE);
-            mMixVideoCornerBorder.setVisibility(View.VISIBLE);
-            if (mDuetBackgroundImage.isSelected()) {
-                mMixBgScaleModeGroup.setVisibility(View.VISIBLE);
-                onDuetBackgroundScaleMode(null);
-            } else {
-                mMixBgScaleModeGroup.setVisibility(View.GONE);
-            }
-
-            mSettingRatioGroup.setVisibility(View.VISIBLE);
-        } else {
-            mStartRecord.setText(
-                getResources().getText(R.string.alivc_recorder_setting_start_record));
-            mRecordGeneral.setSelected(true);
-            mMixBackgroundGroup.setVisibility(View.GONE);
-            mMixSourceGroup.setVisibility(View.GONE);
-            mTranscodeGroup.setVisibility(View.GONE);
-            mMixBgScaleModeGroup.setVisibility(View.GONE);
-            mMixVideoCornerBorder.setVisibility(View.GONE);
-
-            mSettingRatioGroup.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * 渲染方式选择
-     */
-    private void onRenderingSelected(View view) {
-        mRecordFaceUnity.setSelected(false);
-        mRecordQueen.setSelected(false);
-        if (view == mRecordFaceUnity) {
-            mRecordFaceUnity.setSelected(true);
-            mRecordQueen.setSelected(false);
-            mRecordDefault.setSelected(false);
-            mRenderingMode = BeautySDKType.FACEUNITY;
-        } else if (view == mRecordDefault){
-            mRecordFaceUnity.setSelected(false);
-            mRecordQueen.setSelected(false);
-            mRecordDefault.setSelected(true);
-            mRenderingMode = BeautySDKType.DEFAULT;
-        }else {
-            mRecordFaceUnity.setSelected(false);
-            mRecordQueen.setSelected(true);
-            mRecordDefault.setSelected(false);
-            mRenderingMode = BeautySDKType.QUEEN;
-        }
-    }
-
-    /**
-     * 视频质量选择
-     *
-     * @param view 被点击按钮
-     */
-    private void onQualitySelected(View view) {
-        mQualitySuperBtn.setSelected(false);
-        mQualityHighBtn.setSelected(false);
-        mQualityNomalBtn.setSelected(false);
-        mQualityLowBtn.setSelected(false);
-        if (view == mQualitySuperBtn) {
-            mVideoQuality = VideoQuality.SSD;
-            mQualitySuperBtn.setSelected(true);
-        } else if (view == mQualityHighBtn) {
-            mQualityHighBtn.setSelected(true);
-            mVideoQuality = VideoQuality.HD;
-        } else if (view == mQualityNomalBtn) {
-            mQualityNomalBtn.setSelected(true);
-            mVideoQuality = VideoQuality.SD;
-        } else {
-            mQualityLowBtn.setSelected(true);
-            mVideoQuality = VideoQuality.LD;
-        }
-    }
-
-    /**
-     * 视频比例选择
-     *
-     * @param view
-     */
-    private void onRatioSelected(View view) {
-        mRecordRatio9P16Btn.setSelected(false);
-        mRecordRatio3P4Btn.setSelected(false);
-        mRecordRatio1P1Btn.setSelected(false);
-        if (view == mRecordRatio1P1Btn) {
-            mRatioMode = AliyunSnapVideoParam.RATIO_MODE_1_1;
-            mRecordRatio1P1Btn.setSelected(true);
-        } else if (view == mRecordRatio9P16Btn) {
-            mRatioMode = AliyunSnapVideoParam.RATIO_MODE_9_16;
-            mRecordRatio9P16Btn.setSelected(true);
-        } else {
-            mRecordRatio3P4Btn.setSelected(true);
-            mRatioMode = AliyunSnapVideoParam.RATIO_MODE_3_4;
-        }
-    }
-
-    /**
-     * 视频编码方式选择
-     *
-     * @param view
-     */
-    private void onEncoderSelected(View view) {
-        mEncorderHardwareBtn.setSelected(false);
-        mEncorderOpenh264Btn.setSelected(false);
-
-        if (view == mEncorderOpenh264Btn) {
-            mEncorderOpenh264Btn.setSelected(true);
-            mVideoCodec = VideoCodecs.H264_SOFT_OPENH264;
-        } else if (view == mEncorderHardwareBtn) {
-            mEncorderHardwareBtn.setSelected(true);
-            mVideoCodec = VideoCodecs.H264_HARDWARE;
-        }
-    }
-
-    /**
-     * 视频分辨率选择
-     *
-     * @param view
-     */
-    private void onResolutionSelected(View view) {
-        mRecordResolutionP360Btn.setSelected(false);
-        mRecordResolutionP480Btn.setSelected(false);
-        mRecordResolutionP540Btn.setSelected(false);
-        mRecordResolutionP720Btn.setSelected(false);
-        if (view == mRecordResolutionP360Btn) {
-            mRecordResolutionP360Btn.setSelected(true);
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_360P;
-        } else if (view == mRecordResolutionP480Btn) {
-            mRecordResolutionP480Btn.setSelected(true);
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_480P;
-
-        } else if (view == mRecordResolutionP540Btn) {
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_540P;
-            mRecordResolutionP540Btn.setSelected(true);
-
-        } else {
-            mRecordResolutionP720Btn.setSelected(true);
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_720P;
-
-        }
-
-    }
-
-    private void onDuetAudioModeSelected(View view) {
-        mDuetOriginal.setSelected(false);
-        mDuetRecorded.setSelected(false);
-        mDuetMute.setSelected(false);
-        mDuetMix.setSelected(false);
-        if (view == mDuetOriginal) {
-            mDuetOriginal.setSelected(true);
-            mMixAudioSourceType = MixAudioSourceType.Original;
-        } else if (view == mDuetRecorded) {
-            mDuetRecorded.setSelected(true);
-            mMixAudioSourceType = MixAudioSourceType.Recorded;
-        } else if (view == mDuetMute) {
-            mDuetMute.setSelected(true);
-            mMixAudioSourceType = MixAudioSourceType.Mute;
-        } else if (view == mDuetMix) {
-            mDuetMix.setSelected(true);
-            mMixAudioSourceType = MixAudioSourceType.MIX;
-        } else {
-            mDuetOriginal.setSelected(true);
-            mMixAudioSourceType = MixAudioSourceType.Original;
-        }
-    }
-
-    private void onDuetBackgroundSelected(View view) {
-        if (view == mDuetBackgroundNo) {
-            mDuetBackgroundNo.setSelected(true);
-            mDuetBackgroundColor.setSelected(false);
-            mDuetBackgroundImage.setSelected(false);
-            mBackgroundImage = "";
-            mBackgroundColor = Color.BLACK;
-            mMixBgScaleModeGroup.setVisibility(View.GONE);
-        } else if (view == mDuetBackgroundColor) {
-            mDuetBackgroundNo.setSelected(false);
-            mDuetBackgroundColor.setSelected(true);
-            mBackgroundColor = Color.RED;
-        } else if (view == mDuetBackgroundImage) {
-            mDuetBackgroundNo.setSelected(false);
-            mDuetBackgroundImage.setSelected(true);
-            mBackgroundImage = BACKGROUND_IMAGE_PATH;
-            mMixBgScaleModeGroup.setVisibility(View.VISIBLE);
-            onDuetBackgroundScaleMode(null);
-        } else {
-            mDuetBackgroundNo.setSelected(true);
-            mDuetBackgroundColor.setSelected(false);
-            mDuetBackgroundImage.setSelected(false);
-            mBackgroundImage = "";
-            mBackgroundColor = Color.BLACK;
-
-        }
-    }
-
-    //displayMode 0：crop 1：fill 2：exact fit
-    private void onDuetBackgroundScaleMode(View view) {
-        if (view == mMixBgFillMode) {
-            mMixBgFillMode.setSelected(true);
-            mMixBgCropMode.setSelected(false);
-            mMixBgStretchMode.setSelected(false);
-            mMixBgScaleMode = 1;
-        } else if (view == mMixBgCropMode) {
-            mMixBgFillMode.setSelected(false);
-            mMixBgCropMode.setSelected(true);
-            mMixBgStretchMode.setSelected(false);
-            mMixBgScaleMode = 0;
-        } else if (view == mMixBgStretchMode) {
-            mMixBgFillMode.setSelected(false);
-            mMixBgCropMode.setSelected(false);
-            mMixBgStretchMode.setSelected(true);
-            mMixBgScaleMode = 2;
-        } else {
-            mMixBgScaleMode = 1;
-            mMixBgFillMode.setSelected(true);
-            mMixBgCropMode.setSelected(false);
-            mMixBgStretchMode.setSelected(false);
-        }
-    }
 
     @Override
     protected void onDestroy() {

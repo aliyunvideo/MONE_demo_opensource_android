@@ -64,16 +64,14 @@
                 android:resource="@xml/aio_file_paths" />
         </provider> <!-- license key -->
 
-        <!-- TODO: 此处替换为您的LicenseKey-->
         <meta-data
             tools:node="replace"
             android:name="com.aliyun.alivc_license.licensekey"
-            android:value="MoCTfuQ391Z01mNqG8f8786e23c8a457a8ff8d5faedc1040c"/>
-        <!-- TODO: 此处替换为您的LicenseFile-->
+            android:value=""/>  <!-- TODO:请设置您的 LicenseKey-->
         <meta-data
             tools:node="replace"
             android:name="com.aliyun.alivc_license.licensefile"
-            android:value="assets/cert/release.crt"/>
+            android:value="assets/cert/release.crt"/>  <!-- TODO:请设置您的 LicenseFile, 选填，提供离线校验能力-->
 
     </application>
 

@@ -144,6 +144,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:layout_below="@id/tab_layout"
         android:gravity="center_vertical"
         android:orientation="horizontal">

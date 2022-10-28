@@ -82,6 +82,18 @@ def hasQueen() {
             AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
 }
 
+def hasInteractiveLive() {
+    def sdkType = "AliVCSDK_Premium"
+    if (hasProperty("SDK_TYPE")) {
+        sdkType = SDK_TYPE
+    }
+    println("hasInteractiveLive sdkType = " + sdkType)
+    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
+}
+
 def hasEnhanceFeature() {
     return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType)
 }
@@ -92,5 +104,6 @@ ext {
     hasPlayer = this.&hasPlayer
     hasQueen = this.&hasQueen
     hasRTS = this.&hasRTS
+    hasInteractiveLive = this.&hasInteractiveLive
     hasEnhanceFeature = this.&hasEnhanceFeature
 }

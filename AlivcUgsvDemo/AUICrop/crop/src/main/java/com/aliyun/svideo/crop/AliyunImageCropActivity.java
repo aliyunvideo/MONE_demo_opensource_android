@@ -35,21 +35,14 @@ import com.aliyun.ugsv.common.utils.BitmapUtils;
 import com.aliyun.ugsv.common.utils.ThreadUtils;
 import com.aliyun.ugsv.common.utils.UriUtils;
 import com.aliyun.ugsv.common.utils.image.ImageLoaderOptions;
-import com.aliyun.svideo.crop.bean.AlivcCropInputParam;
-import com.aliyun.svideo.crop.bean.AlivcCropOutputParam;
 import com.aliyun.svideosdk.common.AliyunErrorCode;
-import com.aliyun.svideo.base.AlivcSvideoEditParam;
 import com.aliyun.svideo.base.Constants;
 import com.aliyun.svideo.base.widget.FanProgressBar;
 import com.aliyun.svideo.base.widget.HorizontalListView;
 import com.aliyun.svideo.base.widget.SizeChangedNotifier;
 import com.aliyun.svideo.base.widget.VideoTrimFrameLayout;
 import com.aliyun.svideosdk.common.struct.common.MediaType;
-import com.aliyun.svideosdk.common.struct.common.CropKey;
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
-import com.aliyun.svideosdk.common.struct.common.VideoQuality;
-import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
 import com.aliyun.ugsv.common.utils.DateTimeUtils;
 import com.aliyun.ugsv.common.utils.image.ImageLoaderImpl;
 
@@ -66,8 +59,6 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
 
     public static final String VIDEO_PATH = "video_path";
     public static final int REQUEST_CODE_EDITOR_IMAGE_CROP = 2;
-    public static final VideoDisplayMode SCALE_CROP = VideoDisplayMode.SCALE;
-    public static final VideoDisplayMode SCALE_FILL = VideoDisplayMode.FILL;
 
     public static final String RESULT_KEY_CROP_PATH = "crop_path";
 
@@ -87,12 +78,6 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
 
     private String path;
     private String outputPath;
-    private int resolutionMode;
-    private int ratioMode;
-    private VideoQuality quality = VideoQuality.HD;
-    private VideoCodecs mVideoCodecs = VideoCodecs.H264_HARDWARE;
-    private int frameRate;
-    private int gop;
 
     private int screenWidth;
     private int frameWidth;
@@ -102,8 +87,6 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
     private int mImageWidth;
     private int mImageHeight;
 
-
-    private VideoDisplayMode cropMode = VideoDisplayMode.SCALE;
 
     private boolean isCropping = false;
     private String mSuffix;
@@ -129,10 +112,9 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
             public void onGlobalLayout() {
                 frameWidth = frame.getWidth();
                 frameHeight = frame.getHeight();
-                if (cropMode == SCALE_CROP) {
+                if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.SCALE) {
                     scaleCrop(mImageWidth, mImageHeight);
-
-                } else if (cropMode == SCALE_FILL) {
+                } else if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.FILL) {
                     scaleFill(mImageWidth, mImageHeight);
                 }
                 frame.getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -142,30 +124,9 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
 
     private void getData() {
 
-        Intent intent = getIntent();
-
-        path = intent.getStringExtra(AlivcCropInputParam.INTENT_KEY_PATH);
+        path = CropConfig.Companion.getInstance().getInputPath();
         int index = path.lastIndexOf(".");
         mSuffix = index == -1 ? "" : path.substring(index);
-        resolutionMode = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_RESOLUTION_MODE, AlivcCropInputParam.RESOLUTION_720P);
-        cropMode = (VideoDisplayMode)intent.getSerializableExtra(AlivcCropInputParam.INTENT_KEY_CROP_MODE);
-        if (cropMode == null) {
-            cropMode = VideoDisplayMode.SCALE;
-        }
-
-        quality = (VideoQuality)intent.getSerializableExtra(AlivcCropInputParam.INTENT_KEY_QUALITY);
-        if (quality == null) {
-            quality = VideoQuality.HD;
-        }
-
-        mVideoCodecs = (VideoCodecs)intent.getSerializableExtra(AlivcCropInputParam.INTENT_KEY_CODECS);
-        if (mVideoCodecs == null) {
-            mVideoCodecs = VideoCodecs.H264_HARDWARE;
-        }
-        gop = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_GOP, 250 );
-
-        frameRate = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_FRAME_RATE, 30);
-        ratioMode = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_RATIO_MODE, AlivcCropInputParam.RATIO_MODE_9_16);
         BitmapUtils.checkAndAmendImgOrientation(path);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -206,24 +167,8 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
 
     private void resizeFrame() {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) frame.getLayoutParams();
-        switch (ratioMode) {
-        case AliyunSnapVideoParam.RATIO_MODE_1_1:
-            layoutParams.width = screenWidth;
-            layoutParams.height = screenWidth;
-            break;
-        case AliyunSnapVideoParam.RATIO_MODE_3_4:
-            layoutParams.width = screenWidth;
-            layoutParams.height = screenWidth * 4 / 3;
-            break;
-        case AliyunSnapVideoParam.RATIO_MODE_9_16:
-            layoutParams.width = screenWidth;
-            layoutParams.height = screenWidth * 16 / 9;
-            break;
-        default:
-            layoutParams.width = screenWidth;
-            layoutParams.height = screenWidth * 16 / 9;
-            break;
-        }
+        layoutParams.width = screenWidth;
+        layoutParams.height = (int) (screenWidth / CropConfig.Companion.getInstance().getRatio());
         frame.setLayoutParams(layoutParams);
     }
 
@@ -271,22 +216,8 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
         int s = Math.min(imageWidth, imageHeight);
         int b = Math.max(imageWidth, imageHeight);
         float imageRatio = (float) b / s;
-        float ratio = 1f;
-        switch (ratioMode) {
-        case CropKey.RATIO_MODE_1_1:
-            ratio = 1f;
-            break;
-        case CropKey.RATIO_MODE_3_4:
-            ratio = (float) 4 / 3;
-            break;
-        case CropKey.RATIO_MODE_9_16:
-            ratio = (float) 16 / 9;
-            break;
-        default:
-            ratio = (float) 16 / 9;
-            break;
-        }
-        if (ratioMode == AlivcSvideoEditParam.RATIO_MODE_ORIGINAL) {
+        float ratio = 1 / CropConfig.Companion.getInstance().getRatio();
+        if (CropConfig.Companion.getInstance().isOriginRatio()) {
             //原比例模式下与填充模式一致
 
             //填充模式，以长边为准，短边填充
@@ -327,7 +258,7 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
         }
         layoutParams.setMargins(0, 0, 0, 0);
         mImageView.setLayoutParams(layoutParams);
-        cropMode = SCALE_CROP;
+        CropConfig.Companion.getInstance().setVideoDisplayMode(VideoDisplayMode.SCALE);
         transFormBtn.setActivated(false);
         resetScroll();
     }
@@ -342,22 +273,7 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
         int s = Math.min(imageWidth, imageHeight);
         int b = Math.max(imageWidth, imageHeight);
         float imageRatio = (float) b / s;
-        float ratio = 1f;
-        switch (ratioMode) {
-        case CropKey.RATIO_MODE_1_1:
-            ratio = 1f;
-            break;
-        case CropKey.RATIO_MODE_3_4:
-            ratio = (float) 4 / 3;
-            break;
-        case CropKey.RATIO_MODE_9_16:
-            ratio = (float) 16 / 9;
-            break;
-        default:
-            ratio = (float) 16 / 9;
-            break;
-        }
-
+        float ratio = 1 / CropConfig.Companion.getInstance().getRatio();
         //填充模式，以长边为准，短边填充
         if (imageWidth >= imageHeight) {
             //图片宽大于高
@@ -377,7 +293,7 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
         }
         layoutParams.setMargins(0, 0, 0, 0);
         mImageView.setLayoutParams(layoutParams);
-        cropMode = SCALE_FILL;
+        CropConfig.Companion.getInstance().setVideoDisplayMode(VideoDisplayMode.FILL);
         transFormBtn.setActivated(true);
         resetScroll();
     }
@@ -451,9 +367,9 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
             if (isCropping) {
                 return;
             }
-            if (cropMode == SCALE_FILL) {
+            if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.SCALE) {
                 scaleCrop(mImageWidth, mImageHeight);
-            } else if (cropMode == SCALE_CROP) {
+            } else if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.FILL) {
                 scaleFill(mImageWidth, mImageHeight);
 
             }
@@ -482,149 +398,32 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
         int cropHeight;
         outputPath = Constants.SDCardConstants.getDir(this) + DateTimeUtils.getDateTimeFromMillisecond(System.currentTimeMillis()) + "-crop" + mSuffix;
         float videoRatio = (float) mImageHeight / mImageWidth;
-        float outputRatio = 1f;
-        switch (ratioMode) {
-        case CropKey.RATIO_MODE_1_1:
-            outputRatio = 1f;
-            break;
-        case CropKey.RATIO_MODE_3_4:
-            outputRatio = (float) 4 / 3;
-            break;
-        case CropKey.RATIO_MODE_9_16:
-            outputRatio = (float) 16 / 9;
-            break;
-        case AlivcSvideoEditParam.RATIO_MODE_ORIGINAL:
-            outputRatio = videoRatio;
-            break;
-        default:
-            outputRatio = (float) 16 / 9;
-            break;
-        }
+        float outputRatio = CropConfig.Companion.getInstance().getRatio();
         if (videoRatio > outputRatio) {
             posX = 0;
             posY = ((mImageView.getMeasuredHeight() - frameHeight) / 2 + mScrollY) * mImageWidth / frameWidth;
-            switch (resolutionMode) {
-            case CropKey.RESOLUTION_360P:
-                outputWidth = 360;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_480P:
-                outputWidth = 480;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_540P:
-                outputWidth = 540;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_720P:
-                outputWidth = 720;
-                break;
-            default:
-                outputWidth = 720;
-                break;
-            }
+            outputWidth = CropConfig.Companion.getInstance().getResolution();
             cropWidth = mImageWidth;
-            cropHeight = 0;
-            switch (ratioMode) {
-            case AliyunSnapVideoParam.RATIO_MODE_1_1:
-                cropHeight = mImageWidth;
-                outputHeight = outputWidth;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                cropHeight = mImageWidth * 4 / 3;
-                outputHeight = outputWidth * 4 / 3;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_9_16:
-                cropHeight = mImageWidth * 16 / 9;
-                outputHeight = outputWidth * 16 / 9;
-                break;
-            default:
-                cropHeight = mImageWidth * 16 / 9;
-                outputHeight = outputWidth * 16 / 9;
-                break;
-            }
+            cropHeight = (int) (mImageWidth / CropConfig.Companion.getInstance().getRatio());
+            outputHeight = (int) (outputWidth / CropConfig.Companion.getInstance().getRatio());
         } else if (videoRatio < outputRatio) {
             posX = ((mImageView.getMeasuredWidth() - frameWidth) / 2 + mScrollX) * mImageHeight / frameHeight;
             posY = 0;
-            switch (resolutionMode) {
-            case CropKey.RESOLUTION_360P:
-                outputWidth = 360;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_480P:
-                outputWidth = 480;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_540P:
-                outputWidth = 540;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_720P:
-                outputWidth = 720;
-                break;
-            default:
-                outputWidth = 720;
-                break;
-            }
+            outputWidth = CropConfig.Companion.getInstance().getResolution();
             cropHeight = mImageHeight;
-            switch (ratioMode) {
-            case AliyunSnapVideoParam.RATIO_MODE_1_1:
-                cropWidth = mImageHeight;
-                outputHeight = outputWidth;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                cropWidth = mImageHeight * 3 / 4;
-                outputHeight = outputWidth * 4 / 3;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_9_16:
-                cropWidth = mImageHeight * 9 / 16;
-                outputHeight = outputWidth * 16 / 9;
-                break;
-            default:
-                cropWidth = mImageHeight * 9 / 16;
-                outputHeight = outputWidth * 16 / 9;
-                break;
-            }
+            cropWidth = (int) (mImageHeight * CropConfig.Companion.getInstance().getRatio());
+            outputHeight = (int) (outputHeight / CropConfig.Companion.getInstance().getRatio());
+
         } else {
             // 原比例或videoRatio = outputRatio执行else
 
             posX = 0;
             posY = 0;
 
-            switch (resolutionMode) {
-            case AliyunSnapVideoParam.RESOLUTION_360P:
-                outputWidth = 360;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_480P:
-                outputWidth = 480;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_540P:
-                outputWidth = 540;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_720P:
-                outputWidth = 720;
-                break;
-            default:
-                outputWidth = 720;
-                break;
-            }
+            outputWidth = CropConfig.Companion.getInstance().getResolution();
             cropHeight = mImageHeight;
-            switch (ratioMode) {
-            case AliyunSnapVideoParam.RATIO_MODE_1_1:
-                cropWidth = mImageHeight;
-                outputHeight = outputWidth;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                cropWidth = mImageHeight * 3 / 4;
-                outputHeight = outputWidth * 4 / 3;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_9_16:
-                cropWidth = mImageHeight * 9 / 16;
-                outputHeight = outputWidth * 16 / 9;
-                break;
-            case AlivcSvideoEditParam.RATIO_MODE_ORIGINAL:
-                cropWidth = (int) (mImageHeight / videoRatio);
-                outputHeight = (int) (outputWidth * videoRatio);
-                break;
-            default:
-                cropWidth = mImageHeight * 9 / 16;
-                outputHeight = outputWidth * 16 / 9;
-                break;
-            }
+            cropWidth = (int) (mImageHeight * CropConfig.Companion.getInstance().getRatio());
+            outputHeight = (int) (outputWidth / CropConfig.Companion.getInstance().getRatio());
         }
         CropParam cropParam = new CropParam();
         cropParam.setOutputPath(outputPath);
@@ -634,11 +433,14 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
         cropParam.setMediaType(MediaType.ANY_IMAGE_TYPE);
         Rect cropRect = new Rect(posX, posY, posX + cropWidth, posY + cropHeight);
         cropParam.setCropRect(cropRect);
-        cropParam.setScaleMode(cropMode);
-        cropParam.setFrameRate(frameRate);
-        cropParam.setGop(gop);
-        cropParam.setQuality(quality);
-        cropParam.setVideoCodec(mVideoCodecs);
+        cropParam.setScaleMode(CropConfig.Companion.getInstance().getVideoDisplayMode());
+        cropParam.setFrameRate(CropConfig.Companion.getInstance().getFps());
+        cropParam.setGop(CropConfig.Companion.getInstance().getGop());
+        cropParam.setQuality(CropConfig.Companion.getInstance().getVideoQuality());
+        cropParam.setVideoCodec(CropConfig.Companion.getInstance().getCodec());
+        if (CropConfig.Companion.getInstance().getBitRate() != CropConfig.DEFAULT_BITRATE) {
+            cropParam.setVideoBitrate(CropConfig.Companion.getInstance().getBitRate());
+        }
         cropParam.setFillColor(Color.BLACK);
 
         mCropProgressBg.setVisibility(View.VISIBLE);
@@ -649,10 +451,9 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
     /**
      * 裁剪结束
      */
-    private void onCropComplete(AlivcCropOutputParam outputParam) {
+    private void onCropComplete() {
         //裁剪结束
         Intent intent = getIntent();
-        intent.putExtra(AlivcCropOutputParam.RESULT_KEY_OUTPUT_PARAM, outputParam);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -736,9 +537,7 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
                 } else {
                     scanFile();
                 }
-                AlivcCropOutputParam cropOutputParam = new AlivcCropOutputParam();
-                cropOutputParam.setOutputPath(outputPath);
-                onCropComplete(cropOutputParam);
+                onCropComplete();
 //                progressDialog.dismiss();
             }
         });
@@ -760,22 +559,8 @@ public class AliyunImageCropActivity extends Activity implements HorizontalListV
         isCropping = false;
     }
 
-
-    public static void startImageCropForResult(Activity context, AlivcCropInputParam param, int requestCode) {
-        if (param == null || TextUtils.isEmpty(param.getPath())) {
-            return;
-        }
+    public static void startImageCropForResult(Activity context, int requestCode) {
         Intent intent = new Intent(context, AliyunImageCropActivity.class);
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_PATH, param.getPath());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_RESOLUTION_MODE, param.getResolutionMode());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_CROP_MODE, param.getCropMode());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_QUALITY, param.getQuality());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_CODECS, param.getVideoCodecs());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_GOP, param.getGop());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_RATIO_MODE, param.getRatioMode());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_ACTION, param.getAction());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_MIN_DURATION, param.getMinCropDuration());
-        intent.putExtra(AlivcCropInputParam.INTENT_KEY_USE_GPU, param.isUseGPU());
         context.startActivityForResult(intent, requestCode);
     }
 

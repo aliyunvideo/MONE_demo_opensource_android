@@ -23,6 +23,7 @@ dependencies {
     implementation externalAndroidXConstraintlayout
     implementation project(':AliyunVideoCommon')
     implementation project(':AUIMedia')
+    implementation externalAlivcConan
     implementation externalGSON
     implementation externalAlivcCore
     implementation externalAlivcFFmpeg

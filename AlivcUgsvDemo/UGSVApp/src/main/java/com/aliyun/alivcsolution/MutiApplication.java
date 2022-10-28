@@ -53,13 +53,8 @@ public class MutiApplication extends AVBaseThemeApplication {
         QupaiHttpFinal.getInstance().initOkHttpFinal();
         initDownLoader();
         AlivcSdkCore.register(this);
-        if (BuildConfig.isFinal) {
-            AlivcSdkCore.setLogLevel(AlivcLogLevel.AlivcLogDebug);
-            AlivcSdkCore.setDebugLoggerLevel(AlivcDebugLoggerLevel.AlivcDLAll);
-        } else {
-            AlivcSdkCore.setLogLevel(AlivcLogLevel.AlivcLogDebug);
-            AlivcSdkCore.setDebugLoggerLevel(AlivcDebugLoggerLevel.AlivcDLAll);
-        }
+        AlivcSdkCore.setLogLevel(AlivcLogLevel.AlivcLogDebug);
+        AlivcSdkCore.setDebugLoggerLevel(AlivcDebugLoggerLevel.AlivcDLAll);
         setSdkDebugParams();
         if (TextUtils.isEmpty(mLogPath)) {
             //保证每次运行app生成一个新的日志文件

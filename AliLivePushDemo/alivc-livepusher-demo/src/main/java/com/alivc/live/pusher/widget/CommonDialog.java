@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alivc.live.pusher.demo.R;
+import com.alivc.live.utils.TextFormatUtil;
 
 
 public class CommonDialog extends Dialog {

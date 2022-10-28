@@ -5,10 +5,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alivc.live.pusher.demo.BuildConfig;
-import com.alivc.live.pusher.demo.ContextUtils;
 import com.alivc.live.pusher.demo.R;
-import com.alivc.live.pusher.demo.SharedPreferenceUtils;
-import com.alivc.live.pusher.util.AliLiveUserSigGenerate;
+import com.aliyun.interactive_common.utils.AliLiveUserSigGenerate;
+import com.alivc.live.utils.ContextUtils;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
 
 /**
  * Created by baorunchen on 2022/8/31.

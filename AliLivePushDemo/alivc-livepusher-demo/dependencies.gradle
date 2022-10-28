@@ -9,16 +9,25 @@ dependencies {
     implementation project(':beautyui')
     implementation project(':imageutil')
     implementation project(':queenbeauty')
+    implementation project(':interactivePK')
+    implementation project(':interactiveLive')
+    implementation project(':commonutils')
+    implementation project(':commonbiz')
     implementation 'com.aliyun.animoji:animoji:1.2.1@aar'
     implementation externalPlayerPart
     implementation externalAlivcFFmpeg
     implementation externalARTC
-    if (!hasRTS()) {
+    if (hasRTS() && !"true".equalsIgnoreCase(allInOne)) {
         implementation externalRtsSDK
     }
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
-    implementation AlivcLivePusher_Interactive
-
+    if (file(livePushSdkSourceCode).exists()) {
+        implementation project(':alivc-livepusher-lib')
+    } else if (hasInteractiveLive()) {
+        implementation externalLivePusherInteractive
+    } else {
+        implementation externalLivePusher
+    }
     implementation project(':AUIFoundation:AVBaseUI')
     implementation project(':AUIFoundation:AVTheme')
     implementation project(':AUIFoundation:AVUtils')

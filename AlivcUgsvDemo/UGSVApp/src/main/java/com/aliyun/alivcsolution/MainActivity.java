@@ -158,7 +158,7 @@ public class MainActivity extends AVBaseListActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (EDITOR_REQUEST_CODE_CHOOSE == requestCode && resultCode == RESULT_OK) {
-            AUIVideoEditor.startEditor(this,AVMatisse.obtainPathResult(data), new EditorConfig());
+            AUIVideoEditor.startEditor(this,AVMatisse.obtainPathResult(data));
         } else if (CROP_REQUEST_CODE_CHOOSE == requestCode && resultCode == RESULT_OK) {
             AUICropHelper.startVideoCrop(this,AVMatisse.obtainPathResult(data));
         }

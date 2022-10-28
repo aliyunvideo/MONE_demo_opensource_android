@@ -71,7 +71,7 @@ public interface AUIControlViewListener {
     /**
      * 切换画幅比例
      */
-    void onChangeAspectRatioClick(int ratio);
+    void onChangeAspectRatioClick();
 
     /**
      * 弹出特效滤镜选择框

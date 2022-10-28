@@ -83,25 +83,33 @@ ext {
     externalAliyunQueenUI = 'com.aliyunsdk.components:queen_menu:2.3.0-menu-full'
     externalAnimoji = 'com.aliyun.animoji:animoji:1.2@aar'
     externalRtsSDK = 'com.aliyun.rts.android:RtsSDK:2.5.0'
-    AlivcLivePusher_Interactive = 'com.alivc.pusher:AlivcLivePusher_Interactive:4.4.5'
 
-    def debug = null
-    File localFile = new File(getRootDir().absolutePath + "/local.properties")
-    if(localFile.exists()){
-        Properties localProperties = new Properties()
-        localProperties.load(localFile.newDataInputStream())
-        debug = localProperties.getProperty('source.debug')
-    }
 
-    //SDKs aar的引入形式
-//    externalAllInOne = fileTree(include: ['*.jar','*.aar'], dir: SDKs)
+    def debug = null   //内部调试代码，发布删除 -- 注释勿动
+    File localFile = new File(getRootDir().absolutePath + "/local.properties")  //内部调试代码，发布删除 -- 注释勿动
+    if(localFile.exists()){    //内部调试代码，发布删除 -- 注释勿动
+        Properties localProperties = new Properties()   //内部调试代码，发布删除 -- 注释勿动
+        localProperties.load(localFile.newDataInputStream())   //内部调试代码，发布删除 -- 注释勿动
+        debug = localProperties.getProperty('source.debug')    //内部调试代码，发布删除 -- 注释勿动
+    }   //内部调试代码，发布删除 -- 注释勿动
 
-    //maven的引入形式
-    if(debug != null && "true".equalsIgnoreCase(debug)){
-        externalAllInOne = project(':all-in-one')
-    }else{
-        externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:1.4.0'
-    }
+    externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.2.1'
+    externalSvideopro = 'com.aliyun.video.android:svideopro:3.34.0'
+    externalSvideostandard = 'com.aliyun.video.android:svideostandard:3.34.0'
+    externalSvideosnap = 'com.aliyun.video.android:svideosnap:3.34.0'
+    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.0-full'
+    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.0-part'
+    externalARTC = 'com.aliyun.sdk.android:AlivcArtc:5.4.9.0'
+    externalAlivcConan = 'com.alivc.conan:AlivcConan:1.0.5'
+    externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
+    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:4.4.7"
+    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:4.4.7"
+    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:1.5.0'
+
+    //内部调试代码，发布删除 -- 注释勿动
+    if(debug != null && "true".equalsIgnoreCase(debug)){    //内部调试代码，发布删除 -- 注释勿动
+        externalAllInOne = project(':all-in-one')      //内部调试代码，发布删除 -- 注释勿动
+    }    //内部调试代码，发布删除 -- 注释勿动
 
     if ("true".equalsIgnoreCase(allInOne)) {
         externalAlivcFFmpeg = externalAllInOne
@@ -111,19 +119,10 @@ ext {
         externalPlayerFull = externalAllInOne
         externalPlayerPart = externalAllInOne
         externalARTC = externalAllInOne
-        externalLivePusher = externalAllInOne
-        AlivcLivePusher_Interactive = externalAllInOne
+        externalAlivcConan = externalAllInOne
         externalAlivcCore = externalAllInOne
-    } else {
-        externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.2.1'
-        externalSvideopro = 'com.aliyun.video.android:svideopro:3.34.0'
-        externalSvideostandard = 'com.aliyun.video.android:svideostandard:3.34.0'
-        externalSvideosnap = 'com.aliyun.video.android:svideosnap:3.34.0'
-        externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.0-full'
-        externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.0-part'
-        externalARTC = 'com.aliyun.sdk.android:AlivcArtc:5.4.4.0'
-        externalLivePusher = 'com.alivc.pusher:AlivcLivePusher:4.4.5'
-        externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
+        externalLivePusherInteractive = externalAllInOne
+        externalLivePusher = externalAllInOne
     }
 
 
@@ -140,5 +139,4 @@ ext {
     externalPlayerMinSdkVersion = androidMinSdkVersion
     externalLiveMinSdkVersion = androidMinSdkVersion
     externalTargetSdkVersion = androidTargetSdkVersion
-
 }

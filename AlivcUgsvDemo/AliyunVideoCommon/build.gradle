@@ -21,4 +21,5 @@ dependencies {
     implementation externalOKHTTP
     implementation externalGSON
     implementation externalAliyunVodUpload
+    implementation externalAliyunOSS
 }

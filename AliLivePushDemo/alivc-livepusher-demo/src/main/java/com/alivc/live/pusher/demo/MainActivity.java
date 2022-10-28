@@ -1,6 +1,7 @@
 package com.alivc.live.pusher.demo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,13 +20,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.pusher.AlivcLiveBase;
-import com.alivc.live.pusher.demo.interactlive.InteractLiveAppInfoActivity;
-import com.alivc.live.pusher.demo.interactlive.InteractLiveInputActivity;
-import com.alivc.live.pusher.demo.pk.PKLiveInputActivity;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
-import com.alivc.live.pusher.widget.FastClickUtil;
+import com.aliyun.interactive_common.InteractAppInfoActivity;
+import com.aliyun.interactive_live.InteractLiveInputActivity;
+import com.aliyun.interactive_pk.PKLiveInputActivity;
+import com.alivc.live.utils.ContextUtils;
+import com.alivc.live.utils.FastClickUtil;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private LinearLayout mLivePushLayout;
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.push_activity_main);
+        ARouter.init(getApplication());
         initView();
         if (!permissionCheck()) {
             if (Build.VERSION.SDK_INT >= 23) {
@@ -98,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.string.no_record_bluetooth_permission,
     };
 
+    @SuppressLint("WrongConstant")
     private boolean permissionCheck() {
         int permissionCheck = PackageManager.PERMISSION_GRANTED;
         String permission;
@@ -139,15 +145,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if(id == R.id.pull_interact_layout){
             if (checkInteractiveAPPInfoIfNeed()) {
-                intent = new Intent(MainActivity.this, InteractLiveAppInfoActivity.class);
+                intent = new Intent(MainActivity.this, InteractAppInfoActivity.class);
             }else{
                 intent = new Intent(MainActivity.this, InteractLiveInputActivity.class);
             }
             startActivity(intent);
         } else if(id == R.id.pull_pk_layout){
             if (checkInteractiveAPPInfoIfNeed()) {
-                intent = new Intent(MainActivity.this, InteractLiveAppInfoActivity.class);
-                intent.putExtra(InteractLiveAppInfoActivity.INTENT_FROM_PK,true);
+                intent = new Intent(MainActivity.this, InteractAppInfoActivity.class);
+                intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK,true);
             }else{
                 intent = new Intent(MainActivity.this, PKLiveInputActivity.class);
             }

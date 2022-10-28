@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/frame_other"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="w,16:9"
+        android:background="@color/alivc_color_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_un_connect"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:background="@color/border_infrared"
+        app:layout_constraintBottom_toBottomOf="@+id/frame_other"
+        app:layout_constraintEnd_toEndOf="@+id/frame_other"
+        app:layout_constraintStart_toStartOf="@+id/frame_other"
+        app:layout_constraintTop_toTopOf="@+id/frame_other">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_interact_live_un_connect_bg" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_connect"
+        android:layout_width="94dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_pysh_btn_bg"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/pk_start_connect"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame_other" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,16 @@
+<resources>
+
+    <style name="AUILiveDialog" parent="android:Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <!-- 为了避免在有 NavigationBar 的手机上 Dialog 从 NavigationBar 底部上来。去掉 Dialog 的动画，使用 View 的动画。-->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="AUIEditText">
+        <item name="colorControlNormal">@color/border_medium</item>
+        <item name="colorControlActivated">@color/border_medium</item>
+    </style>
+</resources>

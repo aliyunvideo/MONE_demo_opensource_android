@@ -23,18 +23,13 @@ import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 import com.aliyun.common.utils.MySystemParams;
 import com.aliyun.svideo.music.music.MusicFileBean;
-import com.aliyun.svideo.recorder.bean.AUIRecorderInputParam;
-import com.aliyun.svideo.recorder.bean.AUIVideoDisplayParam;
 import com.aliyun.svideo.recorder.utils.FixedToastUtils;
 import com.aliyun.svideo.recorder.utils.PhoneStateManger;
 import com.aliyun.svideo.recorder.utils.RecordCommon;
 import com.aliyun.svideo.recorder.views.AUIRecorderView;
 import com.aliyun.svideo.recorder.views.music.AUIMusicSelectListener;
-import com.aliyun.svideosdk.common.struct.common.VideoQuality;
-import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
 import com.aliyun.svideosdk.recorder.AliyunIRecorder;
 import com.aliyun.svideosdk.recorder.impl.AliyunRecorderCreator;
-import com.aliyun.ugsv.auibeauty.api.constant.BeautySDKType;
 import com.aliyun.ugsv.common.utils.PermissionUtils;
 import com.aliyun.ugsv.common.utils.ThreadUtils;
 import com.aliyun.ugsv.common.utils.ToastUtils;
@@ -46,7 +41,6 @@ import java.lang.ref.WeakReference;
 public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
 
     private AUIRecorderView mVideoRecordView;
-    private AUIRecorderInputParam mInputParam;
     private static final int REQUEST_CODE_PLAY = 2002;
     /**
      * 录制过程中是否使用了音乐
@@ -79,7 +73,6 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.ugsv_recorder_activity_layout);
         mVideoRecordView = findViewById(R.id.ugsv_recorder_recordview);
-        getData();
         boolean checkResult = PermissionUtils.checkPermissionsGroup(this, permission);
         if (!checkResult) {
             PermissionUtils.requestPermissions(this, permission, PERMISSION_REQUEST_CODE);
@@ -90,26 +83,25 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
 
     private void initRecord() {
         mVideoRecordView.setActivity(this);
-        if (mInputParam != null) {
-            mVideoRecordView.isUseFlip(mInputParam.isUseFlip());
-            mVideoRecordView.setMaxRecordTime(mInputParam.getMaxDuration());
-            mVideoRecordView.setMinRecordTime(mInputParam.getMinDuration());
-            mVideoRecordView.setRatioMode(mInputParam.getRatioMode());
-            mVideoRecordView.setResolutionMode(mInputParam.getResolutionMode());
-            mVideoRecordView.setRenderingMode(mInputParam.getmRenderingMode());
-            AliyunIRecorder alivcRecorder = AliyunRecorderCreator.getRecorderInstance(this);
-            com.aliyun.svideosdk.common.struct.recorder.MediaInfo outputInfo = new com.aliyun.svideosdk.common.struct.recorder.MediaInfo();
-            outputInfo.setFps(mInputParam.getFrame());
-            outputInfo.setGop(mInputParam.getGop());
-            outputInfo.setVideoCodec(mInputParam.getVideoCodec());
-            outputInfo.setVideoQuality(mInputParam.getVideoQuality());
-            outputInfo.setVideoWidth(mInputParam.getVideoWidth());
-            outputInfo.setVideoHeight(mInputParam.getVideoHeight());
-            outputInfo.setVideoCodec(mInputParam.getVideoCodec());            //配置录制recorder
-            alivcRecorder.setMediaInfo(outputInfo);
-            alivcRecorder.setIsAutoClearClipVideos(mInputParam.isAutoClearTemp());
-            mVideoRecordView.init(alivcRecorder);
+        mVideoRecordView.isUseFlip(RecorderConfig.Companion.getInstance().isVideoFlip());
+        mVideoRecordView.setMaxRecordTime(RecorderConfig.Companion.getInstance().getMaxDuration());
+        mVideoRecordView.setMinRecordTime(RecorderConfig.Companion.getInstance().getMinDuration());
+        AliyunIRecorder alivcRecorder = AliyunRecorderCreator.getRecorderInstance(this);
+        com.aliyun.svideosdk.common.struct.recorder.MediaInfo outputInfo = new com.aliyun.svideosdk.common.struct.recorder.MediaInfo();
+        outputInfo.setFps(RecorderConfig.Companion.getInstance().getFps());
+        outputInfo.setGop(RecorderConfig.Companion.getInstance().getGop());
+        outputInfo.setVideoCodec(RecorderConfig.Companion.getInstance().getCodec());
+        outputInfo.setVideoQuality(RecorderConfig.Companion.getInstance().getVideoQuality());
+        int width = RecorderConfig.Companion.getInstance().getResolution();
+        int height = (int) (width / RecorderConfig.Companion.getInstance().getRatio());
+        outputInfo.setVideoWidth(width);
+        outputInfo.setVideoHeight(height);
+        if (RecorderConfig.Companion.getInstance().getBitRate() != RecorderConfig.DEFAULT_BITRATE) {
+            outputInfo.setVideoBitrate(RecorderConfig.Companion.getInstance().getBitRate());
         }
+        alivcRecorder.setMediaInfo(outputInfo);
+        alivcRecorder.setIsAutoClearClipVideos(RecorderConfig.Companion.getInstance().isClearCache());
+        mVideoRecordView.init(alivcRecorder);
         if (PermissionUtils.checkPermissionsGroup(this, PermissionUtils.PERMISSION_STORAGE)) {
             //有存储权限的时候才去copy资源
             copyAssets();
@@ -188,54 +180,6 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
     }
 
 
-    /**
-     * 获取上个页面的传参
-     */
-    private void getData() {
-        Intent intent = getIntent();
-        int resolutionMode = intent.getIntExtra(AUIRecorderInputParam.INTENT_KEY_RESOLUTION_MODE, AUIRecorderInputParam.RESOLUTION_720P);
-        int maxDuration = intent.getIntExtra(AUIRecorderInputParam.INTENT_KEY_MAX_DURATION, AUIRecorderInputParam.DEFAULT_VALUE_MAX_DURATION);
-        int minDuration = intent.getIntExtra(AUIRecorderInputParam.INTENT_KEY_MIN_DURATION, AUIRecorderInputParam.DEFAULT_VALUE_MIN_DURATION);
-        int ratioMode = intent.getIntExtra(AUIRecorderInputParam.INTENT_KEY_RATION_MODE, AUIRecorderInputParam.RATIO_MODE_9_16);
-        boolean watermark = intent.getBooleanExtra(AUIRecorderInputParam.INTENT_KEY_WATER_MARK, true);
-        int gop = intent.getIntExtra(AUIRecorderInputParam.INTENT_KEY_GOP, AUIRecorderInputParam.DEFAULT_VALUE_GOP);
-        int frame = intent.getIntExtra(AUIRecorderInputParam.INTENT_KEY_FRAME, AUIRecorderInputParam.DEFAULT_VALUE_FRAME);
-        VideoQuality videoQuality = (VideoQuality) intent.getSerializableExtra(AUIRecorderInputParam.INTENT_KEY_QUALITY);
-        if (videoQuality == null) {
-            videoQuality = VideoQuality.HD;
-        }
-        VideoCodecs videoCodec = (VideoCodecs) intent.getSerializableExtra(AUIRecorderInputParam.INTENT_KEY_CODEC);
-        if (videoCodec == null) {
-            videoCodec = VideoCodecs.H264_HARDWARE;
-        }
-        BeautySDKType renderingMode = (BeautySDKType) intent.getSerializableExtra(AUIRecorderInputParam.INTENT_KEY_VIDEO_RENDERING_MODE);
-        if (renderingMode == null) {
-            renderingMode = BeautySDKType.FACEUNITY;
-        }
-        String videoOutputPath = intent.getStringExtra(AUIRecorderInputParam.INTENT_KEY_VIDEO_OUTPUT_PATH);
-        boolean isUseFlip = intent.getBooleanExtra(AUIRecorderInputParam.INTENT_KEY_RECORD_FLIP, false);
-        boolean isSvideoQueen = intent.getBooleanExtra(AUIRecorderInputParam.INTENT_KEY_IS_SVIDEO_QUEEN, false);
-        boolean isAutoClear = intent.getBooleanExtra(AUIRecorderInputParam.INTENT_KEY_IS_AUTO_CLEAR, false);
-        //获取录制输入参数
-        mInputParam = new AUIRecorderInputParam.Builder()
-                .setResolutionMode(resolutionMode)
-                .setRatioMode(ratioMode)
-                .setMaxDuration(maxDuration)
-                .setMinDuration(minDuration)
-                .setGop(gop)
-                .setWaterMark(watermark)
-                .setFrame(frame)
-                .setVideoQuality(videoQuality)
-                .setVideoCodec(videoCodec)
-                .setVideoOutputPath(videoOutputPath)
-                .setVideoRenderingMode(renderingMode)
-                .setIsUseFlip(isUseFlip)
-                .setSvideoRace(isSvideoQueen)
-                .setIsAutoClearTemp(isAutoClear)
-                .setPlayDisplayParam(new AUIVideoDisplayParam.Builder().build())
-                .build();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -298,9 +242,11 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
 
         mVideoRecordView.setCompleteListener(new AUIRecorderView.OnFinishListener() {
             @Override
-            public void onComplete(final String path, int duration, int ratio) {
+            public void onComplete(final String path, int duration) {
                 // 如果是RACE单独包，直接finish
-                if (mInputParam.isSvideoRace()) {
+                if (RecorderConfig.Companion.getInstance().getNeedEdit()) {
+                    AUIVideoRecorderRouter.jumpEditor(AUIVideoRecorderActivity.this, path, duration);
+                } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         //适配android Q
                         ThreadUtils.runOnSubThread(new Runnable() {
@@ -324,12 +270,7 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
                         ToastUtils.show(AUIVideoRecorderActivity.this, "已保存到相册");
                         AUIVideoRecorderActivity.this.finish();
                     }
-
-                    return;
                 }
-                // 跳转到下一个页面
-                mInputParam.setRatioMode(ratio);
-                AUIVideoRecorderRouter.jumpEditor(AUIVideoRecorderActivity.this, path, duration, mInputParam);
             }
         });
     }

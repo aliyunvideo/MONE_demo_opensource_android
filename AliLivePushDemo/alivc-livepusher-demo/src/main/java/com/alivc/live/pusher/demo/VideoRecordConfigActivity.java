@@ -7,13 +7,10 @@ import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_PORT
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.media.projection.MediaProjectionManager;
@@ -22,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.Surface;
@@ -33,14 +29,12 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -50,21 +44,18 @@ import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushError;
 import com.alivc.live.pusher.AlivcLivePushErrorListener;
 import com.alivc.live.pusher.AlivcLivePushInfoListener;
-import com.alivc.live.pusher.AlivcLivePushLogLevel;
 import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
 import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.alivc.live.pusher.demo.floatwindowpermission.FloatWindowManager;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
-import com.alivc.live.pusher.util.StatusBarUtil;
 import com.alivc.live.pusher.widget.PushConfigBottomSheet;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
+import com.alivc.live.utils.StatusBarUtil;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VideoRecordConfigActivity extends AVBaseThemeActivity {
     private static final String TAG = "VideoRecordConfigActivity";
@@ -116,14 +107,6 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.video_recording_setting);
-
-        // 日志配置
-        AlivcLiveBase.setLogLevel(AlivcLivePushLogLevel.AlivcLivePushLogLevelInfo);
-        AlivcLiveBase.setConsoleEnabled(true);
-        String logPath = LivePushActivity.getFilePath(getApplicationContext(), "log_path");
-        // full log file limited was kLogMaxFileSizeInKB * 5 (parts)
-        int maxPartFileSizeInKB = 100 * 1024 * 1024; //100G
-        AlivcLiveBase.setLogDirPath(logPath, maxPartFileSizeInKB);
 
         // 注册sdk
         AlivcLiveBase.registerSDK();

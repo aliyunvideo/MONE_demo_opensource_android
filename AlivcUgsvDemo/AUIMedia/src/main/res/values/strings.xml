@@ -1,8 +1,13 @@
 <resources>
     <string name="alivc_media_setting_import_edit">Import Settings</string>
+    <string name="ugsv_video_output_arg">Video Args</string>
+    <string name="ugsv_recorder_arg">Recorder Time</string>
+    <string name="ugsv_other_arg">Other Args</string>
     <string name="alivc_media_frame_rate">FPS</string>
     <string name="alivc_media_gop">Keyframe Interval</string>
-    <string name="alivc_media_frame_rate_hint">Default: 30, Recommended: 20 to 30</string>
+    <string name="alivc_media_code_rate">Code Rate</string>
+    <string name="alivc_media_code_rate_hint">will ignore arg Quality</string>
+    <string name="alivc_media_frame_rate_hint">Default: 25, Recommended: 20 to 30</string>
     <string name="alivc_media_gop_hint">Default: 250, Recommended: 1 to 300</string>
     <string name="alivc_media_resolution">Resolution</string>
     <string name="alivc_media_crop_mode">Crop Mode</string>

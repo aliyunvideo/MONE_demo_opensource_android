@@ -139,6 +139,14 @@ public class AUIVideoListController {
         mAliPlayerManager.startPlay(listVideoBean.getUrl());
     }
 
+    public void seekTo(long position){
+        mAliPlayerManager.seekTo(position);
+    }
+
+    public void seekToAccurate(long position){
+        mAliPlayerManager.seekToAccurate(position);
+    }
+
     public void changePlayState(){
         if(mIsPlay){
             mAliPlayerManager.pause();

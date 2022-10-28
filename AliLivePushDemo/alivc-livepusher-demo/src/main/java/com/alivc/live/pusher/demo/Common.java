@@ -10,11 +10,16 @@ import androidx.appcompat.app.AlertDialog;
 import com.alivc.live.pusher.demo.bean.MusicInfo;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.TimeZone;
@@ -168,4 +173,31 @@ public class Common {
         return hms;
     }
 
+    public static String getFileMD5(File file) {
+        if (file == null) {
+            return "";
+        }
+        String value = null;
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream(file);
+            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0,
+                    file.length());
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(byteBuffer);
+            BigInteger bi = new BigInteger(1, md5.digest());
+            value = bi.toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != in) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return value;
+    }
 }

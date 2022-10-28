@@ -14,5 +14,6 @@ log/
 *.settings/
 *.classpath
 AndroidThirdParty/
+AUIFoundation/
 out/
 outZip/

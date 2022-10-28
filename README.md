@@ -87,18 +87,31 @@ SDK_TYPE: 一体化包类型，默认为AliVCSDK_Premium，对应AndroidThirdPar
 
 #SDK类型
 
-#AliVCSDK_Premium：播放器 + RTS + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块
+#AliVCSDK_Premium：全功能SDK。 
 
-#AliVCSDK_Standard：播放器 + RTS + 直播 + 短视频 + RTC连麦
+#AliVCSDK_Standard：标准一体化SDK。
 
-#AliVCSDK_UGC：播放器 + 短视频
+#AliVCSDK_UGC：短视频场景SDK。
 
-#AliVCSDK_UGCPro：单播放器 + 短视频 + 美颜特效
+#AliVCSDK_UGCPro：短视频场景SDK增强版。
 
-#AliVCSDK_BasicLive：播放器 + RTS + 直播推流
+#AliVCSDK_BasicLive：基础直播SDK。
 
-#AliVCSDK_InteractiveLive：播放器 + RTS + 直播推流 + RTC连麦
+#AliVCSDK_InteractiveLive：互动直播SDK。 
 
-#AliVCSDK_StandardLive：播放器 + RTS + 直播推流 + 美颜
+#AliVCSDK_StandardLive：基础直播SDK增强版。 
 
-#AliVCSDK_PremiumLive：播放器 + RTS + 直播推流 + RTC连麦 + 美颜
+#AliVCSDK_PremiumLive：互动直播SDK增强版。
+
+
+## SDK库及版本
+| 版本          | 依赖                                            | 能力项                                            |
+|-------------|-----------------------------------------------|------------------------------------------------|
+| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:1.5.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦                |
+| 全功能SDK      | com.aliyun.aio:AliVCSDK_Premium:1.5.0         | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块 | 
+| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:1.5.0             | 播放器 + 短视频                                      | 
+| 短视频场景SDK增强版 | com.aliyun.aio:AliVCSDK_UGCPro:1.5.0          | 单播放器 + 短视频 + 美颜特效                              | 
+| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:1.5.0       | 播放器  + 直播推流                                    | 
+| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:1.5.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦                    | 
+| 基础直播SDK增强版  | com.aliyun.aio:AliVCSDK_StandardLive:1.5.0    | 播放器 + 直播推流 + 美颜                                | 
+| 互动直播SDK增强版  | com.aliyun.aio:AliVCSDK_PremiumLive:1.5.0     | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦 + 美颜               |

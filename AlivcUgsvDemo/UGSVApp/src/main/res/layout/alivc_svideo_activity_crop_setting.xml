@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_medium"
+    android:background="@color/fg_strong"
     android:fitsSystemWindows="true"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="ResourceName">
 
     <include layout="@layout/alivc_crop_include_action_bar"/>
     <ScrollView
@@ -17,208 +19,329 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:text="@string/alivc_crop_setting_frame_rate"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="12dp"
+                android:text="@string/ugsv_video_output_arg"
+                android:gravity="center_vertical"
                 android:textColor="@color/text_weak"
+                android:background="@color/bg_medium"
                 android:textSize="12sp" />
 
-            <EditText
-                android:id="@+id/alivc_crop_frame_rate_edit"
-                style="@style/alivc_crop_line_style"
+            <RelativeLayout
+                android:id="@+id/video_ratio_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:hint="@string/alivc_crop_setting_frame_rate_hint"
-                android:inputType="number" />
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_crop_setting_ratio"
+                    android:textColor="@color/text_strong"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:text="@string/alivc_crop_setting_gop"
-                android:textColor="@color/text_weak"
-                android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_video_ratio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ic_ratio_more"
+                    android:text="@string/alivc_crop_setting_ratio_original"
+                    android:textSize="14sp"
+                    android:layout_marginRight="8dp"
+                    android:textColor="@color/text_strong"/>
 
-            <EditText
-                android:id="@+id/alivc_crop_gop_edit"
-                style="@style/alivc_crop_line_style"
+                <ImageView
+                    android:id="@+id/ic_ratio_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_av_arrow_right"
+                    />
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/video_resolution_layout"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:hint="@string/alivc_crop_setting_gop_hint"
-                android:inputType="number" />
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_crop_setting_resolution"
+                    android:textColor="@color/text_strong"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:text="@string/alivc_crop_setting_quality"
-                android:textColor="@color/text_weak"
-                android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_video_resolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ic_resolution_more"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/alivc_crop_setting_resolution_720p"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_strong"/>
 
-            <LinearLayout
+                <ImageView
+                    android:id="@+id/ic_resolution_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_av_arrow_right"
+                    />
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/video_crop_mode_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_media_crop_mode"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/alivc_video_quality_super"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_quality_super" />
+                <TextView
+                    android:id="@+id/tv_video_crop_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ic_crop_mode_more"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/alivc_crop_setting_mode_fill"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/alivc_video_quality_high"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_quality_high" />
+                <ImageView
+                    android:id="@+id/ic_crop_mode_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_av_arrow_right"
+                    />
 
-                <Button
-                    android:id="@+id/alivc_video_quality_normal"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_quality_meidan" />
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
-                <Button
-                    android:id="@+id/alivc_video_quality_low"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_quality_low" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:text="@string/alivc_crop_setting_ratio"
-                android:textColor="@color/text_weak"
-                android:textSize="@dimen/alivc_common_font_14" />
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/video_codec_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_crop_setting_codec"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/alivc_video_ratio_9_16"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_ratio_9_16" />
+                <TextView
+                    android:id="@+id/tv_video_codec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ic_codec_more"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/alivc_crop_setting_encoder_hardware"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/alivc_video_ratio_3_4"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_ratio_3_4" />
+                <ImageView
+                    android:id="@+id/ic_codec_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_av_arrow_right"
+                    />
 
-                <Button
-                    android:id="@+id/alivc_video_ratio_1_1"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_ratio_1_1" />
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
-                <Button
-                    android:id="@+id/alivc_video_ratio_original"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_ratio_original" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:text="@string/alivc_crop_setting_resolution"
-                android:textColor="@color/text_weak"
-                android:textSize="12sp" />
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/video_quality_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_crop_setting_quality"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/alivc_record_resolution_360p"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_resolution_360p" />
+                <TextView
+                    android:id="@+id/tv_video_quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ic_quality_more"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/alivc_crop_setting_quality_high"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/alivc_record_resolution_480p"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_resolution_480p" />
+                <ImageView
+                    android:id="@+id/ic_quality_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_av_arrow_right"
+                    />
 
-                <Button
-                    android:id="@+id/alivc_record_resolution_540p"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_resolution_540p" />
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
-                <Button
-                    android:id="@+id/alivc_record_resolution_720p"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_resolution_720p" />
-
-            </LinearLayout>
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:text="@string/alivc_crop_setting_crop_mode"
-                android:textColor="@color/text_weak"
-                android:textSize="12sp" />
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/video_frame_rate_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_media_frame_rate"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/radio_fill"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_mode_fill" />
-                <Button
-                    android:id="@+id/radio_crop"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_mode_crop" />
-            </LinearLayout>
+                <EditText
+                    android:id="@+id/ed_video_frame_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="14sp"
+                    android:hint="@string/alivc_media_frame_rate_hint"
+                    android:textColorHint="@color/text_weak"
+                    android:textColor="@color/text_strong"/>
 
-            <TextView
-                android:visibility="visible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:text="@string/alivc_crop_setting_codec"
-                android:textColor="@color/text_weak"
-                android:textSize="12sp" />
-            <LinearLayout
-                android:visibility="visible"
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/video_gop_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_media_gop"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:layout_gravity="center"
-                    android:id="@+id/alivc_crop_encoder_hardware"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_encoder_hardware" />
+                <EditText
+                    android:id="@+id/ed_video_gop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="14sp"
+                    android:hint="@string/alivc_media_gop_hint"
+                    android:textColorHint="@color/text_weak"
+                    android:textColor="@color/text_strong"/>
 
-                <Button
-                    android:id="@+id/alivc_crop_encoder_openh264"
-                    style="@style/alivc_crop_btn_style"
-                    android:text="@string/alivc_crop_setting_encoder_openh264" />
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
-            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/video_code_rate_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/alivc_media_code_rate"
+                    android:textColor="@color/text_strong"/>
+
+                <EditText
+                    android:id="@+id/ed_video_code_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ic_code_rate_more"
+                    android:textSize="14sp"
+                    android:hint="@string/alivc_media_code_rate_hint"
+                    android:textColorHint="@color/text_weak"
+                    android:textColor="@color/text_strong"/>
+
+                <TextView
+                    android:id="@+id/ic_code_rate_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="/kbps"
+                    android:textColor="@color/text_strong"
+                    />
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_weak"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

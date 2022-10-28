@@ -11,20 +11,11 @@ import android.util.Log;
 import com.alibaba.ha.adapter.AliHaAdapter;
 import com.alibaba.ha.adapter.AliHaConfig;
 import com.alibaba.ha.adapter.Plugin;
-//import com.alibaba.lancet.common.utils.AndroidSystemUtil;
-//import com.alibaba.lancet.plugin.core.CoreEngine;
-//import com.alibaba.lancet.plugin.core.models.websocket.InternalTopic;
-//import com.alibaba.lancet.plugin.core.models.websocket.WsMessageDispatcher;
-//import com.alibaba.lancet.rpc.rpcproxy.RpcProcessor;
-//import com.alibaba.lancet.rpc.websockethandler.client.RpcWsClientController;
 import com.alibaba.sdk.android.networkmonitor.NetworkMonitorManager;
 import com.alibaba.sdk.android.networkmonitor.utils.Logger;
 import com.alivc.live.pusher.AlivcLiveBase;
-import com.alivc.live.pusher.AlivcLivePushInstance;
-import com.alivc.live.pusher.demo.ContextUtils;
-import com.aliyun.animoji.AnimojiDataFactory;
-import com.aliyun.animoji.utils.LogUtils;
-
+import com.alivc.live.pusher.demo.PushLaunchManager;
+import com.alivc.live.utils.ContextUtils;
 
 public class LiveApplication extends Application {
     @Override
@@ -39,14 +30,12 @@ public class LiveApplication extends Application {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(new ConnectivityChangedReceiver(), filter);
-        AlivcLivePushInstance.loadInstance(this);
-        AnimojiDataFactory.INSTANCE.loadResources(this);
-        LogUtils.init(true);
+        PushLaunchManager.launch4All(this);
         initLancet();
         initHa();
     }
 
-    public void initLancet(){
+    private void initLancet() {
         String secret = "2d1ef6032b4a824f36c4434f2961a790";
         String version = AlivcLiveBase.getSDKVersion();
 //        AndroidSystemUtil.setVersionName(version);
@@ -90,10 +79,6 @@ public class LiveApplication extends Application {
         });//网络监控的日志
         AliHaAdapter.getInstance().start(config);
     }
-
-
-
-
 
     class ConnectivityChangedReceiver extends BroadcastReceiver {
         @Override

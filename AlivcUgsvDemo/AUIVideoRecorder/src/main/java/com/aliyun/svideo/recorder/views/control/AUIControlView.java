@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.svideo.base.utils.FastClickUtil;
+import com.aliyun.svideo.recorder.RecorderConfig;
 import com.aliyun.ugsv.common.utils.image.ImageLoaderImpl;
 import com.aliyun.ugsv.common.utils.image.ImageLoaderOptions;
 import com.aliyun.svideo.recorder.R;
@@ -73,7 +74,6 @@ public class AUIControlView extends RelativeLayout implements View.OnTouchListen
     private AUIFlashType flashType = AUIFlashType.OFF;
     //摄像头类型
     private AUICameraType mCameraType = AUICameraType.FRONT;
-    private int mAspectRatio = AliyunSnapVideoParam.RATIO_MODE_9_16;
 
     // 已选择背景音乐
     private boolean mIsMusicSelected = false;
@@ -387,7 +387,7 @@ public class AUIControlView extends RelativeLayout implements View.OnTouchListen
                 }
                 changeAspectRatio();
                 if (mListener != null) {
-                    mListener.onChangeAspectRatioClick(mAspectRatio);
+                    mListener.onChangeAspectRatioClick();
                 }
 
             }
@@ -507,16 +507,12 @@ public class AUIControlView extends RelativeLayout implements View.OnTouchListen
     }
 
     private void changeAspectRatio() {
-        switch (mAspectRatio) {
-            case AliyunSnapVideoParam.RATIO_MODE_9_16:
-                mAspectRatio = AliyunSnapVideoParam.RATIO_MODE_3_4;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                mAspectRatio = AliyunSnapVideoParam.RATIO_MODE_1_1;
-                break;
-            default:
-                mAspectRatio = AliyunSnapVideoParam.RATIO_MODE_9_16;
-                break;
+        if (RecorderConfig.Companion.getInstance().getRatio() == RecorderConfig.RATIO_MODE_9_16) {
+            RecorderConfig.Companion.getInstance().setRatio(RecorderConfig.RATIO_MODE_3_4);
+        } else if (RecorderConfig.Companion.getInstance().getRatio() == RecorderConfig.RATIO_MODE_3_4) {
+            RecorderConfig.Companion.getInstance().setRatio(RecorderConfig.RATIO_MODE_1_1);
+        } else if (RecorderConfig.Companion.getInstance().getRatio() == RecorderConfig.RATIO_MODE_1_1) {
+            RecorderConfig.Companion.getInstance().setRatio(RecorderConfig.RATIO_MODE_9_16);
         }
         updateRatioBtn();
     }
@@ -616,31 +612,24 @@ public class AUIControlView extends RelativeLayout implements View.OnTouchListen
      * 切画幅
      */
     private void updateRatioBtn() {
+        float ratio = RecorderConfig.Companion.getInstance().getRatio();
         if (mHasRecordedClip) {
             //已经开始录制不允许更改画幅
-            switch (mAspectRatio) {
-                case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                    mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_3_4_off);
-                    break;
-                case AliyunSnapVideoParam.RATIO_MODE_1_1:
-                    mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_1_1_off);
-                    break;
-                default:
-                    mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_9_16_off);
-                    break;
+            if (ratio == RecorderConfig.RATIO_MODE_9_16) {
+                mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_9_16_off);
+            } else if (ratio == RecorderConfig.RATIO_MODE_3_4) {
+                mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_3_4_off);
+            } else if (ratio == RecorderConfig.RATIO_MODE_1_1) {
+                mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_1_1_off);
             }
             mTvAspectRatio.setTextColor(ContextCompat.getColor(getContext(), R.color.text_ultraweak));
         } else {
-            switch (mAspectRatio) {
-                case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                    mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_3_4);
-                    break;
-                case AliyunSnapVideoParam.RATIO_MODE_1_1:
-                    mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_1_1);
-                    break;
-                default:
-                    mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_9_16);
-                    break;
+            if (ratio == RecorderConfig.RATIO_MODE_9_16) {
+                mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_9_16);
+            } else if (ratio == RecorderConfig.RATIO_MODE_3_4) {
+                mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_3_4);
+            } else if (ratio == RecorderConfig.RATIO_MODE_1_1) {
+                mIVAspectRatio.setImageResource(R.drawable.ic_ugsv_recorder_ratio_1_1);
             }
             mTvAspectRatio.setTextColor(ContextCompat.getColor(getContext(), R.color.text_strong));
         }
@@ -820,11 +809,4 @@ public class AUIControlView extends RelativeLayout implements View.OnTouchListen
         mIsMusicSelected = isMusicSelected;
     }
 
-    /**
-     * 设置画幅比例
-     */
-    public void setAspectRatio(int radio) {
-        mAspectRatio = radio;
-        updateRatioBtn();
-    }
 }

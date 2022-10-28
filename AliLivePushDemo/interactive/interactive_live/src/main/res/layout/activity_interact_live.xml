@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/big_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <FrameLayout
+        android:id="@+id/big_fl"
+        android:background="@color/wheel_black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/small_fl"
+            android:layout_width="90dp"
+            android:layout_height="160dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="110dp" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_close_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_home_id" />
+
+    <TextView
+        android:id="@+id/tv_home_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:textSize="16sp"
+        android:textColor="@color/text_strong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_show_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="12sp"
+        android:textColor="@color/text_strong"
+        android:text="@string/interact_live_connecting"
+        app:layout_constraintEnd_toEndOf="@id/tv_home_id"
+        app:layout_constraintStart_toStartOf="@id/tv_home_id"
+        app:layout_constraintTop_toBottomOf="@id/tv_home_id" />
+
+    <ImageView
+        android:id="@+id/iv_camera"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_home_id" />
+
+
+    <FrameLayout
+        android:id="@+id/fl_un_connect"
+        android:layout_width="90dp"
+        android:layout_height="160dp"
+        android:background="@color/border_infrared"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintStart_toStartOf="@id/tv_connect"
+        app:layout_constraintEnd_toEndOf="@id/tv_connect"
+        app:layout_constraintBottom_toTopOf="@id/tv_connect">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_interact_live_un_connect_bg" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_connect"
+        android:layout_width="94dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="65dp"
+        android:background="@drawable/shape_pysh_btn_bg"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/interact_start_connect"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

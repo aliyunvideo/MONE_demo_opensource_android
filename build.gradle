@@ -59,10 +59,6 @@ if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
                allowInsecureProtocol = true
                url "http://lib.gcssloop.com:8081/repository/gcssloop-central/"
            }
-           maven {
-               allowInsecureProtocol = true
-               url 'http://mvnrepo.alibaba-inc.com/mvn/repository'
-           }
            maven { url 'https://repo1.maven.org/maven2/' }
            maven { url 'https://jitpack.io' }
        }
@@ -86,10 +82,6 @@ if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
                 url "http://lib.gcssloop.com:8081/repository/gcssloop-central/"
             }
             maven { url "https://maven.aliyun.com/repository/releases" }
-            maven {
-                allowInsecureProtocol = true
-                url 'http://mvnrepo.alibaba-inc.com/mvn/repository'
-            }
             maven { url 'https://repo1.maven.org/maven2/' }
             maven {
                 allowInsecureProtocol = true
@@ -113,10 +105,6 @@ buildscript {
         maven { 
             allowInsecureProtocol = true
             url "http://maven.aliyun.com/nexus/content/repositories/releases" 
-        }
-        maven { 
-            allowInsecureProtocol = true
-            url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
         }
         maven { url 'https://repo1.maven.org/maven2/' }
         maven { url 'https://jitpack.io' }
@@ -147,10 +135,6 @@ allprojects {
             url 'http://maven.aliyun.com/nexus/content/groups/public/' 
         }
         maven { url "https://maven.aliyun.com/repository/releases" }
-        maven {
-            allowInsecureProtocol = true
-            url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
-        }
         maven { url 'https://repo1.maven.org/maven2/' }
         maven { 
             allowInsecureProtocol = true

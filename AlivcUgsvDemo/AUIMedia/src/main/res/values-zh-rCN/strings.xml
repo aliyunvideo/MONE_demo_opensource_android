@@ -1,14 +1,19 @@
 <resources>
-    <string name="alivc_media_setting_import_edit">导入编辑</string>
+    <string name="alivc_media_setting_import_edit">编辑参数</string>
+    <string name="ugsv_video_output_arg">视频输出</string>
+    <string name="ugsv_recorder_arg">录制时间</string>
+    <string name="ugsv_other_arg">其他参数</string>
+    <string name="alivc_media_code_rate">码率</string>
     <string name="alivc_media_frame_rate">帧率</string>
     <string name="alivc_media_gop">关键帧间隔</string>
-    <string name="alivc_media_frame_rate_hint">建议20-30，默认30</string>
+    <string name="alivc_media_code_rate_hint">填入码率会忽略视频质量</string>
+    <string name="alivc_media_frame_rate_hint">建议20-30，默认25</string>
     <string name="alivc_media_gop_hint">建议1-300，默认250</string>
     <string name="alivc_media_resolution">分辨率</string>
     <string name="alivc_media_crop_mode">裁剪模式</string>
     <string name="alivc_media_mode_fill">填充</string>
     <string name="alivc_media_mode_crop">裁剪</string>
-    <string name="alivc_media_start_import">开始导入</string>
+    <string name="alivc_media_start_import">开始编辑</string>
     <string name="alivc_media_gallery_all_media">相机胶卷</string>
     <string name="alivc_media_resolution_1_1">540*540</string>
     <string name="alivc_media_resolution_3_4">540*720</string>

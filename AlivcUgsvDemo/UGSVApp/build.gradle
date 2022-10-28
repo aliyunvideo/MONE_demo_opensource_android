@@ -6,11 +6,10 @@ android {
         applicationId "com.aliyun.apsaravideo"
         minSdkVersion externalLiveMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
-        versionCode VERSION_CODE as int
-        versionName VERSION_NAME
+        versionCode 1 as int
+        versionName "1.0.0"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        buildConfigField("boolean","isFinal", TEST == "TRUE" ? "true" : "false")
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -28,11 +27,9 @@ android {
 
     signingConfigs {
         debug {
-
         }
 
         release {
-
         }
     }
 
@@ -41,7 +38,7 @@ android {
 //            shrinkResources true
             multiDexEnabled true
             minifyEnabled false
-//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("int", "APK_TYPE", "0")
         }
@@ -49,7 +46,7 @@ android {
         release {
             multiDexEnabled true
             minifyEnabled true
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("int", "APK_TYPE", APK_TYPE)
         }
@@ -71,6 +68,7 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        pickFirst 'lib/*/libSpeexAec.so'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

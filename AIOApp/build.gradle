@@ -29,17 +29,17 @@ android {
     }
     signingConfigs {
         debug {
-            //TODO: 设置您的签名信息
+            //TODO: 设置您的签名信息，以下为示例
         }
         release {
-            //TODO: 设置您的签名信息
+            //TODO: 设置您的签名信息，以下为示例
         }
     }
     buildTypes {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
             buildConfigField("int","APK_TYPE", "0")
         }
         release {
@@ -48,7 +48,7 @@ android {
                     "$rootDir/AliLivePushDemo/alivc-livepusher-demo/proguard-rules.pro",
                     "$rootDir/AlivcUgsvDemo/UGSVApp/proguard-rules.pro"
                     "$rootDir/PlayerDemo/AUIPlayerApp/proguard-rules.pro"
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             buildConfigField("int","APK_TYPE", APK_TYPE)
         }
     }

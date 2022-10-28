@@ -1,5 +1,10 @@
 package com.alivc.live.pusher.demo;
 
+import static android.os.Environment.MEDIA_MOUNTED;
+import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT;
+import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT;
+import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,13 +41,13 @@ import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLiveBaseListener;
 import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushConstants;
-import com.alivc.live.pusher.AlivcLivePushLogLevel;
 import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
 import com.alivc.live.pusher.SurfaceStatus;
 import com.alivc.live.pusher.WaterMarkInfo;
-import com.alivc.live.pusher.util.StatusBarUtil;
+import com.alivc.live.pusher.demo.download.ResourcesDownload;
+import com.alivc.live.utils.StatusBarUtil;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 
 import java.io.File;
@@ -58,12 +63,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static android.os.Environment.MEDIA_MOUNTED;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT;
-
-public class LivePushActivity extends AVBaseThemeActivity implements IPushController , AlivcLiveBaseListener {
+public class LivePushActivity extends AVBaseThemeActivity implements IPushController {
     private static final String TAG = "LivePushActivity";
     private static final int FLING_MIN_DISTANCE = 50;
     private static final int FLING_MIN_VELOCITY = 0;
@@ -130,11 +130,6 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     private int mFps;
 
     @Override
-    public void onLicenceCheck(AlivcLivePushConstants.AlivcLiveLicenseCheckResultCode result, String reason) {
-        Log.e("TAG", "onLicenceCheck " + result + " reson " + reason);
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -159,22 +154,6 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
         setOrientation(mOrientation);
         setContentView(R.layout.activity_push);
         initView();
-
-        // 日志配置
-        if (BuildConfig.DEBUG) {
-            AlivcLiveBase.setLogLevel(AlivcLivePushLogLevel.AlivcLivePushLogLevelError);
-            AlivcLiveBase.setConsoleEnabled(true);
-        String logPath = getFilePath(getApplicationContext(), "log_path");
-        // full log file limited was kLogMaxFileSizeInKB * 5 (parts)
-        int maxPartFileSizeInKB = 100 * 1024 * 1024; //100G
-        AlivcLiveBase.setLogDirPath(logPath, maxPartFileSizeInKB);
-        }else {
-            AlivcLiveBase.setLogLevel(AlivcLivePushLogLevel.AlivcLivePushLogLevelNone);
-            AlivcLiveBase.setConsoleEnabled(false);
-        }
-        // 注册sdk
-        AlivcLiveBase.setListener(this);
-        AlivcLiveBase.registerSDK();
 
         mAlivcLivePusher = new AlivcLivePusher();
         try {
@@ -575,7 +554,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
                 byte[] yuv;
                 InputStream myInput = null;
                 try {
-                    File f = new File(getFilesDir().getPath() + File.separator+"alivc_resource/capture0.yuv");
+                    File f = ResourcesDownload.localCaptureYUVFilePath(LivePushActivity.this);
                     myInput = new FileInputStream(f);
                     byte[] buffer = new byte[1280*720*3/2];
                     int length = myInput.read(buffer);
@@ -613,32 +592,6 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
 
     private void stopPcm() {
         audioThreadOn = false;
-    }
-
-
-    public static String getFilePath(Context context, String dir) {
-        String logFilePath = "";
-        //判断SD卡是否可用
-        if (MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ) {
-            logFilePath = context.getExternalFilesDir(dir).getAbsolutePath() ;
-        }else{
-            //没内存卡就存机身内存 
-            logFilePath = context.getFilesDir() + File.separator + dir;
-        }
-        File file = new File(logFilePath);
-        if(!file.exists()){//判断文件目录是否存在 
-            file.mkdirs();
-        }
-
-        //Set log folder path in 4.4.0+ version
-        if (false) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String logFileName = "live_pusher_" + sdf.format(new Date()) + "_" + String.valueOf(System.currentTimeMillis()) + ".log";
-            logFilePath += File.separator + logFileName;
-        }
-
-        Log.d(TAG, "log filePath====>" + logFilePath);
-        return logFilePath;
     }
 
     private void startPCM(final Context context) {

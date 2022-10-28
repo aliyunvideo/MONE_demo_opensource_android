@@ -44,6 +44,18 @@ if (hasLive()) {
     include ':livepusherapp'
     project(':livepusherapp').projectDir = new File("AliLivePushDemo/alivc-livepusher-demo")
     project(':livepusherapp').setBuildFileName('build_lib.gradle')
+    include ':commonutils'
+    project(':commonutils').projectDir = new File('AliLivePushDemo/commonutils')
+    include ':commonbiz'
+    project(':commonbiz').projectDir = new File('AliLivePushDemo/commonbiz')
+    include 'interactive'
+    project(':interactive').projectDir = new File('AliLivePushDemo/interactive')
+    include 'interactiveLive'
+    project(':interactiveLive').projectDir = new File('AliLivePushDemo/interactive/interactive_live')
+    include 'interactivePK'
+    project(':interactivePK').projectDir = new File('AliLivePushDemo/interactive/interactive_pk')
+    include 'interactiveCommon'
+    project(':interactiveCommon').projectDir = new File('AliLivePushDemo/interactive/interactive_common')
 }
 //-------------------------------直播DEMO End-------------------------------------
 

@@ -3,8 +3,7 @@ package com.alivc.live.pusher.demo.auth;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.alivc.live.pusher.demo.ContextUtils;
-import com.alivc.live.pusher.demo.LiveApplication;
+import com.alivc.live.utils.ContextUtils;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

@@ -24,4 +24,11 @@
         parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="colorAccent">@color/colourful_fill_strong</item>
     </style>
+
+    <style name="AV_Common_Dialog_Style" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 </resources>

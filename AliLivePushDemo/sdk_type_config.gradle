@@ -1,4 +1,3 @@
-
 class AIOSdkType {
     public static final def AliVCSDK_Standard = "AliVCSDK_Standard"
     public static final def AliVCSDK_Premium = "AliVCSDK_Premium"
@@ -10,42 +9,8 @@ class AIOSdkType {
     public static final def AliVCSDK_PremiumLive = "AliVCSDK_PremiumLive"
 }
 
-def AIO_SDK_TYPE = "AliVCSDK_Premium"
-if (hasProperty("SDK_TYPE")) {
-    AIO_SDK_TYPE = SDK_TYPE
-}
-
-def IS_AIO = true
-if (hasProperty("allInOne")) {
-    IS_AIO = allInOne
-}
-
-def hasLive() {
-    def sdkType = "AliVCSDK_Premium"
-    if (hasProperty("SDK_TYPE")) {
-        sdkType = SDK_TYPE
-    }
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_BasicLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_StandardLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
-}
-
-def hasUGC() {
-    def sdkType = "AliVCSDK_Premium"
-    if (hasProperty("SDK_TYPE")) {
-        sdkType = SDK_TYPE
-    }
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_UGC.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_UGCPro.equalsIgnoreCase(sdkType)
-}
-
 def hasRTS() {
-    return false
+    return true
 }
 
 def hasPlayer() {
@@ -70,15 +35,22 @@ def hasQueen() {
             AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
 }
 
-def hasEnhanceFeature() {
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType)
+def hasInteractiveLive() {
+    def sdkType = "AliVCSDK_Premium"
+    if (hasProperty("SDK_TYPE")) {
+        sdkType = SDK_TYPE
+    }
+    println("hasInteractiveLive sdkType = " + sdkType)
+    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
 }
 
 ext {
-    hasLive = this.&hasLive
-    hasUGC = this.&hasUGC
     hasPlayer = this.&hasPlayer
     hasQueen = this.&hasQueen
     hasRTS = this.&hasRTS
     hasEnhanceFeature = this.&hasEnhanceFeature
+    hasInteractiveLive = this.&hasInteractiveLive
 }

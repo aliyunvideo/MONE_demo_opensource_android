@@ -7,15 +7,17 @@ if (file(livePushSdkSourceCode).exists()) {
     include ':alivc-livepusher-lib'
     project(':alivc-livepusher-lib').projectDir = file(livePushSdkSourceCode)
 }
+include ':commonutils'
+include ':commonbiz'
+include 'interactiveLive'
+project(':interactiveLive').projectDir = new File('./interactive/interactive_live')
+include 'interactivePK'
+project(':interactivePK').projectDir = new File('./interactive/interactive_pk')
+include 'interactiveCommon'
+project(':interactiveCommon').projectDir = new File('./interactive/interactive_common')
+
 include ':AndroidThirdParty'
-project(':AndroidThirdParty').projectDir = new File(settingsDir, '../AndroidThirdParty')
-include ':AUIFoundation'
-project(':AUIFoundation').projectDir = new File(settingsDir, '../AUIFoundation')
 include ':AUIFoundation:AVTheme'
-project(':AUIFoundation:AVTheme').projectDir = new File(settingsDir, '../AUIFoundation/AVTheme')
 include ':AUIFoundation:AVBaseUI'
-project(':AUIFoundation:AVBaseUI').projectDir = new File(settingsDir, '../AUIFoundation/AVBaseUI')
 include ':AUIFoundation:AVMatisse'
-project(':AUIFoundation:AVMatisse').projectDir = new File(settingsDir, '../AUIFoundation/AVMatisse')
 include ':AUIFoundation:AVUtils'
-project(':AUIFoundation:AVUtils').projectDir = new File(settingsDir, '../AUIFoundation/AVUtils')

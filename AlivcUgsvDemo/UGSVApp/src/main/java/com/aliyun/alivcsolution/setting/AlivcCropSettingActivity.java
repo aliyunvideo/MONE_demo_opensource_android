@@ -10,19 +10,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.aliyun.aio.avbaseui.avdialog.AVCommonPickerDialog;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 import com.aliyun.alivcsolution.R;
-import com.aliyun.svideo.crop.bean.AlivcCropInputParam;
+import com.aliyun.svideo.crop.CropConfig;
 import com.aliyun.svideo.crop.util.AUICropHelper;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
 import com.aliyun.svideosdk.common.struct.common.VideoQuality;
 import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
@@ -35,81 +35,60 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.util.List;
 
-public class AlivcCropSettingActivity extends AVBaseThemeActivity implements View.OnClickListener {
+public class AlivcCropSettingActivity extends AVBaseThemeActivity implements View.OnClickListener, AVCommonPickerDialog.OnPickListener {
 
     private static final int CROP_REQUEST_CODE_CHOOSE = 103;
     private static final int CROP_PERMISSION_REQUEST_CODE = 1002;
 
-    String[] effDirs;
-
-    /**
-     * 默认帧率
-     */
-    private static final int DEFAULT_FRAMR_RATE = 30;
-    /**
-     * 默认Gop参数
-     */
-    private static final int DEFAULT_GOP = 250;
-    private static final int REQUEST_CROP = 2002;
-
     private Button startImport;
 
-
-    private EditText frameRateEdit, gopEdit;
     private ImageView back;
-    private VideoDisplayMode cropMode = VideoDisplayMode.SCALE;
-    private VideoCodecs mVideoCodec = VideoCodecs.H264_HARDWARE;
-    private boolean ifPaused = false;
-    //视频编码方式选择按钮
-    private Button mEncorderHardwareBtn, mEncorderOpenh264Btn;
-    /**
-     * 视频质量button
-     */
-    private Button mQualitySuperBtn, mQualityHighBtn, mQualityNomalBtn, mQualityLowBtn;
 
-    /**
-     * 视频比例button
-     */
-    private Button mCropRatio9P16Btn, mCropRatio3P4Btn, mCropRatio1P1Btn, mCropRatioOriginalBtn;
+    private RelativeLayout mVideoRatioLayout;
+    private TextView mTvVideoRatio;
+    private AVCommonPickerDialog.ArgsSelector mVideoRatio;
+    private static final int REQUEST_CODE_RATIO = 0x11;
 
-    /**
-     * 分辨率button
-     */
-    private Button mCropResolutionP360Btn, mCropResolutionP480Btn, mCropResolutionP540Btn, mCropResolutionP720Btn;
-    private VideoQuality mVideoQuality;
-    private int mRatioMode;
-    private int mResolutionMode;
+    private RelativeLayout mVideoResolutionLayout;
+    private TextView mTvVideoResolution;
+    private AVCommonPickerDialog.ArgsSelector mVideoResolution;
+    private static final int REQUEST_CODE_RESOLUTION = 0x12;
 
-    /**
-     * 原比例
-     */
-    private static final int RATIO_ORIGINAL = 3;
-    private Button mCropModeFillButton, mCropModeCropButton;
-    private VideoDisplayMode mCropMode;
+    private RelativeLayout mVideoCropModeLayout;
+    private TextView mTvVideoCropMode;
+    private AVCommonPickerDialog.ArgsSelector mVideoCropMode;
+    private static final int REQUEST_CODE_CROP_MODE = 0x13;
+
+    private RelativeLayout mVideoCodecModeLayout;
+    private TextView mTvVideoCodecMode;
+    private AVCommonPickerDialog.ArgsSelector mVideoCodecMode;
+    private static final int REQUEST_CODE_CODEC_MODE = 0x14;
+
+    private RelativeLayout mVideoQualityLayout;
+    private TextView mTvVideoQuality;
+    private AVCommonPickerDialog.ArgsSelector mVideoQuality;
+    private static final int REQUEST_CODE_QUALITY = 0x15;
+
+    private RelativeLayout mVideoFrameRateLayout;
+    private EditText mFrameRateEdit;
+
+    private RelativeLayout mVideoGopLayout;
+    private EditText mGopEdit;
+
+    private RelativeLayout mVideoCodeRateLayout;
+    private EditText mBitRateEdit;
+
+    private AVCommonPickerDialog mPickerDialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alivc_svideo_activity_crop_setting);
         initView();
-
+        initData();
     }
 
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        ifPaused = true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (ifPaused) {
-            //editor.resume();
-        }
-    }
 
     @Override
     protected void onDestroy() {
@@ -123,58 +102,82 @@ public class AlivcCropSettingActivity extends AVBaseThemeActivity implements Vie
         back = (ImageView) findViewById(R.id.aliyun_back);
         back.setOnClickListener(this);
 
-        // 录入参数
-        frameRateEdit = (EditText) findViewById(R.id.alivc_crop_frame_rate_edit);
-        gopEdit = (EditText) findViewById(R.id.alivc_crop_gop_edit);
+        mVideoRatioLayout = findViewById(R.id.video_ratio_layout);
+        mVideoRatioLayout.setOnClickListener(this);
+        mTvVideoRatio = findViewById(R.id.tv_video_ratio);
 
-        // 视频质量
-        mQualitySuperBtn = findViewById(R.id.alivc_video_quality_super);
-        mQualitySuperBtn.setOnClickListener(this);
-        mQualityHighBtn = findViewById(R.id.alivc_video_quality_high);
-        mQualityHighBtn.setOnClickListener(this);
-        mQualityNomalBtn = findViewById(R.id.alivc_video_quality_normal);
-        mQualityNomalBtn.setOnClickListener(this);
-        mQualityLowBtn = findViewById(R.id.alivc_video_quality_low);
-        mQualityLowBtn.setOnClickListener(this);
+        mVideoResolutionLayout = findViewById(R.id.video_resolution_layout);
+        mVideoResolutionLayout.setOnClickListener(this);
+        mTvVideoResolution = findViewById(R.id.tv_video_resolution);
 
-        // 视频比例
-        mCropRatio9P16Btn = findViewById(R.id.alivc_video_ratio_9_16);
-        mCropRatio3P4Btn = findViewById(R.id.alivc_video_ratio_3_4);
-        mCropRatio1P1Btn = findViewById(R.id.alivc_video_ratio_1_1);
-        mCropRatioOriginalBtn = findViewById(R.id.alivc_video_ratio_original);
-        mCropRatio9P16Btn.setOnClickListener(this);
-        mCropRatio3P4Btn.setOnClickListener(this);
-        mCropRatio1P1Btn.setOnClickListener(this);
-        mCropRatioOriginalBtn.setOnClickListener(this);
+        mVideoCropModeLayout = findViewById(R.id.video_crop_mode_layout);
+        mVideoCropModeLayout.setOnClickListener(this);
+        mTvVideoCropMode = findViewById(R.id.tv_video_crop_mode);
 
-        // 分辨率
-        mCropResolutionP360Btn = findViewById(R.id.alivc_record_resolution_360p);
-        mCropResolutionP480Btn = findViewById(R.id.alivc_record_resolution_480p);
-        mCropResolutionP540Btn = findViewById(R.id.alivc_record_resolution_540p);
-        mCropResolutionP720Btn = findViewById(R.id.alivc_record_resolution_720p);
-        mCropResolutionP360Btn.setOnClickListener(this);
-        mCropResolutionP480Btn.setOnClickListener(this);
-        mCropResolutionP540Btn.setOnClickListener(this);
-        mCropResolutionP720Btn.setOnClickListener(this);
+        mVideoCodecModeLayout = findViewById(R.id.video_codec_layout);
+        mVideoCodecModeLayout.setOnClickListener(this);
+        mTvVideoCodecMode= findViewById(R.id.tv_video_codec);
 
-        // 裁剪模式
-        mCropModeFillButton = findViewById(R.id.radio_fill);
-        mCropModeCropButton = findViewById(R.id.radio_crop);
-        mCropModeFillButton.setOnClickListener(this);
-        mCropModeCropButton.setOnClickListener(this);
+        mVideoQualityLayout = findViewById(R.id.video_quality_layout);
+        mVideoQualityLayout.setOnClickListener(this);
+        mTvVideoQuality = findViewById(R.id.tv_video_quality);
 
-        // 视频编码相关按钮
-        mEncorderHardwareBtn = findViewById(R.id.alivc_crop_encoder_hardware);
-        mEncorderOpenh264Btn = findViewById(R.id.alivc_crop_encoder_openh264);
-        mEncorderHardwareBtn.setOnClickListener(this);
-        mEncorderOpenh264Btn.setOnClickListener(this);
+        mVideoFrameRateLayout= findViewById(R.id.video_frame_rate_layout);
+        mVideoFrameRateLayout.setOnClickListener(this);
+        mFrameRateEdit = findViewById(R.id.ed_video_frame_rate);
 
-        //初始化配置
-        onRatioSelected(mCropRatio9P16Btn);
-        onEncoderSelected(mEncorderHardwareBtn);
-        onResolutionSelected(mCropResolutionP720Btn);
-        onQualitySelected(mQualityHighBtn);
-        onCropMode(mCropModeFillButton);
+        mVideoGopLayout = findViewById(R.id.video_gop_layout);
+        mVideoGopLayout.setOnClickListener(this);
+        mGopEdit = (EditText) findViewById(R.id.ed_video_gop);
+
+        mVideoCodeRateLayout = findViewById(R.id.video_code_rate_layout);
+        mVideoCodeRateLayout.setOnClickListener(this);
+        mBitRateEdit = findViewById(R.id.ed_video_code_rate);
+    }
+
+    private void initData() {
+        CropConfig.Companion.getInstance().reset();
+
+        mVideoRatio = new AVCommonPickerDialog.ArgsSelector();
+        mVideoRatio.mRequestCode = REQUEST_CODE_RATIO;
+        mVideoRatio.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_ratio_original), CropConfig.RATIO_MODE_ORIGIN));
+        mVideoRatio.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_ratio_9_16), CropConfig.RATIO_MODE_9_16));
+        mVideoRatio.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_ratio_3_4), CropConfig.RATIO_MODE_3_4));
+        mVideoRatio.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_ratio_1_1), CropConfig.RATIO_MODE_1_1));
+        mVideoRatio.mSelectedIndex = 3;
+        mVideoRatio.mTitle = getResources().getString(R.string.alivc_crop_setting_ratio);
+
+        mVideoResolution = new AVCommonPickerDialog.ArgsSelector();
+        mVideoResolution.mRequestCode = REQUEST_CODE_RESOLUTION;
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_1080p), CropConfig.RESOLUTION_1080P));
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_720p), CropConfig.RESOLUTION_720P));
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_540p), CropConfig.RESOLUTION_540P));
+        mVideoResolution.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_resolution_360p), CropConfig.RESOLUTION_360P));
+        mVideoResolution.mSelectedIndex = 1;
+        mVideoResolution.mTitle = getResources().getString(R.string.alivc_crop_setting_resolution);
+
+        mVideoCropMode = new AVCommonPickerDialog.ArgsSelector();
+        mVideoCropMode.mRequestCode = REQUEST_CODE_CROP_MODE;
+        mVideoCropMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_mode_fill), VideoDisplayMode.FILL));
+        mVideoCropMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_mode_crop),  VideoDisplayMode.SCALE));
+        mVideoCropMode.mSelectedIndex = 0;
+        mVideoCropMode.mTitle = getResources().getString(R.string.alivc_media_crop_mode);
+
+        mVideoCodecMode = new AVCommonPickerDialog.ArgsSelector();
+        mVideoCodecMode.mRequestCode = REQUEST_CODE_CODEC_MODE;
+        mVideoCodecMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_encoder_hardware), VideoCodecs.H264_HARDWARE));
+        mVideoCodecMode.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_encoder_openh264), VideoCodecs.H264_SOFT_OPENH264));
+        mVideoCodecMode.mSelectedIndex = 0;
+        mVideoCodecMode.mTitle = getResources().getString(R.string.alivc_crop_setting_codec);
+
+        mVideoQuality = new AVCommonPickerDialog.ArgsSelector();
+        mVideoQuality.mRequestCode = REQUEST_CODE_QUALITY;
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_super), VideoQuality.SSD));
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_high), VideoQuality.HD));
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_meidan), VideoQuality.SD));
+        mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_low), VideoQuality.LD));
+        mVideoQuality.mSelectedIndex = 1;
+        mVideoQuality.mTitle = getResources().getString(R.string.alivc_crop_setting_quality);
     }
 
     @Override
@@ -200,134 +203,26 @@ public class AlivcCropSettingActivity extends AVBaseThemeActivity implements Vie
                     .showPreview(false) // Default is `true`
                     .forResult(CROP_REQUEST_CODE_CHOOSE);
 
-        } else if (v == mEncorderHardwareBtn || v == mEncorderOpenh264Btn) {
-            onEncoderSelected(v);
-        } else if (v == mQualityHighBtn || v == mQualityLowBtn || v == mQualitySuperBtn || v == mQualityNomalBtn) {
-            onQualitySelected(v);
-        } else if (v == mCropRatio1P1Btn || v == mCropRatio3P4Btn || v == mCropRatio9P16Btn || v == mCropRatioOriginalBtn) {
-            onRatioSelected(v);
-        } else if (v == mCropResolutionP360Btn || v == mCropResolutionP480Btn || mCropResolutionP540Btn == v
-                   || v == mCropResolutionP720Btn) {
-            onResolutionSelected(v);
-        } else if (v ==  back) {
-            finish();
-        } else if (v == mCropModeCropButton || v == mCropModeFillButton) {
-            onCropMode(v);
-        }
-    }
-
-    /**
-     * 视频质量选择
-     *
-     * @param view 被点击按钮
-     */
-    private void onQualitySelected(View view) {
-        mQualitySuperBtn.setSelected(false);
-        mQualityHighBtn.setSelected(false);
-        mQualityNomalBtn.setSelected(false);
-        mQualityLowBtn.setSelected(false);
-        if (view == mQualitySuperBtn) {
-            mVideoQuality = VideoQuality.SSD;
-            mQualitySuperBtn.setSelected(true);
-        } else if (view == mQualityHighBtn) {
-            mQualityHighBtn.setSelected(true);
-            mVideoQuality = VideoQuality.HD;
-        } else if (view == mQualityNomalBtn) {
-            mQualityNomalBtn.setSelected(true);
-            mVideoQuality = VideoQuality.SD;
-        } else {
-            mQualityLowBtn.setSelected(true);
-            mVideoQuality = VideoQuality.LD;
-        }
-    }
-
-    /**
-     * 视频比例选择
-     *
-     * @param view
-     */
-    private void onRatioSelected(View view) {
-        mCropRatioOriginalBtn.setSelected(false);
-        mCropRatio9P16Btn.setSelected(false);
-        mCropRatio3P4Btn.setSelected(false);
-        mCropRatio1P1Btn.setSelected(false);
-        if (view == mCropRatio1P1Btn) {
-            mRatioMode = AliyunSnapVideoParam.RATIO_MODE_1_1;
-            mCropRatio1P1Btn.setSelected(true);
-        } else if (view == mCropRatio9P16Btn) {
-            mRatioMode = AliyunSnapVideoParam.RATIO_MODE_9_16;
-            mCropRatio9P16Btn.setSelected(true);
-        } else if (view == mCropRatio3P4Btn) {
-            mCropRatio3P4Btn.setSelected(true);
-            mRatioMode = AliyunSnapVideoParam.RATIO_MODE_3_4;
-        } else {
-            mRatioMode = RATIO_ORIGINAL;
-            mCropRatioOriginalBtn.setSelected(true);
-        }
-    }
-
-    /**
-     * 视频分辨率选择
-     *
-     * @param view
-     */
-    private void onResolutionSelected(View view) {
-        mCropResolutionP360Btn.setSelected(false);
-        mCropResolutionP480Btn.setSelected(false);
-        mCropResolutionP540Btn.setSelected(false);
-        mCropResolutionP720Btn.setSelected(false);
-        if (view == mCropResolutionP360Btn) {
-            mCropResolutionP360Btn.setSelected(true);
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_360P;
-        } else if (view == mCropResolutionP480Btn) {
-            mCropResolutionP480Btn.setSelected(true);
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_480P;
-
-        } else if (view == mCropResolutionP540Btn) {
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_540P;
-            mCropResolutionP540Btn.setSelected(true);
-
-        } else {
-            mCropResolutionP720Btn.setSelected(true);
-            mResolutionMode = AliyunSnapVideoParam.RESOLUTION_720P;
-
-        }
-
-    }
-
-    /**
-     * 视频裁剪方式选择
-     *
-     * @param view
-     */
-    private void onCropMode(View view) {
-        mCropModeFillButton.setSelected(false);
-        mCropModeCropButton.setSelected(false);
-
-        if (view == mCropModeFillButton) {
-            mCropModeFillButton.setSelected(true);
-            mCropMode = VideoDisplayMode.FILL;
-        } else {
-            mCropModeCropButton.setSelected(true);
-            mCropMode = VideoDisplayMode.SCALE;
-        }
-    }
-
-    /**
-     * 视频编码方式选择
-     *
-     * @param view
-     */
-    private void onEncoderSelected(View view) {
-        mEncorderHardwareBtn.setSelected(false);
-        mEncorderOpenh264Btn.setSelected(false);
-
-        if (view == mEncorderOpenh264Btn) {
-            mEncorderOpenh264Btn.setSelected(true);
-            mVideoCodec = VideoCodecs.H264_SOFT_OPENH264;
-        } else if (view == mEncorderHardwareBtn) {
-            mEncorderHardwareBtn.setSelected(true);
-            mVideoCodec = VideoCodecs.H264_HARDWARE;
+        } else if (v == mVideoRatioLayout) {
+            mVideoRatio.mSelectedIndex = mVideoRatio.findSelectedIndexByText(CropConfig.Companion.getInstance().getRatio());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoRatio).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoRatio.mTitle);
+        } else if (v == mVideoResolutionLayout) {
+            mVideoResolution.mSelectedIndex = mVideoResolution.findSelectedIndexByText(CropConfig.Companion.getInstance().getResolution());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoResolution).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoResolution.mTitle);
+        } else if (v == mVideoCropModeLayout) {
+            mVideoCropMode.mSelectedIndex = mVideoCropMode.findSelectedIndexByText(CropConfig.Companion.getInstance().getVideoDisplayMode());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoCropMode).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoCropMode.mTitle);
+        } else if (v == mVideoCodecModeLayout) {
+            mVideoCodecMode.mSelectedIndex = mVideoCodecMode.findSelectedIndexByText(CropConfig.Companion.getInstance().getCodec());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoCodecMode).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoCodecMode.mTitle);
+        } else if (v == mVideoQualityLayout) {
+            mVideoQuality.mSelectedIndex = mVideoQuality.findSelectedIndexByText(CropConfig.Companion.getInstance().getVideoQuality());
+            mPickerDialog = new AVCommonPickerDialog.Builder(mVideoQuality).setListener(this).build();
+            mPickerDialog.show(getSupportFragmentManager(), mVideoQuality.mTitle);
         }
     }
 
@@ -335,39 +230,57 @@ public class AlivcCropSettingActivity extends AVBaseThemeActivity implements Vie
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (CROP_REQUEST_CODE_CHOOSE == requestCode && resultCode == RESULT_OK) {
-            String inputGop = gopEdit.getText().toString();
-            int gop = DEFAULT_GOP;
-            if (!TextUtils.isEmpty(inputGop)) {
+            String inputFrame = mFrameRateEdit.getText().toString();
+            if (!TextUtils.isEmpty(inputFrame)) {
                 try {
-                    gop = Integer.parseInt(inputGop);
+                    int fps = Integer.parseInt(inputFrame);
+                    CropConfig.Companion.getInstance().setFps(fps);
                 } catch (Exception e) {
                     Log.e("ERROR", "input error");
                 }
             }
 
-            String inputFrameRate = frameRateEdit.getText().toString();
-            int frameRate  = DEFAULT_FRAMR_RATE;
-            if (!TextUtils.isEmpty(inputFrameRate)) {
+            String inputGop = mGopEdit.getText().toString();
+            if (!TextUtils.isEmpty(inputGop)) {
                 try {
-                    frameRate = Integer.parseInt(inputFrameRate);
+                    int gop = Integer.parseInt(inputGop);
+                    CropConfig.Companion.getInstance().setGop(gop);
+                } catch (Exception e) {
+                    Log.e("ERROR", "input error");
+                }
+            }
+
+            String inputBitRate = mBitRateEdit.getText().toString();
+            if (!TextUtils.isEmpty(inputBitRate)) {
+                try {
+                    int bitRate = Integer.parseInt(inputBitRate);
+                    CropConfig.Companion.getInstance().setBitRate(bitRate * 1000);
                 } catch (Exception e) {
                     Log.e("ERROR", "input error");
                 }
             }
             List<String> path = AVMatisse.obtainPathResult(data);
-            AlivcCropInputParam cropParam = new AlivcCropInputParam.Builder()
-                    .setFrameRate(frameRate)
-                    .setGop(gop)
-                    .setPath(path.get(0))
-                    .setCropMode(cropMode)
-                    .setQuality(mVideoQuality)
-                    .setVideoCodecs(mVideoCodec)
-                    .setResolutionMode(mResolutionMode)
-                    .setRatioMode(mRatioMode)
-                    .setCropMode(mCropMode)
-                    .setMinCropDuration(3000)
-                    .build();
-            AUICropHelper.startVideoCropForResult(this, cropParam, -1);
+            AUICropHelper.startVideoCropForResult(this, path, -1);
+        }
+    }
+
+    @Override
+    public void onSubmit(int requestCode, AVCommonPickerDialog.PickerItem pickerItem) {
+        if (requestCode == REQUEST_CODE_RATIO) {
+            CropConfig.Companion.getInstance().setRatio((Float) pickerItem.mAttachValue);
+            mTvVideoRatio.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_RESOLUTION) {
+            CropConfig.Companion.getInstance().setResolution((Integer) pickerItem.mAttachValue);
+            mTvVideoResolution.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_CODEC_MODE) {
+            CropConfig.Companion.getInstance().setCodec((VideoCodecs) pickerItem.mAttachValue);
+            mTvVideoCodecMode.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_CROP_MODE) {
+            CropConfig.Companion.getInstance().setVideoDisplayMode((VideoDisplayMode) pickerItem.mAttachValue);
+            mTvVideoCropMode.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_QUALITY) {
+            CropConfig.Companion.getInstance().setVideoQuality((VideoQuality)pickerItem.mAttachValue);
+            mTvVideoQuality.setText(pickerItem.mItemName);
         }
     }
 }

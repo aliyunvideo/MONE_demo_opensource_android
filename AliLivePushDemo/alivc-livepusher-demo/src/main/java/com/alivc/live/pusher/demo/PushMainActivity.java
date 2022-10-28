@@ -12,15 +12,20 @@ import android.text.TextUtils;
 
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.pusher.AlivcLiveBase;
-import com.alivc.live.pusher.demo.pk.PKLiveInputActivity;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
-import com.alivc.live.pusher.widget.FastClickUtil;
 import com.aliyun.aio.avbaseui.AVBaseListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.aliyun.interactive_common.InteractAppInfoActivity;
+import com.aliyun.interactive_live.InteractLiveInputActivity;
+import com.aliyun.interactive_pk.PKLiveInputActivity;
+import com.alivc.live.utils.ContextUtils;
+import com.alivc.live.utils.FastClickUtil;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
+import com.alivc.live.utils.ToastUtils;
 
 @Route(path = "/live/MainActivity")
 public class PushMainActivity extends AVBaseListActivity {
@@ -91,15 +96,15 @@ public class PushMainActivity extends AVBaseListActivity {
                 break;
             case INDEX_INTERACT_LIVE:
                 if (checkInteractiveAPPInfoIfNeed()) {
-                    startActivity(new Intent(this, com.alivc.live.pusher.demo.interactlive.InteractLiveAppInfoActivity.class));
+                    startActivity(new Intent(this, InteractAppInfoActivity.class));
                 }else{
-                    startActivity(new Intent(this, com.alivc.live.pusher.demo.interactlive.InteractLiveInputActivity.class));
+                    startActivity(new Intent(this, InteractLiveInputActivity.class));
                 }
                 break;
             case INDEX_INTERACT_PK_LIVE:
                 if (checkInteractiveAPPInfoIfNeed()) {
-                    Intent intent = new Intent(this, com.alivc.live.pusher.demo.interactlive.InteractLiveAppInfoActivity.class);
-                    intent.putExtra(com.alivc.live.pusher.demo.interactlive.InteractLiveAppInfoActivity.INTENT_FROM_PK,true);
+                    Intent intent = new Intent(this, InteractAppInfoActivity.class);
+                    intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK,true);
                     startActivity(intent);
                 }else{
                     startActivity(new Intent(this, PKLiveInputActivity.class));

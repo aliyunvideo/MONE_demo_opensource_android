@@ -3,8 +3,6 @@
  */
 package com.alivc.live.pusher.demo.floatwindowpermission;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +14,7 @@ import android.util.Log;
 import com.alivc.live.pusher.demo.R;
 import com.alivc.live.pusher.demo.floatwindowpermission.rom.*;
 import com.alivc.live.pusher.widget.CommonDialog;
-import com.alivc.live.pusher.widget.TextFormatUtil;
+import com.alivc.live.utils.TextFormatUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

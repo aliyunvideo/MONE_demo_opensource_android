@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
 }
+apply from:'../sdk_type_config.gradle'
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion

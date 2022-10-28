@@ -6,11 +6,9 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -24,21 +22,20 @@ import android.widget.Toast;
 
 import com.alivc.live.pusher.demo.bean.Constants;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
-import com.alivc.live.pusher.util.StatusBarUtil;
 import com.alivc.live.pusher.widget.ButtonClickListener;
 import com.alivc.live.pusher.widget.CommonDialog;
 import com.alivc.live.pusher.widget.PlayButtonListView;
 import com.alivc.live.pusher.widget.SeiView;
-import com.alivc.live.pusher.widget.TextFormatUtil;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
+import com.alivc.live.utils.StatusBarUtil;
+import com.alivc.live.utils.TextFormatUtil;
 import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
-import com.cicada.player.utils.FrameInfo;
 import com.cicada.player.utils.Logger;
 import com.acker.simplezxing.activity.CaptureActivity;
 

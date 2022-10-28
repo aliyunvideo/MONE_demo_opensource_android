@@ -120,12 +120,17 @@ public class AUIVideoEditorComposeActivity extends AVBaseThemeActivity {
                 MediaScannerConnection.scanFile(getApplicationContext(),
                         new String[]{mOutputPath}, new String[]{"video/mp4"}, null);
             }
-            mProgressView.post(new Runnable() {
-                @Override
-                public void run() {
-                    initUpload();
-                }
-            });
+            if (EditorConfig.Companion.getInstance().getPublish()) {
+                mProgressView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        initUpload();
+                    }
+                });
+            } else {
+                showMessage(getString(R.string.ugsv_editor_compose_success), true);
+            }
+
             VideoInfoUtils.printVideoInfo(mOutputPath);
         }
     };
@@ -267,7 +272,7 @@ public class AUIVideoEditorComposeActivity extends AVBaseThemeActivity {
 
     @SuppressLint("SetTextI18n")
     private void updateProgress(int composeProgress, int uploadProgress) {
-        int progress = (composeProgress + uploadProgress) / 2;
+        int progress = (composeProgress + uploadProgress) / (EditorConfig.Companion.getInstance().getPublish() ? 2 : 1);
         mProgressView.setProgress(progress);
         mTvProgress.setText(progress + "%");
     }
@@ -463,6 +468,9 @@ public class AUIVideoEditorComposeActivity extends AVBaseThemeActivity {
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (AUIVideoEditorComposeActivity.this.isFinishing() || AUIVideoEditorComposeActivity.this.isDestroyed()) {
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(AUIVideoEditorComposeActivity.this);
                 builder.setMessage(msg);
                 builder.setCancelable(false);

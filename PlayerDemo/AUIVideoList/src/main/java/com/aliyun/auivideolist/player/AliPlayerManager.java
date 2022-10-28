@@ -172,6 +172,14 @@ public class AliPlayerManager {
         prepare(mCurrentPlayer,url);
     }
 
+    public void seekTo(long position){
+        mCurrentPlayer.seekTo(position);
+    }
+
+    public void seekToAccurate(long position){
+        mCurrentPlayer.seekTo(position, IPlayer.SeekMode.Accurate);
+    }
+
     public void pause(){
         if(mIsPlaying){
             mCurrentPlayer.pause();

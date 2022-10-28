@@ -29,20 +29,20 @@ public class AUIVideoEditor {
         context.startActivity(intent);
     }
 
-    public static void startEditor(Context context, List<String> list, EditorConfig config) {
-        if (config == null) {
-            config = new EditorConfig();
-        }
+    public static void startEditor(Context context, List<String> list) {
         AliyunVideoParam.Builder builder = new AliyunVideoParam.Builder();
         AliyunIImport aliyunIImport = AliyunImportCreator.getImportInstance(context);
-        builder.gop(config.getGop());
-        builder.frameRate(config.getFps());
-        builder.videoCodec(config.getCodec());
-        builder.videoQuality(config.getVideoQuality());
-        builder.scaleMode(config.getVideoDisplayMode());
-        if (config.getRatio() != 0) {
-            int outputWidth = config.getResolution();
-            int outputHeight = (int) (config.getResolution() / config.getRatio());
+        builder.gop(EditorConfig.Companion.getInstance().getGop());
+        builder.frameRate(EditorConfig.Companion.getInstance().getFps());
+        builder.videoCodec(EditorConfig.Companion.getInstance().getCodec());
+        builder.videoQuality(EditorConfig.Companion.getInstance().getVideoQuality());
+        builder.scaleMode(EditorConfig.Companion.getInstance().getVideoDisplayMode());
+        if (EditorConfig.Companion.getInstance().getBitRate() != EditorConfig.DEFAULT_BITRATE) {
+            builder.bitrate(EditorConfig.Companion.getInstance().getBitRate());
+        }
+        if (EditorConfig.Companion.getInstance().getRatio() != 0) {
+            int outputWidth = EditorConfig.Companion.getInstance().getResolution();
+            int outputHeight = (int) (EditorConfig.Companion.getInstance().getResolution() / EditorConfig.Companion.getInstance().getRatio());
             builder.outputWidth(outputWidth);
             builder.outputHeight(outputHeight);
         }
@@ -51,7 +51,7 @@ public class AUIVideoEditor {
             String path = list.get(i);
             NativeParser nativeParser = new NativeParser();
             nativeParser.init(path);
-            if(config.getRatio() == 0 && i == 0){
+            if(EditorConfig.Companion.getInstance().getRatio() == 0 && i == 0){
                 int originWidth = Integer.parseInt(nativeParser.getValue(NativeParser.VIDEO_WIDTH));
                 int originHeight = Integer.parseInt(nativeParser.getValue(NativeParser.VIDEO_HEIGHT));
                 int rotation = Integer.parseInt(nativeParser.getValue(NativeParser.VIDEO_ROTATION));
@@ -62,8 +62,8 @@ public class AUIVideoEditor {
                     width = height;
                     height = temp;
                 }
-                int outputWidth = config.getResolution();
-                int outputHeight = (int) (config.getResolution() / (1.f * width / height));
+                int outputWidth = EditorConfig.Companion.getInstance().getResolution();
+                int outputHeight = (int) (EditorConfig.Companion.getInstance().getResolution() / (1.f * width / height));
 
                 builder.outputWidth(outputWidth);
                 builder.outputHeight(outputHeight);

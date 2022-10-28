@@ -32,6 +32,7 @@ import com.aliyun.common.utils.CommonUtil;
 import com.aliyun.svideo.base.BaseChooser;
 import com.aliyun.svideo.base.Constants;
 import com.aliyun.svideo.base.utils.FastClickUtil;
+import com.aliyun.svideo.recorder.RecorderConfig;
 import com.aliyun.svideo.recorder.views.focus.AUIFocusPanel;
 import com.aliyun.ugsv.auibeauty.api.BeautyFactory;
 import com.aliyun.ugsv.auibeauty.BeautyInterface;
@@ -136,10 +137,8 @@ public class AUIRecorderView extends FrameLayout
     private int maxRecordTime = 15 * 1000;
     //关键帧间隔
     private int mGop = 5;
-    //视频比例
-    private int mRatioMode = AliyunSnapVideoParam.RATIO_MODE_3_4;
     //渲染方式
-    private BeautySDKType mRenderingMode;
+    private BeautySDKType mRenderingMode = BeautySDKType.QUEEN;
 
     private AUIPropsChooser gifEffectChooser;
     /**
@@ -150,8 +149,6 @@ public class AUIRecorderView extends FrameLayout
      * 特效选择器
      */
     private AUISpecialEffectChooser mSpecialEffectChooser;
-    //视频分辨率
-    private int mResolutionMode = AliyunSnapVideoParam.RESOLUTION_540P;
 
     //选中的贴图效果
     private AliyunRecordPasterController mPasterController;
@@ -566,9 +563,9 @@ public class AUIRecorderView extends FrameLayout
             }
 
             @Override
-            public void onChangeAspectRatioClick(int ratio) {
+            public void onChangeAspectRatioClick() {
                 //重新绘制界面
-                setReSizeRatioMode(ratio);
+                setReSizeRatioMode();
             }
 
             @Override
@@ -626,7 +623,6 @@ public class AUIRecorderView extends FrameLayout
             }
         });
         addSubView(mControlView);
-        mControlView.setAspectRatio(mRatioMode);
     }
 
     /**
@@ -1017,11 +1013,11 @@ public class AUIRecorderView extends FrameLayout
                                 pendingCompseFinishRunnable = new Runnable() {
                                     @Override
                                     public void run() {
-                                        onFinishListener.onComplete(outputPath, duration, mRatioMode);
+                                        onFinishListener.onComplete(outputPath, duration);
                                     }
                                 };
                             } else {
-                                onFinishListener.onComplete(outputPath, duration, mRatioMode);
+                                onFinishListener.onComplete(outputPath, duration);
                             }
                         }
                         VideoInfoUtils.printVideoInfo(outputPath);
@@ -1445,7 +1441,7 @@ public class AUIRecorderView extends FrameLayout
      * 录制完成事件监听
      */
     public interface OnFinishListener {
-        void onComplete(String path, int duration, int ratioMode);
+        void onComplete(String path, int duration);
     }
 
     public void setCompleteListener(OnFinishListener mCompleteListener) {
@@ -1503,8 +1499,7 @@ public class AUIRecorderView extends FrameLayout
     /**
      * 重新绘制SurFaceView的比例
      */
-    public void setReSizeRatioMode(int ratioMode) {
-        this.mRatioMode = ratioMode;
+    public void setReSizeRatioMode() {
         FrameLayout.LayoutParams params = getVideoLayoutParams();
         mRecorderSurfaceView.setLayoutParams(params);
         if (recorder != null) {
@@ -1518,17 +1513,7 @@ public class AUIRecorderView extends FrameLayout
         int ugsvTopBarHeight = getResources().getDimensionPixelSize(R.dimen.ugsv_recorder_top_bar_height);
         int height = 0;
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(screenWidth, height);
-        switch (mRatioMode) {
-            case AliyunSnapVideoParam.RATIO_MODE_1_1:
-                height = screenWidth;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                height = screenWidth * 4 / 3;
-                break;
-            default:
-                height = screenWidth * 16 / 9;
-                break;
-        }
+        height = (int) (screenWidth / RecorderConfig.Companion.getInstance().getRatio());
         if (screenHeight - height >= ugsvTopBarHeight) {
             params.setMargins(0, ugsvTopBarHeight, 0, 0);
         } else {
@@ -1536,33 +1521,6 @@ public class AUIRecorderView extends FrameLayout
         }
         params.height = height;
         return params;
-    }
-
-    /**
-     * 设置视频比例
-     *
-     * @param ratioMode
-     */
-    public void setRatioMode(int ratioMode) {
-        this.mRatioMode = ratioMode;
-    }
-
-    /**
-     * 设置渲染方式
-     *
-     * @param mRenderingMode
-     */
-    public void setRenderingMode(BeautySDKType mRenderingMode) {
-        this.mRenderingMode = mRenderingMode;
-    }
-
-    /**
-     * 设置视频码率
-     *
-     * @param mResolutionMode
-     */
-    public void setResolutionMode(int mResolutionMode) {
-        this.mResolutionMode = mResolutionMode;
     }
 
     public void setOnMusicSelectListener(AUIMusicSelectListener musicSelectListener) {

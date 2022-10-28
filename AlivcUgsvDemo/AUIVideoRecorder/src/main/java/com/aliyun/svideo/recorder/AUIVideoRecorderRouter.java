@@ -3,7 +3,6 @@ package com.aliyun.svideo.recorder;
 import android.content.Context;
 import android.content.Intent;
 
-import com.aliyun.svideo.recorder.bean.AUIRecorderInputParam;
 import com.aliyun.svideosdk.common.struct.common.AliyunVideoClip;
 import com.aliyun.svideosdk.common.struct.common.AliyunVideoParam;
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
@@ -12,15 +11,17 @@ import com.aliyun.svideosdk.importer.impl.AliyunImportCreator;
 
 public class AUIVideoRecorderRouter {
 
-    public static void jumpEditor(Context context, String path, long duration, AUIRecorderInputParam param) {
+    public static void jumpEditor(Context context, String path, long duration) {
         AliyunVideoParam.Builder builder = new AliyunVideoParam.Builder();
-        builder.gop(param.getGop());
-        builder.frameRate(param.getFrame());
-        builder.videoQuality(param.getVideoQuality());
-        builder.videoCodec(param.getVideoCodec());
+        builder.gop(RecorderConfig.Companion.getInstance().getGop());
+        builder.frameRate(RecorderConfig.Companion.getInstance().getFps());
+        builder.videoQuality(RecorderConfig.Companion.getInstance().getVideoQuality());
+        builder.videoCodec(RecorderConfig.Companion.getInstance().getCodec());
         builder.scaleMode(VideoDisplayMode.FILL);
-        builder.outputWidth(param.getVideoWidth());
-        builder.outputHeight(param.getVideoHeight());
+        int width = RecorderConfig.Companion.getInstance().getResolution();
+        int height = (int) (width / RecorderConfig.Companion.getInstance().getRatio());
+        builder.outputWidth(width);
+        builder.outputHeight(height);
 
         AliyunIImport aliyunIImport = AliyunImportCreator.getImportInstance(context);
         aliyunIImport.addMediaClip(new AliyunVideoClip.Builder()

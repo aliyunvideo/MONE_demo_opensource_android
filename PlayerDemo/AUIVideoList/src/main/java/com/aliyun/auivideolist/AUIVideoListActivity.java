@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,7 @@ import com.bumptech.glide.Glide;
 
 
 public class AUIVideoListActivity extends AppCompatActivity implements CustomLayoutManager.OnViewPagerListener,
-        RecyclerViewAdapter.OnItemClickListener{
+        RecyclerViewAdapter.OnItemClickListener, SeekBar.OnSeekBarChangeListener {
 
     private RecyclerView mRecyclerView;
     private CustomLayoutManager mCustomLayoutManager;
@@ -70,6 +71,7 @@ public class AUIVideoListActivity extends AppCompatActivity implements CustomLay
 
         mRecyclerViewAdapter.setData(mController.getData());
         mRecyclerViewAdapter.setOnItemClickListener(this);
+        mRecyclerViewAdapter.setOnSeekBarStateChangeListener(this);
     }
 
     private void initTextureView(){
@@ -210,5 +212,20 @@ public class AUIVideoListActivity extends AppCompatActivity implements CustomLay
         super.onDestroy();
 
         mController.destroy();
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        mController.seekTo(seekBar.getProgress());
     }
 }

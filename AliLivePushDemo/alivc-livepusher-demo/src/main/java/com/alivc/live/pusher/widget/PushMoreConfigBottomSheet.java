@@ -1,8 +1,10 @@
 package com.alivc.live.pusher.widget;
 
+import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_PREVIEW_MIRROR;
+import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_PUSH_MIRROR;
+
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -14,7 +16,7 @@ import com.alivc.live.pusher.AlivcPreviewDisplayMode;
 import com.alivc.live.pusher.AlivcQualityModeEnum;
 import com.alivc.live.pusher.demo.Common;
 import com.alivc.live.pusher.demo.R;
-import com.alivc.live.pusher.demo.SharedPreferenceUtils;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.aliyun.aio.avbaseui.avdialog.AVBaseBottomSheetDialog;
 
 public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implements View.OnClickListener ,CompoundButton.OnCheckedChangeListener{
@@ -56,8 +58,8 @@ public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implement
         mPushMirror = mRootView.findViewById(R.id.push_mirror_switch);
         mPreviewMirror = mRootView.findViewById(R.id.preview_mirror_switch);
         mPreviewMode = mRootView.findViewById(R.id.setting_display_mode);
-        mPushMirror.setChecked(SharedPreferenceUtils.isPushMirror(getContext().getApplicationContext()));
-        mPreviewMirror.setChecked(SharedPreferenceUtils.isPreviewMirror(getContext().getApplicationContext()));
+        mPushMirror.setChecked(SharedPreferenceUtils.isPushMirror(getContext().getApplicationContext(), DEFAULT_VALUE_PUSH_MIRROR));
+        mPreviewMirror.setChecked(SharedPreferenceUtils.isPreviewMirror(getContext().getApplicationContext(), DEFAULT_VALUE_PREVIEW_MIRROR));
         mPushMirror.setOnCheckedChangeListener(this);
         mPreviewMirror.setOnCheckedChangeListener(this);
 
@@ -98,8 +100,8 @@ public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implement
 
         mRootView.findViewById(R.id.cancel).setOnClickListener(this);
         mRootView.findViewById(R.id.confirm_button).setOnClickListener(this);
-        mDisplayFit = SharedPreferenceUtils.getDisplayFit(getContext().getApplicationContext());
-
+        mDisplayFit = SharedPreferenceUtils.getDisplayFit(getContext().getApplicationContext(),
+                AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FIT.getPreviewDisplayMode());
 
         if (mDisplayFit == AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_SCALE_FILL.getPreviewDisplayMode()) {
             onClick(mDisplayModeFull);

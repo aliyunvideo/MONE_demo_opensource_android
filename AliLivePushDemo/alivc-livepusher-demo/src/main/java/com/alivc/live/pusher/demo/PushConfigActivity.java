@@ -1,7 +1,33 @@
 
 package com.alivc.live.pusher.demo;
 
+import static com.alivc.live.pusher.AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE;
+import static com.alivc.live.pusher.AlivcAudioChannelEnum.AUDIO_CHANNEL_TWO;
+import static com.alivc.live.pusher.AlivcEncodeType.Encode_TYPE_H264;
+import static com.alivc.live.pusher.AlivcEncodeType.Encode_TYPE_H265;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_10;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_12;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_15;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_20;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_25;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_30;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_8;
+import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_AUTO_FOCUS;
+import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_INT_AUDIO_RETRY_COUNT;
+import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_INT_RETRY_INTERVAL;
+import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_PREVIEW_MIRROR;
+import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_PUSH_MIRROR;
+import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT;
+import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT;
+import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT;
+import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FIVE;
+import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FOUR;
+import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_ONE;
+import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_THREE;
+import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_TWO;
+
 import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +44,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -33,6 +58,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.acker.simplezxing.activity.CaptureActivity;
+import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.commonbiz.listener.OnDownloadListener;
 import com.alivc.live.pusher.AlivcAudioAACProfileEnum;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
@@ -43,8 +70,6 @@ import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLivePushCameraTypeEnum;
 import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushConstants;
-import com.alivc.live.pusher.AlivcLivePushInfoListener;
-import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewDisplayMode;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
@@ -52,10 +77,11 @@ import com.alivc.live.pusher.AlivcQualityModeEnum;
 import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.alivc.live.pusher.AlivcSoundFormat;
 import com.alivc.live.pusher.WaterMarkInfo;
-import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.pusher.demo.download.ResourcesDownload;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
-import com.alivc.live.pusher.widget.FastClickUtil;
 import com.alivc.live.pusher.widget.PushConfigBottomSheet;
+import com.alivc.live.utils.FastClickUtil;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
@@ -66,29 +92,8 @@ import com.aliyunsdk.queen.menu.download.OnDownloadUICallback;
 import java.io.File;
 import java.util.ArrayList;
 
-import static com.alivc.live.pusher.AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE;
-import static com.alivc.live.pusher.AlivcAudioChannelEnum.AUDIO_CHANNEL_TWO;
-import static com.alivc.live.pusher.AlivcEncodeType.Encode_TYPE_H264;
-import static com.alivc.live.pusher.AlivcEncodeType.Encode_TYPE_H265;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_10;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_12;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_15;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_20;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_25;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_30;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_8;
-import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_INT_AUDIO_RETRY_COUNT;
-import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_INT_RETRY_INTERVAL;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FIVE;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FOUR;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_ONE;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_THREE;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_TWO;
-
 public class PushConfigActivity extends AVBaseThemeActivity {
+
     @Override
     protected int specifiedThemeMode() {
         return AppCompatDelegate.MODE_NIGHT_YES;
@@ -152,7 +157,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     private Switch mHardCode;
     private Switch mAudioHardCode;
     private Switch mCamera;
-//    private Switch mAudioOnly;
+    //    private Switch mAudioOnly;
 //    private Switch mVideoOnly;
     private Switch mAutoFocus;
     private Switch mBeautyOn;
@@ -204,6 +209,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     private LinearLayout mAdvanceLayout;
     private int mFpsConfig = 25;//默认帧率
     private PushConfigDialogImpl mPushConfigDialog = new PushConfigDialogImpl();
+    private long mCaptureDownloadId;
 
     @Nullable
     private AVLoadingDialog mLoadingDialog;
@@ -429,13 +435,13 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                             @Override
                             public void run() {
                                 LivePushActivity.startActivity(PushConfigActivity.this, mAlivcLivePushConfig, mUrl.getText().toString(),
-                                                               mAsyncValue, mAudioOnlyPush, mVideoOnlyPush, mOrientationEnum, mCameraId, isFlash, mAuthTimeStr,
-                                                               mPrivacyKeyStr, mMixStream, mAlivcLivePushConfig.isExternMainStream(), mBeautyOn.isChecked(), mFpsConfig,
-                                                               waterMarkInfos);
+                                        mAsyncValue, mAudioOnlyPush, mVideoOnlyPush, mOrientationEnum, mCameraId, isFlash, mAuthTimeStr,
+                                        mPrivacyKeyStr, mMixStream, mAlivcLivePushConfig.isExternMainStream(), mBeautyOn.isChecked(), mFpsConfig,
+                                        waterMarkInfos);
                             }
                         });
                     } else {
-                        AVToast.show(PushConfigActivity.this,true, "url format unsupported");
+                        AVToast.show(PushConfigActivity.this, true, "url format unsupported");
                     }
                 }
             } else if (id == R.id.qr_code) {
@@ -539,14 +545,14 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                     mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
                 }
             } else if (index == 2) {
-                    mAlivcLivePushConfig.setPreviewOrientation(ORIENTATION_LANDSCAPE_HOME_RIGHT);
-                    mOrientationEnum = ORIENTATION_LANDSCAPE_HOME_RIGHT;
-                    if (mAlivcLivePushConfig.getPausePushImage() == null || mAlivcLivePushConfig.getPausePushImage().equals("")) {
-                        mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push.png");
-                    }
-                    if (mAlivcLivePushConfig.getNetworkPoorPushImage() != null && !mAlivcLivePushConfig.getNetworkPoorPushImage().equals("")) {
-                        mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
-                    }
+                mAlivcLivePushConfig.setPreviewOrientation(ORIENTATION_LANDSCAPE_HOME_RIGHT);
+                mOrientationEnum = ORIENTATION_LANDSCAPE_HOME_RIGHT;
+                if (mAlivcLivePushConfig.getPausePushImage() == null || mAlivcLivePushConfig.getPausePushImage().equals("")) {
+                    mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push.png");
+                }
+                if (mAlivcLivePushConfig.getNetworkPoorPushImage() != null && !mAlivcLivePushConfig.getNetworkPoorPushImage().equals("")) {
+                    mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
+                }
             }
             updateAnimojiButtonState(getApplicationContext());
 
@@ -810,16 +816,17 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                 }
             } else if (id == R.id.music_mode_switch) {
                 mAlivcLivePushConfig.setAudioSceneMode(isChecked ? AlivcAudioSceneModeEnum.AUDIO_SCENE_MUSIC_MODE : AlivcAudioSceneModeEnum.AUDIO_SCENE_DEFAULT_MODE);
-            } else if(id == R.id.bitrate_control)
-            {
+            } else if (id == R.id.bitrate_control) {
                 mAlivcLivePushConfig.setEnableBitrateControl(isChecked);
-            } else if(id == R.id.variable_resolution)
-            {
+            } else if (id == R.id.variable_resolution) {
                 mAlivcLivePushConfig.setEnableAutoResolution(isChecked);
             } else if (id == R.id.extern_video) {
                 mAlivcLivePushConfig.setExternMainStream(isChecked, AlivcImageFormat.IMAGE_FORMAT_YUVNV12, AlivcSoundFormat.SOUND_FORMAT_S16);
                 mAlivcLivePushConfig.setAudioChannels(AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE);
                 mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
+                if (isChecked) {
+                    startDownloadYUV();
+                }
             } else if (id == R.id.pause_image) {
                 if (!isChecked) {
                     mAlivcLivePushConfig.setPausePushImage("");
@@ -840,10 +847,10 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                         mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
                     }
                 }
-            }else if(id == R.id.interaction_control){
-                if(isChecked){
+            } else if (id == R.id.interaction_control) {
+                if (isChecked) {
                     mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveInteractiveMode);
-                }else{
+                } else {
                     mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveBasicMode);
                 }
             }
@@ -1169,9 +1176,9 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mPushMirror.setChecked(SharedPreferenceUtils.isPushMirror(getApplicationContext()));
-        mPreviewMirror.setChecked(SharedPreferenceUtils.isPreviewMirror(getApplicationContext()));
-        mAutoFocus.setChecked(SharedPreferenceUtils.isAutoFocus(getApplicationContext()));
+        mPushMirror.setChecked(SharedPreferenceUtils.isPushMirror(getApplicationContext(), DEFAULT_VALUE_PUSH_MIRROR));
+        mPreviewMirror.setChecked(SharedPreferenceUtils.isPreviewMirror(getApplicationContext(), DEFAULT_VALUE_PREVIEW_MIRROR));
+        mAutoFocus.setChecked(SharedPreferenceUtils.isAutoFocus(getApplicationContext(), DEFAULT_VALUE_AUTO_FOCUS));
         mBeautyOn.setChecked(SharedPreferenceUtils.isBeautyOn(getApplicationContext()));
         mAnimojiOn.setChecked(SharedPreferenceUtils.isAnimojiOn(getApplicationContext()));
         updateAnimojiButtonState(getApplicationContext());
@@ -1201,7 +1208,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                     startCaptureActivityForResult();
                 } else {
                     // User disagree the permission
-                    AVToast.show(this,false,"You must agree the camera permission request before you use the code scan function");
+                    AVToast.show(this, false, "You must agree the camera permission request before you use the code scan function");
                 }
             }
             break;
@@ -1212,7 +1219,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
 
     private AlivcLivePushConfig getPushConfig() {
         if (mUrl.getText().toString().isEmpty()) {
-            AVToast.show(this,true,getString(R.string.url_empty));
+            AVToast.show(this, true, getString(R.string.url_empty));
             return null;
         }
         mAlivcLivePushConfig.setResolution(mDefinition);
@@ -1298,7 +1305,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                 }
                 break;
             case LivePushActivity.REQ_CODE_PUSH: {
-                if(mTargetRate != null && mMinRate != null) {
+                if (mTargetRate != null && mMinRate != null) {
 
                     if (!mTargetRate.getText().toString().isEmpty() || Integer.valueOf(mTargetRate.getHint().toString()) != SharedPreferenceUtils.getTargetBit(getApplicationContext())) {
                         mTargetRate.setText(String.valueOf(SharedPreferenceUtils.getTargetBit(getApplicationContext())));
@@ -1387,6 +1394,8 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     private void showProgressDialog(@StringRes int tipsResId) {
         if (null == mLoadingDialog) {
             mLoadingDialog = new AVLoadingDialog(this).tip(getString(tipsResId));
+        }
+        if (!mLoadingDialog.isShowing()) {
             mLoadingDialog.show();
         }
     }
@@ -1400,5 +1409,29 @@ public class PushConfigActivity extends AVBaseThemeActivity {
 
     public void showErrorTips(@StringRes int tipsResId) {
         Toast.makeText(this, tipsResId, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startDownloadYUV() {
+        mCaptureDownloadId = ResourcesDownload.downloadCaptureYUV(this, new OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(long downloadId) {
+                hideProgressDialog();
+                AVToast.show(PushConfigActivity.this, true, "Download Success");
+            }
+
+            @Override
+            public void onDownloadProgress(long downloadId, double percent) {
+            }
+
+            @Override
+            public void onDownloadError(long downloadId, int errorCode, String errorMsg) {
+                hideProgressDialog();
+                AVToast.show(PushConfigActivity.this, true, errorMsg);
+                if (errorCode != DownloadManager.ERROR_FILE_ALREADY_EXISTS) {
+                    mExtern.setChecked(false);
+                }
+            }
+        });
+        showProgressDialog(R.string.waiting_download_video_resources);
     }
 }

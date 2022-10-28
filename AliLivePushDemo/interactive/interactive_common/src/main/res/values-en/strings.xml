@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pull_interact_name_tv">Connect Interact</string>
+    <string name="pull_multi_interact_name_tv">Multi Connect Interact</string>
+    <string name="pull_multi_pk_name">Multi PK Interact</string>
+    <string name="interact_live">Interact Live</string>
+    <string name="pk_live">PK Interaction</string>
+    <string name="interact_setting">Interact Setting</string>
+    <string name="interact_live_cancel">Cancel</string>
+    <string name="interact_live_confirm">Confirm</string>
+    <string name="interact_live_next">Next</string>
+    <string name="interact_live_user_id">User ID</string>
+    <string name="interact_live_room_id">Room ID</string>
+    <string name="app_info">APP Info</string>
+    <string name="app_info_app_id">App ID</string>
+    <string name="app_info_app_key">App Key</string>
+    <string name="app_info_play_domain">PlayDomain</string>
+    <string name="interact_live_user_id_hint">Please enter letters and numbers</string>
+    <string name="interact_live_anchor">anchor</string>
+    <string name="interact_live_audience">audience</string>
+    <string name="interact_input_limit">0/5</string>
+    <string name="interact_start_connect">Connect</string>
+    <string name="pk_start_connect">PK</string>
+    <string name="interact_stop_connect">UnConnect</string>
+    <string name="pk_stop_connect">EndPK</string>
+    <string name="interact_live_connecting">Connecting</string>
+    <string name="pk_live_connecting">Connecting</string>
+    <string name="interact_live_connect_tips">Enter the User ID</string>
+    <string name="interact_live_connect_author_tips">Enter the author ID</string>
+    <string name="interact_live_connect_room_tips">Enter the room ID</string>
+    <string name="interact_live_connect_input_error_tips">Input content</string>
+    <string name="interact_live_connect_finish_tips">End connect？</string>
+    <string name="pk_live_connect_finish_tips">End PK？</string>
+    <string name="interact_live_leave_room_tips">Leave room？</string>
+    <string name="interact_live_viewer_left">Viewer Left</string>
+</resources>

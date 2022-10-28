@@ -64,8 +64,8 @@ public class QueenBeautyMenu extends BaseChooser {
 
     @Override
     public void onStop() {
-        super.onStop();
         hideMenuPanel();
+        super.onStop();
     }
 
     private void hideMenuPanel() {

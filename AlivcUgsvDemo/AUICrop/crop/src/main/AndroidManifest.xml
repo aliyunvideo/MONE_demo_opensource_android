@@ -4,11 +4,6 @@
 
     <application>
 
-        <activity android:name="com.aliyun.svideo.crop.CropMediaActivity"
-            android:theme="@style/AliyunVideoUIStytle"
-            tools:replace="android:theme"
-            android:screenOrientation="portrait">
-        </activity>
         <activity android:name="com.aliyun.svideo.crop.AliyunVideoCropActivity"
             android:theme="@style/AliyunVideoUIStytle"
             tools:replace="android:theme"

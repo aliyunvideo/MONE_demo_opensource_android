@@ -51,9 +51,6 @@ public class AVBaseDialogFragment extends DialogFragment {
         window.getWindowManager().getDefaultDisplay().getMetrics(dpMetrics);
         WindowManager.LayoutParams p = window.getAttributes();
 
-        p.dimAmount = 0.0f;
-        p.y = 100;
-        window.setAttributes(p);
 
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(true);

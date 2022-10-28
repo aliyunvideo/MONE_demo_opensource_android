@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +24,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final Context mContext;
     private List<ListVideoBean> mData;
     public OnItemClickListener mListener;
+    public SeekBar.OnSeekBarChangeListener mSeekBarListener;
 
-    public RecyclerViewAdapter(Context context){
+    public RecyclerViewAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setData(List<ListVideoBean> data){
+    public void setData(List<ListVideoBean> data) {
         this.mData = data;
         notifyDataSetChanged();
     }
@@ -60,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mData == null ? 0 : mData.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         private final FrameLayout mRootFrameLayout;
         private final ImageView mIvCover;
@@ -79,8 +81,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mPlayImageView = itemView.findViewById(R.id.iv_play);
 
             mRootFrameLayout.setOnClickListener(view -> {
-                if(mListener != null){
+                if (mListener != null) {
                     mListener.onItemClick(getAdapterPosition());
+                }
+            });
+
+            mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                    if (mSeekBarListener != null) {
+                        mSeekBarListener.onProgressChanged(seekBar, i, fromUser);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    if (mSeekBarListener != null) {
+                        mSeekBarListener.onStartTrackingTouch(seekBar);
+                    }
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    if (mSeekBarListener != null) {
+                        mSeekBarListener.onStopTrackingTouch(seekBar);
+                    }
                 }
             });
         }
@@ -89,28 +114,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return mIvCover;
         }
 
-        public void showPlayIcon(boolean isShown){
-            if(isShown){
+        public void showPlayIcon(boolean isShown) {
+            if (isShown) {
                 mPlayImageView.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 mPlayImageView.setVisibility(View.GONE);
             }
         }
 
-        public FrameLayout getFrameLayout(){
+        public FrameLayout getFrameLayout() {
             return mRootFrameLayout;
         }
 
-        public AppCompatSeekBar getSeekBar(){
+        public AppCompatSeekBar getSeekBar() {
             return mSeekBar;
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
     }
 
-    public interface OnItemClickListener{
+    public void setOnSeekBarStateChangeListener(SeekBar.OnSeekBarChangeListener listener) {
+        this.mSeekBarListener = listener;
+    }
+
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 }

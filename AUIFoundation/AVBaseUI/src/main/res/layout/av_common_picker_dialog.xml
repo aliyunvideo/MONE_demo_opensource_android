@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:gravity="bottom"
+    tools:ignore="MissingDefaultResource">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/bg_medium"
+        android:layout_height="36dp">
+
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/text_strong"
+            android:gravity="center"
+            android:layout_marginStart="12dp"
+            android:text="@string/av_common_cancel"/>
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textColor="@color/text_strong"/>
+
+        <TextView
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colourful_text_strong"
+            android:gravity="center"
+            android:layout_marginEnd="12dp"
+            android:text="@string/av_common_confirm"/>
+
+    </RelativeLayout>
+
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/border_weak"/>
+
+    <com.zyyoona7.wheel.WheelView
+        android:id="@+id/av_picker_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="@color/bg_medium"
+        android:gravity="bottom"
+        app:wv_textSize="20sp"/>
+</LinearLayout>

@@ -23,4 +23,7 @@
 
     <string name="aio_btn_cancel">Cancel</string>
     <string name="aio_btn_ok">OK</string>
+
+    <string name="aio_aliyun_sdk_privacy">《<a href='https://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud202112151438_20307.html?spm=a2c4g.11186623.0.0.10c739ebi5cK2M'><font color='#E6E7EC'>阿里云视频服务隐私权政策</font></a>》</string>
+
 </resources>

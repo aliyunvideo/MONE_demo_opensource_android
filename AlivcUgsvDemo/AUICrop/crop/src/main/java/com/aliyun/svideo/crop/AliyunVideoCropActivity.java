@@ -46,8 +46,6 @@ import com.aliyun.ugsv.common.utils.PermissionUtils;
 import com.aliyun.ugsv.common.utils.ThreadUtils;
 import com.aliyun.ugsv.common.utils.ToastUtils;
 import com.aliyun.ugsv.common.utils.UriUtils;
-import com.aliyun.svideo.crop.bean.AlivcCropInputParam;
-import com.aliyun.svideo.crop.bean.AlivcCropOutputParam;
 import com.aliyun.svideo.track.CropTrackContainer;
 import com.aliyun.svideo.track.bean.MainVideoClipInfo;
 import com.aliyun.svideo.track.inc.CropTrackListener;
@@ -92,12 +90,6 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
     private String mInputVideoPath;
     private String mOutputPath;
     private long mOriginalDuration;
-    private int mResolutionMode;
-    private int mRatioMode;
-    private VideoQuality mQuality = VideoQuality.HD;
-    private VideoCodecs mVideoCodec = VideoCodecs.H264_HARDWARE;
-    private int mFrameRate;
-    private int mGop;
     private int mScreenWidth;
     private int mFrameContainerWidth;
     private int mFrameContainerHeight;
@@ -105,7 +97,6 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
     private int mScrollY;
     private int mVideoWidth;
     private int mVideoHeight;
-    private VideoDisplayMode cropMode = VideoDisplayMode.SCALE;
     private AliyunIThumbnailFetcher mThumbnailFetcher;
     private long mCropStartTime;
     private long mCropEndTime;
@@ -117,7 +108,6 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
      * 每次修改裁剪结束位置时需要重新播放视频
      */
     private boolean mNeedPlayStart = false;
-    private boolean isUseGPU = false;
     private int mAction = CropKey.ACTION_TRANSCODE;
     /**
      * 原比例
@@ -161,10 +151,7 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
     }
 
     private void getData() {
-
-        Intent intent = getIntent();
-        mAction = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_ACTION, CropKey.ACTION_TRANSCODE);
-        mInputVideoPath = intent.getStringExtra(AlivcCropInputParam.INTENT_KEY_PATH);
+        mInputVideoPath = CropConfig.Companion.getInstance().getInputPath();
         try {
             mOriginalDuration = mCroptor.getVideoDuration(mInputVideoPath) / 1000;
             mCropStartTime = 0;
@@ -172,24 +159,6 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
         } catch (Exception e) {
             ToastUtil.showToast(this, R.string.alivc_crop_video_tip_crop_failed);
         }//获取精确的视频时间
-        mResolutionMode = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_RESOLUTION_MODE, AlivcCropInputParam.RESOLUTION_720P);
-        cropMode = (VideoDisplayMode)intent.getSerializableExtra(AlivcCropInputParam.INTENT_KEY_CROP_MODE);
-        if (cropMode == null) {
-            cropMode = VideoDisplayMode.FILL;
-        }
-        mOriginalMode = cropMode;
-        mQuality =  (VideoQuality)intent.getSerializableExtra(AlivcCropInputParam.INTENT_KEY_QUALITY);
-        if (mQuality == null) {
-            mQuality = VideoQuality.HD;
-        }
-        mGop = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_GOP, 250 );
-        mFrameRate = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_FRAME_RATE, 30);
-        mRatioMode = intent.getIntExtra(AlivcCropInputParam.INTENT_KEY_RATIO_MODE, AlivcCropInputParam.RATIO_MODE_9_16);
-        isUseGPU = intent.getBooleanExtra(AlivcCropInputParam.INTENT_KEY_USE_GPU, false );
-        mVideoCodec = (VideoCodecs)intent.getSerializableExtra(AlivcCropInputParam.INTENT_KEY_CODECS);
-        if (mVideoCodec == null) {
-            mVideoCodec = VideoCodecs.H264_HARDWARE;
-        }
     }
 
 
@@ -293,9 +262,9 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
         mFrameContainer.setLayoutParams(containerlp);
         mFrameContainerWidth = containerlp.width;
         mFrameContainerHeight = containerlp.height;
-        if (cropMode == VideoDisplayMode.SCALE) {
+        if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.SCALE) {
             scaleCrop(mVideoWidth, mVideoHeight);
-        } else if (cropMode == VideoDisplayMode.FILL) {
+        } else if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.FILL) {
             scaleFill(mVideoWidth, mVideoHeight);
         }
     }
@@ -332,9 +301,9 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
                         }
                     }
 
-                    if (cropMode == VideoDisplayMode.SCALE) {
+                    if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.SCALE) {
                         scaleCrop(dataWidth, dataHeight);
-                    } else if (cropMode == VideoDisplayMode.FILL) {
+                    } else if (CropConfig.Companion.getInstance().getVideoDisplayMode() == VideoDisplayMode.FILL) {
                         scaleFill(dataWidth, dataHeight);
                     }
                     mPlayer.setDisplaySize(textureview.getLayoutParams().width, textureview.getLayoutParams().height);
@@ -450,7 +419,7 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
         layoutParams.height = targetH;
         layoutParams.setMargins(0, 0, 0, 0);
         textureview.setLayoutParams(layoutParams);
-        cropMode = VideoDisplayMode.FILL;
+        CropConfig.Companion.getInstance().setVideoDisplayMode(VideoDisplayMode.FILL);
         resetScroll();
     }
 
@@ -463,22 +432,8 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
         int s = Math.min(videoWidth, videoHeight);
         int b = Math.max(videoWidth, videoHeight);
         float videoRatio = (float) b / s;
-        float ratio;
-        switch (mRatioMode) {
-        case AliyunSnapVideoParam.RATIO_MODE_1_1:
-            ratio = 1f;
-            break;
-        case AliyunSnapVideoParam.RATIO_MODE_3_4:
-            ratio = (float) 4 / 3;
-            break;
-        case AliyunSnapVideoParam.RATIO_MODE_9_16:
-            ratio = (float) 16 / 9;
-            break;
-        default:
-            ratio = (float) 16 / 9;
-            break;
-        }
-        if (mRatioMode == AlivcSvideoEditParam.RATIO_MODE_ORIGINAL) {
+        float ratio = 1 / CropConfig.Companion.getInstance().getRatio();
+        if (CropConfig.Companion.getInstance().getRatio() == CropConfig.RATIO_MODE_ORIGIN) {
             //原比例显示逻辑和填充模式一致
             if (videoWidth > videoHeight) {
                 layoutParams.width = mFrameContainerWidth;
@@ -511,7 +466,7 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
 
         layoutParams.setMargins(0, 0, 0, 0);
         textureview.setLayoutParams(layoutParams);
-        cropMode = VideoDisplayMode.SCALE;
+        CropConfig.Companion.getInstance().setVideoDisplayMode(VideoDisplayMode.SCALE);
         resetScroll();
     }
 
@@ -619,7 +574,7 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
             toggleFullScreenMode(!mFullScreenMode);
         } else if (v == mNextBtn) {
 
-            if (mScrollX != 0 || mScrollY != 0 || !cropMode.equals(mOriginalMode)) {
+            if (mScrollX != 0 || mScrollY != 0 || CropConfig.Companion.getInstance().getVideoDisplayMode() != mOriginalMode) {
                 //需要裁剪画面时或者切换裁剪模式时，走真裁剪
                 mAction = CropKey.ACTION_TRANSCODE;
             }
@@ -629,12 +584,10 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
                 break;
             case CropKey.ACTION_SELECT_TIME:
                 long duration = mCropEndTime - mCropStartTime;
-                AlivcCropOutputParam cropOutputParam = new AlivcCropOutputParam();
-                //由于只是选择时间，所以文件路径和输入路径保持一致
-                cropOutputParam.setOutputPath(mInputVideoPath);
-                cropOutputParam.setDuration(duration);
-                cropOutputParam.setStartTime(mCropStartTime);
-                onCropComplete(cropOutputParam);
+                CropConfig.Companion.getInstance().setOutputPath(mInputVideoPath);
+                CropConfig.Companion.getInstance().setDuration(duration);
+                CropConfig.Companion.getInstance().setStartTime(mCropStartTime);
+                onCropComplete();
                 break;
             default:
                 break;
@@ -658,11 +611,10 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
     /**
      * 裁剪结束
      */
-    private void onCropComplete(AlivcCropOutputParam outputParam) {
+    private void onCropComplete() {
         AVToast.show(this, true, R.string.alivc_crop_complete);
         //裁剪结束
         Intent intent = getIntent();
-        intent.putExtra(AlivcCropOutputParam.RESULT_KEY_OUTPUT_PARAM, outputParam);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -690,36 +642,14 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
         int cropWidth = mVideoWidth;
         int cropHeight = mVideoHeight;
         mOutputPath = Constants.SDCardConstants.getDir(this) + DateTimeUtils.getDateTimeFromMillisecond(System.currentTimeMillis()) + Constants.SDCardConstants.CROP_SUFFIX;
-        switch (mResolutionMode) {
-            case AliyunSnapVideoParam.RESOLUTION_360P:
-                outputWidth = 360;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_480P:
-                outputWidth = 480;
-                break;
-            case AliyunSnapVideoParam.RESOLUTION_540P:
-                outputWidth = 540;
-                break;
-            default:
-                outputWidth = 720;
-                break;
-        }
+        outputWidth = CropConfig.Companion.getInstance().getResolution();
         float videoRatio = (float) mVideoWidth / (float) mVideoHeight;
-        switch (mRatioMode) {
-            case AliyunSnapVideoParam.RATIO_MODE_1_1:
-                outputHeight = outputWidth;
-                break;
-            case AliyunSnapVideoParam.RATIO_MODE_3_4:
-                outputHeight = outputWidth * 4 / 3;
-                break;
-            case RATIO_ORIGINAL:
-                outputHeight = (int) (outputWidth / videoRatio);
-                break;
-            default:
-                outputHeight = outputWidth * 16 / 9;
-                break;
+        float ratio = CropConfig.Companion.getInstance().getRatio();
+        if (CropConfig.Companion.getInstance().isOriginRatio()) {
+            ratio = videoRatio;
         }
-        if(VideoDisplayMode.FILL == cropMode){
+        outputHeight = (int) (outputWidth / ratio);
+        if(VideoDisplayMode.FILL == CropConfig.Companion.getInstance().getVideoDisplayMode()){
            posX = 0;
            posY = 0;
            cropWidth = mVideoWidth;
@@ -737,16 +667,16 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
         cropParam.setCropRect(cropRect);
         cropParam.setStartTime(mCropStartTime, TimeUnit.MILLISECONDS);
         cropParam.setEndTime(mCropEndTime, TimeUnit.MILLISECONDS);
-        cropParam.setScaleMode(cropMode);
-        cropParam.setFrameRate(mFrameRate);
-        cropParam.setGop(mGop);
-        cropParam.setQuality(mQuality);
-        cropParam.setVideoCodec(mVideoCodec);
+        cropParam.setScaleMode(CropConfig.Companion.getInstance().getVideoDisplayMode());
+        cropParam.setFrameRate(CropConfig.Companion.getInstance().getFps());
+        cropParam.setGop(CropConfig.Companion.getInstance().getGop());
+        cropParam.setQuality(CropConfig.Companion.getInstance().getVideoQuality());
+        cropParam.setVideoCodec(CropConfig.Companion.getInstance().getCodec());
         cropParam.setFillColor(Color.BLACK);
         cropParam.setCrf(0);
 
         mCropProgress.setVisibility(View.VISIBLE);
-        cropParam.setUseGPU(isUseGPU);
+        cropParam.setUseGPU(false);
         mCroptor.setCropParam(cropParam);
 
         int ret = mCroptor.startCrop();
@@ -828,10 +758,9 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
                     scanFile();
                 }
                 long duration = mCropEndTime - mCropStartTime;
-                AlivcCropOutputParam cropOutputParam = new AlivcCropOutputParam();
-                cropOutputParam.setOutputPath(mOutputPath);
-                cropOutputParam.setDuration(duration);
-                onCropComplete(cropOutputParam);
+                CropConfig.Companion.getInstance().setOutputPath(mOutputPath);
+                CropConfig.Companion.getInstance().setDuration(duration);
+                onCropComplete();
             }
         });
         isCropping = false;

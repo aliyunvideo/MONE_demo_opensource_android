@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pull_interact_name_tv">连麦互动</string>
+    <string name="pull_multi_interact_name_tv">多人连麦</string>
+    <string name="pull_multi_pk_name">多人PK</string>
+    <string name="interact_live">连麦互动</string>
+    <string name="pk_live">PK互动</string>
+    <string name="interact_setting">参数设置</string>
+    <string name="interact_live_cancel">取消</string>
+    <string name="interact_live_confirm">确认</string>
+    <string name="interact_live_next">下一步</string>
+    <string name="interact_live_user_id">用户 ID</string>
+    <string name="interact_live_room_id">房间号</string>
+    <string name="app_info">应用信息</string>
+    <string name="app_info_app_id">App ID</string>
+    <string name="app_info_app_key">App Key</string>
+    <string name="app_info_play_domain">播流域名</string>
+    <string name="interact_live_user_id_hint">请输入字母、数字</string>
+    <string name="interact_live_anchor">主播</string>
+    <string name="interact_live_audience">观众</string>
+    <string name="interact_input_limit">0/5</string>
+    <string name="interact_start_connect">开始连麦</string>
+    <string name="pk_start_connect">开始PK</string>
+    <string name="interact_stop_connect">结束连麦</string>
+    <string name="pk_stop_connect">结束PK</string>
+    <string name="interact_live_connect_tips">请输入观众的用户ID</string>
+    <string name="interact_live_connect_author_tips">请输入主播的用户ID</string>
+    <string name="interact_live_connect_room_tips">请输入主播的房间号</string>
+    <string name="interact_live_connect_input_error_tips">请输入内容</string>
+    <string name="interact_live_connecting">正在连麦</string>
+    <string name="pk_live_connecting">正在PK</string>
+    <string name="interact_live_connect_finish_tips">确认要结束本次连麦吗？</string>
+    <string name="pk_live_connect_finish_tips">确认要结束本次 PK 吗？</string>
+    <string name="interact_live_leave_room_tips">确认要退出房间吗？</string>
+    <string name="interact_live_viewer_left">观众已离开，结束连麦</string>
+</resources>

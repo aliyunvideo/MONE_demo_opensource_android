@@ -38,5 +38,17 @@
         android:layout_below="@+id/aio_main_action_bar"
         android:layout_marginTop="90dp" />
 
+    <TextView
+        android:id="@+id/aliyun_sdk_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="@color/text_medium"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:text="《阿里云视频服务隐私权政策》"
+        />
+
 
 </RelativeLayout>
