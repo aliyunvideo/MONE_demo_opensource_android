@@ -39,10 +39,12 @@ public class AliPlayerManager {
 
         aliPlayer1.setFastStart(true);
         PlayerConfig config1 = aliPlayer1.getConfig();
+        aliPlayer1.setLoop(true);
         config1.mClearFrameWhenStop = true;
         aliPlayer1.setConfig(config1);
 
         aliPlayer2.setFastStart(true);
+        aliPlayer2.setLoop(true);
         PlayerConfig config2 = aliPlayer1.getConfig();
         config2.mClearFrameWhenStop = true;
         aliPlayer2.setConfig(config2);

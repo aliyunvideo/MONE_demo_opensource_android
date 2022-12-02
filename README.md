@@ -52,29 +52,29 @@ Jdk11设置方法：Preferences -> Build, Execution, Deployment -> Build Tools -
 project
     |-----AIOApp  一体化DEMO主入口
     |-----AliLivePushDEMO  直播推流解决方案DEMO （直播推流、录屏推流）
-            ｜------ alivc-livepusher-demo 直播推流解决方案主入口
-            ｜------ beauty 美颜特效相关能力封装
+            |------ alivc-livepusher-demo 直播推流解决方案主入口
+            |------ beauty 美颜特效相关能力封装
 
     |-----AlivcUgsvDEMO    短视频生产解决方案DEMO （视频拍摄、视频裁剪、视频编辑）
-            ｜------ AUIUgsvBase      短视频解决方案基础库
-            ｜------ AUIVideoEditor   视频编辑能力模块
-            ｜------ AUIVideoRecorder 视频拍摄能力模块
-            ｜------ AUICrop          视频裁剪能力模块
-            ｜------ UGSVAPP          短视频主入口
+            |------ AUIUgsvBase      短视频解决方案基础库
+            |------ AUIVideoEditor   视频编辑能力模块
+            |------ AUIVideoRecorder 视频拍摄能力模块
+            |------ AUICrop          视频裁剪能力模块
+            |------ UGSVAPP          短视频主入口
 
     |-----PlayerDEMO       播放器解决方案DEMO （信息流播放、全屏播放、沉浸式播放）
-            ｜------ AUIFlowFeed      播放器信息流播放
-            ｜------ AUIFullScreen    播放器全屏播放
-            ｜------ AUIVideoList     播放器列表播放
-            ｜------ AUIPlayerApp     播放器主入口
+            |------ AUIFlowFeed      播放器信息流播放
+            |------ AUIFullScreen    播放器全屏播放
+            |------ AUIVideoList     播放器列表播放
+            |------ AUIPlayerApp     播放器主入口
 
     |-----AndroidThirdParty       三方库统一依赖定义模块
 
     |-----AUIFoundation           AUI基础能力模块
-            ｜------ AUIBaseUI     UI基类，基础UI组件
-            ｜------ AVTheme       UI主题基类，提供切换日间模式/夜间模式切换，目前只支持黑暗模式
-            ｜------ AVMatisse     相册组件，提供相册选择，根据开源库Matisse优化
-            ｜------ AVUtils       基础工具库
+            |------ AUIBaseUI     UI基类，基础UI组件
+            |------ AVTheme       UI主题基类，提供切换日间模式/夜间模式切换，目前只支持黑暗模式
+            |------ AVMatisse     相册组件，提供相册选择，根据开源库Matisse优化
+            |------ AVUtils       基础工具库
 
     |-----SDKs                     当前SDK的aar包
 ```
@@ -107,11 +107,11 @@ SDK_TYPE: 一体化包类型，默认为AliVCSDK_Premium，对应AndroidThirdPar
 ## SDK库及版本
 | 版本          | 依赖                                            | 能力项                                            |
 |-------------|-----------------------------------------------|------------------------------------------------|
-| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:1.5.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦                |
-| 全功能SDK      | com.aliyun.aio:AliVCSDK_Premium:1.5.0         | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块 | 
-| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:1.5.0             | 播放器 + 短视频                                      | 
-| 短视频场景SDK增强版 | com.aliyun.aio:AliVCSDK_UGCPro:1.5.0          | 单播放器 + 短视频 + 美颜特效                              | 
-| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:1.5.0       | 播放器  + 直播推流                                    | 
-| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:1.5.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦                    | 
-| 基础直播SDK增强版  | com.aliyun.aio:AliVCSDK_StandardLive:1.5.0    | 播放器 + 直播推流 + 美颜                                | 
-| 互动直播SDK增强版  | com.aliyun.aio:AliVCSDK_PremiumLive:1.5.0     | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦 + 美颜               |
+| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:1.6.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦                |
+| 全功能SDK      | com.aliyun.aio:AliVCSDK_Premium:1.6.0         | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块 | 
+| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:1.6.0             | 播放器 + 短视频                                      | 
+| 短视频场景SDK增强版 | com.aliyun.aio:AliVCSDK_UGCPro:1.6.0          | 单播放器 + 短视频 + 美颜特效                              | 
+| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:1.6.0       | 播放器  + 直播推流                                    | 
+| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:1.6.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦                    | 
+| 基础直播SDK增强版  | com.aliyun.aio:AliVCSDK_StandardLive:1.6.0    | 播放器 + 直播推流 + 美颜                                | 
+| 互动直播SDK增强版  | com.aliyun.aio:AliVCSDK_PremiumLive:1.6.0     | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦 + 美颜               |

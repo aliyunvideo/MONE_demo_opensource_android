@@ -1,7 +1,9 @@
 package com.aliyun.interactive_live;
 
+import android.content.Context;
 import android.widget.FrameLayout;
 
+import com.aliyun.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.aliyun.interactive_common.utils.URLUtils;
 
 /**
@@ -19,11 +21,12 @@ public class MultiAnchorController {
     private final String mRoomId;
     private final String mAnchorId;
 
-    public MultiAnchorController(String roomId, String anchorId) {
+    public MultiAnchorController(Context context, String roomId, String anchorId) {
         this.mRoomId = roomId;
         this.mAnchorId = anchorId;
         mPushUrl = URLUtils.generatePushUrl(roomId, anchorId, 1);
-        mInteractLiveManager = InteractLiveManager.getInstance();
+        mInteractLiveManager = new InteractLiveManager();
+        mInteractLiveManager.init(context);
     }
 
     /**
@@ -48,7 +51,7 @@ public class MultiAnchorController {
      * 开始直播
      */
     public void startPush() {
-        mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl,true);
+        mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl, true);
         mInteractLiveManager.addAnchorMixTranscodingConfig(mAnchorId);
     }
 
@@ -57,11 +60,11 @@ public class MultiAnchorController {
      *
      * @param viewerId 要连麦的观众 id
      */
-    public void startConnect(String viewerId,FrameLayout frameLayout) {
+    public void startConnect(String viewerId, FrameLayout frameLayout) {
         setViewerId(viewerId);
-        mInteractLiveManager.setPullView(viewerId,frameLayout,false);
-        mInteractLiveManager.startPull(viewerId,mPullUrl);
-        mInteractLiveManager.addAudienceMixTranscodingConfig(viewerId,frameLayout);
+        mInteractLiveManager.setPullView(viewerId, frameLayout, false);
+        mInteractLiveManager.startPull(viewerId, mPullUrl);
+        mInteractLiveManager.addAudienceMixTranscodingConfig(viewerId, frameLayout);
     }
 
     public boolean isOnConnected(String key) {
@@ -73,6 +76,36 @@ public class MultiAnchorController {
      */
     public void stopConnect(String key) {
         mInteractLiveManager.stopPull(key);
-        mInteractLiveManager.removeAudienceLiveMixTranscodingConfig(key,mAnchorId);
+        mInteractLiveManager.removeAudienceLiveMixTranscodingConfig(key, mAnchorId);
+    }
+
+    /**
+     * 切换摄像头
+     */
+    public void switchCamera() {
+        mInteractLiveManager.switchCamera();
+    }
+
+    /**
+     * 创建 AlivcLivePlayer
+     */
+    public boolean createAlivcLivePlayer(String audienceId) {
+        return mInteractLiveManager.createAlivcLivePlayer(audienceId);
+    }
+
+    public void resume() {
+        mInteractLiveManager.resume();
+    }
+
+    public void pause() {
+        mInteractLiveManager.pause();
+    }
+
+    public void release() {
+        mInteractLiveManager.release();
+    }
+
+    public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {
+        mInteractLiveManager.setMultiInteractLivePushPullListener(listener);
     }
 }

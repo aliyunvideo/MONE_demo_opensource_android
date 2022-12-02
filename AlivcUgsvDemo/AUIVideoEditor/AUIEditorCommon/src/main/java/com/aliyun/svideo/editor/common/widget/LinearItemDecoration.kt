@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
  * Description : LinearItemDecoration
  *
  * Creation : 1/6/22
- * Author   : zhihong.lanzh@alibaba-inc.com
  * ****************************************************************************
  */
 class LinearItemDecoration : RecyclerView.ItemDecoration {

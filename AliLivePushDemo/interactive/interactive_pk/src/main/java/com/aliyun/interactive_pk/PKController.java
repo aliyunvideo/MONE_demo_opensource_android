@@ -182,11 +182,11 @@ public class PKController {
     }
 
     public void setPKLivePushPullListener(InteractLivePushPullListener listener) {
-        mPKLiveManager.setPKLivePushPullListener(listener);
+        mPKLiveManager.setInteractLivePushPullListener(listener);
     }
 
     public void setMultiPKLivePushPullListener(MultiInteractLivePushPullListener listener) {
-        mPKLiveManager.setMultiPKLivePushPullListener(listener);
+        mPKLiveManager.setMultiInteractLivePushPullListener(listener);
     }
 
     public void release() {

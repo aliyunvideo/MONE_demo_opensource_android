@@ -1,7 +1,9 @@
 package com.aliyun.interactive_live;
 
+import android.content.Context;
 import android.widget.FrameLayout;
 
+import com.aliyun.interactive_common.listener.InteractLivePushPullListener;
 import com.aliyun.interactive_common.utils.URLUtils;
 
 /**
@@ -21,11 +23,12 @@ public class AnchorController {
     private final String mRoomId;
     private final String mAnchorId;
 
-    public AnchorController(String roomId, String anchorId) {
+    public AnchorController(Context context, String roomId, String anchorId) {
         this.mRoomId = roomId;
         this.mAnchorId = anchorId;
         mPushUrl = URLUtils.generatePushUrl(roomId, anchorId, 1);
-        mInteractLiveManager = InteractLiveManager.getInstance();
+        mInteractLiveManager = new InteractLiveManager();
+        mInteractLiveManager.init(context);
     }
 
     /**
@@ -59,7 +62,7 @@ public class AnchorController {
      * 开始直播
      */
     public void startPush() {
-        mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl,true);
+        mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl, true);
     }
 
     /**
@@ -69,9 +72,9 @@ public class AnchorController {
      */
     public void startConnect(String viewerId) {
         setViewerId(viewerId);
-        mInteractLiveManager.setPullView(mViewerRenderView,false);
+        mInteractLiveManager.setPullView(mViewerRenderView, false);
         mInteractLiveManager.startPull(mPullUrl);
-        mInteractLiveManager.setLiveMixTranscodingConfig(mAnchorId,viewerId);
+        mInteractLiveManager.setLiveMixTranscodingConfig(mAnchorId, viewerId);
     }
 
     /**
@@ -83,11 +86,31 @@ public class AnchorController {
         return mInteractLiveManager.isPulling();
     }
 
+    public void switchCamera() {
+        mInteractLiveManager.switchCamera();
+    }
+
+    public void resume() {
+        mInteractLiveManager.resume();
+    }
+
+    public void pause() {
+        mInteractLiveManager.pause();
+    }
+
+    public void release() {
+        mInteractLiveManager.release();
+    }
+
     /**
      * 结束连麦
      */
     public void stopConnect() {
         mInteractLiveManager.stopPull();
         mInteractLiveManager.clearLiveMixTranscodingConfig();
+    }
+
+    public void setInteractLivePushPullListener(InteractLivePushPullListener listener) {
+        mInteractLiveManager.setInteractLivePushPullListener(listener);
     }
 }

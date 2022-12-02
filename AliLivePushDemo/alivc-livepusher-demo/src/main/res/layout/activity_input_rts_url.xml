@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_weak"
+    tools:context=".rts.InputRtsUrlActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="@string/pull_rts_enter_name"
+        android:textColor="@color/text_strong"
+        android:textSize="@dimen/alivc_common_font_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_av_action_bar_back"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_url_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/pull_rts_url_title"
+        android:textColor="@color/text_strong"
+        android:textSize="@dimen/alivc_common_font_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <EditText
+        android:id="@+id/et_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:background="@null"
+        android:hint="@string/pull_rts_input_hint"
+        android:textColor="@color/text_medium"
+        android:textColorHint="@color/text_ultraweak"
+        android:textSize="@dimen/alivc_common_font_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/AUIEditText"
+        app:layout_constraintTop_toBottomOf="@id/tv_url_title" />
+
+    <View
+        android:id="@+id/under_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/ic_ultraweak"
+        app:layout_constraintStart_toStartOf="@id/et_url"
+        app:layout_constraintEnd_toEndOf="@id/et_url"
+        app:layout_constraintTop_toBottomOf="@id/et_url"/>
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/scan_icon"
+        app:layout_constraintBottom_toBottomOf="@id/et_url"
+        app:layout_constraintEnd_toEndOf="@id/et_url"
+        app:layout_constraintTop_toTopOf="@id/et_url" />
+
+    <TextView
+        android:id="@+id/tv_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:text="@string/pull_rts_url_generate_tip"
+        android:textColor="@color/text_weak"
+        android:textSize="@dimen/alivc_common_font_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/under_line" />
+
+    <TextView
+        android:id="@+id/tv_start_play"
+        android:layout_width="272dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_rect_blue"
+        android:gravity="center"
+        android:text="@string/pull_rts_start_play"
+        android:textColor="@color/text_ultraweak"
+        android:textSize="@dimen/alivc_common_font_18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tips" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="false" android:drawable="@drawable/alivc_record_btn_bg_unselected"/>
-    <item android:drawable="@drawable/alivc_record_btn_bg_selected"
+    <item android:state_enabled="false" android:drawable="@drawable/alivc_crop_btn_bg_unselected"/>
+    <item android:drawable="@drawable/alivc_crop_btn_bg_selected"
         android:state_selected="true"/>
     <item android:drawable="@android:color/transparent"
         android:state_selected="false"/>

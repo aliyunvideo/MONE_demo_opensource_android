@@ -5,7 +5,7 @@
         android:gravity="center_vertical|fill_horizontal">
         <shape android:shape="rectangle">
             <corners android:radius="2dp"/>
-            <size android:height="2dp"/>
+            <size android:height="4dp"/>
             <solid android:color="@color/black"/>
         </shape>
     </item>
@@ -17,7 +17,7 @@
             <shape android:shape="rectangle">
 
                 <corners android:radius="2dp"/>
-                <size android:height="3dp"/>
+                <size android:height="4dp"/>
                 <solid android:color="@color/black"/>
             </shape>
         </clip>

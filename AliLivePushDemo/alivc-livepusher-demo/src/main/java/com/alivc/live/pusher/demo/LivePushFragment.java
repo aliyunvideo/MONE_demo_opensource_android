@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ import com.alivc.live.beauty.BeautyInterface;
 import com.alivc.live.beauty.constant.BeautySDKType;
 import com.alivc.live.beautyui.AnimojiContainerView;
 import com.alivc.live.beautyui.bean.AnimojiItemBean;
+import com.alivc.live.pusher.AlivcLivePushAudioEffectReverbMode;
+import com.alivc.live.pusher.AlivcLivePushAudioEffectVoiceChangeMode;
 import com.alivc.live.pusher.AlivcLivePushBGMListener;
 import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushError;
@@ -49,10 +52,12 @@ import com.alivc.live.pusher.AlivcPreviewDisplayMode;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
 import com.alivc.live.pusher.AlivcSnapshotListener;
 import com.alivc.live.pusher.WaterMarkInfo;
+import com.alivc.live.pusher.demo.adapter.OnSoundEffectChangedListener;
 import com.alivc.live.pusher.widget.CommonDialog;
 import com.alivc.live.pusher.widget.DataView;
 import com.alivc.live.pusher.widget.PushMoreConfigBottomSheet;
 import com.alivc.live.pusher.widget.PushMusicBottomSheet;
+import com.alivc.live.pusher.widget.SoundEffectView;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.animoji.AnimojiDataFactory;
 import com.aliyun.animoji.AnimojiEngine;
@@ -112,6 +117,7 @@ public class LivePushFragment extends Fragment {
     private View mSnapshot;
     private View mBeautyButton;
     private View mAnimojiButton;
+    private View mSoundEffectButton;
 
     private TextView mPreviewButton;
     private TextView mPushButton;
@@ -173,6 +179,8 @@ public class LivePushFragment extends Fragment {
     private final DeviceOrientationDetector mDeviceOrientationDetector = new DeviceOrientationDetector();
     private int mDeviceOrientation = 0;
     private ArrayList<WaterMarkInfo> waterMarkInfos = null;
+    //音效
+    private SoundEffectView mSoundEffectView;
 
     public static LivePushFragment newInstance(AlivcLivePushConfig livePushConfig, String url, boolean async, boolean mAudio, boolean mVideoOnly, int cameraId,
                                                boolean isFlash, int mode, String authTime, String privacyKey, boolean mixExtern,
@@ -330,9 +338,29 @@ public class LivePushFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mBeautyBeautyContainerView = view.findViewById(R.id.beauty_beauty_menuPanel);
         mBeautyBeautyContainerView.onHideMenu();
-
+        mSoundEffectView = view.findViewById(R.id.sound_effect_view);
         mAnimojiContainerView = view.findViewById(R.id.animoji_container_view);
         mAnimojiContainerView.initData(getAnimojiItemBeans(getContext()));
+
+        mSoundEffectView.setOnSoundEffectChangedListener(new OnSoundEffectChangedListener() {
+            @Override
+            public void onSoundEffectChangeVoiceModeSelected(int position) {
+                if (position >= 0 && position < AlivcLivePushAudioEffectVoiceChangeMode.values().length) {
+                    AlivcLivePusher livePusher = mPushController.getLivePusher();
+                    Log.d(TAG, "onSoundEffectChangeVoiceModeSelected: " + position + " --- " + AlivcLivePushAudioEffectVoiceChangeMode.values()[position]);
+                    livePusher.setAudioEffectVoiceChangeMode(AlivcLivePushAudioEffectVoiceChangeMode.values()[position]);
+                }
+            }
+
+            @Override
+            public void onSoundEffectRevertBSelected(int position) {
+                if (position >= 0 && position < AlivcLivePushAudioEffectReverbMode.values().length) {
+                    AlivcLivePusher livePusher = mPushController.getLivePusher();
+                    Log.d(TAG, "onSoundEffectRevertBSelected: " + position + " --- " + AlivcLivePushAudioEffectReverbMode.values()[position]);
+                    livePusher.setAudioEffectReverbMode(AlivcLivePushAudioEffectReverbMode.values()[position]);
+                }
+            }
+        });
         mAnimojiContainerView.setCallback(new AnimojiContainerView.AnimojiContainerViewCallback() {
             @Override
             public void onItemClicked(@Nullable AnimojiItemBean bean) {
@@ -375,6 +403,7 @@ public class LivePushFragment extends Fragment {
         mMore = (TextView) view.findViewById(R.id.more);
         mBeautyButton = view.findViewById(R.id.beauty_button);
         mBeautyButton.setSelected(SharedPreferenceUtils.isBeautyOn(getActivity().getApplicationContext()));
+        mSoundEffectButton = view.findViewById(R.id.sound_effect_button);
         mAnimojiButton = view.findViewById(R.id.animoji_button);
         mAnimojiButton.setSelected(SharedPreferenceUtils.isAnimojiOn(getActivity().getApplicationContext()));
         mRestartButton = (TextView) view.findViewById(R.id.restart_button);
@@ -382,9 +411,11 @@ public class LivePushFragment extends Fragment {
         mExit.setOnClickListener(onClickListener);
         mMusic.setOnClickListener(onClickListener);
         mFlash.setOnClickListener(onClickListener);
+
         mCamera.setOnClickListener(onClickListener);
         mSnapshot.setOnClickListener(onClickListener);
         mPreviewButton.setOnClickListener(onClickListener);
+        mSoundEffectButton.setOnClickListener(onClickListener);
         mPushButton.setOnClickListener(onClickListener);
         mOperaButton.setOnClickListener(onClickListener);
         mBeautyButton.setOnClickListener(onClickListener);
@@ -440,64 +471,66 @@ public class LivePushFragment extends Fragment {
             }
 
             if (id == R.id.music) {
-                if (mMusicDialog == null) {
-                    mMusicDialog = new PushMusicBottomSheet(getContext());
-                    mMusicDialog.setOnMusicSelectListener(new PushMusicBottomSheet.OnMusicSelectListener() {
-                        @Override
-                        public void onBGMEarsBack(boolean state) {
-                            pusher.setBGMEarsBack(state);
-                        }
-
-                        @Override
-                        public void onAudioNoise(boolean state) {
-                            pusher.setAudioDenoise(state);
-                        }
-
-                        @Override
-                        public void onBGPlay(boolean state) {
-                            if (state) {
-                                pusher.resumeBGM();
-                            } else {
-                                pusher.pauseBGM();
+                if (!mAlivcLivePushConfig.isVideoOnly()) {
+                    if (mMusicDialog == null) {
+                        mMusicDialog = new PushMusicBottomSheet(getContext());
+                        mMusicDialog.setOnMusicSelectListener(new PushMusicBottomSheet.OnMusicSelectListener() {
+                            @Override
+                            public void onBGMEarsBack(boolean state) {
+                                pusher.setBGMEarsBack(state);
                             }
-                        }
 
-                        @Override
-                        public void onBgResource(String path) {
-                            if (!TextUtils.isEmpty(path)) {
-                                pusher.startBGMAsync(path);
-                            } else {
-                                try {
-                                    pusher.stopBGMAsync();
-                                } catch (IllegalStateException e) {
-                                    e.printStackTrace();
+                            @Override
+                            public void onAudioNoise(boolean state) {
+                                pusher.setAudioDenoise(state);
+                            }
+
+                            @Override
+                            public void onBGPlay(boolean state) {
+                                if (state) {
+                                    pusher.resumeBGM();
+                                } else {
+                                    pusher.pauseBGM();
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onBGLoop(boolean state) {
-                            pusher.setBGMLoop(state);
-                        }
+                            @Override
+                            public void onBgResource(String path) {
+                                if (!TextUtils.isEmpty(path)) {
+                                    pusher.startBGMAsync(path);
+                                } else {
+                                    try {
+                                        pusher.stopBGMAsync();
+                                    } catch (IllegalStateException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
 
-                        @Override
-                        public void onMute(boolean state) {
-                            pusher.setMute(state);
-                        }
+                            @Override
+                            public void onBGLoop(boolean state) {
+                                pusher.setBGMLoop(state);
+                            }
 
-                        @Override
-                        public void onCaptureVolume(int progress) {
-                            pusher.setCaptureVolume(progress);
-                        }
+                            @Override
+                            public void onMute(boolean state) {
+                                pusher.setMute(state);
+                            }
 
-                        @Override
-                        public void onBGMVolume(int progress) {
-                            pusher.setBGMVolume(progress);
-                        }
-                    });
+                            @Override
+                            public void onCaptureVolume(int progress) {
+                                pusher.setCaptureVolume(progress);
+                            }
+
+                            @Override
+                            public void onBGMVolume(int progress) {
+                                pusher.setBGMVolume(progress);
+                            }
+                        });
+                    }
+                    mMusicDialog.show();
                 }
-                mMusicDialog.show();
-               return;
+                return;
             }
 
 
@@ -611,33 +644,45 @@ public class LivePushFragment extends Fragment {
                             if (stateListener != null) {
                                 stateListener.updatePause(!isPause);
                             }
-                            mOperaButton.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mOperaButton.setText(isPause ? getSafeString(R.string.pause_button) : getSafeString(R.string.resume_button));
-                                    mOperaButton.setSelected(!isPause);
-                                    mPreviewButton.setText(isPause ? getSafeString(R.string.stop_preview_button) : getSafeString(R.string.start_preview_button));
-                                    mPreviewButton.setSelected(isPause);
-                                }
-                            });
+                            updateOperaButtonState(isPause);
                         } else if (id == R.id.animoji_button) {
                             mAnimojiButton.post(() -> {
                                 if (mBeautyBeautyContainerView.getVisibility() == View.VISIBLE) {
                                     changeBeautyContainerVisibility();
                                 }
+                                if (mSoundEffectView.getVisibility() == View.VISIBLE) {
+                                    changeSoundEffectVisibility();
+                                }
                                 changeAnimojiContainerVisibility();
                             });
+                        } else if (id == R.id.sound_effect_button) {
+                            if (!mAlivcLivePushConfig.isVideoOnly()) {
+                                mSoundEffectView.post(() -> {
+                                    if (mBeautyBeautyContainerView.getVisibility() == View.VISIBLE) {
+                                        changeBeautyContainerVisibility();
+                                    }
+                                    if (mAnimojiContainerView.getVisibility() == View.VISIBLE) {
+                                        changeAnimojiContainerVisibility();
+                                    }
+                                    changeSoundEffectVisibility();
+                                });
+                            }
                         } else if (id == R.id.beauty_button) {
                             if (!mBeautyOn) {
                                 ToastUtils.show(getSafeString(R.string.beauty_off_tips));
                                 return;
                             }
-                            mBeautyButton.post(() -> {
-                                if (mAnimojiContainerView.getVisibility() == View.VISIBLE) {
-                                    changeAnimojiContainerVisibility();
-                                }
-                                changeBeautyContainerVisibility();
-                            });
+                            if (!mAlivcLivePushConfig.isAudioOnly()) {
+                                mBeautyButton.post(() -> {
+                                    if (mAnimojiContainerView.getVisibility() == View.VISIBLE) {
+                                        changeAnimojiContainerVisibility();
+                                    }
+                                    if (mSoundEffectView.getVisibility() == View.VISIBLE) {
+                                        changeSoundEffectVisibility();
+                                    }
+                                    changeBeautyContainerVisibility();
+                                });
+                            }
                         } else if (id == R.id.restart_button) {
                             if (mAsync) {
                                 if (!mIsStartAsnycPushing) {
@@ -811,6 +856,7 @@ public class LivePushFragment extends Fragment {
 
         @Override
         public void onFirstAVFramePushed(AlivcLivePusher pusher) {
+            Log.d(TAG, "onFirstAVFramePushed: ");
         }
 
         @Override
@@ -841,23 +887,27 @@ public class LivePushFragment extends Fragment {
 
         @Override
         public void onFirstFramePreviewed(AlivcLivePusher pusher) {
-
+            Log.d(TAG, "onFirstFramePreviewed: ");
         }
 
         @Override
         public void onDropFrame(AlivcLivePusher pusher, int countBef, int countAft) {
+            Log.d(TAG, "onDropFrame: ");
         }
 
         @Override
         public void onAdjustBitRate(AlivcLivePusher pusher, int curBr, int targetBr) {
+            Log.i(TAG, "onAdjustBitRate: ");
         }
 
         @Override
         public void onAdjustFps(AlivcLivePusher pusher, int curFps, int targetFps) {
+            Log.d(TAG, "onAdjustFps: ");
         }
 
         @Override
         public void onPushStatistics(AlivcLivePusher pusher, AlivcLivePushStatsInfo statistics) {
+            Log.i(TAG, "onPushStatistics: ");
             if (mPushController.getLivePusher() != null) {
                 if (mTotalLivePushStatsInfoTV != null) {
                     mTotalLivePushStatsInfoTV.post(new Runnable() {
@@ -874,7 +924,7 @@ public class LivePushFragment extends Fragment {
 
         @Override
         public void onSetLiveMixTranscodingConfig(AlivcLivePusher alivcLivePusher, boolean b, String s) {
-
+            Log.d(TAG, "onSetLiveMixTranscodingConfig: ");
         }
     };
 
@@ -943,6 +993,7 @@ public class LivePushFragment extends Fragment {
 
         @Override
         public String onPushURLAuthenticationOverdue(AlivcLivePusher pusher) {
+            Log.d(TAG, "onPushURLAuthenticationOverdue: ");
             return "";
         }
 
@@ -960,22 +1011,22 @@ public class LivePushFragment extends Fragment {
     private AlivcLivePushBGMListener mPushBGMListener = new AlivcLivePushBGMListener() {
         @Override
         public void onStarted() {
-
+            Log.d(TAG, "onStarted: ");
         }
 
         @Override
         public void onStoped() {
-
+            Log.d(TAG, "onStoped: ");
         }
 
         @Override
         public void onPaused() {
-
+            Log.d(TAG, "onPaused: ");
         }
 
         @Override
         public void onResumed() {
-
+            Log.d(TAG, "onResumed: ");
         }
 
         @Override
@@ -992,16 +1043,17 @@ public class LivePushFragment extends Fragment {
 
         @Override
         public void onCompleted() {
-
+            Log.d(TAG, "onCompleted: ");
         }
 
         @Override
         public void onDownloadTimeout() {
-
+            Log.d(TAG, "onDownloadTimeout: ");
         }
 
         @Override
         public void onOpenFailed() {
+            Log.d(TAG, "onOpenFailed: ");
             showDialog(getSafeString(R.string.bgm_open_failed));
         }
     };
@@ -1029,7 +1081,7 @@ public class LivePushFragment extends Fragment {
             @Override
             public void run() {
                 if (getActivity() != null) {
-                    AVToast.show(getActivity(),true,text);
+                    AVToast.show(getActivity(), true, text);
                 }
             }
         });
@@ -1265,10 +1317,10 @@ public class LivePushFragment extends Fragment {
     private void initBeautyManager(long glContext) {
         if (mBeautyManager == null) {
             Log.d(TAG, "initBeautyManager start");
-            if(mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveBasicMode){
+            if (mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveBasicMode) {
                 //非互动模式下，美颜初始化
                 mBeautyManager = BeautyFactory.createBeauty(BeautySDKType.QUEEN, LivePushFragment.this.getActivity());
-            }else{
+            } else {
                 //互动模式下，美颜初始化
                 mBeautyManager = BeautyFactory.createBeauty(BeautySDKType.INTERACT_QUEEN, LivePushFragment.this.getActivity());
             }
@@ -1307,6 +1359,16 @@ public class LivePushFragment extends Fragment {
         } else {
             mAnimojiContainerView.setVisibilityWithAnimation(true);
             mActionBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void changeSoundEffectVisibility() {
+        if (mSoundEffectView.getVisibility() == View.VISIBLE) {
+            mActionBar.setVisibility(View.VISIBLE);
+            mSoundEffectView.setVisibility(View.GONE);
+        } else {
+            mActionBar.setVisibility(View.GONE);
+            mSoundEffectView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1351,5 +1413,14 @@ public class LivePushFragment extends Fragment {
 //        String ding3duo = AnimojiDataFactory.INSTANCE.getResourcePath(context, AnimojiDataFactory.DING3DUO_BUNDLE_FILE);
 //        itemBeans.add(new AnimojiItemBean(com.alivc.live.queenbeauty.R.drawable.icon_animoji_ding3duo, "钉三多", ding3duo));
         return itemBeans;
+    }
+
+    public void updateOperaButtonState(boolean bool){
+        mOperaButton.post(() -> {
+            mOperaButton.setText(bool ? getSafeString(R.string.pause_button) : getSafeString(R.string.resume_button));
+            mOperaButton.setSelected(!bool);
+            mPreviewButton.setText(bool ? getSafeString(R.string.stop_preview_button) : getSafeString(R.string.start_preview_button));
+            mPreviewButton.setSelected(bool);
+        });
     }
 }

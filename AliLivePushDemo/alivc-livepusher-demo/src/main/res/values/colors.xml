@@ -52,4 +52,5 @@
     <color name="text_weak">#B2B7C4</color>
     <color name="colourful_text_strong">#4DCFE1</color>
      <color name="push_btn_border_color">#EDEDED</color>
+    <color name="sound_effect_background">#DDDDDD</color>
 </resources>

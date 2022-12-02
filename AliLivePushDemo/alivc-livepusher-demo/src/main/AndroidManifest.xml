@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.alivc.live.pusher.demo">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -22,33 +23,31 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:name=".LiveApplication"
-        android:allowBackup="true"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity
             android:name=".PushMainActivity"
-            android:theme="@style/AVAppTheme"
-            android:screenOrientation="portrait"
+            android:exported="false"
             android:launchMode="singleTask"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AVAppTheme" />
         <activity
             android:name=".MainActivity"
             android:alwaysRetainTaskState="true"
             android:clearTaskOnLaunch="false"
             android:configChanges="orientation"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:exported="true">
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,9 +57,9 @@
         <activity
             android:name=".PushConfigActivity"
             android:alwaysRetainTaskState="true"
-            android:screenOrientation="portrait"
             android:configChanges="uiMode"
-            android:theme="@style/AVPushTheme"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AVPushTheme" />
         <activity
             android:name=".PlayerActivity"
             android:alwaysRetainTaskState="true"
@@ -69,10 +68,10 @@
         <activity
             android:name=".VideoRecordConfigActivity"
             android:alwaysRetainTaskState="true"
-            android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AVPushTheme"/>
+            android:theme="@style/AVPushTheme" />
         <activity
             android:name=".LivePushActivity"
             android:alwaysRetainTaskState="true"
@@ -102,10 +101,24 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".rts.RtsPlayActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AVPushTheme"/>
+        <activity android:name=".rts.InputRtsUrlActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AVPushTheme"/>
+
         <service
             android:name=".ForegroundService"
             android:enabled="true"
-            android:foregroundServiceType="mediaProjection" /> <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
+            android:foregroundServiceType="mediaProjection|camera" />
+
         <meta-data
             android:name="Mob-AppKey"
             android:value="1aeeb15ac7a52" />

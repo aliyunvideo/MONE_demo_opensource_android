@@ -25,7 +25,6 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
  * Copyright (C) 2004 - 2019 UCWeb Inc. All Rights Reserved.
  * Description : ImageTools
  *
- * Created by zhihong.lanzh@alibaba-inc.com
  */
 class ImageTools {
     companion object {

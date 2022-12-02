@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_weak"
+    tools:context=".rts.RtsPlayActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="@string/pull_rts_enter_name"
+        android:textColor="@color/text_strong"
+        android:textSize="@dimen/alivc_common_font_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_av_action_bar_back"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+    <SurfaceView
+        android:id="@+id/surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="204dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <LinearLayout
+        android:id="@+id/ll_mask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@color/color_background_black_alpha_30"
+        app:layout_constraintBottom_toBottomOf="@id/surface_view"
+        app:layout_constraintEnd_toEndOf="@id/surface_view"
+        app:layout_constraintStart_toStartOf="@id/surface_view"
+        app:layout_constraintTop_toTopOf="@id/surface_view">
+
+        <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F53F3F"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_demote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#3BB346"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:text="@string/pull_rts_error_demote"/>
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/surface_view"
+        app:layout_constraintTop_toBottomOf="@id/surface_view">
+
+        <RadioButton
+            android:id="@+id/rb_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_rts_play_state"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/pull_rts_play"
+            android:textColor="@drawable/selector_rts_play_state_text"
+            android:textSize="@dimen/alivc_common_font_12" />
+
+        <RadioButton
+            android:id="@+id/rb_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/selector_rts_play_state"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/pull_rts_stop"
+            android:textColor="@drawable/selector_rts_play_state_text"
+            android:textSize="@dimen/alivc_common_font_12" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_trace_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rts_trace_id_bg"
+        android:gravity="center"
+        android:text="@string/pull_rts_trace_id"
+        android:textColor="@color/text_strong"
+        android:textSize="@dimen/alivc_common_font_12"
+        app:layout_constraintEnd_toEndOf="@id/surface_view"
+        app:layout_constraintTop_toTopOf="@id/radio_group" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_question_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pull_rts_problem_title"
+                android:textColor="@color/text_strong"
+                android:textSize="@dimen/alivc_common_font_14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/ic_ultraweak"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_question_title" />
+
+            <View
+                android:id="@+id/divider_error"
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/colourful_ic_strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_1" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/pull_rts_problem_playback_failed"
+                android:textColor="@color/text_strong"
+                android:textSize="@dimen/alivc_common_font_12"
+                app:layout_constraintBottom_toBottomOf="@id/divider_error"
+                app:layout_constraintStart_toEndOf="@id/divider_error"
+                app:layout_constraintTop_toTopOf="@id/divider_error" />
+
+            <TextView
+                android:id="@+id/tv_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/pull_rts_problem_playback_failed_tip"
+                android:textColor="@color/text_weak"
+                android:textSize="@dimen/alivc_common_font_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_error" />
+
+            <View
+                android:id="@+id/divider_lag"
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="27dp"
+                android:background="@color/colourful_ic_strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_error_msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/pull_rts_problem_stuck_delay"
+                android:textColor="@color/text_strong"
+                android:textSize="@dimen/alivc_common_font_12"
+                app:layout_constraintBottom_toBottomOf="@id/divider_lag"
+                app:layout_constraintStart_toEndOf="@id/divider_lag"
+                app:layout_constraintTop_toTopOf="@id/divider_lag" />
+
+            <TextView
+                android:id="@+id/tv_step_1_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/pull_rts_problem_stuck_delay_step1_title"
+                android:textColor="@color/text_medium"
+                android:textSize="@dimen/alivc_common_font_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_lag" />
+
+            <TextView
+                android:id="@+id/tv_step_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/pull_rts_problem_stuck_delay_step1"
+                android:textColor="@color/text_weak"
+                android:textSize="@dimen/alivc_common_font_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_step_1_title" />
+
+            <TextView
+                android:id="@+id/tv_step_2_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/pull_rts_problem_stuck_delay_step2_title"
+                android:textColor="@color/text_medium"
+                android:textSize="@dimen/alivc_common_font_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_step_1" />
+
+            <TextView
+                android:id="@+id/tv_step_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/pull_rts_problem_stuck_delay_step2"
+                android:textColor="@color/text_weak"
+                android:textSize="@dimen/alivc_common_font_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_step_2_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

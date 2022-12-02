@@ -10,13 +10,10 @@ import android.content.res.Configuration;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
-import androidx.multidex.MultiDexApplication;
 
 import com.aliyun.aio.avtheme.AVBaseThemeApplication;
 import com.aliyun.aio.demo.utils.ReflectUtils;
-import com.aliyun.common.utils.Assert;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 

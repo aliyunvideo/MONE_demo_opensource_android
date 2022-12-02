@@ -31,7 +31,7 @@ import com.alivc.live.utils.ContextUtils;
 import com.alivc.live.utils.FastClickUtil;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout mLivePushLayout;
     private LinearLayout mLivePullCommonPullLayout;
     private LinearLayout mLivePullRtcLayout;
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        check();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.push_activity_main);
@@ -59,6 +60,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         mPushUrl = intent.getStringExtra("pushUrl");
     }
+
+    private void check(){
+        if (!this.isTaskRoot()) { // 当前类不是该Task的根部，那么之前启动
+            Intent intent = getIntent();
+            if (intent != null) {
+                String action = intent.getAction();
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) { // 当前类是从桌面启动的
+                    finish(); // finish掉该类，直接打开该Task中现存的Activity
+                }
+            }
+        }
+    }
+
     private void initView() {
         mLivePushLayout = (LinearLayout) findViewById(R.id.push_enter_layout);
         mLivePushLayout.setOnClickListener(this);

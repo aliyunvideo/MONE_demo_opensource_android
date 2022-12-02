@@ -88,7 +88,7 @@ dependencies {
     api project(':AUIFoundation:AVUtils')
     api project(':commonutils')
     api project(':commonbiz')
-    api externalPlayerPart
+    api externalPlayerFull
     if (file(livePushSdkSourceCode).exists()) {
         api project(':alivc-livepusher-lib')
     } else if (hasInteractiveLive()) {

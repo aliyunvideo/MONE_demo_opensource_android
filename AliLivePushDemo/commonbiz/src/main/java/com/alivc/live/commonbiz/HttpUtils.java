@@ -23,6 +23,7 @@ public class HttpUtils {
     public static void get(String url, OnNetWorkListener listener) {
         Request okHttpRequest = new Request.Builder()
                 .url(url)
+                .head()
                 .build();
 
         mOkHttpClient.newCall(okHttpRequest).enqueue(new Callback() {

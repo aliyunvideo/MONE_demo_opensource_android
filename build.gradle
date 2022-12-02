@@ -45,21 +45,24 @@ if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
        repositories {
            maven {
                allowInsecureProtocol = true
-               url "http://maven.aliyun.com/nexus/content/repositories/jcenter"
+               url "http://maven.aliyun.com/repository/jcenter"
            }
            maven {
                allowInsecureProtocol = true
-               url "http://maven.aliyun.com/nexus/content/repositories/google"
+               url "http://maven.aliyun.com/repository/google"
            }
            maven {
                allowInsecureProtocol = true
-               url "http://maven.aliyun.com/nexus/content/repositories/releases"
+               url "http://maven.aliyun.com/repository/releases"
            }
            maven {
                allowInsecureProtocol = true
                url "http://lib.gcssloop.com:8081/repository/gcssloop-central/"
            }
-           maven { url 'https://repo1.maven.org/maven2/' }
+           maven {
+               allowInsecureProtocol = true
+               url "http://maven.aliyun.com/repository/central"
+           }
            maven { url 'https://jitpack.io' }
        }
     }
@@ -67,22 +70,25 @@ if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
         repositories {
             maven {
                 allowInsecureProtocol = true
-                url "http://maven.aliyun.com/nexus/content/repositories/jcenter"
+                url "http://maven.aliyun.com/repository/jcenter"
             }
             maven {
                 allowInsecureProtocol = true
-                url "http://maven.aliyun.com/nexus/content/repositories/google"
+                url "http://maven.aliyun.com/repository/google"
             }
             maven {
                 allowInsecureProtocol = true
-                url 'http://maven.aliyun.com/nexus/content/groups/public/'
+                url 'http://maven.aliyun.com/repository/public'
             }
             maven {
                 allowInsecureProtocol = true
                 url "http://lib.gcssloop.com:8081/repository/gcssloop-central/"
             }
             maven { url "https://maven.aliyun.com/repository/releases" }
-            maven { url 'https://repo1.maven.org/maven2/' }
+            maven {
+                allowInsecureProtocol = true
+                url "http://maven.aliyun.com/repository/central"
+            }
             maven {
                 allowInsecureProtocol = true
                 url 'http://4thline.org/m2'
@@ -96,17 +102,20 @@ buildscript {
     repositories {
         maven { 
             allowInsecureProtocol = true
-            url "http://maven.aliyun.com/nexus/content/repositories/jcenter" 
+            url "http://maven.aliyun.com/repository/jcenter"
         }
         maven { 
             allowInsecureProtocol = true
-            url "http://maven.aliyun.com/nexus/content/repositories/google" 
+            url "http://maven.aliyun.com/repository/google"
         }
         maven { 
             allowInsecureProtocol = true
-            url "http://maven.aliyun.com/nexus/content/repositories/releases" 
+            url "http://maven.aliyun.com/repository/releases"
         }
-        maven { url 'https://repo1.maven.org/maven2/' }
+        maven {
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/repository/central"
+        }
         maven { url 'https://jitpack.io' }
     }
     apply from: 'AndroidThirdParty/config.gradle'
@@ -124,25 +133,26 @@ allprojects {
     repositories {
          maven { 
             allowInsecureProtocol = true
-            url "http://maven.aliyun.com/nexus/content/repositories/jcenter" 
+            url "http://maven.aliyun.com/repository/jcenter"
         }
         maven { 
             allowInsecureProtocol = true
-            url "http://maven.aliyun.com/nexus/content/repositories/google" 
+            url "http://maven.aliyun.com/repository/google"
         }
         maven { 
             allowInsecureProtocol = true
-            url 'http://maven.aliyun.com/nexus/content/groups/public/' 
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
         }
         maven { url "https://maven.aliyun.com/repository/releases" }
-        maven { url 'https://repo1.maven.org/maven2/' }
+        maven {
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/repository/central"
+        }
         maven { 
             allowInsecureProtocol = true
             url 'http://4thline.org/m2' 
         }
         maven { url 'https://jitpack.io' }
-        google()
-        jcenter()
         flatDir {
             dirs 'libs'
         }

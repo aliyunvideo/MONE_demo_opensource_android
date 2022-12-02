@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.pusher.AlivcLiveBase;
+import com.alivc.live.pusher.demo.rts.InputRtsUrlActivity;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
 import com.aliyun.aio.avbaseui.AVBaseListActivity;
 
@@ -35,6 +36,7 @@ public class PushMainActivity extends AVBaseListActivity {
     private static final int INDEX_PULL = 3;
     private static final int INDEX_INTERACT_LIVE = 4;
     private static final int INDEX_INTERACT_PK_LIVE = 5;
+    private static final int INDEX_RTS_PULL = 6;
     private final int PERMISSION_REQUEST_CODE = 1;
     private String[] permissionManifest;
     private int mObPermissionsIndex = -1;
@@ -56,9 +58,10 @@ public class PushMainActivity extends AVBaseListActivity {
         menu.add(new ListModel(INDEX_SCREEN_PUSH, R.drawable.ic_player_luping, getResources().getString(R.string.pull_common_enter_name_tv), "手机屏幕采集，支持参数设置"));
 //        menu.add(new ListModel(INDEX_LOCAL_VIDEO_PUSH, R.drawable.ic_live_bendi, getResources().getString(R.string.push_local_video_name_tv), "本期忽略"));
         menu.add(new ListModel(INDEX_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rtc_enter_name_tv), "支持常见协议，如FLV、RTMP、HLS、RTS等"));
-        if(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode)){
-            menu.add(new ListModel(INDEX_INTERACT_LIVE,R.drawable.ic_live_interact,getResources().getString(R.string.interact_live),getResources().getString(R.string.interact_live)));
-            menu.add(new ListModel(INDEX_INTERACT_PK_LIVE,R.drawable.ic_pk_interact,getResources().getString(R.string.pk_live),getResources().getString(R.string.pk_live)));
+        if (AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode)) {
+            menu.add(new ListModel(INDEX_RTS_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rts_enter_name),""));
+            menu.add(new ListModel(INDEX_INTERACT_LIVE, R.drawable.ic_live_interact, getResources().getString(R.string.interact_live), getResources().getString(R.string.interact_live)));
+            menu.add(new ListModel(INDEX_INTERACT_PK_LIVE, R.drawable.ic_pk_interact, getResources().getString(R.string.pk_live), getResources().getString(R.string.pk_live)));
         }
         return menu;
     }
@@ -97,18 +100,21 @@ public class PushMainActivity extends AVBaseListActivity {
             case INDEX_INTERACT_LIVE:
                 if (checkInteractiveAPPInfoIfNeed()) {
                     startActivity(new Intent(this, InteractAppInfoActivity.class));
-                }else{
+                } else {
                     startActivity(new Intent(this, InteractLiveInputActivity.class));
                 }
                 break;
             case INDEX_INTERACT_PK_LIVE:
                 if (checkInteractiveAPPInfoIfNeed()) {
                     Intent intent = new Intent(this, InteractAppInfoActivity.class);
-                    intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK,true);
+                    intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK, true);
                     startActivity(intent);
-                }else{
+                } else {
                     startActivity(new Intent(this, PKLiveInputActivity.class));
                 }
+                break;
+            case INDEX_RTS_PULL:
+                startActivity(new Intent(this, InputRtsUrlActivity.class));
                 break;
             default:
                 break;

@@ -110,7 +110,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     private int mOrientation = ORIENTATION_PORTRAIT.ordinal();
 
     private SurfaceStatus mSurfaceStatus = SurfaceStatus.UNINITED;
-//    private Handler mHandler = new Handler();
+    //    private Handler mHandler = new Handler();
     private boolean isPause = false;
 
     private int mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
@@ -122,7 +122,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     private String mAuthTime = "";
     private String mPrivacyKey = "";
 
-//    private ConnectivityChangedReceiver mChangedReceiver = new ConnectivityChangedReceiver();
+    //    private ConnectivityChangedReceiver mChangedReceiver = new ConnectivityChangedReceiver();
     private boolean videoThreadOn = false;
     private boolean audioThreadOn = false;
 
@@ -144,7 +144,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
         mFlash = getIntent().getBooleanExtra(FLASH_ON, false);
         mAuthTime = getIntent().getStringExtra(AUTH_TIME);
         mPrivacyKey = getIntent().getStringExtra(PRIVACY_KEY);
-        mMixExtern = getIntent().getBooleanExtra(MIX_EXTERN,false);
+        mMixExtern = getIntent().getBooleanExtra(MIX_EXTERN, false);
         mMixMain = getIntent().getBooleanExtra(MIX_MAIN, false);
         mBeautyOn = getIntent().getBooleanExtra(BEAUTY_CHECKED, true);
         mFps = getIntent().getIntExtra(FPS, 0);
@@ -170,7 +170,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
             mAlivcLivePusher.startPreview(this, mPreviewContainer, true);
         }
 
-        mLivePushFragment = LivePushFragment.newInstance(mAlivcLivePushConfig,mPushUrl, mAsync, mAudioOnly, mVideoOnly, mCameraId, mFlash, mAlivcLivePushConfig.getQualityMode().getQualityMode(),
+        mLivePushFragment = LivePushFragment.newInstance(mAlivcLivePushConfig, mPushUrl, mAsync, mAudioOnly, mVideoOnly, mCameraId, mFlash, mAlivcLivePushConfig.getQualityMode().getQualityMode(),
                 mAuthTime, mPrivacyKey, mMixExtern, mMixMain, mBeautyOn, mFps, mOrientation, waterMarkInfos);
         mPushTextStatsFragment = new PushTextStatsFragment();
         mPushDiagramStatsFragment = new PushDiagramStatsFragment();
@@ -195,16 +195,16 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     private void initViewPager() {
         mViewPager = (ViewPager) findViewById(R.id.tv_pager);
         mFragmentList.add(mLivePushFragment);
-        mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), mFragmentList) ;
+        mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), mFragmentList);
         mViewPager.setAdapter(mFragmentAdapter);
         mViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                    if (motionEvent.getPointerCount() >= 2 && mScaleDetector != null) {
-                        mScaleDetector.onTouchEvent(motionEvent);
-                    } else if (motionEvent.getPointerCount() == 1 && mDetector != null) {
-                        mDetector.onTouchEvent(motionEvent);
-                    }
+                if (motionEvent.getPointerCount() >= 2 && mScaleDetector != null) {
+                    mScaleDetector.onTouchEvent(motionEvent);
+                } else if (motionEvent.getPointerCount() == 1 && mDetector != null) {
+                    mDetector.onTouchEvent(motionEvent);
+                }
 //                }
                 return false;
             }
@@ -212,11 +212,11 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     }
 
     private void setOrientation(int orientation) {
-        if(orientation == ORIENTATION_PORTRAIT.ordinal()) {
+        if (orientation == ORIENTATION_PORTRAIT.ordinal()) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else if(orientation == ORIENTATION_LANDSCAPE_HOME_RIGHT.ordinal()) {
+        } else if (orientation == ORIENTATION_LANDSCAPE_HOME_RIGHT.ordinal()) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else if(orientation == ORIENTATION_LANDSCAPE_HOME_LEFT.ordinal()) {
+        } else if (orientation == ORIENTATION_LANDSCAPE_HOME_LEFT.ordinal()) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
         }
     }
@@ -236,18 +236,18 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
         public boolean onSingleTapUp(MotionEvent motionEvent) {
             float x = 0f;
             float y = 0f;
-            if(mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveInteractiveMode){
-                if(mPreviewContainer.getWidth() > 0 && mPreviewContainer.getHeight() > 0){
+            if (mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveInteractiveMode) {
+                if (mPreviewContainer.getWidth() > 0 && mPreviewContainer.getHeight() > 0) {
                     x = motionEvent.getX() / mPreviewContainer.getWidth();
                     y = motionEvent.getY() / mPreviewContainer.getHeight();
                 }
-            }else{
+            } else {
                 if (mPreviewView.getWidth() > 0 && mPreviewView.getHeight() > 0) {
                     x = motionEvent.getX() / mPreviewView.getWidth();
                     y = motionEvent.getY() / mPreviewView.getHeight();
                 }
             }
-            try{
+            try {
                 mAlivcLivePusher.focusCameraAtAdjustedPoint(x, y, true);
             } catch (IllegalStateException e) {
 
@@ -267,7 +267,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
 
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-            if(motionEvent == null || motionEvent1 == null) {
+            if (motionEvent == null || motionEvent1 == null) {
                 return false;
             }
             if (motionEvent.getX() - motionEvent1.getX() > FLING_MIN_DISTANCE
@@ -285,19 +285,19 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     private ScaleGestureDetector.OnScaleGestureListener mScaleGestureDetector = new ScaleGestureDetector.OnScaleGestureListener() {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-            if(scaleGestureDetector.getScaleFactor() > 1) {
+            if (scaleGestureDetector.getScaleFactor() > 1) {
                 scaleFactor += 0.5;
             } else {
                 scaleFactor -= 2;
             }
-            if(scaleFactor <= 1) {
+            if (scaleFactor <= 1) {
                 scaleFactor = 1;
             }
-            try{
-                if(scaleFactor >= mAlivcLivePusher.getMaxZoom()) {
+            try {
+                if (scaleFactor >= mAlivcLivePusher.getMaxZoom()) {
                     scaleFactor = mAlivcLivePusher.getMaxZoom();
                 }
-                mAlivcLivePusher.setZoom((int)scaleFactor);
+                mAlivcLivePusher.setZoom((int) scaleFactor);
 
             } catch (IllegalStateException e) {
 
@@ -319,26 +319,26 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     SurfaceHolder.Callback mCallback = new SurfaceHolder.Callback() {
         @Override
         public void surfaceCreated(SurfaceHolder surfaceHolder) {
-            if(mSurfaceStatus == SurfaceStatus.UNINITED) {
+            if (mSurfaceStatus == SurfaceStatus.UNINITED) {
                 mSurfaceStatus = SurfaceStatus.CREATED;
-                if(mAlivcLivePusher != null) {
+                if (mAlivcLivePusher != null) {
                     try {
-                        if(mAsync) {
+                        if (mAsync) {
                             mAlivcLivePusher.startPreviewAysnc(mPreviewView);
                         } else {
                             mAlivcLivePusher.startPreview(mPreviewView);
                         }
-                        if(mAlivcLivePushConfig.isExternMainStream()) {
+                        if (mAlivcLivePushConfig.isExternMainStream()) {
                             startYUV(getApplicationContext());
                             startPCM(getApplicationContext());
                         }
                     } catch (IllegalArgumentException e) {
-                        Log.e(TAG, "surfaceCreated: ",e );
+                        Log.e(TAG, "surfaceCreated: ", e);
                     } catch (IllegalStateException e) {
-                        Log.e(TAG, "surfaceCreated: ",e );
+                        Log.e(TAG, "surfaceCreated: ", e);
                     }
                 }
-            } else if(mSurfaceStatus == SurfaceStatus.DESTROYED) {
+            } else if (mSurfaceStatus == SurfaceStatus.DESTROYED) {
                 mSurfaceStatus = SurfaceStatus.RECREATED;
             }
         }
@@ -353,6 +353,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
             mSurfaceStatus = SurfaceStatus.DESTROYED;
         }
     };
+
     public static void startActivity(Activity activity, AlivcLivePushConfig alivcLivePushConfig, String url, boolean async,
                                      boolean audioOnly, boolean videoOnly, AlivcPreviewOrientationEnum orientation, int cameraId, boolean isFlash,
                                      String authTime, String privacyKey, boolean mixExtern, boolean mixMain, boolean ischecked, int fps,
@@ -381,14 +382,15 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     @Override
     protected void onResume() {
         super.onResume();
-        if(mAlivcLivePusher != null) {
+        if (mAlivcLivePusher != null) {
             try {
                 if (isPause) {
-                    if(mAsync) {
+                    if (mAsync) {
                         mAlivcLivePusher.resumeAsync();
                     } else {
                         mAlivcLivePusher.resume();
                     }
+                    mLivePushFragment.updateOperaButtonState(true);
                     isPause = false;
                     mAlivcLivePusher.resumeBGM();
                 }
@@ -403,7 +405,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     @Override
     protected void onPause() {
         super.onPause();
-        if(mAlivcLivePusher != null) {
+        if (mAlivcLivePusher != null) {
             try {
                 if (!isPause) {
                     if (mAlivcLivePusher != null) {
@@ -422,7 +424,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     protected void onDestroy() {
         videoThreadOn = false;
         audioThreadOn = false;
-        if(mAlivcLivePusher != null) {
+        if (mAlivcLivePusher != null) {
             try {
                 mAlivcLivePusher.destroy();
                 mAlivcLivePusher = null;
@@ -470,7 +472,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
         super.onConfigurationChanged(newConfig);
         int rotation = getWindowManager().getDefaultDisplay().getRotation();
         AlivcPreviewOrientationEnum orientationEnum;
-        if(mAlivcLivePusher != null) {
+        if (mAlivcLivePusher != null) {
             switch (rotation) {
                 case Surface.ROTATION_0:
                     orientationEnum = ORIENTATION_PORTRAIT;
@@ -487,9 +489,8 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
             }
             try {
                 mAlivcLivePusher.setPreviewOrientation(orientationEnum);
-            } catch (IllegalStateException e)
-            {
-                
+            } catch (IllegalStateException e) {
+
             }
         }
     }
@@ -539,7 +540,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
 
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r);
-                t.setName("LivePushActivity-readYUV-Thread"+ atoInteger.getAndIncrement());
+                t.setName("LivePushActivity-readYUV-Thread" + atoInteger.getAndIncrement());
                 return t;
             }
         }).execute(new Runnable() {
@@ -556,13 +557,12 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
                 try {
                     File f = ResourcesDownload.localCaptureYUVFilePath(LivePushActivity.this);
                     myInput = new FileInputStream(f);
-                    byte[] buffer = new byte[1280*720*3/2];
+                    byte[] buffer = new byte[1280 * 720 * 3 / 2];
                     int length = myInput.read(buffer);
                     //发数据
-                    while(length > 0 && videoThreadOn)
-                    {
+                    while (length > 0 && videoThreadOn) {
                         long pts = System.currentTimeMillis() * 1000;
-                        mAlivcLivePusher.inputStreamVideoData(buffer,720,1280,720,1280*720*3/2,pts,0);
+                        mAlivcLivePusher.inputStreamVideoData(buffer, 720, 1280, 720, 1280 * 720 * 3 / 2, pts, 0);
                         try {
                             Thread.sleep(40);
                         } catch (InterruptedException e) {
@@ -570,8 +570,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
                         }
                         //发数据
                         length = myInput.read(buffer);
-                        if(length <= 0)
-                        {
+                        if (length <= 0) {
                             myInput.close();
                             myInput = new FileInputStream(f);
                             length = myInput.read(buffer);
@@ -621,12 +620,12 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
                 boolean reUse = false;
                 long startPts = System.nanoTime() / 1000;
                 try {
-                    File f = new File(getFilesDir().getPath() + File.separator+"alivc_resource/441.pcm");
+                    File f = new File(getFilesDir().getPath() + File.separator + "alivc_resource/441.pcm");
                     myInput = new FileInputStream(f);
                     // File f = new File("/sdcard/alivc_resource/441.pcm");
                     byte[] buffer = new byte[2048];
                     int length = myInput.read(buffer, 0, 2048);
-                    double sleep_time = 1000/44.1;
+                    double sleep_time = 1000 / 44.1;
                     while (length > 0 && audioThreadOn) {
                         long start = System.nanoTime();
                         long pts = System.currentTimeMillis() * 1000;
@@ -647,7 +646,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
                         }
                         long end = System.nanoTime();
                         try {
-                            long real_sleep_time = (long)(sleep_time - (end - start) / 1000 / 1000);
+                            long real_sleep_time = (long) (sleep_time - (end - start) / 1000 / 1000);
                             Thread.sleep(real_sleep_time);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -669,10 +668,10 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
 
             if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
 
-                if(mNetWork != NetWorkUtils.getAPNType(context)) {
+                if (mNetWork != NetWorkUtils.getAPNType(context)) {
                     mNetWork = NetWorkUtils.getAPNType(context);
-                    if(mAlivcLivePusher != null) {
-                        if(mAlivcLivePusher.isPushing()) {
+                    if (mAlivcLivePusher != null) {
+                        if (mAlivcLivePusher.isPushing()) {
                             try {
                                 mAlivcLivePusher.reconnectPushAsync(null);
                             } catch (IllegalStateException e) {

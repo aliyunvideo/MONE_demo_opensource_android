@@ -59,6 +59,7 @@ import androidx.core.content.ContextCompat;
 
 import com.acker.simplezxing.activity.CaptureActivity;
 import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.commonbiz.listener.OnDownloadListener;
 import com.alivc.live.pusher.AlivcAudioAACProfileEnum;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
@@ -81,7 +82,6 @@ import com.alivc.live.pusher.demo.download.ResourcesDownload;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
 import com.alivc.live.pusher.widget.PushConfigBottomSheet;
 import com.alivc.live.utils.FastClickUtil;
-import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
@@ -493,18 +493,10 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     private final PushConfigBottomSheet.OnPushConfigSelectorListener mPushModeListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
         @Override
         public void confirm(String data, int index) {
-            if (index == 0) {
-                mAudioOnlyPush = false;
-                mVideoOnlyPush = false;
-                mAlivcLivePushConfig.setAudioOnly(mAudioOnlyPush);
-                mAlivcLivePushConfig.setVideoOnly(mVideoOnlyPush);
-            } else if (index == 1) {
-                mAudioOnlyPush = true;
-                mAlivcLivePushConfig.setAudioOnly(mAudioOnlyPush);
-            } else if (index == 2) {
-                mVideoOnlyPush = true;
-                mAlivcLivePushConfig.setVideoOnly(mVideoOnlyPush);
-            }
+            mAudioOnlyPush = (index == 1);
+            mVideoOnlyPush = (index == 2);
+            mAlivcLivePushConfig.setAudioOnly(mAudioOnlyPush);
+            mAlivcLivePushConfig.setVideoOnly(mVideoOnlyPush);
         }
     };
     private final PushConfigBottomSheet.OnPushConfigSelectorListener mDisplayModenListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {

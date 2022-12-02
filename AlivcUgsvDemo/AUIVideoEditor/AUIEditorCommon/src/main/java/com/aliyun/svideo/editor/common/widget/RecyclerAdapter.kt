@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
  * Description : 通用的RecycleViewAdapter，传入指定的数据类型和ViewDataBinding对象
  *
  * Creation : 1/6/22
- * Author   : zhihong.lanzh@alibaba-inc.com
  * ****************************************************************************
  */
 abstract class RecyclerAdapter<T, B : ViewDataBinding>(private val mContext: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

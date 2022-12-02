@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @Author: lifujun@alibaba-inc.com
  * @Date: 2016/12/29.
  * @Description:
  */

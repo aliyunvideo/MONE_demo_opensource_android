@@ -39,7 +39,6 @@ public class InteractLiveActivity extends AppCompatActivity {
     private String mRoomId;
     private String mUserId;
     private TextView mConnectTextView;
-    private InteractLiveManager mInteractLiveManager;
     private FrameLayout mUnConnectFrameLayout;
     private ImageView mCloseImageView;
     private ImageView mCameraImageView;
@@ -62,15 +61,12 @@ public class InteractLiveActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_interact_live);
 
-        mInteractLiveManager = InteractLiveManager.getInstance();
-        mInteractLiveManager.init(this);
-
         mIsAnchor = getIntent().getBooleanExtra(DATA_IS_ANCHOR, true);
         mRoomId = getIntent().getStringExtra(DATA_HOME_ID);
         mUserId = getIntent().getStringExtra(DATA_USER_ID);
 
-        mAnchorController = new AnchorController(mRoomId,mUserId);
-        mViewerController = new ViewerController(mRoomId,mUserId);
+        mAnchorController = new AnchorController(this, mRoomId, mUserId);
+        mViewerController = new ViewerController(this, mRoomId, mUserId);
 
         initView();
         initListener();
@@ -78,11 +74,11 @@ public class InteractLiveActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        if(mIsAnchor){
+        if (mIsAnchor) {
             mAnchorController.setAnchorRenderView(mBigFrameLayout);
             mAnchorController.setViewerRenderView(mSmallFrameLayout);
             mAnchorController.startPush();
-        }else{
+        } else {
             mViewerController.setAnchorRenderView(mBigFrameLayout);
             mViewerController.setViewerRenderView(mSmallFrameLayout);
             mViewerController.setAnchorCDNRenderView(mBigSurfaceView);
@@ -110,55 +106,57 @@ public class InteractLiveActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mInteractLiveManager.setInteractLivePushPullListener(new InteractLivePushPullListener() {
-            @Override
-            public void onPullSuccess() {
-                if (mIsAnchor) {
+        if (mIsAnchor) {
+            mAnchorController.setInteractLivePushPullListener(new InteractLivePushPullListener() {
+                @Override
+                public void onPullSuccess() {
                     changeSmallSurfaceViewVisible(true);
                     updateConnectTextView(true);
                 }
-            }
 
-            @Override
-            public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
-                runOnUiThread(() -> {
-                    if (errorType == AlivcLivePlayError.AlivcLivePlayErrorStreamStopped) {
-                        if(mIsAnchor){
+                @Override
+                public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
+                    super.onPullError(errorType, errorMsg);
+                    runOnUiThread(() -> {
+                        if (errorType == AlivcLivePlayError.AlivcLivePlayErrorStreamStopped) {
                             changeSmallSurfaceViewVisible(false);
                             mAnchorController.stopConnect();
                             updateConnectTextView(false);
                             ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
-                        }else{
-                            finish();
                         }
-                    }
-                });
-            }
+                    });
+                }
 
-            @Override
-            public void onPushSuccess() {
-                runOnUiThread(() -> {
-                    if (!mIsAnchor) {
-                        updateConnectTextView(true);
-                    }
-                });
-            }
-
-            @Override
-            public void onPushError() {
-
-            }
-
-            @Override
-            public void onPullStop() {
-                runOnUiThread(() -> {
-                    if (mIsAnchor) {
+                @Override
+                public void onPullStop() {
+                    super.onPullStop();
+                    runOnUiThread(() -> {
                         changeSmallSurfaceViewVisible(false);
                         updateConnectTextView(false);
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        } else {
+            mViewerController.setInteractLivePushPullListener(new InteractLivePushPullListener() {
+
+                @Override
+                public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
+                    runOnUiThread(() -> {
+                        if (errorType == AlivcLivePlayError.AlivcLivePlayErrorStreamStopped) {
+                            finish();
+                        }
+                    });
+                }
+
+                @Override
+                public void onPushSuccess() {
+                    super.onPushSuccess();
+                    runOnUiThread(() -> {
+                        updateConnectTextView(true);
+                    });
+                }
+            });
+        }
 
         //开始连麦
         mConnectTextView.setOnClickListener(view -> {
@@ -172,17 +170,17 @@ public class InteractLiveActivity extends AppCompatActivity {
                     showInteractLiveDialog(getResources().getString(R.string.interact_live_connect_tips), true);
                 }
             } else {
-                if (mInteractLiveManager.isPushing()) {
+                if (mViewerController.isPushing()) {
                     //观众端停止连麦
                     mCurrentIntent = InteractLiveIntent.INTENT_STOP_PUSH;
                     showInteractLiveDialog(getResources().getString(R.string.interact_live_connect_finish_tips), false);
                 } else {
                     //观众端开始连麦
-                    if(mViewerController.hasAnchorId()){
+                    if (mViewerController.hasAnchorId()) {
                         changeConnectRenderView(true);
                         mViewerController.startConnect();
                         changeSmallSurfaceViewVisible(true);
-                    }else{
+                    } else {
                         showInteractLiveDialog(getResources().getString(R.string.interact_live_connect_author_tips), true);
                     }
                 }
@@ -195,8 +193,12 @@ public class InteractLiveActivity extends AppCompatActivity {
         });
 
         mCameraImageView.setOnClickListener(view -> {
-            if(!FastClickUtil.isFastClick()){
-                mInteractLiveManager.switchCamera();
+            if (!FastClickUtil.isFastClick()) {
+                if (mIsAnchor) {
+                    mAnchorController.switchCamera();
+                } else {
+                    mViewerController.switchCamera();
+                }
             }
         });
     }
@@ -272,7 +274,7 @@ public class InteractLiveActivity extends AppCompatActivity {
         });
     }
 
-    private void changeConnectRenderView(boolean connect){
+    private void changeConnectRenderView(boolean connect) {
         mBigFrameLayout.setVisibility(connect ? View.VISIBLE : View.GONE);
         mBigSurfaceView.setVisibility(connect ? View.GONE : View.VISIBLE);
     }
@@ -281,19 +283,31 @@ public class InteractLiveActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mInteractLiveManager.resume();
+        if (mIsAnchor) {
+            mAnchorController.resume();
+        } else {
+            mViewerController.resume();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mInteractLiveManager.pause();
+        if (mIsAnchor) {
+            mAnchorController.pause();
+        } else {
+            mViewerController.pause();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mInteractLiveManager.release();
+        if (mIsAnchor) {
+            mAnchorController.release();
+        } else {
+            mViewerController.release();
+        }
     }
 
     public void hideInputSoftFromWindowMethod(Context context, View view) {

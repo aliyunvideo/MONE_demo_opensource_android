@@ -98,8 +98,6 @@ if (hasUGC()) {
     project(':UGSVApp').setBuildFileName('build_lib.gradle')
     include ':AUIBeauty'
     project(':AUIBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty")
-    include ':FaceunityBeauty'
-    project(':FaceunityBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty/FaceunityBeauty")
     include ':QueenBeauty'
     project(':QueenBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty/QueenBeauty")
 

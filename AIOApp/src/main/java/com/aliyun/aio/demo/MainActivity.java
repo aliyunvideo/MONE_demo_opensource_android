@@ -1,5 +1,6 @@
 package com.aliyun.aio.demo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.GridView;
@@ -41,6 +42,18 @@ public class MainActivity extends AVBaseThemeActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
+            launcher Activity 不是 TaskRoot && 从桌面启动时，finish 当前 Activity
+         */
+        if (!this.isTaskRoot() && getIntent() != null) {
+            String action = getIntent().getAction();
+            if (getIntent().hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                finish();
+                return;
+            }
+        }
+
         setContentView(R.layout.aio_activity_main);
         initView();
         initData();

@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.Surface;
@@ -44,6 +45,7 @@ import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushError;
 import com.alivc.live.pusher.AlivcLivePushErrorListener;
 import com.alivc.live.pusher.AlivcLivePushInfoListener;
+import com.alivc.live.pusher.AlivcLivePushNetworkListener;
 import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
@@ -58,7 +60,7 @@ import com.alivc.live.utils.StatusBarUtil;
 import java.io.File;
 
 public class VideoRecordConfigActivity extends AVBaseThemeActivity {
-    private static final String TAG = "VideoRecordConfigActivity";
+    private static final String TAG = "VideoRecordConfig";
 
     private AlivcResolutionEnum mDefinition = AlivcResolutionEnum.RESOLUTION_540P;
     private static final int REQ_CODE_PERMISSION = 0x1111;
@@ -577,69 +579,73 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
         mAlivcLivePusher.setLivePushInfoListener(new AlivcLivePushInfoListener() {
             @Override
             public void onPreviewStarted(AlivcLivePusher pusher) {
-
+                Log.d(TAG, "onPreviewStarted: ");
             }
 
             @Override
             public void onPreviewStoped(AlivcLivePusher pusher) {
-
+                Log.d(TAG, "onPreviewStoped: ");
             }
 
             @Override
             public void onPushStarted(AlivcLivePusher pusher) {
+                Log.d(TAG, "onPushStarted: ");
             }
 
             @Override
             public void onFirstAVFramePushed(AlivcLivePusher pusher) {
+                Log.d(TAG, "onFirstAVFramePushed: ");
             }
 
             @Override
             public void onPushPauesed(AlivcLivePusher pusher) {
-
+                Log.d(TAG, "onPushPauesed: ");
             }
 
             @Override
             public void onPushResumed(AlivcLivePusher pusher) {
-
+                Log.d(TAG, "onPushResumed: ");
             }
 
             @Override
             public void onPushStoped(AlivcLivePusher pusher) {
-
+                Log.d(TAG, "onPushStoped: ");
             }
 
             @Override
             public void onPushRestarted(AlivcLivePusher pusher) {
+                Log.d(TAG, "onPushRestarted: ");
             }
 
             @Override
             public void onFirstFramePreviewed(AlivcLivePusher pusher) {
+                Log.d(TAG, "onFirstFramePreviewed: ");
                 mIsStartPushing = false;
             }
 
             @Override
             public void onDropFrame(AlivcLivePusher pusher, int countBef, int countAft) {
-
+                Log.d(TAG, "onDropFrame: ");
             }
 
             @Override
             public void onAdjustBitRate(AlivcLivePusher pusher, int curBr, int targetBr) {
-
+                Log.i(TAG, "onAdjustBitRate: ");
             }
 
             @Override
             public void onAdjustFps(AlivcLivePusher pusher, int curFps, int targetFps) {
-
+                Log.d(TAG, "onAdjustFps: ");
             }
 
             @Override
             public void onPushStatistics(AlivcLivePusher pusher, AlivcLivePushStatsInfo statistics) {
-
+                Log.i(TAG, "onPushStatistics: ");
             }
 
             @Override
             public void onSetLiveMixTranscodingConfig(AlivcLivePusher alivcLivePusher, boolean b, String s) {
-
+                Log.d(TAG, "onSetLiveMixTranscodingConfig: ");
             }
         });
 
@@ -652,6 +658,65 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
             @Override
             public void onSDKError(AlivcLivePusher livePusher, AlivcLivePushError error) {
                 showDialog(getString(R.string.sdk_error) + error.toString());
+            }
+        });
+
+        mAlivcLivePusher.setLivePushNetworkListener(new AlivcLivePushNetworkListener() {
+            @Override
+            public void onNetworkPoor(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onNetworkPoor: ");
+            }
+
+            @Override
+            public void onNetworkRecovery(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onNetworkRecovery: ");
+            }
+
+            @Override
+            public void onReconnectStart(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onReconnectStart: ");
+            }
+
+            @Override
+            public void onConnectionLost(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onConnectionLost: ");
+            }
+
+            @Override
+            public void onReconnectFail(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onReconnectFail: ");
+            }
+
+            @Override
+            public void onReconnectSucceed(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onReconnectSucceed: ");
+            }
+
+            @Override
+            public void onSendDataTimeout(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onSendDataTimeout: ");
+            }
+
+            @Override
+            public void onConnectFail(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onConnectFail: ");
+                showDialog(getResources().getString(R.string.connect_fail));
+            }
+
+            @Override
+            public String onPushURLAuthenticationOverdue(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onPushURLAuthenticationOverdue: ");
+                return null;
+            }
+
+            @Override
+            public void onSendMessage(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onSendMessage: ");
+            }
+
+            @Override
+            public void onPacketsLost(AlivcLivePusher alivcLivePusher) {
+                Log.d(TAG, "onPacketsLost: ");
             }
         });
 
@@ -668,7 +733,6 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
             return;
         }
 
-        mAlivcLivePusher.setPreviewOrientation(AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT);
         mPushTex.setText(R.string.stop_button);
         mNoteText.setText(getString(R.string.screen_note));
         mNoteText.setVisibility(View.VISIBLE);

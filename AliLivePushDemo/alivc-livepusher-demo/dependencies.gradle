@@ -14,8 +14,7 @@ dependencies {
     implementation project(':commonutils')
     implementation project(':commonbiz')
     implementation 'com.aliyun.animoji:animoji:1.2.1@aar'
-    implementation externalPlayerPart
-    implementation externalAlivcFFmpeg
+    implementation externalPlayerFull
     implementation externalARTC
     if (hasRTS() && !"true".equalsIgnoreCase(allInOne)) {
         implementation externalRtsSDK

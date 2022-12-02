@@ -1,5 +1,6 @@
 package com.aliyun.interactive_live;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -14,7 +15,7 @@ import com.aliyun.interactive_common.utils.URLUtils;
 /**
  * 以观众身份进入连麦互动界面的 Controller
  */
-public class ViewerController extends InteractLivePushPullListener {
+public class ViewerController {
 
     private final InteractLiveManager mInteractLiveManager;
     //主播预览 View
@@ -29,12 +30,11 @@ public class ViewerController extends InteractLivePushPullListener {
     private String mCDNPullUrl;
     private String mAnchorId;
 
-    public ViewerController(String roomId, String viewId) {
+    public ViewerController(Context context, String roomId, String viewId) {
         this.mRoomId = roomId;
         mPushUrl = URLUtils.generatePushUrl(roomId, viewId, 1);
-        mInteractLiveManager = InteractLiveManager.getInstance();
-
-        mInteractLiveManager.setInteractLivePushPullListener(this);
+        mInteractLiveManager = new InteractLiveManager();
+        mInteractLiveManager.init(context);
     }
 
     /**
@@ -97,10 +97,10 @@ public class ViewerController extends InteractLivePushPullListener {
         //停止 cdn 拉流
         mInteractLiveManager.stopCDNPull();
         //连麦拉流
-        mInteractLiveManager.setPullView(mAnchorRenderView,true);
+        mInteractLiveManager.setPullView(mAnchorRenderView, true);
         mInteractLiveManager.startPull(mPullUrl);
         //观众连麦推流
-        mInteractLiveManager.startPreviewAndPush(mViewerRenderView, mPushUrl,false);
+        mInteractLiveManager.startPreviewAndPush(mViewerRenderView, mPushUrl, false);
     }
 
     /**
@@ -114,35 +114,35 @@ public class ViewerController extends InteractLivePushPullListener {
         mInteractLiveManager.startPull(mCDNPullUrl);
     }
 
+    public boolean isPushing() {
+        return mInteractLiveManager.isPushing();
+    }
+
+    public void resume() {
+        mInteractLiveManager.resume();
+    }
+
+    public void pause() {
+        mInteractLiveManager.pause();
+    }
+
+    public void switchCamera() {
+        mInteractLiveManager.switchCamera();
+    }
+
     /**
      * 是否有主播 id
      */
-    public boolean hasAnchorId(){
+    public boolean hasAnchorId() {
         return !TextUtils.isEmpty(mAnchorId);
     }
 
-    public void release(){
+    public void setInteractLivePushPullListener(InteractLivePushPullListener listener) {
+        mInteractLiveManager.setInteractLivePushPullListener(listener);
+    }
+
+    public void release() {
+        mInteractLiveManager.release();
         mInteractLiveManager.setInteractLivePushPullListener(null);
-    }
-
-
-    @Override
-    public void onPullSuccess() {
-        super.onPullSuccess();
-    }
-
-    @Override
-    public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
-        super.onPullError(errorType, errorMsg);
-    }
-
-    @Override
-    public void onPushSuccess() {
-        super.onPushSuccess();
-    }
-
-    @Override
-    public void onPushError() {
-        super.onPushError();
     }
 }

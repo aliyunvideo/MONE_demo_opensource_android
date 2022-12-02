@@ -33,7 +33,7 @@
         android:layout_height="@dimen/ugsv_recorder_common_line_height"
         android:background="@color/border_infrared" />
 
-    <com.aliyun.svideo.beauty.faceunity.widget.WrapContentHeightViewPager
+    <com.aliyun.svideo.recorder.views.WrapContentHeightViewPager
         android:id="@+id/alivc_dialog_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

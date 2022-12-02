@@ -13,7 +13,6 @@ dependencies {
     api project(':AUIResample')
     api project(':AUIUgsvBase')
     api project(':QueenBeauty')
-    api project(':FaceunityBeauty')
     api project(':AUIBeauty')
     api project(':AUIVideoEditor:AUIEditorEffect')
 

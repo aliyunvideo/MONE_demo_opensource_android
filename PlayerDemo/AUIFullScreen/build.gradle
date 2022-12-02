@@ -31,5 +31,8 @@ dependencies {
     implementation project(':AUIFoundation:AVTheme')
 }
 repositories {
-    mavenCentral()
+    maven {
+        allowInsecureProtocol = true
+        url "http://maven.aliyun.com/repository/central"
+    }
 }

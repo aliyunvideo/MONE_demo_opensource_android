@@ -35,9 +35,9 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        tools:replace="android:label, name"
+        tools:replace="android:label,name,allowBackup"
         android:name="com.alivc.live.test.LiveApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/incName"
         android:supportsRtl="true"
