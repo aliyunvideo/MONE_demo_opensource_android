@@ -29,9 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
-import com.aliyun.common.utils.BitmapUtil;
-import com.aliyun.common.utils.StringUtils;
-import com.aliyun.common.utils.ThreadUtils;
+import com.aliyun.ugsv.common.utils.BitmapUtil;
+import com.aliyun.ugsv.common.utils.StringUtils;
+import com.aliyun.ugsv.common.utils.ThreadUtils;
 import com.aliyun.svideo.editor.adapter.BaseRecyclerAdapter;
 import com.aliyun.svideo.editor.adapter.MenuAdapter;
 import com.aliyun.svideo.editor.bean.Menu;

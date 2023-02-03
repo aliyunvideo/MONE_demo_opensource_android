@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ll_blank"
+    android:gravity="bottom"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:background="@color/bg_weak"
+        android:layout_height="46dp">
+        <ImageView
+            android:id="@+id/ugsv_music_close"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:padding="10dp"
+            android:src = "@mipmap/aliyun_svideo_crop_icon_cancel"
+            android:layout_gravity="left|center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="音乐库"
+            android:layout_gravity="center"
+            android:textColor="@color/text_strong"
+            android:textFontWeight="400"
+            android:textSize="14sp"/>
+        <ImageView
+            android:id="@+id/ugsv_music_confirm"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:padding="10dp"
+            android:src = "@mipmap/aliyun_svideo_icon_confirm"
+            android:layout_gravity="right|center_vertical"/>
+    </FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id ="@+id/aliyun_music_list"
+        android:layout_width="match_parent"
+        android:background="@color/bg_weak"
+        android:layout_height="420dp">
+    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/alivc_music_copyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:clickable="true"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/alivc_common_font_white"
+        android:text="@string/alivc_music_copyright"
+        android:focusable="true"
+        android:visibility="gone"/>
+</LinearLayout>

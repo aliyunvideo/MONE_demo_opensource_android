@@ -76,6 +76,9 @@ android {
         pickFirst '**/libc++_shared.so'
         pickFirst '**/libMNN.so'
         pickFirst '**/libMNN_CL.so'
+        pickFirst '**/libAETemplateEngine.so'
+        pickFirst '**/liball_in_one.so'
+        pickFirst '**/libPluginOpus.so'
     }
 
     buildFeatures {

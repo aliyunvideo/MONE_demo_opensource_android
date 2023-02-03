@@ -3,7 +3,7 @@ package com.aliyun.svideo.editor.sticker
 import android.content.Context
 import android.graphics.BitmapFactory
 import androidx.lifecycle.LifecycleOwner
-import com.aliyun.common.utils.BitmapUtil
+import com.aliyun.ugsv.common.utils.BitmapUtil
 import com.aliyun.svideo.editor.common.panel.BasePanelView
 import com.aliyun.svideo.editor.sticker.databinding.StickerEntryPanelBinding
 import com.aliyun.svideo.editor.sticker.model.StickerTrack

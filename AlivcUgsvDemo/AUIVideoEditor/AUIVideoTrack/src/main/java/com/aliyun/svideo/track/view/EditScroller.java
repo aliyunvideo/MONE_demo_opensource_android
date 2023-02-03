@@ -14,6 +14,7 @@ import com.aliyun.svideo.track.R;
 import com.aliyun.svideo.track.api.TrackConfig;
 import com.aliyun.svideo.track.inc.IScrollChangeListener;
 import com.aliyun.svideo.track.util.Util;
+import com.aliyun.ugsv.common.utils.DensityUtil;
 
 
 public class EditScroller extends FrameLayout {
@@ -39,6 +40,15 @@ public class EditScroller extends FrameLayout {
      */
     private float mTimelineScale = 1.0f;
 
+    /**
+     * 固定时长的参数
+     * */
+    private long mFixedDuration;
+
+    private boolean mMaxScrollXDirty = false;
+
+    private ClipTrackStyle mStyle = ClipTrackStyle.DYNAMIC;
+
     public EditScroller(@NonNull Context context) {
         this(context, null);
     }
@@ -53,24 +63,49 @@ public class EditScroller extends FrameLayout {
     }
 
     private void initView() {
-        int marginStart = getResources().getDimensionPixelSize(R.dimen.video_track_margin_start);
-        int leftBtnWidth = getResources().getDimensionPixelSize(R.dimen.video_track_left_btn_width);
-        //左右两边间距
-        int paddingLeft = ((Util.getScreenWidth() / 2) - TrackConfig.MOVE_BTN_WIDTH) - marginStart - leftBtnWidth;
-        setPadding(paddingLeft, getPaddingTop(), paddingLeft, getPaddingBottom());
+        if(mStyle == ClipTrackStyle.DYNAMIC){
+            int marginStart = getResources().getDimensionPixelSize(R.dimen.video_track_margin_start);
+            int leftBtnWidth = getResources().getDimensionPixelSize(R.dimen.video_track_left_btn_width);
+            //左右两边间距
+            int paddingLeft = ((Util.getScreenWidth() / 2) - TrackConfig.MOVE_BTN_WIDTH) - marginStart - leftBtnWidth;
+            setPadding(paddingLeft, getPaddingTop(), paddingLeft, getPaddingBottom());
+        }else if(mStyle == ClipTrackStyle.FIXED){
+            int paddingLeft = (Util.getScreenWidth() - TrackConfig.FRAME_WIDTH * 5)/2;
+            setPadding(paddingLeft, getPaddingTop(), paddingLeft, getPaddingBottom());
+        }
     }
 
     public void setTimelineDuration(long timelineDuration) {
         mTimelineDuration = timelineDuration;
-        resizeMaterialsMaxScrollX();
+        mMaxScrollXDirty = true;
+        postInvalidate();
+    }
+
+    public void setFixedDuration(long duration){
+        this.mFixedDuration = duration;
+        this.mStyle = ClipTrackStyle.FIXED;
+        mMaxScrollXDirty = true;
+        initView();
+        postInvalidate();
     }
 
     public void setTimelineScale(float timelineScale) {
         this.mTimelineScale = timelineScale;
+        mMaxScrollXDirty = true;
+        postInvalidate();
     }
 
     private void resizeMaterialsMaxScrollX() {
-        mTimelineMaxScrollX = Math.round(mTimelineDuration * TrackConfig.getPxUnit(mTimelineScale));
+        if(!mMaxScrollXDirty) return;
+        mMaxScrollXDirty = false;
+        if(mStyle == ClipTrackStyle.DYNAMIC){
+            mTimelineMaxScrollX = Math.round(mTimelineDuration * TrackConfig.getPxUnit(mTimelineScale));
+        }else if(mStyle == ClipTrackStyle.FIXED){
+            long durationPerFrame = mFixedDuration * TrackConfig.FRAME_WIDTH / DensityUtil.dip2px(getContext(), 220);
+            mTimelineMaxScrollX = Math.round((mTimelineDuration - mFixedDuration) * TrackConfig.getPxUnit(mTimelineScale, durationPerFrame));
+        }else{
+            Log.e(EditScroller.class.getSimpleName(), "undefined style");
+        }
     }
 
     @Override
@@ -150,6 +185,9 @@ public class EditScroller extends FrameLayout {
         }
         scrollToX = Math.min(scrollToX, getMaxScrollX());
         scrollTo(scrollToX, 0);
+        if(mScrollChangeListener != null){
+            mScrollChangeListener.onScrollChanged(scrollToX);
+        }
     }
 
     public void setScrollChangeListener(IScrollChangeListener scrollChangeListener) {

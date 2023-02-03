@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.aliyun.svideo.template.sample">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application>
+        <activity android:name="com.aliyun.svideo.template.sample.ui.TemplateEditActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name="com.aliyun.svideo.template.sample.ui.VideoPlayActivity" />
+        <activity android:name=".ui.TemplateListActivity"/>
+        <activity android:name=".ui.TemplatePreviewActivity"/>
+        <activity android:name=".ui.TemplateExportActivity"/>
+        <activity android:name=".VideoClipActivity"/>
+    </application>
+
+</manifest>

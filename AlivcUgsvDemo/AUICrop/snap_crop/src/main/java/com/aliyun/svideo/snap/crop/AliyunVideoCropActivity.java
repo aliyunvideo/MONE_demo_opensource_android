@@ -30,9 +30,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aliyun.common.global.Version;
-import com.aliyun.common.utils.DensityUtil;
-import com.aliyun.common.utils.FileUtils;
-import com.aliyun.common.utils.ToastUtil;
+import com.aliyun.ugsv.common.utils.DensityUtil;
+import com.aliyun.ugsv.common.utils.FileUtils;
+import com.aliyun.ugsv.common.utils.ToastUtil;
 import com.aliyun.svideosdk.crop.impl.AliyunCropCreator;
 import com.aliyun.svideosdk.crop.CropParam;
 import com.aliyun.svideosdk.crop.AliyunICrop;

@@ -23,10 +23,10 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.aliyun.interactive_common.InteractAppInfoActivity;
 import com.aliyun.interactive_live.InteractLiveInputActivity;
 import com.aliyun.interactive_pk.PKLiveInputActivity;
-import com.alivc.live.utils.ContextUtils;
-import com.alivc.live.utils.FastClickUtil;
+import com.alivc.live.commonutils.ContextUtils;
+import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
-import com.alivc.live.utils.ToastUtils;
+import com.alivc.live.commonutils.ToastUtils;
 
 @Route(path = "/live/MainActivity")
 public class PushMainActivity extends AVBaseListActivity {

@@ -36,6 +36,7 @@ android {
 dependencies {
     api project(':AUIVideoEditor:AUIEditorCommon')
     implementation project(path: ':AUIVideoEditor:AUIVideoTrack')
+    implementation project(':AliyunVideoCommon')
 
     implementation externalSvideopro
     implementation externalAndroidXCoreKtx

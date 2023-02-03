@@ -2,11 +2,11 @@ package com.aliyun.alivcsolution.model;
 
 import android.graphics.Color;
 
-import com.aliyun.ugsv.auibeauty.api.constant.BeautySDKType;
+import com.aliyun.svideo.base.AliyunSnapVideoParam;
 import com.aliyun.svideosdk.common.struct.common.VideoQuality;
 import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
 import com.aliyun.svideosdk.mixrecorder.MixAudioSourceType;
+import com.aliyun.ugsv.auibeauty.api.constant.BeautySDKType;
 
 /**
  * @author zsy_18 data:2019/5/16

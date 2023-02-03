@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_weak"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <!-- 顶替控制栏 -->
+        <RelativeLayout
+            android:id="@+id/editor_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_av_action_bar_back" />
+
+            <TextView
+                android:id="@+id/ugsv_editor_toolbar_next"
+                android:layout_width="60dp"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:onClick="done"
+                android:text="@string/btn_export"
+                android:background="@drawable/toolbar_next_bg"
+                android:textColor="@color/text_strong"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/layout_surface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <com.aliyun.svideosdk.template.view.AliyunAETemplatePlayView
+                    android:id="@+id/surface_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal" />
+
+                <View
+                    android:id="@+id/v_focus"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/shape_focus"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <ImageView
+                android:id="@+id/aliyun_template_btn_play"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:padding="5dp"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/aliyun_svideo_play" />
+
+            <TextView
+                android:id="@+id/aliyun_template_tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginLeft="12dp"
+                android:text="00:00"
+                android:textColor="@color/text_strong" />
+
+            <SeekBar
+                android:id="@+id/aliyun_template_play_seekbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="2dp"
+                android:minHeight="2dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/template_seekbar_drawable"
+                android:thumb="@drawable/editor_seekbar_thum" />
+
+            <TextView
+                android:id="@+id/aliyun_template_tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="00:00"
+                android:textSize="12sp"
+                android:textColor="@color/text_strong" />
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="136dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/bg_weak"
+                android:overScrollMode="never" />
+           <LinearLayout
+               android:id="@+id/music_opt_panel"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="horizontal"
+               android:gravity="center"
+               android:background="@color/bg_weak">
+               <LinearLayout
+                   android:orientation="vertical"
+                   android:gravity="center_horizontal"
+                   android:layout_margin="10dp"
+                   android:layout_width="52dp"
+                   android:layout_height="wrap_content">
+                   <ImageView
+                       android:id="@+id/mute"
+                       android:background="@drawable/template_music_opt_selector"
+                       android:layout_width="match_parent"
+                       android:layout_height="52dp"
+                       android:padding="15dp"
+                       android:src="@drawable/ic_ugsv_music_reset_disabled"
+                       />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/text_ultraweak"
+                       android:textSize="9sp"
+                       android:layout_marginTop="8dp"
+                       android:text="@string/mute_music"/>
+               </LinearLayout>
+               <LinearLayout
+                   android:orientation="vertical"
+                   android:gravity="center_horizontal"
+                   android:layout_margin="10dp"
+                   android:layout_width="52dp"
+                   android:layout_height="wrap_content">
+                   <ImageView
+                       android:id="@+id/origin"
+                       android:background="@drawable/template_music_opt_selector"
+                       android:layout_width="match_parent"
+                       android:layout_height="52dp"
+                       android:padding="1dp"
+                       android:src="@drawable/ic_music_origin"
+                       />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/text_ultraweak"
+                       android:textSize="9sp"
+                       android:layout_marginTop="8dp"
+                       android:text="@string/origin_music"/>
+               </LinearLayout>
+               <LinearLayout
+                   android:orientation="vertical"
+                   android:gravity="center_horizontal"
+                   android:layout_margin="10dp"
+                   android:layout_width="52dp"
+                   android:layout_height="wrap_content">
+                   <ImageView
+                       android:id="@+id/other"
+                       android:background="@drawable/template_music_opt_selector"
+                       android:layout_width="match_parent"
+                       android:layout_height="52dp"
+                       android:padding="3dp"
+                       android:src="@drawable/ic_music_other"
+                       />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/text_ultraweak"
+                       android:textSize="9sp"
+                       android:layout_marginTop="8dp"
+                       android:text="@string/other_music"/>
+               </LinearLayout>
+           </LinearLayout>
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:background="@color/bg_weak"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_editor_video"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/template_editor_video_selector"
+                android:drawablePadding="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/template_editor_video"
+                android:textColor="@color/alivc_svideo_template_editor_group_title"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_editor_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/template_editor_text_selector"
+                android:drawablePadding="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/alivc_editor_template_editor_text"
+                android:textColor="@color/alivc_svideo_template_editor_group_title"
+                android:textSize="10sp" />
+            <TextView
+                android:id="@+id/tv_editor_music"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/template_editor_music_selector"
+                android:drawablePadding="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/alivc_editor_template_editor_music"
+                android:textColor="@color/alivc_svideo_template_editor_group_title"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:id="@+id/bottom_cover"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        android:background="@color/bg_weak"/>
+</FrameLayout>

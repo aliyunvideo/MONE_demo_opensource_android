@@ -8,10 +8,11 @@ import com.alivc.live.pusher.AlivcLivePushAudioEffectReverbMode;
 import com.alivc.live.pusher.AlivcLivePushAudioEffectVoiceChangeMode;
 import com.alivc.live.pusher.demo.R;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SoundEffectBean {
+public class SoundEffectBean implements Serializable {
 
     //icon drawable resId
     private int iconId;
@@ -63,7 +64,7 @@ public class SoundEffectBean {
      * 音效
      */
     public static class SoundEffectChangeVoiceBean {
-        private static final Map<Integer, SoundEffectBean> mLivePushSoundEffectChangeVoice = new HashMap<>();
+        private static final HashMap<Integer, SoundEffectBean> mLivePushSoundEffectChangeVoice = new HashMap<>();
 
         static {
             mLivePushSoundEffectChangeVoice.put(0, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_off, R.string.sound_effect_changevoice_off, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_OFF.name()));
@@ -76,7 +77,7 @@ public class SoundEffectBean {
             mLivePushSoundEffectChangeVoice.put(7, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_echo, R.string.sound_effect_changevoice_echo, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_ECHO.name()));
         }
 
-        public static Map<Integer, SoundEffectBean> getLivePushSoundEffectChangeVoice() {
+        public static HashMap<Integer, SoundEffectBean> getLivePushSoundEffectChangeVoice() {
             return mLivePushSoundEffectChangeVoice;
         }
     }
@@ -85,7 +86,7 @@ public class SoundEffectBean {
      * 混响
      */
     public static class SoundEffectReverb {
-        private static final Map<Integer, SoundEffectBean> mLivePushSoundEffectReverb = new HashMap<>();
+        private static final HashMap<Integer, SoundEffectBean> mLivePushSoundEffectReverb = new HashMap<>();
 
         static {
             mLivePushSoundEffectReverb.put(0, new SoundEffectBean(R.string.sound_effect_reverb_off, AlivcLivePushAudioEffectReverbMode.REVERB_OFF.name()));
@@ -99,7 +100,7 @@ public class SoundEffectBean {
             mLivePushSoundEffectReverb.put(8, new SoundEffectBean(R.string.sound_effect_reverb_churchhall, AlivcLivePushAudioEffectReverbMode.REVERB_CHURCH_HALL.name()));
         }
 
-        public static Map<Integer, SoundEffectBean> getLivePushSoundEffectReverb() {
+        public static HashMap<Integer, SoundEffectBean> getLivePushSoundEffectReverb() {
             return mLivePushSoundEffectReverb;
         }
     }

@@ -145,4 +145,8 @@ public class ViewerController {
         mInteractLiveManager.release();
         mInteractLiveManager.setInteractLivePushPullListener(null);
     }
+
+    public void setMute(boolean b) {
+        mInteractLiveManager.setMute(b);
+    }
 }

@@ -45,7 +45,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.aliyun.svideo.base.R;
-import com.aliyun.common.utils.DensityUtil;
+import com.aliyun.ugsv.common.utils.DensityUtil;
 
 import java.util.Locale;
 

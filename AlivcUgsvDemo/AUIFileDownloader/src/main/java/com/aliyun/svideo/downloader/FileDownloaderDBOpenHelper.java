@@ -8,7 +8,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.aliyun.common.utils.StringUtils;
+import com.aliyun.ugsv.common.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -9,4 +9,5 @@ public abstract class InteractLivePushPullListener {
     public void onPullStop(){}
     public void onPushSuccess(){}
     public void onPushError(){}
+    public void onConnectionLost(){}
 }

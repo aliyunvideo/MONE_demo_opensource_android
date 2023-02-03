@@ -16,13 +16,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alivc.live.player.annotations.AlivcLivePlayError;
+import com.aliyun.interactive_common.listener.ConnectionLostListener;
 import com.aliyun.interactive_common.listener.InteractLiveTipsViewListener;
 import com.aliyun.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.aliyun.interactive_common.utils.InteractLiveIntent;
 import com.aliyun.interactive_common.widget.AUILiveDialog;
+import com.aliyun.interactive_common.widget.ConnectionLostTipsView;
 import com.aliyun.interactive_live.widget.MultiAlivcLiveView;
-import com.alivc.live.utils.StatusBarUtil;
-import com.alivc.live.utils.ToastUtils;
+import com.alivc.live.commonutils.StatusBarUtil;
+import com.alivc.live.commonutils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +56,9 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
     private final Map<TextView, MultiAlivcLiveView> mViewCombMap = new HashMap<>();
     //根据 id 获取其他 View
     private final Map<String, MultiAlivcLiveView> mIdViewCombMap = new HashMap<>();
+    private ConnectionLostTipsView mConnectionLostTipsView;
+    private ImageView mMuteImageView;
+    private boolean mIsMute = false;
 
 
     @Override
@@ -104,6 +109,8 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
 
         mHomeIdTextView.setText(mRoomId);
 
+        mConnectionLostTipsView = new ConnectionLostTipsView(this);
+
         mBigSurfaceView.setZOrderOnTop(true);
         mBigSurfaceView.setZOrderMediaOverlay(true);
 
@@ -116,9 +123,31 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
         mViewCombMap.put(mConnectTextView2, multiAlivcLiveView2);
         mViewCombMap.put(mConnectTextView3, multiAlivcLiveView3);
         mViewCombMap.put(mConnectTextView4, multiAlivcLiveView4);
+
+        mMuteImageView = findViewById(R.id.iv_mute);
     }
 
     private void initListener() {
+        mMuteImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMultiAnchorController.setMute(!mIsMute);
+                mIsMute = !mIsMute;
+                mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+            }
+        });
+
+        mConnectionLostTipsView.setConnectionLostListener(new ConnectionLostListener() {
+            @Override
+            public void onConfirm() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
+            }
+        });
         mMultiAnchorController.setMultiInteractLivePushPullListener(new MultiInteractLivePushPullListener() {
             @Override
             public void onPullSuccess(String audienceId) {
@@ -145,6 +174,15 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
                 });
             }
 
+            @Override
+            public void onConnectionLost() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mConnectionLostTipsView.show();
+                    }
+                });
+            }
         });
 
         //开始连麦

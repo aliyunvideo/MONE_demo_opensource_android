@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelStoreOwner;
-import com.aliyun.common.utils.StringUtils;
+import com.aliyun.ugsv.common.utils.StringUtils;
 import com.aliyun.svideo.editor.common.panel.OnItemClickListener;
 import com.aliyun.svideo.editor.filter.VideoFilterClickListener;
 import com.aliyun.svideo.editor.filter.VideoFilterEntryPanelView;

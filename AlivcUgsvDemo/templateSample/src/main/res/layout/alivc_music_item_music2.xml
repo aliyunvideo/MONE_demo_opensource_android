@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ugsv_music_name_layout"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/bg_weak"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.aliyun.svideo.music.music.RoundedRectangleImageView
+        android:id="@+id/ugsv_music_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/ugsv_music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ugsv_music_image"
+        android:layout_marginStart="12dp"
+        android:lineHeight="18dp"
+        android:textFontWeight="400"
+        android:text="记录美好生活"
+        android:layout_alignTop="@+id/ugsv_music_image"
+        android:textColor="@color/text_strong"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/ugsv_music_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ugsv_music_name"
+        android:layout_toRightOf="@+id/ugsv_music_image"
+        android:textColor="@color/text_ultraweak"
+        android:layout_marginStart="12dp"
+        android:text="BCD Studio Raquel"
+        android:lineHeight="16dp"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/ugsv_music_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ugsv_music_artist"
+        android:layout_toRightOf="@+id/ugsv_music_image"
+        android:textColor="@color/text_ultraweak"
+        android:layout_marginStart="12dp"
+        android:text="00:15"
+        android:layout_marginTop="4dp"
+        android:lineHeight="12dp"
+        android:textSize="8sp" />
+
+    <com.aliyun.aio.avbaseui.widget.AVCircleProgressView
+        android:id="@+id/ugsv_music_progress"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        app:isShowText="no"
+        app:ringBgColor="@color/fill_ultraweak"
+        app:ringWidth="2dp"
+        app:ringFgColor="@color/colourful_fill_strong"
+        app:progress="0"
+        app:progressType="stroke"
+        />
+    <ImageView
+        android:id="@+id/ugsv_music_local_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/ic_ugsv_music_yinfu"/>
+    <ImageView
+        android:id="@+id/ugsv_music_download"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/ic_ugsv_music_download"/>
+    <TextView
+        android:id="@+id/ugsv_music_use"
+        android:layout_width="52dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/ugsv_music_use"
+        android:background="@drawable/ugsv_music_use_bg"
+        android:textColor="@color/text_strong"/>
+</RelativeLayout>

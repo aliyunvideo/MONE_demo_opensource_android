@@ -22,6 +22,9 @@ import com.aliyun.aio.avbaseui.avdialog.AVBaseBottomSheetDialog;
 public class PushMusicBottomSheet extends AVBaseBottomSheetDialog implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener ,MusicSelectAdapter.OnItemClick{
     private OnMusicSelectListener mOnMusicSelectListener;
     private MusicSelectAdapter mMusicAdapter;
+    private Switch mEarsBackSwitch;
+    private Switch mAudioDenoiseSwitch;
+    private Switch mAudioIntelligentDenoiseSwitch;
     private View mIconVolumeView;
     private View mIconPlayView;
     private View mIconLoopView;
@@ -47,8 +50,14 @@ public class PushMusicBottomSheet extends AVBaseBottomSheetDialog implements Vie
     @Override
     protected View getContentView() {
         View rootView = getLayoutInflater().inflate(R.layout.push_music_sheet, null, false);
-        ((Switch)rootView.findViewById(R.id.ears_back)).setOnCheckedChangeListener(this);
-        ((Switch)rootView.findViewById(R.id.audio_noise)).setOnCheckedChangeListener(this);
+
+        mEarsBackSwitch = rootView.findViewById(R.id.ears_back);
+        mAudioDenoiseSwitch = rootView.findViewById(R.id.audio_noise);
+        mAudioIntelligentDenoiseSwitch = rootView.findViewById(R.id.audio_intelligent_denoise);
+        mEarsBackSwitch.setOnCheckedChangeListener(this);
+        mAudioDenoiseSwitch.setOnCheckedChangeListener(this);
+        mAudioIntelligentDenoiseSwitch.setOnCheckedChangeListener(this);
+
         mIconVolumeView = rootView.findViewById(R.id.img_volume);
         mIconPlayView = rootView.findViewById(R.id.img_play);
         mIconLoopView = rootView.findViewById(R.id.img_loop);
@@ -131,10 +140,31 @@ public class PushMusicBottomSheet extends AVBaseBottomSheetDialog implements Vie
             if (mOnMusicSelectListener != null) {
                 mOnMusicSelectListener.onAudioNoise(isChecked);
             }
+            updateAudioDenoiseSwitchState();
+        } else if (id == R.id.audio_intelligent_denoise) {
+            if (mOnMusicSelectListener != null) {
+                mOnMusicSelectListener.onAudioIntelligentNoise(isChecked);
+            }
+            updateAudioDenoiseSwitchState();
         }
     }
 
-
+    // 使用智能降噪，需关闭普通降噪；两者功能互斥使用
+    private void updateAudioDenoiseSwitchState() {
+        if (mAudioDenoiseSwitch == null || mAudioIntelligentDenoiseSwitch == null) {
+            return;
+        }
+        boolean useCustom = mAudioDenoiseSwitch.isChecked();
+        boolean useIntelligent = mAudioIntelligentDenoiseSwitch.isChecked();
+        if (!useCustom && !useIntelligent) {
+            mAudioDenoiseSwitch.setEnabled(true);
+            mAudioIntelligentDenoiseSwitch.setEnabled(true);
+        } else if (useCustom && !useIntelligent) {
+            mAudioIntelligentDenoiseSwitch.setEnabled(false);
+        } else if (!useCustom && useIntelligent) {
+            mAudioDenoiseSwitch.setEnabled(false);
+        }
+    }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -218,6 +248,8 @@ public class PushMusicBottomSheet extends AVBaseBottomSheetDialog implements Vie
         void onBGMEarsBack(boolean state);
 
         void onAudioNoise(boolean state);
+
+        void onAudioIntelligentNoise(boolean state);
 
         void onBGPlay(boolean state);
 

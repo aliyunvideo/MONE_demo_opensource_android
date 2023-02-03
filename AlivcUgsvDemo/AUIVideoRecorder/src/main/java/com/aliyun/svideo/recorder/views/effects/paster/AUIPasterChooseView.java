@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aliyun.common.global.AppInfo;
+import com.aliyun.ugsv.common.global.AppInfo;
 import com.aliyun.ugsv.common.utils.DensityUtils;
 import com.aliyun.svideo.downloader.FileDownloaderCallback;
 import com.aliyun.svideo.recorder.R;

@@ -5,19 +5,15 @@
 package com.aliyun.alivcsolution;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import android.util.Log;
-
 import androidx.multidex.MultiDex;
 
 import com.aliyun.aio.avtheme.AVBaseThemeApplication;
-import com.aliyun.alivcsolution.utils.LeakCanaryUtils;
 import com.aliyun.alivcsolution.utils.StrictModeUtils;
-import com.aliyun.common.httpfinal.QupaiHttpFinal;
+import com.aliyun.ugsv.common.httpfinal.QupaiHttpFinal;
 import com.aliyun.svideo.base.http.EffectService;
 import com.aliyun.svideo.downloader.DownloaderManager;
 import com.aliyun.svideo.editor.effect.VideoEffectResourceManager;
@@ -75,7 +71,7 @@ public class MutiApplication extends AVBaseThemeApplication {
 
 
     private void initDownLoader() {
-        DownloaderManager.getInstance().init(this);
+        DownloaderManager.init(this);
         BeautyMenuMaterial.getInstance().prepare(this);
     }
 

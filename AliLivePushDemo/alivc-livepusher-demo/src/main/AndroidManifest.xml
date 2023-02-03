@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.alivc.live.pusher.demo">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -61,6 +60,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AVPushTheme" />
         <activity
+            android:name=".test.InformationActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="uiMode"
+            android:screenOrientation="portrait"
+            android:theme="@style/AVPushTheme" />
+        <activity
             android:name=".PlayerActivity"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait"
@@ -78,53 +83,29 @@
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
-                <data android:scheme="tencent100371282" />
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-            <!-- 调用新浪原生SDK，需要注册的回调activity -->
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".rts.RtsPlayActivity"
+            android:name=".rts.RtsPlayActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AVPushTheme"/>
-        <activity android:name=".rts.InputRtsUrlActivity"
+            android:theme="@style/AVPushTheme" />
+        <activity
+            android:name=".rts.InputRtsUrlActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AVPushTheme"/>
+            android:theme="@style/AVPushTheme" />
 
         <service
             android:name=".ForegroundService"
             android:enabled="true"
             android:foregroundServiceType="mediaProjection|camera" />
 
-        <meta-data
-            android:name="Mob-AppKey"
-            android:value="1aeeb15ac7a52" />
-        <meta-data
-            android:name="Mob-AppSecret"
-            android:value="1aeeb15ac7a52" />
+        <!--   请在此处填写申请到的license相关信息     -->
+        <!--   推流SDK License文档: https://help.aliyun.com/document_detail/431730.html     -->
         <meta-data
             android:name="com.aliyun.alivc_license.licensekey"
             android:value=""/>  <!-- TODO:请设置您的 LicenseKey-->

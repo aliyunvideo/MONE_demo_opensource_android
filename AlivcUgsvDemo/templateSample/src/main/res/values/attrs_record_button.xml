@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="RecordButton">
+        <attr name="borderWidth" format="dimension"/>
+    </declare-styleable>
+</resources>

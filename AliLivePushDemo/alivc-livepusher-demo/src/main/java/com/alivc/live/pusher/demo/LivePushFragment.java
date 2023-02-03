@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,6 +37,7 @@ import com.alivc.live.beauty.BeautyInterface;
 import com.alivc.live.beauty.constant.BeautySDKType;
 import com.alivc.live.beautyui.AnimojiContainerView;
 import com.alivc.live.beautyui.bean.AnimojiItemBean;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.pusher.AlivcLivePushAudioEffectReverbMode;
 import com.alivc.live.pusher.AlivcLivePushAudioEffectVoiceChangeMode;
 import com.alivc.live.pusher.AlivcLivePushBGMListener;
@@ -58,19 +58,16 @@ import com.alivc.live.pusher.widget.DataView;
 import com.alivc.live.pusher.widget.PushMoreConfigBottomSheet;
 import com.alivc.live.pusher.widget.PushMusicBottomSheet;
 import com.alivc.live.pusher.widget.SoundEffectView;
+import com.alivc.live.commonutils.FastClickUtil;
+import com.alivc.live.commonutils.TextFormatUtil;
+import com.alivc.live.commonutils.ToastUtils;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.animoji.AnimojiDataFactory;
 import com.aliyun.animoji.AnimojiEngine;
 import com.aliyun.animoji.AnimojiError;
 import com.aliyun.animoji.Flip;
 import com.aliyun.animoji.utils.DeviceOrientationDetector;
-import com.alivc.live.utils.FastClickUtil;
-import com.alivc.live.commonbiz.SharedPreferenceUtils;
-import com.alivc.live.utils.TextFormatUtil;
-import com.alivc.live.utils.ToastUtils;
 import com.aliyunsdk.queen.menu.BeautyMenuPanel;
-
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -143,8 +140,7 @@ public class LivePushFragment extends Fragment {
 
     private int mQualityMode = 0;
 
-    ScheduledExecutorService mExecutorService = new ScheduledThreadPoolExecutor(5,
-            new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
+    ScheduledExecutorService mExecutorService = new ScheduledThreadPoolExecutor(5);
     private boolean audioThreadOn = false;
     private boolean mIsStartAsnycPushing = false;
 
@@ -483,6 +479,33 @@ public class LivePushFragment extends Fragment {
                             @Override
                             public void onAudioNoise(boolean state) {
                                 pusher.setAudioDenoise(state);
+                            }
+
+                            /**
+                             * 开启音频智能降噪（使用智能降噪须知）
+                             * <p>
+                             * 1、使用智能降噪，请关闭普通降噪；两者功能互斥使用
+                             * 2、智能降噪功能以插件形式提供，调用该接口前，请确保已集成了libpluginAliDenoise.so；插件获取方式请参考官网文档；
+                             * 3、此接口可以通话过程中控制打开智能降噪功能，通话过程中可以支持开启和关闭智能降噪
+                             * 4、默认关闭，开启后可能导致功耗增加，智能降噪适合于会议，教育等语音通讯为主的场景，不适合有背景音乐的场景
+                             * <p>
+                             * 注意事项！！！
+                             * 如遇libMNN相关的so冲突，请检查当前工程中是否使用到了视频云的其它产品，如美颜SDK/Animoji SDK
+                             * 美颜SDK/Animoji SDK中，包含libMNN相关的so，因此外部无需再导入一份，只保留libpluginAliDenoise.so，
+                             * 全局MNN相关的库，统一留一份即可；
+                             * 具体请查看官网文档或API文档，或者您可以咨询技术同学协助解决问题；
+                             *
+                             * @see <a href="https://help.aliyun.com/document_detail/97659.html">推流SDK（新版）官网文档</a>
+                             */
+                            @Override
+                            public void onAudioIntelligentNoise(boolean state) {
+                                int result = 0;
+                                if (state) {
+                                    result = pusher.startIntelligentDenoise();
+                                } else {
+                                    result = pusher.stopIntelligentDenoise();
+                                }
+                                ToastUtils.show(result == 0 ? getSafeString(R.string.success) : getSafeString(R.string.failed));
                             }
 
                             @Override

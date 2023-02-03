@@ -2,6 +2,7 @@ import java.text.SimpleDateFormat
 
 apply from: '../cappbuild.gradle'
 apply plugin: 'com.android.application'
+apply from: './dependencies.gradle'
 
 ext.MTL_buildId = getEnvValue("MUPP_BUILD_ID", '')
 ext.MTL_buildTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())
@@ -9,6 +10,7 @@ ext.MTL_buildTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(
 ext.Interactive_AppID = getEnvValue("INTERACTIVE_APP_ID", '')
 ext.Interactive_AppKey = getEnvValue("INTERACTIVE_APP_KEY", '')
 ext.Interactive_PlayDomain = getEnvValue("INTERACTIVE_PLAY_DOMAIN", '')
+ext.isAllInOne = allInOne
 
 //@keria:cannot make method static
 String getEnvValue(key, defValue) {
@@ -65,6 +67,7 @@ android {
     }
     buildTypes {
         all {
+            buildConfigField "Boolean", "MTL_BUILD_FOR_AIO", "${isAllInOne}"
             buildConfigField "String", "MTL_BUILD_ID", "\"${MTL_buildId}\""
             buildConfigField "String", "MTL_BUILD_TIMESTAMP", "\"${MTL_buildTimestamp}\""
             buildConfigField "String", "INTERACTIVE_APP_ID", "\"${Interactive_AppID}\""
@@ -73,12 +76,13 @@ android {
         }
         debug {
             debuggable true
+            jniDebuggable true
             minifyEnabled false
         }
         release {
             debuggable false
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -121,4 +125,3 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }
 
-apply from: './dependencies.gradle'

@@ -26,7 +26,6 @@ import com.aliyun.svideo.recorder.utils.TimeFormatterUtils;
 import com.aliyun.svideo.recorder.views.AUIRecordProgressView;
 import com.aliyun.svideo.recorder.views.BaseScrollPickerView;
 import com.aliyun.svideo.recorder.views.StringScrollPicker;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
 
 import java.util.ArrayList;
 import java.util.List;

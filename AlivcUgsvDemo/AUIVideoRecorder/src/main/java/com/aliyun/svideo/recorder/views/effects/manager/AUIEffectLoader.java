@@ -7,7 +7,7 @@ package com.aliyun.svideo.recorder.views.effects.manager;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.aliyun.common.utils.ToastUtil;
+import com.aliyun.ugsv.common.utils.ToastUtil;
 import com.aliyun.svideo.base.http.EffectService;
 import com.aliyun.svideo.base.http.HttpCallback;
 import com.aliyun.svideo.downloader.DownloaderManager;

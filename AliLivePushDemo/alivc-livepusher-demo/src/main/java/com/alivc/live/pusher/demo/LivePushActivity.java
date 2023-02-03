@@ -1,6 +1,5 @@
 package com.alivc.live.pusher.demo;
 
-import static android.os.Environment.MEDIA_MOUNTED;
 import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT;
 import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT;
 import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT;
@@ -16,7 +15,6 @@ import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -37,17 +35,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alivc.live.annotations.AlivcLiveMode;
-import com.alivc.live.pusher.AlivcLiveBase;
-import com.alivc.live.pusher.AlivcLiveBaseListener;
 import com.alivc.live.pusher.AlivcLivePushConfig;
-import com.alivc.live.pusher.AlivcLivePushConstants;
 import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
 import com.alivc.live.pusher.SurfaceStatus;
 import com.alivc.live.pusher.WaterMarkInfo;
 import com.alivc.live.pusher.demo.download.ResourcesDownload;
-import com.alivc.live.utils.StatusBarUtil;
+import com.alivc.live.commonutils.StatusBarUtil;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 
 import java.io.File;
@@ -55,9 +50,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;

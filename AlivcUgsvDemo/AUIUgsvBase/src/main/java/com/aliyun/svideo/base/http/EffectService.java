@@ -4,12 +4,11 @@
 
 package com.aliyun.svideo.base.http;
 
-import android.content.Context;
-import com.aliyun.common.jasonparse.JSONSupportImpl;
-import com.aliyun.common.qupaiokhttp.BaseHttpRequestCallback;
-import com.aliyun.common.qupaiokhttp.HttpRequest;
-import com.aliyun.common.qupaiokhttp.RequestParams;
-import com.aliyun.common.qupaiokhttp.StringHttpRequestCallback;
+import com.aliyun.ugsv.common.jasonparse.JSONSupportImpl;
+import com.aliyun.ugsv.common.qupaiokhttp.BaseHttpRequestCallback;
+import com.aliyun.ugsv.common.qupaiokhttp.HttpRequest;
+import com.aliyun.ugsv.common.qupaiokhttp.RequestParams;
+import com.aliyun.ugsv.common.qupaiokhttp.StringHttpRequestCallback;
 import com.aliyun.svideo.base.Form.AnimationEffectForm;
 import com.aliyun.svideo.base.Form.FontForm;
 import com.aliyun.svideo.base.Form.IMVForm;
@@ -24,11 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

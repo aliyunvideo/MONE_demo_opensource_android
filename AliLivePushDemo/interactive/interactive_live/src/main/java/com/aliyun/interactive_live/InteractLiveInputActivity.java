@@ -17,7 +17,7 @@ import com.aliyun.interactive_common.InteractAppInfoActivity;
 import com.aliyun.interactive_common.InteractLiveAppInfoFragment;
 import com.aliyun.interactive_common.utils.LivePushGlobalConfig;
 import com.aliyun.interactive_live.widget.InteractLiveRadioButton;
-import com.alivc.live.utils.TextFormatUtil;
+import com.alivc.live.commonutils.TextFormatUtil;
 
 import java.util.regex.Pattern;
 

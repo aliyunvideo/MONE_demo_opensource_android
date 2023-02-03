@@ -10,8 +10,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.aliyun.common.utils.StorageUtils;
-import com.aliyun.common.utils.StringUtils;
+import com.aliyun.ugsv.common.utils.StorageUtils;
+import com.aliyun.ugsv.common.utils.StringUtils;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadConnectListener;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -83,7 +83,7 @@ public class DownloaderManager {
         }
     }
 
-    public synchronized void init(Context context) {
+    public static synchronized void init(Context context) {
         mContext = context;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) {
             //解决适配性问题，在api16-20的手机上https下载失败的问题

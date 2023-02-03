@@ -1,0 +1,51 @@
+{
+    "id": "1",
+    "name": "Vlog",
+    "templates": [
+        {
+            "id": "101020",
+            "name": "电商品质内容全屏呈现",
+            "duration": 33.0,
+            "info": "替换视频7个·替换文字5个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101020%E7%94%B5%E5%95%86%E5%93%81%E8%B4%A8%E5%86%85%E5%AE%B9%E5%85%A8%E5%B1%8F%E5%91%88%E7%8E%B0/101020%E7%94%B5%E5%95%86%E5%93%81%E8%B4%A8%E5%86%85%E5%AE%B9%E5%85%A8%E5%B1%8F%E5%91%88%E7%8E%B0.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101020%E7%94%B5%E5%95%86%E5%93%81%E8%B4%A8%E5%86%85%E5%AE%B9%E5%85%A8%E5%B1%8F%E5%91%88%E7%8E%B0/101020%E7%94%B5%E5%95%86%E5%93%81%E8%B4%A8%E5%86%85%E5%AE%B9%E5%85%A8%E5%B1%8F%E5%91%88%E7%8E%B0.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101020%E7%94%B5%E5%95%86%E5%93%81%E8%B4%A8%E5%86%85%E5%AE%B9%E5%85%A8%E5%B1%8F%E5%91%88%E7%8E%B0/101020%E7%94%B5%E5%95%86%E5%93%81%E8%B4%A8%E5%86%85%E5%AE%B9%E5%85%A8%E5%B1%8F%E5%91%88%E7%8E%B0.zip"
+        },
+        {
+            "id": "101654",
+            "name": "手绘毕业季相册",
+            "duration": 12.0,
+            "info": "替换视频4个·替换文字2个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101654%E6%89%8B%E7%BB%98%E6%AF%95%E4%B8%9A%E5%AD%A3%E7%9B%B8%E5%86%8C/101654%E6%89%8B%E7%BB%98%E6%AF%95%E4%B8%9A%E5%AD%A3%E7%9B%B8%E5%86%8C.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101654%E6%89%8B%E7%BB%98%E6%AF%95%E4%B8%9A%E5%AD%A3%E7%9B%B8%E5%86%8C/101654%E6%89%8B%E7%BB%98%E6%AF%95%E4%B8%9A%E5%AD%A3%E7%9B%B8%E5%86%8C.png",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101654%E6%89%8B%E7%BB%98%E6%AF%95%E4%B8%9A%E5%AD%A3%E7%9B%B8%E5%86%8C/101654%E6%89%8B%E7%BB%98%E6%AF%95%E4%B8%9A%E5%AD%A3%E7%9B%B8%E5%86%8C.zip"
+        },
+        {
+            "id": "109873",
+            "name": "植树节小清新",
+            "duration": 11.0,
+            "info": "替换视频5个·替换文字5个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/109873%E6%A4%8D%E6%A0%91%E8%8A%82%E5%B0%8F%E6%B8%85%E6%96%B0/109873%E6%A4%8D%E6%A0%91%E8%8A%82%E5%B0%8F%E6%B8%85%E6%96%B0.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/109873%E6%A4%8D%E6%A0%91%E8%8A%82%E5%B0%8F%E6%B8%85%E6%96%B0/109873%E6%A4%8D%E6%A0%91%E8%8A%82%E5%B0%8F%E6%B8%85%E6%96%B0.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/109873%E6%A4%8D%E6%A0%91%E8%8A%82%E5%B0%8F%E6%B8%85%E6%96%B0/109873%E6%A4%8D%E6%A0%91%E8%8A%82%E5%B0%8F%E6%B8%85%E6%96%B0.zip"
+        },
+        {
+            "id": "111411",
+            "name": "复古胶片仪式感记录",
+            "duration": 11.0,
+            "info": "替换视频5个·替换文字3个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/111411%E5%A4%8D%E5%8F%A4%E8%83%B6%E7%89%87%E4%BB%AA%E5%BC%8F%E6%84%9F%E8%AE%B0%E5%BD%95/111411%E5%A4%8D%E5%8F%A4%E8%83%B6%E7%89%87%E4%BB%AA%E5%BC%8F%E6%84%9F%E8%AE%B0%E5%BD%95.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/111411%E5%A4%8D%E5%8F%A4%E8%83%B6%E7%89%87%E4%BB%AA%E5%BC%8F%E6%84%9F%E8%AE%B0%E5%BD%95/111411%E5%A4%8D%E5%8F%A4%E8%83%B6%E7%89%87%E4%BB%AA%E5%BC%8F%E6%84%9F%E8%AE%B0%E5%BD%95.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/111411%E5%A4%8D%E5%8F%A4%E8%83%B6%E7%89%87%E4%BB%AA%E5%BC%8F%E6%84%9F%E8%AE%B0%E5%BD%95/111411%E5%A4%8D%E5%8F%A4%E8%83%B6%E7%89%87%E4%BB%AA%E5%BC%8F%E6%84%9F%E8%AE%B0%E5%BD%95.zip"
+        },
+        {
+            "id": "111420",
+            "name": "时尚照片日常碎片语录",
+            "duration": 11.0,
+            "info": "替换视频4个·替换文字2个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/111420%E6%97%B6%E5%B0%9A%E7%85%A7%E7%89%87%E6%97%A5%E5%B8%B8%E7%A2%8E%E7%89%87%E8%AF%AD%E5%BD%95/111420%E6%97%B6%E5%B0%9A%E7%85%A7%E7%89%87%E6%97%A5%E5%B8%B8%E7%A2%8E%E7%89%87%E8%AF%AD%E5%BD%95.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/111420%E6%97%B6%E5%B0%9A%E7%85%A7%E7%89%87%E6%97%A5%E5%B8%B8%E7%A2%8E%E7%89%87%E8%AF%AD%E5%BD%95/111420%E6%97%B6%E5%B0%9A%E7%85%A7%E7%89%87%E6%97%A5%E5%B8%B8%E7%A2%8E%E7%89%87%E8%AF%AD%E5%BD%95.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/111420%E6%97%B6%E5%B0%9A%E7%85%A7%E7%89%87%E6%97%A5%E5%B8%B8%E7%A2%8E%E7%89%87%E8%AF%AD%E5%BD%95/111420%E6%97%B6%E5%B0%9A%E7%85%A7%E7%89%87%E6%97%A5%E5%B8%B8%E7%A2%8E%E7%89%87%E8%AF%AD%E5%BD%95.zip"
+        }
+    ]
+}

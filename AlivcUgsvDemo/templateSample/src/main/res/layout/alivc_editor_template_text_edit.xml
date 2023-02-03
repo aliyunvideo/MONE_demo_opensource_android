@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alivc_common_bg_transparent"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/tv_text_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_bottom"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/alivc_common_font_white"
+        android:textSize="40sp" />
+
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/alivc_common_bg_black"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.aliyun.svideo.template.sample.ui.view.BackEditText
+            android:id="@+id/edt_text_input"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="#333333"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/tv_finish"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:background="@color/alivc_common_bg_cyan"
+            android:gravity="center"
+            android:text="完成"
+            android:textColor="@color/alivc_common_font_white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

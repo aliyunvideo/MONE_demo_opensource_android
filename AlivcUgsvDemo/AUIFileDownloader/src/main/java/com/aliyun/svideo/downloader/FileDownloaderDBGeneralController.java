@@ -1,13 +1,12 @@
 package com.aliyun.svideo.downloader;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.SparseArray;
 
-import com.aliyun.common.utils.FileUtils;
-import com.aliyun.common.utils.StringUtils;
+import com.aliyun.ugsv.common.utils.FileUtils;
+import com.aliyun.ugsv.common.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;

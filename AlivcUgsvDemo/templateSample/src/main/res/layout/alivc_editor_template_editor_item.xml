@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <FrameLayout
+        android:id="@+id/media_layout"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/media_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="6dp"
+            android:textColor="@color/text_strong"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/media_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_item_bg"
+            android:drawableTop="@drawable/ic_edit"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:text="点击编辑"
+            android:textColor="@color/text_strong"
+            android:textSize="8sp" />
+
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/text_layout"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:background="@color/fill_medium">
+
+        <TextView
+            android:id="@+id/text_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:shadowRadius="2.0"
+            android:shadowColor="#B2000000"
+            android:textColor="@color/text_strong"
+             />
+
+        <TextView
+            android:id="@+id/text_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#CC1C1D22"
+            android:drawableTop="@drawable/ic_edit"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:text="点击编辑"
+            android:textColor="@color/text_strong"
+            android:textSize="8sp" />
+
+    </FrameLayout>
+</FrameLayout>

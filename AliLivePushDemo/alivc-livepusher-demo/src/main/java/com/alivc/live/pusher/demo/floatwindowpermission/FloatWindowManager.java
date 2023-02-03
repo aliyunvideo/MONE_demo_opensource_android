@@ -14,7 +14,7 @@ import android.util.Log;
 import com.alivc.live.pusher.demo.R;
 import com.alivc.live.pusher.demo.floatwindowpermission.rom.*;
 import com.alivc.live.pusher.widget.CommonDialog;
-import com.alivc.live.utils.TextFormatUtil;
+import com.alivc.live.commonutils.TextFormatUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -15,7 +15,7 @@ public class TrackConfig {
     /**
      * 一张缩略图默认时长
      */
-    private static final int DEFAULT_FRAME_DURATION_US = 1000;
+    public static final int DEFAULT_FRAME_DURATION_MS = 1000;
     /**
      * 自动滚动宽度
      */
@@ -69,7 +69,16 @@ public class TrackConfig {
      * @return
      */
     public static float getPX_US() {
-        return FRAME_WIDTH / DEFAULT_FRAME_DURATION_US;
+        return FRAME_WIDTH / DEFAULT_FRAME_DURATION_MS;
+    }
+
+    /**
+     * 获取单位时间对应的像素长度
+     * @param timelineScale 缩放值
+     * @return 单位时间的像素长度
+     */
+    public static float getPxUnit(float timelineScale, long duration) {
+        return FRAME_WIDTH * timelineScale / duration;
     }
 
     /**
@@ -78,7 +87,7 @@ public class TrackConfig {
      * @return 单位像素长度
      */
     public static float getPxUnit(float timelineScale) {
-        return FRAME_WIDTH * timelineScale / DEFAULT_FRAME_DURATION_US;
+        return getPxUnit(timelineScale, DEFAULT_FRAME_DURATION_MS);
     }
 
     /**

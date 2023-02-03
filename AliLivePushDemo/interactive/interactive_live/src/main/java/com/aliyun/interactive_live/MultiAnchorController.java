@@ -108,4 +108,8 @@ public class MultiAnchorController {
     public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {
         mInteractLiveManager.setMultiInteractLivePushPullListener(listener);
     }
+
+    public void setMute(boolean b) {
+        mInteractLiveManager.setMute(b);
+    }
 }

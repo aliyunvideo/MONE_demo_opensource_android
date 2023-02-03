@@ -19,9 +19,9 @@ import androidx.annotation.Nullable;
 
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 import com.aliyun.common.global.AliyunTag;
-import com.aliyun.common.qupaiokhttp.HttpRequest;
-import com.aliyun.common.qupaiokhttp.RequestParams;
-import com.aliyun.common.qupaiokhttp.StringHttpRequestCallback;
+import com.aliyun.ugsv.common.qupaiokhttp.HttpRequest;
+import com.aliyun.ugsv.common.qupaiokhttp.RequestParams;
+import com.aliyun.ugsv.common.qupaiokhttp.StringHttpRequestCallback;
 import com.aliyun.svideo.base.Constants;
 import com.aliyun.svideo.base.utils.VideoInfoUtils;
 import com.aliyun.svideo.editor.bean.ImageUploadCallbackBean;

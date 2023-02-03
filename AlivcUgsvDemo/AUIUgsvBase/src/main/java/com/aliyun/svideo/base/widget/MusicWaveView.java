@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
-import com.aliyun.common.utils.DensityUtil;
+import com.aliyun.ugsv.common.utils.DensityUtil;
 
 import java.util.Random;
 

@@ -10,11 +10,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alivc.live.player.annotations.AlivcLivePlayError;
+import com.aliyun.interactive_common.listener.ConnectionLostListener;
 import com.aliyun.interactive_common.listener.InteractLivePushPullListener;
 import com.aliyun.interactive_common.listener.InteractLiveTipsViewListener;
 import com.aliyun.interactive_common.utils.InteractLiveIntent;
 import com.aliyun.interactive_common.widget.AUILiveDialog;
-import com.alivc.live.utils.FastClickUtil;
+import com.alivc.live.commonutils.FastClickUtil;
+import com.aliyun.interactive_common.widget.ConnectionLostTipsView;
+import com.aliyun.interactive_common.widget.RoomAndUserInfoView;
 
 /**
  * PK 互动界面
@@ -33,6 +36,11 @@ public class PKLiveActivity extends AppCompatActivity {
     private FrameLayout mOwnerFrameLayout;
     private FrameLayout mOtherFrameLayout;
     private FrameLayout mUnConnectFrameLayout;
+    private ConnectionLostTipsView mConnectionLostTipsView;
+    private RoomAndUserInfoView mOwnerInfoView;
+    private RoomAndUserInfoView mOtherInfoView;
+    private ImageView mMuteImageView;
+    private boolean mIsMute = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +50,13 @@ public class PKLiveActivity extends AppCompatActivity {
 
         mRoomId = getIntent().getStringExtra(PKLiveInputActivity.DATA_HOME_ID);
         mUserId = getIntent().getStringExtra(PKLiveInputActivity.DATA_USER_ID);
-        mPKController = new PKController(this,mRoomId,mUserId);
+        mPKController = new PKController(this, mRoomId, mUserId);
 
         initView();
         initListener();
     }
 
-    private void initView(){
+    private void initView() {
         mAUILiveDialog = new AUILiveDialog(this);
         mCloseImageView = findViewById(R.id.iv_close);
         mCameraImageView = findViewById(R.id.iv_camera);
@@ -60,29 +68,58 @@ public class PKLiveActivity extends AppCompatActivity {
 
         TextView mHomeIdTextView = findViewById(R.id.tv_home_id);
         mHomeIdTextView.setText(mRoomId);
-        
+
+        mOwnerInfoView = findViewById(R.id.owner_info_view);
+        mOtherInfoView = findViewById(R.id.other_info_view);
+        mMuteImageView = findViewById(R.id.iv_mute);
+//        mOwnerInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
+//        mOtherInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
+
+        mConnectionLostTipsView = new ConnectionLostTipsView(this);
+
         mPKController.startPush(mOwnerFrameLayout);
     }
 
     private void initListener() {
+        mConnectionLostTipsView.setConnectionLostListener(new ConnectionLostListener() {
+            @Override
+            public void onConfirm() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
+            }
+        });
+
+        mMuteImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPKController.setMute(!mIsMute);
+                mIsMute = !mIsMute;
+                mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+            }
+        });
+
         mCloseImageView.setOnClickListener(view -> {
             mCurrentIntent = InteractLiveIntent.INTENT_FINISH;
             showInteractLiveDialog(getResources().getString(R.string.interact_live_leave_room_tips), false);
         });
 
         mCameraImageView.setOnClickListener(view -> {
-            if(!FastClickUtil.isFastClick()){
+            if (!FastClickUtil.isFastClick()) {
                 mPKController.switchCamera();
             }
         });
 
         //开始 PK
         mConnectTextView.setOnClickListener(view -> {
-            if(mPKController.isPKing()){
+            if (mPKController.isPKing()) {
                 mCurrentIntent = InteractLiveIntent.INTENT_STOP_PULL;
                 showInteractLiveDialog(getResources().getString(R.string.pk_live_connect_finish_tips), false);
-            }else{
-                showInteractLiveDialog(null,true);
+            } else {
+                showInteractLiveDialog(null, true);
             }
         });
 
@@ -103,6 +140,16 @@ public class PKLiveActivity extends AppCompatActivity {
                 mPKController.setPKLiveMixTranscoding(false);
                 changeFrameLayoutViewVisible(false);
                 updateConnectTextView(false);
+            }
+
+            @Override
+            public void onConnectionLost() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mConnectionLostTipsView.show();
+                    }
+                });
             }
 
             @Override
@@ -133,9 +180,9 @@ public class PKLiveActivity extends AppCompatActivity {
             @Override
             public void onConfirm() {
                 //退出直播
-                if(mCurrentIntent == InteractLiveIntent.INTENT_FINISH){
+                if (mCurrentIntent == InteractLiveIntent.INTENT_FINISH) {
                     finish();
-                }else if(mCurrentIntent == InteractLiveIntent.INTENT_STOP_PULL){
+                } else if (mCurrentIntent == InteractLiveIntent.INTENT_STOP_PULL) {
                     mAUILiveDialog.dismiss();
                     mPKController.stopPK();
                     updateConnectTextView(false);
@@ -146,10 +193,12 @@ public class PKLiveActivity extends AppCompatActivity {
             @Override
             public void onInputConfirm(String content) {
                 mAUILiveDialog.dismiss();
-                if(content.contains("=")){
+                if (content.contains("=")) {
                     String[] split = content.split("=");
-                    mPKController.setPKOtherInfo(split[0],split[1]);
+                    mPKController.setPKOtherInfo(split[0], split[1]);
                     mPKController.startPK(mOtherFrameLayout);
+
+                    setInfoView(mRoomId, split[0], mUserId, split[1]);
                 }
             }
         });
@@ -170,6 +219,14 @@ public class PKLiveActivity extends AppCompatActivity {
     private void changeFrameLayoutViewVisible(boolean isShowSurfaceView) {
         mOtherFrameLayout.setVisibility(isShowSurfaceView ? View.VISIBLE : View.INVISIBLE);
         mUnConnectFrameLayout.setVisibility(isShowSurfaceView ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    private void setInfoView(String ownerRoomId, String otherRoomId, String ownerId, String otherId) {
+        mOwnerInfoView.setRoomId(ownerRoomId);
+        mOwnerInfoView.setUserId(ownerId);
+
+        mOtherInfoView.setRoomId(otherRoomId);
+        mOtherInfoView.setUserId(otherId);
     }
 
     @Override

@@ -1,0 +1,42 @@
+{
+    "id": "3",
+    "name": "节日纪念",
+    "templates": [
+        {
+            "id": "0",
+            "name": "七夕情人节创意朋友圈鲜花视频",
+            "duration": 8.0,
+            "info": "替换视频5个·替换文字6个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/0%E4%B8%83%E5%A4%95%E6%83%85%E4%BA%BA%E8%8A%82%E5%88%9B%E6%84%8F%E6%9C%8B%E5%8F%8B%E5%9C%88%E9%B2%9C%E8%8A%B1%E8%A7%86%E9%A2%91/0%E4%B8%83%E5%A4%95%E6%83%85%E4%BA%BA%E8%8A%82%E5%88%9B%E6%84%8F%E6%9C%8B%E5%8F%8B%E5%9C%88%E9%B2%9C%E8%8A%B1%E8%A7%86%E9%A2%91.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/0%E4%B8%83%E5%A4%95%E6%83%85%E4%BA%BA%E8%8A%82%E5%88%9B%E6%84%8F%E6%9C%8B%E5%8F%8B%E5%9C%88%E9%B2%9C%E8%8A%B1%E8%A7%86%E9%A2%91/0%E4%B8%83%E5%A4%95%E6%83%85%E4%BA%BA%E8%8A%82%E5%88%9B%E6%84%8F%E6%9C%8B%E5%8F%8B%E5%9C%88%E9%B2%9C%E8%8A%B1%E8%A7%86%E9%A2%91.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/0%E4%B8%83%E5%A4%95%E6%83%85%E4%BA%BA%E8%8A%82%E5%88%9B%E6%84%8F%E6%9C%8B%E5%8F%8B%E5%9C%88%E9%B2%9C%E8%8A%B1%E8%A7%86%E9%A2%91/0%E4%B8%83%E5%A4%95%E6%83%85%E4%BA%BA%E8%8A%82%E5%88%9B%E6%84%8F%E6%9C%8B%E5%8F%8B%E5%9C%88%E9%B2%9C%E8%8A%B1%E8%A7%86%E9%A2%91.zip"
+        },
+        {
+            "id": "110387",
+            "name": "冬至相册",
+            "duration": 18.0,
+            "info": "替换视频5个·替换文字5个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/110387%E5%86%AC%E8%87%B3%E7%9B%B8%E5%86%8C/110387%E5%86%AC%E8%87%B3%E7%9B%B8%E5%86%8C.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/110387%E5%86%AC%E8%87%B3%E7%9B%B8%E5%86%8C/110387%E5%86%AC%E8%87%B3%E7%9B%B8%E5%86%8C.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/110387%E5%86%AC%E8%87%B3%E7%9B%B8%E5%86%8C/110387%E5%86%AC%E8%87%B3%E7%9B%B8%E5%86%8C.zip"
+        },
+        {
+            "id": "112276",
+            "name": "新年祝福",
+            "duration": 24.0,
+            "info": "替换视频3个·替换文字3个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/112276%E6%96%B0%E5%B9%B4%E7%A5%9D%E7%A6%8F/112276%E6%96%B0%E5%B9%B4%E7%A5%9D%E7%A6%8F.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/112276%E6%96%B0%E5%B9%B4%E7%A5%9D%E7%A6%8F/112276%E6%96%B0%E5%B9%B4%E7%A5%9D%E7%A6%8F.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/112276%E6%96%B0%E5%B9%B4%E7%A5%9D%E7%A6%8F/112276%E6%96%B0%E5%B9%B4%E7%A5%9D%E7%A6%8F.zip"
+        },
+        {
+            "id": "110620",
+            "name": "跨年烟花祝福",
+            "duration": 13.0,
+            "info": "替换视频1个·替换文字8个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/110620%E8%B7%A8%E5%B9%B4%E7%83%9F%E8%8A%B1%E7%A5%9D%E7%A6%8F/110620%E8%B7%A8%E5%B9%B4%E7%83%9F%E8%8A%B1%E7%A5%9D%E7%A6%8F.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/110620%E8%B7%A8%E5%B9%B4%E7%83%9F%E8%8A%B1%E7%A5%9D%E7%A6%8F/110620%E8%B7%A8%E5%B9%B4%E7%83%9F%E8%8A%B1%E7%A5%9D%E7%A6%8F.jpg",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/110620%E8%B7%A8%E5%B9%B4%E7%83%9F%E8%8A%B1%E7%A5%9D%E7%A6%8F/110620%E8%B7%A8%E5%B9%B4%E7%83%9F%E8%8A%B1%E7%A5%9D%E7%A6%8F.zip"
+        }
+    ]
+}

@@ -15,7 +15,7 @@ import com.alivc.live.pusher.demo.R;
 import com.alivc.live.pusher.demo.adapter.SoundEffectRecyclerViewAdapter;
 import com.alivc.live.pusher.demo.bean.SoundEffectBean;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * 音效设置 Fragment
@@ -23,20 +23,19 @@ import java.util.Map;
 public class SoundEffectFragment extends Fragment {
 
     private View inflate;
-    private final Map<Integer, SoundEffectBean> mDataMap;
+    private HashMap<Integer, SoundEffectBean> mDataMap;
     private SoundEffectRecyclerViewAdapter.OnSoundEffectItemClickListener mOnSoundEffectItemClickListener;
-
-    public SoundEffectFragment(Map<Integer, SoundEffectBean> data) {
-        this.mDataMap = data;
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mDataMap = (HashMap<Integer, SoundEffectBean>) arguments.getSerializable("args");
+        }
         inflate = inflater.inflate(R.layout.fragment_sound_effect, container, false);
         return inflate;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

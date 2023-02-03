@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_medium"
+    android:orientation="vertical">
+    <FrameLayout
+        android:id="@+id/playview_container"
+        android:layout_width="match_parent"
+        android:layout_height="498dp">
+        <TextureView
+            android:id="@+id/play_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/play_indicator"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/exo_icon_play"
+            android:visibility="gone"
+            />
+    </FrameLayout>
+    <RelativeLayout
+        android:id="@+id/nav_options_area"
+        android:layout_width="match_parent"
+        android:layout_below="@id/playview_container"
+        android:layout_height="46dp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/aliyun_svideo_crop_icon_cancel" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="@string/crop"
+            android:textColor="@color/text_strong"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/start_crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/aliyun_svideo_icon_confirm" />
+    </RelativeLayout>
+    <com.aliyun.svideo.track.CropTrackContainer
+        android:id="@+id/track_container"
+        android:layout_width="match_parent"
+        android:layout_below="@id/nav_options_area"
+        android:layout_height="139dp"
+        android:background="@color/bg_weak"/>
+    <TextView
+        android:id="@+id/fixed_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_strong"
+        android:textSize="12sp"
+        android:layout_alignTop="@id/track_container"
+        android:layout_centerHorizontal="true" />
+    <View
+        android:id="@+id/bg_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tsp_fill_weak"
+        android:visibility="gone"/>
+    <com.aliyun.aio.avbaseui.widget.AVCircleProgressView
+        android:id="@+id/aliyun_crop_progress"
+        android:layout_width="@dimen/alivc_common_width_tv_80"
+        android:layout_height="@dimen/alivc_common_width_tv_80"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:isShowText="no"
+        app:ringBgColor="@color/fill_ultraweak"
+        app:ringWidth="7dp"
+        app:ringFgColor="@color/colourful_fill_strong"
+        app:progress="0"
+        app:progressType="stroke"
+        />
+</RelativeLayout>

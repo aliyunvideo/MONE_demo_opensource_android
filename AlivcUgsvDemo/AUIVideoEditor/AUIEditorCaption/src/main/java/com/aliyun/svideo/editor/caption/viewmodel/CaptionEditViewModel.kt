@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.PointF
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.aliyun.common.utils.FileUtils
+import com.aliyun.ugsv.common.utils.FileUtils
 import com.aliyun.svideo.editor.caption.CaptionManager
 import com.aliyun.svideo.editor.caption.model.CaptionBubble
 import com.aliyun.svideo.editor.caption.model.CaptionFontStyleTemplate

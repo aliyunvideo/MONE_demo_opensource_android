@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,8 @@ public abstract class BaseClipLayout extends RelativeLayout {
      * 自动滚屏动画
      */
     private ValueAnimator mAutoScrollAnim;
+
+    protected ClipTrackStyle mStyle = ClipTrackStyle.DYNAMIC;
 
     public BaseClipLayout(Context context) {
         this(context, null);
@@ -340,8 +343,15 @@ public abstract class BaseClipLayout extends RelativeLayout {
         mRightMoveView.setTouchAble(selected);
         findViewById(R.id.trackTopLine).setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
         findViewById(R.id.trackBottomLine).setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
-        mLeftMoveView.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
-        mRightMoveView.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+        if(mStyle == ClipTrackStyle.DYNAMIC){
+            mLeftMoveView.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+            mRightMoveView.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+        }else if(mStyle == ClipTrackStyle.FIXED){
+            mLeftMoveView.setVisibility(View.GONE);
+            mRightMoveView.setVisibility(View.GONE);
+        }else{
+            Log.e(BaseClipLayout.class.getSimpleName(), "undefined style");
+        }
         if (selected) {
             findViewById(R.id.trackTopLine).animate().alpha(1.0f).setDuration(100L).start();
             findViewById(R.id.trackBottomLine).animate().alpha(1.0f).setDuration(100L).start();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.alivc.live.pusher.demo.BuildConfig;
 import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
@@ -18,7 +19,11 @@ import com.cicada.player.utils.Logger;
 public class RtsPlayer {
 
     static {
-        System.loadLibrary("RtsSDK");
+        if(BuildConfig.MTL_BUILD_FOR_AIO) {
+            System.loadLibrary("all_in_one");
+        } else {
+            System.loadLibrary("RtsSDK");
+        }
     }
 
     private static final int TRACE_ID_CODE = 104;

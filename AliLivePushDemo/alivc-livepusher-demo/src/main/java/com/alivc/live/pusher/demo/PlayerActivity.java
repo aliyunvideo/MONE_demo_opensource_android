@@ -28,8 +28,8 @@ import com.alivc.live.pusher.widget.PlayButtonListView;
 import com.alivc.live.pusher.widget.SeiView;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
-import com.alivc.live.utils.StatusBarUtil;
-import com.alivc.live.utils.TextFormatUtil;
+import com.alivc.live.commonutils.StatusBarUtil;
+import com.alivc.live.commonutils.TextFormatUtil;
 import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
@@ -61,7 +61,15 @@ public class PlayerActivity extends AVBaseThemeActivity implements SurfaceHolder
     private SeiView mSeiView;
 
     static {
-        System.loadLibrary("RtsSDK");
+        try{
+        
+            if(BuildConfig.MTL_BUILD_FOR_AIO) {
+                System.loadLibrary("all_in_one");
+            } else {
+                System.loadLibrary("RtsSDK");
+            }
+        } catch (Throwable ignore) {}
+
     }
 
     private View mPageVg;
@@ -146,10 +154,6 @@ public class PlayerActivity extends AVBaseThemeActivity implements SurfaceHolder
                                     cfg.mMaxDelayTime = 1000;
                                     cfg.mHighBufferDuration = 10;
                                     cfg.mStartBufferDuration = 10;
-                                } else {
-                                    cfg.mMaxDelayTime = 1000;
-                                    cfg.mHighBufferDuration = 100;
-                                    cfg.mStartBufferDuration = 100;
                                 }
                                 mAliPlayer.setConfig(cfg);
                                 mAliPlayer.setDataSource(source);
@@ -299,10 +303,6 @@ public class PlayerActivity extends AVBaseThemeActivity implements SurfaceHolder
                 cfg.mMaxDelayTime = 1000;
                 cfg.mHighBufferDuration = 10;
                 cfg.mStartBufferDuration = 10;
-            } else {
-                cfg.mMaxDelayTime = 1000;
-                cfg.mHighBufferDuration = 100;
-                cfg.mStartBufferDuration = 100;
             }
             mAliPlayer.setConfig(cfg);
             mAliPlayer.setDataSource(source);

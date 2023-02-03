@@ -7,7 +7,7 @@ package com.aliyun.svideo.downloader.zipprocessor;
 import android.content.Context;
 import android.os.Environment;
 
-import com.aliyun.common.utils.StorageUtils;
+import com.aliyun.ugsv.common.utils.StorageUtils;
 
 import java.io.File;
 

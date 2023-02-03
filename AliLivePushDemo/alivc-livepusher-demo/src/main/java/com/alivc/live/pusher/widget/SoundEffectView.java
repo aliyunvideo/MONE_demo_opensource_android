@@ -1,6 +1,7 @@
 package com.alivc.live.pusher.widget;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -49,8 +50,16 @@ public class SoundEffectView extends FrameLayout {
     }
 
     private void initFragment() {
-        mSoundEffectChangeVoiceFragment = new SoundEffectFragment(SoundEffectBean.SoundEffectChangeVoiceBean.getLivePushSoundEffectChangeVoice());
-        mSoundEffectReverbFragment = new SoundEffectFragment(SoundEffectBean.SoundEffectReverb.getLivePushSoundEffectReverb());
+        mSoundEffectChangeVoiceFragment = new SoundEffectFragment();
+        Bundle changeVoiceBundle = new Bundle();
+        changeVoiceBundle.putSerializable("args",SoundEffectBean.SoundEffectChangeVoiceBean.getLivePushSoundEffectChangeVoice());
+        mSoundEffectChangeVoiceFragment.setArguments(changeVoiceBundle);
+
+        mSoundEffectReverbFragment = new SoundEffectFragment();
+        Bundle reverbBundle = new Bundle();
+        reverbBundle.putSerializable("args",SoundEffectBean.SoundEffectReverb.getLivePushSoundEffectReverb());
+        mSoundEffectReverbFragment.setArguments(reverbBundle);
+
         switchFragment(mSoundEffectChangeVoiceFragment);
 
         mSoundEffectChangeVoiceFragment.setOnSoundEffectItemClickListener(position -> {

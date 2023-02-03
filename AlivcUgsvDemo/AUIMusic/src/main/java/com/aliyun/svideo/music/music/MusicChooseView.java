@@ -28,7 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aliyun.common.utils.ToastUtil;
+import com.aliyun.ugsv.common.utils.ToastUtil;
 import com.aliyun.svideo.base.CopyrightWebActivity;
 import com.aliyun.svideo.downloader.FileDownloaderCallback;
 import com.aliyun.svideo.music.R;

@@ -31,6 +31,7 @@ public class FileDownloaderModel implements Serializable {
     public static final int EFFECT_IMG = 8;         //静态贴纸
     public static final int EFFECT_ANIMATION_FILTER = 9;//动态滤镜
     public static final int EFFECT_TRANSITION = 10;   //转场特效
+    public static final int EFFECT_TEMPLATE = 11;   //模板
 
     public final static String TASK_ID = "task_id";//主键
     public final static String ID = "id";//组id

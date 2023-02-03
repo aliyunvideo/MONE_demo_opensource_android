@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.aliyun.interactive_common.BuildConfig;
 import com.aliyun.interactive_common.R;
-import com.alivc.live.utils.ContextUtils;
+import com.alivc.live.commonutils.ContextUtils;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 
 

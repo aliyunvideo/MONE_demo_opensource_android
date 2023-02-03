@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 
-import com.alivc.live.utils.ContextUtils;
+import com.alivc.live.commonutils.ContextUtils;
 
 public class LiveApplication extends Application {
     @Override

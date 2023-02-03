@@ -9,7 +9,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.IOException;
 
-import com.aliyun.common.utils.FileUtils;
+import com.aliyun.ugsv.common.utils.FileUtils;
 public class ZIPFileProcessor implements FileProcessor {
 
     private final File mPackageDir;

@@ -6,8 +6,7 @@ buildscript {
         maven { url "https://maven.aliyun.com/repository/releases" }
         maven { url "https://maven.aliyun.com/nexus/content/repositories/releases" }
     }
-    apply from: 'config-stable.gradle'
-    apply from: '../AndroidThirdParty/config.gradle'
+    apply from: 'AndroidThirdParty/config.gradle'
     apply from: './sdk_type_config.gradle'
     dependencies {
         classpath 'com.kezong:fat-aar:1.3.3'

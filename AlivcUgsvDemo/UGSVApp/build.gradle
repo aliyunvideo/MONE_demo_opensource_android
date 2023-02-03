@@ -108,6 +108,7 @@ dependencies {
 //    implementation externalLeakcanary
     implementation externalAndroidMultiDex
 
+    implementation project(':templateSample')
 }
 apply from: './dependencies.gradle'
 

@@ -40,6 +40,8 @@ public class VideoClipLayout extends BaseClipLayout {
      */
     private boolean mFirstMove;
 
+    private long mDurationPerFrame = TrackConfig.DEFAULT_FRAME_DURATION_MS;
+
     public VideoClipLayout(Context context) {
         this(context, null);
     }
@@ -57,7 +59,7 @@ public class VideoClipLayout extends BaseClipLayout {
         RelativeLayout.LayoutParams layoutParams = (LayoutParams) getLayoutParams();
         int contentWidth = 0;
         if(getTrackClipInfo() != null){
-            contentWidth = Math.round(getTrackClipInfo().getClipDuration() * TrackConfig.getPxUnit(mTimelineScale));
+            contentWidth = Math.round(getTrackClipInfo().getClipDuration() * TrackConfig.getPxUnit(mTimelineScale, mDurationPerFrame));
         }
         ViewGroup.LayoutParams contentLayoutParams = mContentView.getLayoutParams();
         if (mIsDragSort) {
@@ -250,5 +252,16 @@ public class VideoClipLayout extends BaseClipLayout {
 
     public void setFirstMove(boolean firstMove) {
         this.mFirstMove = firstMove;
+    }
+
+    public void setFixedDuration(long duration) {
+        mStyle = ClipTrackStyle.FIXED;
+        ViewGroup.LayoutParams lp = mItemFrameView.getLayoutParams();
+        ViewParent parent = mItemFrameView.getParent();
+        ((ViewGroup)parent).removeView(mItemFrameView);
+        mItemFrameView.setFixedDuration(duration);
+        ((ViewGroup)parent).addView(mItemFrameView, lp);
+        mDurationPerFrame = duration / 5;
+        postInvalidate();
     }
 }

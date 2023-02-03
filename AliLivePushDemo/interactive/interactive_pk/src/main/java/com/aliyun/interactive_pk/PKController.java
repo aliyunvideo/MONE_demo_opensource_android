@@ -192,4 +192,8 @@ public class PKController {
     public void release() {
         mPKLiveManager.release();
     }
+
+    public void setMute(boolean b) {
+        mPKLiveManager.setMute(b);
+    }
 }

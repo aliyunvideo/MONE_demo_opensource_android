@@ -1,0 +1,33 @@
+{
+    "id": "2",
+    "name": "生活美食",
+    "templates": [
+        {
+            "id": "100927",
+            "name": "每日一签",
+            "duration": 15.0,
+            "info": "替换视频5个·替换文字6个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/100927%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E6%AF%8F%E6%97%A5%E4%B8%80%E7%AD%BE/100927%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E6%AF%8F%E6%97%A5%E4%B8%80%E7%AD%BE.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/100927%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E6%AF%8F%E6%97%A5%E4%B8%80%E7%AD%BE/100927%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E6%AF%8F%E6%97%A5%E4%B8%80%E7%AD%BE.png",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/100927%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E6%AF%8F%E6%97%A5%E4%B8%80%E7%AD%BE/100927%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E6%AF%8F%E6%97%A5%E4%B8%80%E7%AD%BE.zip"
+        },
+        {
+            "id": "102096",
+            "name": "下午茶",
+            "duration": 20.0,
+            "info": "替换视频4个·替换文字4个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/102096%E7%94%B5%E5%95%86%E4%B8%8B%E5%8D%88%E8%8C%B6/102096%E7%94%B5%E5%95%86%E4%B8%8B%E5%8D%88%E8%8C%B6.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/102096%E7%94%B5%E5%95%86%E4%B8%8B%E5%8D%88%E8%8C%B6/102096%E7%94%B5%E5%95%86%E4%B8%8B%E5%8D%88%E8%8C%B6.png",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/102096%E7%94%B5%E5%95%86%E4%B8%8B%E5%8D%88%E8%8C%B6/102096%E7%94%B5%E5%95%86%E4%B8%8B%E5%8D%88%E8%8C%B6.zip"
+        },
+        {
+            "id": "101786",
+            "name": "夏日美食餐饮",
+            "duration": 10.0,
+            "info": "替换视频4个·替换文字3个",
+            "url": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101786%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E5%A4%8F%E6%97%A5%E7%BE%8E%E9%A3%9F%E9%A4%90%E9%A5%AE/101786%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E5%A4%8F%E6%97%A5%E7%BE%8E%E9%A3%9F%E9%A4%90%E9%A5%AE.mp4",
+            "cover": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101786%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E5%A4%8F%E6%97%A5%E7%BE%8E%E9%A3%9F%E9%A4%90%E9%A5%AE/101786%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E5%A4%8F%E6%97%A5%E7%BE%8E%E9%A3%9F%E9%A4%90%E9%A5%AE.png",
+            "zip": "https://ice-public-media.oss-cn-shanghai.aliyuncs.com/public-template/sdk_demo_template/101786%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E5%A4%8F%E6%97%A5%E7%BE%8E%E9%A3%9F%E9%A4%90%E9%A5%AE/101786%E6%B4%BB%E5%8A%A8%E5%AE%A3%E4%BC%A0%E5%A4%8F%E6%97%A5%E7%BE%8E%E9%A3%9F%E9%A4%90%E9%A5%AE.zip"
+        }
+    ]
+}

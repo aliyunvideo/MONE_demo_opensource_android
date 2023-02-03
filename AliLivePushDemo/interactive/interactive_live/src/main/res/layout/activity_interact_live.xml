@@ -8,13 +8,13 @@
     <SurfaceView
         android:id="@+id/big_surface_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/big_fl"
-        android:background="@color/wheel_black"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/wheel_black">
 
         <FrameLayout
             android:id="@+id/small_fl"
@@ -35,13 +35,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_home_id" />
 
+    <com.aliyun.interactive_common.widget.RoomAndUserInfoView
+        android:id="@+id/anchor_info_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@id/iv_close"
+        app:layout_constraintTop_toBottomOf="@id/iv_close" />
+
     <TextView
         android:id="@+id/tv_home_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:textSize="16sp"
         android:textColor="@color/text_strong"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,10 +58,10 @@
         android:id="@+id/tv_show_connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:textSize="12sp"
-        android:textColor="@color/text_strong"
         android:text="@string/interact_live_connecting"
+        android:textColor="@color/text_strong"
+        android:textSize="12sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/tv_home_id"
         app:layout_constraintStart_toStartOf="@id/tv_home_id"
         app:layout_constraintTop_toBottomOf="@id/tv_home_id" />
@@ -67,16 +75,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_home_id" />
 
+    <ImageView
+        android:id="@+id/iv_mute"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_interact_volume_on"
+        app:layout_constraintEnd_toEndOf="@id/iv_camera"
+        app:layout_constraintStart_toStartOf="@id/iv_camera"
+        app:layout_constraintTop_toBottomOf="@id/iv_camera" />
+
 
     <FrameLayout
         android:id="@+id/fl_un_connect"
         android:layout_width="90dp"
         android:layout_height="160dp"
-        android:background="@color/border_infrared"
         android:layout_marginBottom="15dp"
-        app:layout_constraintStart_toStartOf="@id/tv_connect"
+        android:background="@color/border_infrared"
+        app:layout_constraintBottom_toTopOf="@id/tv_connect"
         app:layout_constraintEnd_toEndOf="@id/tv_connect"
-        app:layout_constraintBottom_toTopOf="@id/tv_connect">
+        app:layout_constraintStart_toStartOf="@id/tv_connect">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -85,6 +103,14 @@
             android:src="@drawable/ic_interact_live_un_connect_bg" />
 
     </FrameLayout>
+
+    <com.aliyun.interactive_common.widget.RoomAndUserInfoView
+        android:id="@+id/audience_info_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/fl_un_connect"
+        app:layout_constraintTop_toTopOf="@id/fl_un_connect" />
 
     <TextView
         android:id="@+id/tv_connect"
@@ -100,8 +126,8 @@
         android:text="@string/interact_start_connect"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

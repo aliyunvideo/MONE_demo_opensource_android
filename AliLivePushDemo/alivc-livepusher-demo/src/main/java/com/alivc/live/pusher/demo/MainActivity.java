@@ -27,8 +27,8 @@ import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
 import com.aliyun.interactive_common.InteractAppInfoActivity;
 import com.aliyun.interactive_live.InteractLiveInputActivity;
 import com.aliyun.interactive_pk.PKLiveInputActivity;
-import com.alivc.live.utils.ContextUtils;
-import com.alivc.live.utils.FastClickUtil;
+import com.alivc.live.commonutils.ContextUtils;
+import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.alivc.live.utils.SharedPrefUtils;
+import com.alivc.live.commonutils.SharedPrefUtils;
 
 /**
  * 推流Demo业务SharedPreference

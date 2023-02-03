@@ -79,9 +79,10 @@ import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.alivc.live.pusher.AlivcSoundFormat;
 import com.alivc.live.pusher.WaterMarkInfo;
 import com.alivc.live.pusher.demo.download.ResourcesDownload;
+import com.alivc.live.pusher.demo.test.InformationActivity;
 import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
 import com.alivc.live.pusher.widget.PushConfigBottomSheet;
-import com.alivc.live.utils.FastClickUtil;
+import com.alivc.live.commonutils.FastClickUtil;
 import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
@@ -114,9 +115,10 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     private static final int PROGRESS_90 = 90;
     private static final int PROGRESS_100 = 100;
 
-    private static final int PROGRESS_AUDIO_320 = 30;
-    private static final int PROGRESS_AUDIO_441 = 70;
-    private static final int PROGRESS_AUDIO_480 = 100;
+    private static final int PROGRESS_AUDIO_160 = 20;
+    private static final int PROGRESS_AUDIO_320 = 40;
+    private static final int PROGRESS_AUDIO_441 = 60;
+    private static final int PROGRESS_AUDIO_480 = 80;
     private InputMethodManager manager;
 
     private View mPublish;
@@ -139,6 +141,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     private TextView mOrientation;
     private TextView mDisplayMode;
     private TextView mPushMode;
+    private TextView mLocalLogTv;
 
 
     private EditText mUrl;
@@ -361,6 +364,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
         mTabActionContentLayout = (LinearLayout) findViewById(R.id.push_function_setting);
         mAdvanceLayout = (LinearLayout) findViewById(R.id.advance_layout);
         mPushMode = findViewById(R.id.push_mode);
+        mLocalLogTv = findViewById(R.id.local_log);
 //        mVideoEncoder.check(R.id.h264_encoder);
 //        mBFrames.check(R.id.b_frame_no);
         mInteractionControlSwitch = findViewById(R.id.interaction_control);
@@ -413,6 +417,13 @@ public class PushConfigActivity extends AVBaseThemeActivity {
         mDisplayMode.setOnClickListener(onClickListener);
         mAudioProfiles.setOnClickListener(onClickListener);
         mPushMode.setOnClickListener(onClickListener);
+        mLocalLogTv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                jump2InformationActivity();
+                return true;
+            }
+        });
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -1010,13 +1021,16 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                     }
                 }
             } else if (mAudioRate.getId() == seekBarId) {
-                if (progress <= 30) {
+                if (progress <= PROGRESS_AUDIO_160) {
+                    mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_16000);
+                    mAudioRateText.setText(getString(R.string.setting_audio_160));
+                } else if (progress <= PROGRESS_AUDIO_320) {
                     mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_32000);
                     mAudioRateText.setText(getString(R.string.setting_audio_320));
-                } else if (progress > 30 && progress <= 70) {
+                } else if (progress <= PROGRESS_AUDIO_441) {
                     mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
                     mAudioRateText.setText(getString(R.string.setting_audio_441));
-                } else if (progress > 70) {
+                } else {
                     mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_48000);
                     mAudioRateText.setText(getString(R.string.setting_audio_480));
                 }
@@ -1141,11 +1155,13 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                     seekBar.setProgress(PROGRESS_100);
                 }
             } else if (mAudioRate.getId() == seekBar.getId()) {
-                if (progress <= 30) {
+                if (progress <= PROGRESS_AUDIO_160) {
+                    seekBar.setProgress(PROGRESS_AUDIO_160);
+                } else if (progress <= PROGRESS_AUDIO_320) {
                     seekBar.setProgress(PROGRESS_AUDIO_320);
-                } else if (progress > 30 && progress <= 70) {
+                } else if (progress <= PROGRESS_AUDIO_441) {
                     seekBar.setProgress(PROGRESS_AUDIO_441);
-                } else if (progress > 70) {
+                } else {
                     seekBar.setProgress(PROGRESS_AUDIO_480);
                 }
             } else if (mGop.getId() == seekBar.getId()) {
@@ -1426,4 +1442,10 @@ public class PushConfigActivity extends AVBaseThemeActivity {
         });
         showProgressDialog(R.string.waiting_download_video_resources);
     }
+
+    private void jump2InformationActivity() {
+        Intent intent = new Intent(this, InformationActivity.class);
+        startActivity(intent);
+    }
+
 }

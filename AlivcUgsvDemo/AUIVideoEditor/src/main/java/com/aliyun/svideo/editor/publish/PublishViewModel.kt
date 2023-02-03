@@ -3,7 +3,7 @@ package com.aliyun.svideo.editor.publish
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.aliyun.common.utils.StringUtils
+import com.aliyun.ugsv.common.utils.StringUtils
 import com.aliyun.svideo.editor.common.panel.viewmodel.BaseViewModel
 import com.aliyun.svideo.editor.common.panel.viewmodel.PanelItemId
 

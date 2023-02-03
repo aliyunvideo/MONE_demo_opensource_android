@@ -25,7 +25,7 @@ class ListDataFetcher<Api : Any>(
                 .writeTimeout(1000L, TimeUnit.MILLISECONDS)
                 .connectTimeout(1000L, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(FilterInterceptor())
+//                .addInterceptor(FilterInterceptor())
 //                .addInterceptor(MonitorInterceptor(MainApplication.context))
             return builder.build()
         }
@@ -46,16 +46,16 @@ class ListDataFetcher<Api : Any>(
     }
 }
 
-class FilterInterceptor : Interceptor {
-
-    @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val originalRequest = chain.request()
-        val httpBuilder = originalRequest.url.newBuilder()
-        httpBuilder.addEncodedQueryParameter(HttpConfig.KEY, HttpConfig.KEY_MAP)
-        val requestBuilder = originalRequest.newBuilder()
-            .url(httpBuilder.build())
-        return chain.proceed(requestBuilder.build())
-    }
-
-}
+//class FilterInterceptor : Interceptor {
+//
+//    @Throws(IOException::class)
+//    override fun intercept(chain: Interceptor.Chain): Response {
+//        val originalRequest = chain.request()
+//        val httpBuilder = originalRequest.url.newBuilder()
+//        httpBuilder.addEncodedQueryParameter(HttpConfig.KEY, HttpConfig.KEY_MAP)
+//        val requestBuilder = originalRequest.newBuilder()
+//            .url(httpBuilder.build())
+//        return chain.proceed(requestBuilder.build())
+//    }
+//
+//}

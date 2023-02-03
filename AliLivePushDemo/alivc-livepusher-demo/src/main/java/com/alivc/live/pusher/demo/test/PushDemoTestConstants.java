@@ -7,7 +7,7 @@ import android.util.Log;
 import com.alivc.live.pusher.demo.BuildConfig;
 import com.alivc.live.pusher.demo.R;
 import com.aliyun.interactive_common.utils.AliLiveUserSigGenerate;
-import com.alivc.live.utils.ContextUtils;
+import com.alivc.live.commonutils.ContextUtils;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 
 /**

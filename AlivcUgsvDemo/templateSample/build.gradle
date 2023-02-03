@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 31
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+ext.supportLibVersion = '27.1.1'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIMusic')
+
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    api externalGlide
+    implementation project(':AUIUgsvBase')
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.13.2'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.2'
+    api 'androidx.recyclerview:recyclerview:1.0.0'
+    api project(':AUIFoundation:AVMatisse')  //相册选择器
+    api project(':AliyunVideoCommon')
+    implementation project(':AUIVideoEditor:AUIEditorCommon')
+    implementation project(':AUIVideoEditor:AUIVideoTrack')
+    implementation project(':AUICrop:crop')
+
+    implementation externalAndroidDesign
+    implementation project(':AUIFileDownloader')
+    implementation externalAnt
+    implementation "com.aliyun.video.android:svideotemplate:0.0.1"
+}

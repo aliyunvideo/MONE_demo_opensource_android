@@ -66,6 +66,8 @@ public class MainTrackLayout extends RelativeLayout implements OnClipDragListene
      */
     private boolean mDragHorizontallyEnable = true;
 
+    private long mCacheFixedDuration = -1000;
+
     public MainTrackLayout(Context context) {
         this(context, null);
     }
@@ -373,6 +375,9 @@ public class MainTrackLayout extends RelativeLayout implements OnClipDragListene
     private void addTrackLayoutView() {
         for (int i = 0; i < mTrackLayoutList.size(); i++) {
             VideoClipLayout itemTrackLayout = mTrackLayoutList.get(i);
+            if(mCacheFixedDuration >= 0){
+                itemTrackLayout.setFixedDuration(mCacheFixedDuration);
+            }
             LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             if (i != 0) {
                 layoutParams.leftMargin = -2 * TrackConfig.MOVE_BTN_WIDTH;
@@ -675,5 +680,9 @@ public class MainTrackLayout extends RelativeLayout implements OnClipDragListene
     @Override
     public void onDragLocationChange(float pointX, float pointY) {
         onDragLocationChange(pointX);
+    }
+
+    public void setFixedDuration(long duration){
+        this.mCacheFixedDuration = duration;
     }
 }

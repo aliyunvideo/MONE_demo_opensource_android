@@ -32,6 +32,7 @@ import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.source.UrlSource;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,8 +53,8 @@ public class InteractLiveBaseManager {
     protected AlivcLivePusher mAlivcLivePusher;
     protected MultiAlivcLivePlayer mAlivcLivePlayer;
     protected final Map<String, MultiAlivcLivePlayer> mAlivcLivePlayerMap = new HashMap<>();
-    protected InteractLivePushPullListener mInteractLivePushPullListener;
-    protected MultiInteractLivePushPullListener mMultiInteractLivePushPullListener;
+    protected static InteractLivePushPullListener mInteractLivePushPullListener;
+    protected static MultiInteractLivePushPullListener mMultiInteractLivePushPullListener;
     private String mPushUrl;
     private String mPullUrl;
     private boolean mHasPulled = false;
@@ -214,6 +215,12 @@ public class InteractLiveBaseManager {
             @Override
             public void onConnectionLost(AlivcLivePusher alivcLivePusher) {
                 Log.d(TAG, "onConnectionLost: ");
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onConnectionLost();
+                }
+                if (mMultiInteractLivePushPullListener != null) {
+                    mMultiInteractLivePushPullListener.onConnectionLost();
+                }
             }
 
             @Override
@@ -476,6 +483,10 @@ public class InteractLiveBaseManager {
         }
     }
 
+    public void setMute(boolean isMute){
+        mAlivcLivePusher.setMute(isMute);
+    }
+
     public void release() {
         stopPull();
         stopPush();
@@ -497,6 +508,9 @@ public class InteractLiveBaseManager {
             alivcLivePlayer.destroy();
         }
         mAlivcLivePlayerMap.clear();
+
+        mInteractLivePushPullListener = null;
+        mMultiInteractLivePushPullListener = null;
     }
 
     public void clearLiveMixTranscodingConfig() {
@@ -504,10 +518,10 @@ public class InteractLiveBaseManager {
     }
 
     public void setInteractLivePushPullListener(InteractLivePushPullListener listener) {
-        this.mInteractLivePushPullListener = listener;
+        mInteractLivePushPullListener = listener;
     }
 
     public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {
-        this.mMultiInteractLivePushPullListener = listener;
+        mMultiInteractLivePushPullListener = listener;
     }
 }

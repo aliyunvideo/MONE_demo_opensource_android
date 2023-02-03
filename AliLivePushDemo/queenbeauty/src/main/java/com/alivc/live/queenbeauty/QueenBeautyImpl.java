@@ -1,5 +1,7 @@
 package com.alivc.live.queenbeauty;
 
+import static android.opengl.GLES20.GL_FRAMEBUFFER;
+
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.SensorManager;
@@ -15,24 +17,22 @@ import androidx.annotation.NonNull;
 
 import com.alivc.live.beauty.BeautyInterface;
 import com.alivc.live.beauty.constant.BeautyImageFormat;
-import com.aliyunsdk.queen.param.QueenParamHolder;
 import com.aliyun.android.libqueen.QueenEngine;
 import com.aliyun.android.libqueen.Texture2D;
 import com.aliyun.android.libqueen.exception.InitializationException;
 import com.aliyun.android.libqueen.models.Flip;
+import com.aliyunsdk.queen.param.QueenParamHolder;
 
 import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.List;
-
-import static android.opengl.GLES20.GL_FRAMEBUFFER;
 
 /**
  * 非互动模式下，美颜实现相关类
  */
 @Keep
 public class QueenBeautyImpl implements BeautyInterface {
-    private static final String TAG = QueenBeautyImpl.class.getSimpleName();
+    private static final String TAG = "QueenBeautyImpl";
 
     private final Context mContext;
 
@@ -91,6 +91,9 @@ public class QueenBeautyImpl implements BeautyInterface {
             mMediaChainEngine.release();
             mMediaChainEngine = null;
         }
+
+        // 重置美颜设置，美颜参数效果在内部以静态变量形式保存
+        QueenParamHolder.relaseQueenParams();
 
         isBeautyEnable = false;
     }

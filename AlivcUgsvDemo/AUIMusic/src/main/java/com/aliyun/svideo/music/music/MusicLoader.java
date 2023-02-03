@@ -7,9 +7,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.aliyun.svideo.music.R;
-import com.aliyun.common.utils.CommonUtil;
-import com.aliyun.common.utils.StorageUtils;
-import com.aliyun.common.utils.ToastUtil;
+import com.aliyun.ugsv.common.utils.CommonUtil;
+import com.aliyun.ugsv.common.utils.StorageUtils;
+import com.aliyun.ugsv.common.utils.ToastUtil;
 import com.aliyun.svideo.downloader.DownloaderManager;
 import com.aliyun.svideo.downloader.FileDownloaderCallback;
 import com.aliyun.svideo.downloader.FileDownloaderModel;

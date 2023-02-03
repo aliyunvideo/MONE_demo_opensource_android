@@ -55,7 +55,7 @@ import com.alivc.live.pusher.demo.test.PushDemoTestConstants;
 import com.alivc.live.pusher.widget.PushConfigBottomSheet;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
-import com.alivc.live.utils.StatusBarUtil;
+import com.alivc.live.commonutils.StatusBarUtil;
 
 import java.io.File;
 

@@ -12,6 +12,7 @@ import android.graphics.Region;
 import android.os.Build;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -60,6 +61,11 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
      */
     private float mTimelineScale = 1.0f;
 
+    private long mDurationPerFrame = TrackConfig.DEFAULT_FRAME_DURATION_MS;
+
+    private long mFixedDuration;
+    private ClipTrackStyle mStyle = ClipTrackStyle.DYNAMIC;
+
     List<ThumbnailBitmap> mBitmapList = new ArrayList<>();
 
     public ClipFrameView(Context context) {
@@ -89,7 +95,7 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
         } else if (mMainClipInfo != null) {
             mFrameViewNumPair = initTrackFrameNum(mMainClipInfo);
             long targetDuration = mMainClipInfo.getClipDuration();
-            float contentWidth = targetDuration * TrackConfig.getPxUnit(mTimelineScale);
+            float contentWidth = targetDuration * TrackConfig.getPxUnit(mTimelineScale, mDurationPerFrame);
             width = Math.round(contentWidth);
         } else {
             width = getDefaultSize(MeasureSpec.getSize(widthMeasureSpec), widthMeasureSpec);
@@ -101,6 +107,12 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
         mTargetDrawRect = new RectF();
         mFrameRect = new Rect();
         mClipPath = new Path();
+    }
+
+    //WARNING: should be call before this View being add to its parent when style is FIXED
+    public void setFixedDuration(long duration){
+        this.mFixedDuration = duration;
+        this.mStyle = ClipTrackStyle.FIXED;
     }
 
     public void setTimelineScale(float timelineScale) {
@@ -129,10 +141,18 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
         if (mMainClipInfo.getDuration() == 0) {
             times = new long[1];
         } else {
-            int size = (int) Math.ceil(mMainClipInfo.getDuration() / 1000.0f);
+            if(mStyle == ClipTrackStyle.DYNAMIC){
+                mDurationPerFrame = TrackConfig.DEFAULT_FRAME_DURATION_MS;
+            }else if(mStyle == ClipTrackStyle.FIXED){
+                mDurationPerFrame = mFixedDuration / 5;
+            }else{
+                Log.e(ClipFrameView.class.getSimpleName(), "undefined style");
+            }
+            if(mDurationPerFrame == 0) return;
+            int size = (int) Math.ceil(mMainClipInfo.getDuration() / mDurationPerFrame);
             times = new long[size];
             for (int i = 0; i < times.length; i++) {
-                times[i] = i * 1000L;
+                times[i] = i * mDurationPerFrame;
             }
         }
         ThumbnailFetcherManger.getInstance().requestThumbnailImage(mMainClipInfo.getPath(), times, this);
@@ -142,6 +162,7 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         ThumbnailFetcherManger.getInstance().removeThumbnailRequestListener(mMainClipInfo.getPath(), this);
+        mBitmapList.clear();
     }
 
     @Override
@@ -150,8 +171,8 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
             drawContent(canvas);
         } else {
             //拖动排序状态下只显示一张
-            float startIndex = mMainClipInfo.getIn() / 1000.0f;
-            Bitmap bitmap = getBitmap((long) (Math.floor(startIndex) * 1000L));
+            float startIndex = mMainClipInfo.getIn() / mDurationPerFrame;
+            Bitmap bitmap = getBitmap((long) (Math.floor(startIndex) * mDurationPerFrame));
             if (bitmap != null && !bitmap.isRecycled()) {
                 mFrameRect.set(0, 0, TrackConfig.FRAME_WIDTH, TrackConfig.FRAME_WIDTH);
                 canvas.drawBitmap(bitmap, null, mFrameRect, null);
@@ -171,7 +192,7 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
             marginEnd = Math.round(marginEnd / Math.sin(Math.toRadians(angle)));
         }
 
-        float right = mMainClipInfo.getClipDuration() * TrackConfig.getPxUnit(mTimelineScale) - marginEnd;
+        float right = mMainClipInfo.getClipDuration() * TrackConfig.getPxUnit(mTimelineScale, mDurationPerFrame) - marginEnd;
         float bottom = getHeight();
 
         mTargetDrawRect.set(0.0f, 0.0f, right, bottom);
@@ -215,14 +236,14 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
         }
 
         int index = 0;
-        float startIndex = mMainClipInfo.getIn() / 1000.0f;
+        float startIndex = mMainClipInfo.getIn() / (float)mDurationPerFrame;
         int startPx = (int) (-(startIndex - Math.floor(startIndex)) * TrackConfig.FRAME_WIDTH);
         while (true) {
             int currentPx = startPx + TrackConfig.FRAME_WIDTH * index;
             float borderLeft = mTargetDrawRect.left - TrackConfig.FRAME_WIDTH;
             float borderRight = mTargetDrawRect.right + TrackConfig.FRAME_WIDTH;
             if (currentPx >= borderLeft && currentPx <= borderRight) {
-                Bitmap bitmap = getBitmap((long) ((Math.floor(startIndex) + index) * 1000L));
+                Bitmap bitmap = getBitmap((long) ((Math.floor(startIndex) + index) * mDurationPerFrame));
                 if (bitmap != null && !bitmap.isRecycled()) {
                     mFrameRect.set(currentPx, 0, TrackConfig.FRAME_WIDTH + currentPx, TrackConfig.FRAME_WIDTH);
                     canvas.drawBitmap(bitmap, null, mFrameRect, null);
@@ -261,7 +282,7 @@ public class ClipFrameView extends View implements ThumbnailRequestListener {
 
     private Pair<Integer, Float> initTrackFrameNum(MainVideoClipInfo flipInfo) {
         long duration = flipInfo.getDuration() == 0 ? flipInfo.getTimelineOut() - flipInfo.getTimelineIn() : flipInfo.getDuration();
-        float num = duration * TrackConfig.getPxUnit(mTimelineScale) / TrackConfig.FRAME_WIDTH;
+        float num = duration * TrackConfig.getPxUnit(mTimelineScale, mDurationPerFrame) / TrackConfig.FRAME_WIDTH;
         return new Pair<Integer, Float>((int) num, num - ((int) num));
     }
 
