@@ -3,11 +3,11 @@ package com.aliyun.player.alivcplayerexpand.util.download;
 import android.os.Parcel;
 import android.text.TextUtils;
 
+import com.aliyun.player.alivcplayerexpand.util.JsonUtil;
 import com.aliyun.player.bean.ErrorCode;
 import com.aliyun.player.nativeclass.TrackInfo;
 import com.aliyun.player.source.VidAuth;
 import com.aliyun.player.source.VidSts;
-import com.aliyun.utils.JsonUtil;
 import com.cicada.player.utils.Logger;
 
 import org.json.JSONArray;

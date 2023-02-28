@@ -35,4 +35,5 @@ dependencies {
     implementation 'com.github.zyyoona7:wheelview:2.0.4'
 //    implementation externalLeakcanary
     implementation externalAndroidMultiDex
+    implementation project(':templateSample')
 }

@@ -1,0 +1,17 @@
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation externalAndroidMultiDex
+    implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIFoundation:AVTheme')
+    implementation project(':AUIFoundation:AVUtils')
+    implementation project(':LiveBasic:live_push')
+    implementation project(':LiveBasic:live_pull')
+    implementation project(':LiveBasic:live_pull_rts')
+    implementation project(':LiveBasic:live_screencap')
+    implementation project(':LiveInteractive:live_pk')
+    implementation project(':LiveInteractive:live_interactive')
+    implementation externalARouter
+    annotationProcessor externalARouterCompiler
+}

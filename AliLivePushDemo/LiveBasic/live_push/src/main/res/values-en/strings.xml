@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="push_args">Stream Ingest Parameters</string>
+    <string name="stream_pusher_tip">Stream Ingest Features</string>
+    <string name="interaction_mode">Interaction Mode</string>
+    <string name="start_button">Start pushing</string>
+    <string name="waiting_download_video_resources">waiting for download external video resources</string>
+
+    <string name="ok">OK</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
+
+    <string name="pause_button">Pause</string>
+    <string name="dialog_title">Error tips</string>
+    <string name="connecting_dialog_tips">pushing_wating</string>
+    <string name="pushing">Ingesting...</string>
+
+
+    <string name="beauty_off_tips">Retouching is disabled. Enable retouching and then retry.</string>
+    <string name="add_dynamic_failed">Add dynamic failed, id=</string>
+    <string name="start_preview">Start preview</string>
+    <string name="stop_preview">Stop preview</string>
+    <string name="stop_push">Stop pushing</string>
+    <string name="pause_push">Pause</string>
+    <string name="resume_push">Resume</string>
+    <string name="restart_success">Restart successfully</string>
+
+    <string name="network_poor">The network is unstable, please quit or try again</string>
+    <string name="network_recovery">The network has recovered</string>
+    <string name="reconnect_start">Start reconnecting</string>
+    <string name="reconnect_fail">Reconnection failed</string>
+    <string name="reconnect_success">Reconnection succeed</string>
+    <string name="senddata_timeout">Sending data timeout</string>
+    <string name="send_message">Send Message</string>
+    <string name="bgm_open_failed">BGM File open Failed</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="resume_button">Resume</string>
+
+    <string name="start_preview_button">Start preview</string>
+    <string name="wating_push">Waiting for Stream Ingest...</string>
+    <string name="backgroud_music">Background Music</string>
+    <string name="flash">Flash</string>
+    <string name="camera">Camera</string>
+    <string name="snapshot">Snapshot</string>
+    <string name="stop_preview_button">Stop preview</string>
+    <string name="repush_button">Restart pushing</string>
+    <string name="more_setting_button">More setting</string>
+    <string name="data_args">Data Metrics</string>
+    <string name="local_info">Statistics on Local Videos</string>
+
+    <string name="close_ears_back">Close Ears</string>
+    <string name="open_ears_back">Open Ears</string>
+    <string name="open_audio_denoise">Audio Denoise</string>
+    <string name="open_audio_intelligent_denoise">Audio Intelligent Denoise</string>
+    <string name="accompaniment">Accompaniment</string>
+    <string name="voice">Voice</string>
+    <string name="av_resolution_music_operations">Music Operations</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
+    <string name="close_loop">Close Loop</string>
+    <string name="open_loop">Open Loop</string>
+    <string name="close_mute">Close Mute</string>
+    <string name="open_mute">Open Mute</string>
+    <string name="music_list">Music List</string>
+    <string name="no_music">No Music</string>
+    <string name="internet_music">Internet music</string>
+
+
+    <string name="setting_audio_441">44.1KHz</string>
+    <string name="setting_audio_320">32KHz</string>
+    <string name="setting_audio_160">16KHz</string>
+
+    <string name="sound_effect_reverb_off">Off</string>
+    <string name="sound_effect_reverb_vocal1">Vocal1</string>
+    <string name="sound_effect_reverb_vocal2">Vocal2</string>
+    <string name="sound_effect_reverb_bathroom">BathRoom</string>
+    <string name="sound_effect_reverb_smallroom_bright">SmallRoom(bright)</string>
+    <string name="sound_effect_reverb_smallroom_dark">SmallRoom(Dark)</string>
+    <string name="sound_effect_reverb_mediumroom">MediumRoom</string>
+    <string name="sound_effect_reverb_largeroom">LargeRoom</string>
+    <string name="sound_effect_reverb_churchhall">ChurchHall</string>
+
+    <string name="sound_effect_title">Sound Effect</string>
+    <string name="sound_effect_change_voice">Change Voice</string>
+    <string name="sound_effect_reverb">Reverb</string>
+    <string name="sound_effect_changevoice_off">Off</string>
+    <string name="sound_effect_changevoice_oldman">Old_man</string>
+    <string name="sound_effect_changevoice_babyboy">Baby_Boy</string>
+    <string name="sound_effect_changevoice_babygirl">Baby_Girl</string>
+    <string name="sound_effect_changevoice_robot">Robot</string>
+    <string name="sound_effect_changevoice_daimo">Daimo</string>
+    <string name="sound_effect_changevoice_ktv">KTV</string>
+    <string name="sound_effect_changevoice_echo">Echo</string>
+</resources>

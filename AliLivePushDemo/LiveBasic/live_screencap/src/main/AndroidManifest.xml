@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.alivc.live.baselive_recording">
+
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <application>
+
+        <!--    请务必添加service，否则会因系统权限不足，导致推流黑屏    -->
+        <service
+            android:name=".service.ForegroundService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection|camera" />
+
+        <activity
+            android:name=".ui.VideoRecordConfigActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="uiMode"
+            android:screenOrientation="portrait"
+            android:theme="@style/AVPushTheme" />
+    </application>
+</manifest>

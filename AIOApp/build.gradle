@@ -76,9 +76,6 @@ android {
         pickFirst '**/libc++_shared.so'
         pickFirst '**/libMNN.so'
         pickFirst '**/libMNN_CL.so'
-        pickFirst '**/libAETemplateEngine.so'
-        pickFirst '**/liball_in_one.so'
-        pickFirst '**/libPluginOpus.so'
     }
 
     buildFeatures {
@@ -99,8 +96,8 @@ dependencies {
     implementation project(':AUIFoundation:AVBaseUI')
     implementation project(':AUIFoundation:AVTheme')
     if (hasLive()) {
-        println("hasLive implementation project(':livepusherapp')")
-        implementation project(':livepusherapp')
+        println("hasLive implementation project(':LiveApp')")
+        implementation project(':LiveApp')
     }
     if (hasPlayer()) {
         println("hasPlayer implementation project(':liveplayerapp')")

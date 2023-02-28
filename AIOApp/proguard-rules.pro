@@ -56,3 +56,75 @@
 -keep public class com.alibaba.android.arouter.facade.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
+
+-keep class com.alivc.live.** {
+   *;
+}
+
+-keep class com.alivc.component.** {
+   *;
+}
+
+-keep class org.webrtc.** {
+   *;
+}
+
+-keep class com.huawei.multimedia.alivc.** {
+    *;
+}
+
+-keep class com.alivc.rtc.** {
+    *;
+}
+
+-keep class com.alivc.component.** {
+    *;
+}
+
+
+-keep class com.cicada.player.utils.NativeUsed { *; }
+-keep,allowobfuscation interface com.cicada.player.utils.NativeUsed
+
+-keep @com.cicada.player.utils.NativeUsed class *
+-keepclassmembers class * {
+    @com.cicada.player.utils.NativeUsed *;
+}
+
+
+-keep class com.aliyun.player.nativeclass.** { *;}
+#-keep class com.aliyun.player.externalplayer.** { *;}
+-keep class com.aliyun.player.videoview.AliDisplayView { *;}
+-keep class com.aliyun.player.videoview.AliDisplayView$* { *;}
+-keep class com.aliyun.player.source.** { *;}
+-keep class com.aliyun.player.bean.** { *;}
+-keep class com.aliyun.player.* { *;}
+
+-keep class com.aliyun.downloader.** { *;}
+-keep class com.aliyun.thumbnail.** { *;}
+-keep class com.aliyun.liveshift.** { *;}
+-keep class com.aliyun.loader.** { *;}
+-keep class com.aliyun.subtitle.** { *;}
+-keep class com.aliyun.private_service.** { *;}
+
+-keep class com.aliyun.utils.DeviceInfoUtils { *;}
+-keep class com.cicada.player.utils.** { *;}
+
+######################短视频混淆配置#########################
+-keep class com.aliyun.svideosdk.** {
+    *;
+}
+-keep class com.aliyun.common.network.** {
+    *;
+}
+
+-keep class com.aliyun.common.log.struct.AliyunLogInfo {*;}
+
+
+-keep class **.CalledByNative { *; }
+-keep,allowobfuscation interface **.CalledByNative
+
+-keep @**.CalledByNative class *
+-keepclassmembers class * {
+    @**.CalledByNative *;
+}
+

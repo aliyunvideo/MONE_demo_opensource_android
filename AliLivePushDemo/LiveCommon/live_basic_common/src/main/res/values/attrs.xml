@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--MaxHeightLayout 使用-->
+    <declare-styleable name="mMaxRatio">
+        <attr name="linear_max_ratio" format="float"></attr>
+    </declare-styleable>
+</resources>

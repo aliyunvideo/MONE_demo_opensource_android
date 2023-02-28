@@ -1,0 +1,66 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.library'
+
+ext.MTL_buildId = getEnvValue("MUPP_BUILD_ID", '')
+ext.MTL_buildTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())
+// special configurations, only used for test.
+ext.Interactive_AppID = getEnvValue("INTERACTIVE_APP_ID", '')
+ext.Interactive_AppKey = getEnvValue("INTERACTIVE_APP_KEY", '')
+ext.Interactive_PlayDomain = getEnvValue("INTERACTIVE_PLAY_DOMAIN", '')
+ext.isAllInOne = allInOne
+
+//@keria:cannot make method static
+String getEnvValue(key, defValue) {
+    def val = System.getProperty(key)
+    if (null != val) {
+        return val
+    }
+    val = System.getenv(key)
+    if (null != val) {
+        return val
+    }
+    return defValue
+}
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+
+        Properties properties = new Properties()
+        if (project.rootProject.file('local.properties').canRead()) {
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        }
+        resValue "string", "test_push_url", properties.getProperty("push.url", "")
+        resValue "string", "test_pull_url", properties.getProperty("pull.url", "")
+        resValue "string", "interactive_appid", properties.getProperty("interactive.appid", "")
+        resValue "string", "interactive_appkey", properties.getProperty("interactive.appkey", "")
+        resValue "string", "interactive_push_domain", properties.getProperty("interactive.push.domain", "")
+        resValue "string", "interactive_play_domain", properties.getProperty("interactive.play.domain", "")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME :'live' ]
+            }
+        }
+    }
+
+    buildTypes {
+        all {
+            buildConfigField "Boolean", "MTL_BUILD_FOR_AIO", "${isAllInOne}"
+            buildConfigField "String", "MTL_BUILD_ID", "\"${MTL_buildId}\""
+            buildConfigField "String", "MTL_BUILD_TIMESTAMP", "\"${MTL_buildTimestamp}\""
+            buildConfigField "String", "INTERACTIVE_APP_ID", "\"${Interactive_AppID}\""
+            buildConfigField "String", "INTERACTIVE_APP_KEY", "\"${Interactive_AppKey}\""
+            buildConfigField "String", "INTERACTIVE_PLAY_DOMAIN", "\"${Interactive_PlayDomain}\""
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+apply from: './dependencies.gradle'

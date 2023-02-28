@@ -1,23 +1,27 @@
-include ':imageutil'
-include ':queenbeauty'
-include ':beautyui'
-include ':beauty'
-include ':alivc-livepusher-demo'
+include ':LiveApp'
 if (file(livePushSdkSourceCode).exists()) {
     include ':alivc-livepusher-lib'
     project(':alivc-livepusher-lib').projectDir = file(livePushSdkSourceCode)
 }
-include ':commonutils'
-include ':commonbiz'
-include 'interactiveLive'
-project(':interactiveLive').projectDir = new File('./interactive/interactive_live')
-include 'interactivePK'
-project(':interactivePK').projectDir = new File('./interactive/interactive_pk')
-include 'interactiveCommon'
-project(':interactiveCommon').projectDir = new File('./interactive/interactive_common')
 
 include ':AndroidThirdParty'
 include ':AUIFoundation:AVTheme'
 include ':AUIFoundation:AVBaseUI'
 include ':AUIFoundation:AVMatisse'
 include ':AUIFoundation:AVUtils'
+
+include ':LiveBeauty:live_beauty'
+include ':LiveBeauty:live_queenbeauty'
+
+include ':LiveBasic:live_pull'
+include ':LiveBasic:live_screencap'
+include ':LiveBasic:live_push'
+include ':LiveBasic:live_pull_rts'
+
+include ':LiveInteractive:live_pk'
+include ':LiveInteractive:live_interactive'
+
+include ':LiveCommon:live_commonbiz'
+include ':LiveCommon:live_commonutils'
+include ':LiveCommon:live_basic_common'
+include ':LiveCommon:live_interactive_common'

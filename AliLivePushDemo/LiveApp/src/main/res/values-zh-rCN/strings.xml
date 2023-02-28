@@ -1,0 +1,93 @@
+<resources>
+
+    <string name="app_name">阿里云直播</string>
+    <string name="license_declaration">版权信息</string>
+    <string name="license_declaration_text">阿里云 copyright@2017，阿里巴巴集团</string>
+    <string name="resolution_label">分辨率</string>
+
+    <string name="portrait">Portrait</string>
+
+    <string name="software_encode">软编</string>
+
+    <string name="slide_right_view_log_char">右滑查看log图表</string>
+    <string name="slide_left_view_log">左滑查看log</string>
+    <string name="share_button">分享</string>
+    <string name="dy_add_button">加贴纸</string>
+    <string name="dy_remove_button">删贴纸</string>
+    <string name="beauty_on">开启美颜</string>
+    <string name="beauty_off">关闭美颜</string>
+    <string name="beauty_white">美白</string>
+    <string name="beauty_skin_smooth">磨皮</string>
+    <string name="beauty_ruddy">红润</string>
+    <string name="beauty_cheekpink">腮红</string>
+    <string name="beauty_thinface">瘦脸</string>
+    <string name="beauty_shortenface">收下巴</string>
+    <string name="beauty_bigeye">大眼</string>
+    <string name="capture">采集</string>
+    <string name="render">渲染</string>
+    <string name="encode">编码</string>
+    <string name="push">推流</string>
+
+    <string name="mic_volume">麦克风音量</string>
+
+    <string name="audio_fps">各模块audio fps</string>
+    <string name="video_fps">各模块video fps</string>
+    <string name="bitrate">各模块bitrate</string>
+    <string name="video_encode">视频编码</string>
+    <string name="audio_encode">音频编码</string>
+
+    <string name="buffer">各模块buffer</string>
+    <string name="video_renderbuffer">视频渲染</string>
+    <string name="video_encodebuffer">视频编码</string>
+    <string name="video_uploadbuffer">视频上传</string>
+    <string name="audio_encodebuffer">音频编码</string>
+    <string name="audio_uploadbuffer">音频上传</string>
+
+
+
+    <string name="push_url">推流地址</string>
+    <string name="ispushing">是否推流</string>
+    <string name="narrowband_hd">窄带高清</string>
+
+
+    <string name="publisher_log">推流参数log：</string>
+
+    <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
+    <string name="no_record_bluetooth_permission">没有权限使用蓝牙，请开启蓝牙权限</string>
+    <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
+    <string name="no_read_phone_state_permission">没有读取用户数据的权限，请开启该权限</string>
+    <string name="no_write_external_storage_permission">没有文件写权限，请开启该权限</string>
+    <string name="no_read_external_storage_permission">没有文件读权限，请开启该权限</string>
+    <string name="no_read_bluetooth_connect_permission">没有蓝牙连接权限，请开启该权限</string>
+    <string name="no_internet_permission">没有网络权限，请开启该权限</string>
+
+    <string name="bite_error">码率参数设置错误！</string>
+
+    //老 demo 资源
+
+    <string name="screen_tool">录屏工具</string>
+    <string name="privacy_off">隐私关</string>
+    <string name="camera_off">摄像头关</string>
+    <string name="answer">答题</string>
+
+
+    <string name="shot_pic_toast">截图已保存</string>
+    <string name="second_rate">/次</string>
+    <string name="send_frame_rate">发送帧率: </string>
+    <string name="send_bitrate">发送码率: </string>
+    <string name="version_desc">版本为：v</string>
+    <string name="push_title_name">直播</string>
+    <string name="pull_common_enter_name_tv">录屏推流</string>
+
+    <string name="push_enter_name_tv">摄像头推流</string>
+    <string name="push_local_video_name_tv">本地视频推流</string>
+
+    <string name="only_audio_or_video_push">纯音或纯视频流</string>
+
+    <string name="push_orientation">推流方向</string>
+    <string name="beauty">美颜</string>
+
+    <string name="push_main_title_name">阿里云\n移动推流</string>
+    <string name="push_main_bottom_tip">本Demo为用于展示阿里云移动推流sdk主要功能</string>
+
+</resources>

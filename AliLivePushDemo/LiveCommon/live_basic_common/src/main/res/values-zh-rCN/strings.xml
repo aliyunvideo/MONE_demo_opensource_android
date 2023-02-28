@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="system_error">系统错误：</string>
+    <string name="sdk_error">SDK错误：</string>
+    <string name="connect_fail">连接失败</string>
+
+    <string name="view_string_hint_push_url">请输入推流url</string>
+    <string name="url_empty">请输入推流地址</string>
+
+    <string name="btn_confirm">确认</string>
+    <string name="pull_cancel">取消</string>
+    <string name="stop_button">停止推流</string>
+    <string name="start_push">开始推流</string>
+
+
+    <string name="resolution_label">分辨率</string>
+    <string name="setting_resolution_180P">180P</string>
+    <string name="setting_resolution_240P">240P</string>
+    <string name="setting_resolution_360P">360P</string>
+    <string name="setting_resolution_480P">480P</string>
+    <string name="setting_resolution_540P">540P</string>
+    <string name="setting_resolution_720P">720P</string>
+    <string name="setting_resolution_1080P">1080P</string>
+
+    <string name="bitrate_control">码率自适应</string>
+    <string name="variable_resolution">可变分辨率</string>
+    <string name="resolution_label_desc">分辨率自适应需开启码率自适应，详细请参考api文档</string>
+    <string name="advance_config">高级设置</string>
+    <string name="display_mode">显示模式</string>
+    <string name="display_mode_full">拉伸</string>
+    <string name="display_mode_fit">适合</string>
+    <string name="display_mode_cut">剪裁</string>
+    <string name="quality_resolution_first">清晰度优先</string>
+    <string name="quality_fluency_first">流畅度优先</string>
+    <string name="video_label_desc">视频码率和帧率仅在自定义模式下可以调整</string>
+    <string name="quality_custom">自定义</string>
+    <string name="target_bitrate">视频目标码率</string>
+    <string name="target_rate_value">1200</string>
+    <string name="min_bitrate">视频最小码率</string>
+    <string name="min_rate_value">300</string>
+    <string name="initial_bitrate">视频初始码率</string>
+    <string name="initial_bit_value">1000</string>
+    <string name="audio_bitrate">音频码率</string>
+    <string name="audio_bitrate_value">64</string>
+    <string name="min_fps">最小帧率</string>
+    <string name="captrue_fps">采集帧率</string>
+    <string name="init_fps">20</string>
+    <string name="audio_sampling_rate">音频采样率</string>
+    <string name="setting_audio_480">48KHz</string>
+    <string name="GOP">关键帧间隔</string>
+    <string name="audio_profile">音频编码</string>
+    <string name="sound_track">声道</string>
+    <string name="video_encoder">视频编码器</string>
+    <string name="b_frames">B帧个数</string>
+    <string name="hardware_encode">视频硬编码</string>
+    <string name="audio_hardware_encode">音频硬编码</string>
+    <string name="setting_audio_aac_lc">LC</string>
+    <string name="setting_audio_aac_he">HE-AAC</string>
+    <string name="setting_audio_aac_hev2">HEv2-AAC</string>
+    <string name="setting_audio_aac_ld">AAC-LD</string>
+    <string name="single_track">单声道</string>
+    <string name="dual_track">双声道</string>
+    <string name="h264">H264</string>
+    <string name="h265">H265</string>
+    <string name="portrait">Portrait</string>
+    <string name="homeLeft">HomeLeft</string>
+    <string name="homeRight">HomeRight</string>
+    <string name="video_push_streaming">音视频</string>
+    <string name="audio_only_push_streaming">纯音频</string>
+    <string name="video_only_push_streaming">纯视频</string>
+
+
+    <string name="push_orientation">推流方向</string>
+    <string name="landscape_model">显示模式</string>
+    <string name="auto_reconnect">自动重连</string>
+    <string name="reconnect_duration">重连时长</string>
+    <string name="input_desc">请输入</string>
+    <string name="reconnect_times">重连次数</string>
+    <string name="watermark">水印</string>
+    <string name="watermark_open">开启水印</string>
+    <string name="watermark_setting">水印位置</string>
+    <string name="mirror_desc">镜像</string>
+    <string name="setting_pre_mirror">预览镜像</string>
+    <string name="setting_push_mirror">推流镜像</string>
+    <string name="camera_setting">相机控制</string>
+    <string name="front_camera">前置摄像头</string>
+    <string name="auto_focus">自动对焦</string>
+    <string name="beauty_setting">美颜开关</string>
+    <string name="beauty_enable">开启美颜</string>
+    <string name="image_push">图片推流</string>
+    <string name="pause_image">暂停图片</string>
+    <string name="network_image">网络差图片</string>
+    <string name="push_mode">推流模式</string>
+    <string name="url_auth">推流鉴权</string>
+    <string name="auth_text">有效时长</string>
+    <string name="privacy_text">鉴权key</string>
+    <string name="other_func">其他功能</string>
+    <string name="asynchronous_interface">异步接口</string>
+    <string name="music_mode">音乐模式</string>
+    <string name="extern_stream_main">外部音视频</string>
+    <string name="local_log">本地日志</string>
+</resources>

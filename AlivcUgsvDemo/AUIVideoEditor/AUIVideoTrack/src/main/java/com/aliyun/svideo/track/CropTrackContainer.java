@@ -2,22 +2,27 @@ package com.aliyun.svideo.track;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.aliyun.svideo.track.api.ScrollState;
+import com.aliyun.svideo.track.api.TrackConfig;
 import com.aliyun.svideo.track.bean.BaseClipInfo;
 import com.aliyun.svideo.track.bean.ClipType;
 import com.aliyun.svideo.track.bean.MainVideoClipInfo;
 import com.aliyun.svideo.track.inc.CropTrackListener;
 import com.aliyun.svideo.track.inc.IMultiTrackListener;
+import com.aliyun.svideo.track.inc.IScrollChangeListener;
 import com.aliyun.svideo.track.inc.OnScrollStateChangeListener;
 import com.aliyun.svideo.track.thumbnail.ThumbnailFetcherManger;
+import com.aliyun.svideo.track.view.ClipTrackStyle;
 import com.aliyun.svideo.track.view.EditScroller;
 import com.aliyun.svideo.track.view.HorizontalScrollContainer;
 import com.aliyun.svideo.track.view.MainTrackLayout;
+import com.aliyun.ugsv.common.utils.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +30,7 @@ import java.util.List;
 /**
  * 裁剪轨道容器
  */
-public class CropTrackContainer extends HorizontalScrollContainer {
+public class CropTrackContainer extends HorizontalScrollContainer implements IScrollChangeListener {
     /**
      * 横向滚动容器
      */
@@ -43,6 +48,14 @@ public class CropTrackContainer extends HorizontalScrollContainer {
 
     private long mTimeIn;
     private long mTimeOut;
+
+    public enum UIStyle{
+        STYLE1,
+        STYLE2
+    }
+    private UIStyle mStyle = UIStyle.STYLE1;
+    private long mDurationPerFrame = 1;
+    private long mFixedDuration;
 
     private final IMultiTrackListener mMultiTrackListener = new IMultiTrackListener() {
 
@@ -138,28 +151,42 @@ public class CropTrackContainer extends HorizontalScrollContainer {
         init(context);
     }
 
+    //should be call before setVideoData
+    public void setFixedDurationInMs(long duration){
+        mStyle = UIStyle.STYLE2;
+        init(getContext());
+        mFixedDuration = duration;
+        mDurationPerFrame = mFixedDuration * TrackConfig.FRAME_WIDTH / DensityUtil.dip2px(getContext(), 220);
+        mEditScroller.setScrollChangeListener(this);
+        mEditScroller.setFixedDuration(mFixedDuration);
+        mMainTrackLayout.setFixedDuration(mFixedDuration);
+    }
+
     @Override
     protected EditScroller getEditScroller() {
         return mEditScroller;
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.layout_crop_track_panel, this, true);
-        if (null == mMainTrackLayout) {
-            mMainTrackLayout = findViewById(R.id.mMultiTrackLayout);
-            mEditScroller = findViewById(R.id.editScroller);
-            mMainTrackLayout.setDragEnable(false);
-            setOnScrollStateChangeListener(new OnScrollStateChangeListener() {
-                @Override
-                public void onScrollStateChanged(ScrollState scrollState, int scrollX, int scrollY) {
-                    long time = (long) (scrollX * 1.0f / getEditScroller().getMaxScrollX() * mTimelineDuration);
-                    if (mListener != null) {
-                        ThumbnailFetcherManger.getInstance().onUpdatePlayTime(time);
-                        mListener.onScrollChangedTime(time);
-                    }
-                }
-            });
+        this.removeAllViews();
+        if(mStyle == UIStyle.STYLE1){
+            LayoutInflater.from(context).inflate(R.layout.layout_crop_track_panel, this, true);
+        }else if(mStyle == UIStyle.STYLE2){
+            LayoutInflater.from(context).inflate(R.layout.layout_crop_track_panel_fixed_style, this, true);
         }
+        mMainTrackLayout = findViewById(R.id.mMultiTrackLayout);
+        mEditScroller = findViewById(R.id.editScroller);
+        mMainTrackLayout.setDragEnable(false);
+        setOnScrollStateChangeListener(new OnScrollStateChangeListener() {
+            @Override
+            public void onScrollStateChanged(ScrollState scrollState, int scrollX, int scrollY) {
+                long time = (long) (scrollX * 1.0f / getEditScroller().getMaxScrollX() * mTimelineDuration);
+                if (mListener != null) {
+                    ThumbnailFetcherManger.getInstance().onUpdatePlayTime(time);
+                    mListener.onScrollChangedTime(time);
+                }
+            }
+        });
     }
 
     /**
@@ -211,4 +238,19 @@ public class CropTrackContainer extends HorizontalScrollContainer {
         return mTimelineDuration;
     }
 
+    @Override
+    public void onScrollChanged(int scrollX, int dx) {
+
+    }
+
+    @Override
+    public void onScrollChanged(int scrollX) {
+        if(mStyle == UIStyle.STYLE2){
+            long timeStart = (long)((float)scrollX / (float) TrackConfig.FRAME_WIDTH * mDurationPerFrame);
+            Log.d(CropTrackContainer.class.getSimpleName(), "onScrollChanged " + timeStart);
+            if(mListener != null){
+                mListener.onUpdateClipTime(timeStart, timeStart + mFixedDuration);
+            }
+        }
+    }
 }

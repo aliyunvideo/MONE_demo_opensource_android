@@ -146,4 +146,10 @@ public class TemplateExportActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mTemplateEditor != null) mTemplateEditor.release();
+    }
 }

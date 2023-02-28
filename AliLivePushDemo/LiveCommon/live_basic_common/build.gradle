@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    api project(':LiveCommon:live_commonutils')
+    api project(':LiveCommon:live_commonbiz')
+
+    api project(':AUIFoundation:AVBaseUI')
+    api project(':AUIFoundation:AVTheme')
+    api project(':AUIFoundation:AVUtils')
+
+    // 音频智能降噪组件库，如果需要使用pusher里面的音频智能降噪功能，需集成此依赖库，否则调用相关接口将会失效
+    api 'com.alivc.live.component:intelligentdenoise:1.0.0'
+
+    if (file(livePushSdkSourceCode).exists()) {
+        api project(':alivc-livepusher-lib')
+    } else {
+        api hasInteractiveLive() ? externalLivePusherInteractive : externalLivePusher
+    }
+}

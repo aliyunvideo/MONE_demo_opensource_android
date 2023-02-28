@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pull_rtc_enter_name_tv">Live Streaming</string>
+    <string name="view_string_hint_pull_url">Enter the source URL.</string>
+    <string name="pull_restart">Retry</string>
+</resources>

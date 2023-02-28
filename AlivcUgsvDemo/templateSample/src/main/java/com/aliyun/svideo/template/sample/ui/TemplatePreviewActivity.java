@@ -173,4 +173,19 @@ public class TemplatePreviewActivity extends AppCompatActivity {
         mAliyunTemplatePlayer = mAliyunTemplateEditor.getPreviewPlayer();
         mAliyunTemplatePlayer.start();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mAliyunTemplatePlayer != null){
+            mAliyunTemplatePlayer.pause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mAliyunTemplatePlayer != null) mAliyunTemplatePlayer.stop();
+        if(mAliyunTemplateEditor != null) mAliyunTemplateEditor.release();
+    }
 }

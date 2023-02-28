@@ -1,5 +1,6 @@
 apply from: 'sdk_type_config.gradle'
 
+include ':AUIFoundation'
 include ':AUIFoundation:AVTheme'
 include ':AUIFoundation:AVBaseUI'
 include ':AUIFoundation:AVMatisse'
@@ -33,29 +34,35 @@ if (hasPlayer()) {
 
 //-------------------------------直播DEMO Start-------------------------------------
 if (hasLive()) {
-    include ':queenbeauty'
-    project(':queenbeauty').projectDir = new File("AliLivePushDemo/queenbeauty")
-    include ':imageutil'
-    project(':imageutil').projectDir = new File("AliLivePushDemo/imageutil")
-    include ':beautyui'
-    project(':beautyui').projectDir = new File("AliLivePushDemo/beautyui")
-    include ':beauty'
-    project(':beauty').projectDir = new File("AliLivePushDemo/beauty")
-    include ':livepusherapp'
-    project(':livepusherapp').projectDir = new File("AliLivePushDemo/alivc-livepusher-demo")
-    project(':livepusherapp').setBuildFileName('build_lib.gradle')
-    include ':commonutils'
-    project(':commonutils').projectDir = new File('AliLivePushDemo/commonutils')
-    include ':commonbiz'
-    project(':commonbiz').projectDir = new File('AliLivePushDemo/commonbiz')
-    include 'interactive'
-    project(':interactive').projectDir = new File('AliLivePushDemo/interactive')
-    include 'interactiveLive'
-    project(':interactiveLive').projectDir = new File('AliLivePushDemo/interactive/interactive_live')
-    include 'interactivePK'
-    project(':interactivePK').projectDir = new File('AliLivePushDemo/interactive/interactive_pk')
-    include 'interactiveCommon'
-    project(':interactiveCommon').projectDir = new File('AliLivePushDemo/interactive/interactive_common')
+
+    include ':LiveApp'
+    project(':LiveApp').projectDir = new File("AliLivePushDemo/LiveApp")
+    project(':LiveApp').setBuildFileName('build_lib.gradle')
+
+    include ':LiveBeauty'
+    project(':LiveBeauty').projectDir = new File("AliLivePushDemo/LiveBeauty")
+    include ':LiveBeauty:live_beauty'
+    include ':LiveBeauty:live_queenbeauty'
+
+    include ':LiveBasic'
+    project(':LiveBasic').projectDir = new File("AliLivePushDemo/LiveBasic")
+    include ':LiveBasic:live_pull'
+    include ':LiveBasic:live_screencap'
+    include ':LiveBasic:live_push'
+    include ':LiveBasic:live_pull_rts'
+
+    include ':LiveInteractive'
+    project(':LiveInteractive').projectDir = new File("AliLivePushDemo/LiveInteractive")
+    include ':LiveInteractive:live_pk'
+    include ':LiveInteractive:live_interactive'
+
+    include ':LiveCommon'
+    project(':LiveCommon').projectDir = new File("AliLivePushDemo/LiveCommon")
+    include ':LiveCommon:live_commonbiz'
+    include ':LiveCommon:live_commonutils'
+    include ':LiveCommon:live_basic_common'
+    include ':LiveCommon:live_interactive_common'
+
 }
 //-------------------------------直播DEMO End-------------------------------------
 
@@ -70,17 +77,11 @@ if (hasUGC()) {
     include ':AUIVideoEditor'
     project(':AUIVideoEditor').projectDir = new File("AlivcUgsvDemo/AUIVideoEditor")
     include ':AUIVideoEditor:AUIEditorSticker'
-    project(':AUIVideoEditor:AUIEditorSticker').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIEditorSticker')
     include ':AUIVideoEditor:AUIEditorCaption'
-    project(':AUIVideoEditor:AUIEditorCaption').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIEditorCaption')
     include ':AUIVideoEditor:AUIEditorCommon'
-    project(':AUIVideoEditor:AUIEditorCommon').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIEditorCommon')
     include ':AUIVideoEditor:AUIVideoTrack'
-    project(':AUIVideoEditor:AUIVideoTrack').projectDir = new File('AlivcUgsvDemo/AUIVideoEditor/AUIVideoTrack')
     include ':AUIVideoEditor:AUIEditorClip'
-    project(':AUIVideoEditor:AUIEditorClip').projectDir = new File("AlivcUgsvDemo/AUIVideoEditor/AUIEditorClip")
     include ':AUIVideoEditor:AUIEditorEffect'
-    project(':AUIVideoEditor:AUIEditorEffect').projectDir = new File("AlivcUgsvDemo/AUIVideoEditor/AUIEditorEffect")
     include ':AUIVideoRecorder'
     project(':AUIVideoRecorder').projectDir = new File("AlivcUgsvDemo/AUIVideoRecorder")
     include ':AUIFileDownloader'

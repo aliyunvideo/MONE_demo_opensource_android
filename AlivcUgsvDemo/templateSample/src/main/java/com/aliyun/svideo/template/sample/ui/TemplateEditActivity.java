@@ -434,6 +434,7 @@ public class TemplateEditActivity extends AppCompatActivity implements View.OnCl
     protected void onDestroy() {
         super.onDestroy();
         if(mAliyunTemplatePlayer != null) mAliyunTemplatePlayer.stop();
+        if(mAliyunTemplateEditor != null) mAliyunTemplateEditor.release();
         clearCacheClipVideo();
     }
 

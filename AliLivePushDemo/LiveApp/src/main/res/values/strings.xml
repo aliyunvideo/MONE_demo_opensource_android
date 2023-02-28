@@ -1,0 +1,85 @@
+<resources>
+
+    <string name="app_name">AlivcLive</string>
+    <string name="license_declaration">License declaration</string>
+    <string name="license_declaration_text">© 2017 Copyright by Alibaba Cloud All rights reserved</string>
+
+    <string name="software_encode">Software encode</string>
+    <string name="slide_right_view_log_char">Slide right to view log chart</string>
+    <string name="slide_left_view_log">Slide left to view log</string>
+    <string name="share_button">Share</string>
+    <string name="dy_add_button">DynamicAdd</string>
+    <string name="dy_remove_button">DynamicRemove</string>
+    <string name="beauty_on">Beauty on</string>
+    <string name="beauty_off">Beauty off</string>
+    <string name="beauty_white">Whitening</string>
+    <string name="beauty_skin_smooth">Smooth skin</string>
+    <string name="beauty_ruddy">Ruddy</string>
+    <string name="beauty_cheekpink">CheekPink</string>
+    <string name="beauty_thinface">SlimFace</string>
+    <string name="beauty_shortenface">ShortenFace</string>
+    <string name="beauty_bigeye">BigEye</string>
+    <string name="capture">Capture</string>
+    <string name="render">Render</string>
+    <string name="encode">Encode</string>
+    <string name="push">Push</string>
+    <string name="mic_volume">Mic Volume</string>
+
+    <string name="audio_fps">Audio fps</string>
+    <string name="video_fps">Video fps</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="video_encode">Video encode</string>
+    <string name="audio_encode">Audio encode</string>
+
+    <string name="buffer">Buffer</string>
+    <string name="video_renderbuffer">Video render</string>
+    <string name="video_encodebuffer">Video encode</string>
+    <string name="video_uploadbuffer">Video upload</string>
+    <string name="audio_encodebuffer">Audio encode</string>
+    <string name="audio_uploadbuffer">Audio upload</string>
+
+
+    <string name="push_url">Push url</string>
+
+    <string name="publisher_log">pusher log：</string>
+
+    <string name="no_camera_permission">Camera usage is not permitted, please open first</string>
+    <string name="no_record_bluetooth_permission">Bluetooth is not permitted to record, please open first</string>
+    <string name="no_record_audio_permission">Audio is not permitted to record, please open first</string>
+    <string name="no_read_phone_state_permission">Phone state is not permitted to read, please opend first</string>
+    <string name="no_write_external_storage_permission">External storage is not permitted to write, please open first</string>
+    <string name="no_read_external_storage_permission">External storage is not permitted to read, please open first</string>
+    <string name="no_read_bluetooth_connect_permission">Bluetooth connect is not permitted to read, please open first</string>
+    <string name="no_internet_permission">Internet is not permitted to push, please open first</string>
+
+    <string name="bite_error">Bitrate setting error</string>
+
+    <string name="close_audio_denoise">Close Denoise</string>
+
+    //老 demo 资源
+
+    <string name="screen_tool">Screen tool</string>
+    <string name="privacy_off">Privacy Off</string>
+    <string name="camera_off">Camera Off</string>
+
+    <string name="answer">Answer</string>
+
+    <string name="pull_common_enter_name_tv">Stream Ingest for Screen Recording</string>
+    <string name="push_enter_name_tv">Stream Ingest for Camera</string>
+    <string name="push_local_video_name_tv">Stream Ingest for Video</string>
+    <string name="only_audio_or_video_push">Only Audio Or Video Stream</string>
+    <string name="ispushing">Pushing</string>
+    <string name="beauty">Retouching</string>
+    <string name="shot_pic_toast">Screenshot saved</string>
+    <string name="second_rate">/Times</string>
+    <string name="send_frame_rate">Sent Frame Rate</string>
+    <string name="send_bitrate">send Bitrate</string>
+    <string name="version_desc">version：v</string>
+    <string name="push_title_name">Live</string>
+
+    <string name="push_main_title_name">阿里云\n移动推流</string>
+    <string name="push_main_bottom_tip">本Demo为用于展示阿里云移动推流sdk主要功能</string>
+
+    <string name="live_push_aliyun_sdk_privacy">《<a href='https://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud202112151438_20307.html?spm=a2c4g.11186623.0.0.10c739ebi5cK2M'><font color='#888888'>阿里云视频服务隐私权政策</font></a>》</string>
+
+</resources>

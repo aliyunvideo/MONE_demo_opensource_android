@@ -49,3 +49,4 @@ if(setting_gradle != null)
 {
     apply from: setting_gradle
 }
+include ':templateSample'

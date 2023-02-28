@@ -22,6 +22,7 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/beans.xml'
+        pickFirst 'lib/**/libAETemplateEngine.so'
     }
 
 

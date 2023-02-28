@@ -22,7 +22,7 @@ ext{
     LONGVIDEO = 'longvideo'
     TEMP = "temp"
     //渠道名
-    buildProductType = ALL
+    buildProductType = SVIDEO_PRO
     //短视频版本号
     SVIDEO_VERSION_NAME = VERSION_NAME
     SVIDEO_VERSION_CODE = VERSION_CODE

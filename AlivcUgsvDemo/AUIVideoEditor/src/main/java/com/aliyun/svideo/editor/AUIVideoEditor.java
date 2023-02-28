@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.aliyun.common.utils.FileUtils;
+import com.aliyun.ugsv.common.utils.FileUtils;
 import com.aliyun.svideo.editor.publish.AUIPublishActivity;
 import com.aliyun.svideosdk.common.struct.common.AliyunImageClip;
 import com.aliyun.svideosdk.common.struct.common.AliyunVideoClip;
 import com.aliyun.svideosdk.common.struct.common.AliyunVideoParam;
-import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
-import com.aliyun.svideosdk.common.struct.common.VideoQuality;
-import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
 import com.aliyun.svideosdk.importer.AliyunIImport;
 import com.aliyun.svideosdk.importer.impl.AliyunImportCreator;
 import com.aliyun.svideosdk.transcode.NativeParser;

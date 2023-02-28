@@ -64,8 +64,8 @@ public class QueenBeautyMenu extends BaseChooser {
 
     @Override
     public void onStop() {
-        hideMenuPanel();
         super.onStop();
+        hideMenuPanel();
     }
 
     private void hideMenuPanel() {
@@ -73,7 +73,7 @@ public class QueenBeautyMenu extends BaseChooser {
         mBeautyMenuPanel.onHideMenu();
         ViewGroup container = (ViewGroup) QueenBeautyMenu.this.getView();
         container.removeView(mBeautyMenuPanel);
-        QueenBeautyMenu.this.dismiss();
+        QueenBeautyMenu.this.dismissAllowingStateLoss();
     }
 
     private void showMenuPanel(ViewGroup container) {

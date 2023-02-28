@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="push_args">推流参数</string>
+    <string name="stream_pusher_tip">推流功能</string>
+    <string name="interaction_mode">互动模式</string>
+    <string name="start_button">进入直播</string>
+    <string name="waiting_download_video_resources">正在下载外部音视频资源中，请等待</string>
+
+    <string name="ok">确定</string>
+    <string name="success">成功</string>
+    <string name="failed">失败</string>
+    <string name="pause_button">暂停</string>
+    <string name="dialog_title">提示</string>
+    <string name="connecting_dialog_tips">推流连接中，请稍后</string>
+    <string name="pushing">推流中</string>
+    <string name="beauty_off_tips">美颜开关关闭，请在设置开启后重试...</string>
+    <string name="add_dynamic_failed">添加贴纸失败, id=</string>
+    <string name="start_preview">开始预览</string>
+    <string name="stop_preview">停止预览</string>
+    <string name="stop_push">停止推流</string>
+    <string name="pause_push">暂停</string>
+    <string name="resume_push">恢复</string>
+    <string name="restart_success">重启成功</string>
+    <string name="network_poor">网络差，请退出或者重连</string>
+    <string name="network_recovery">网络恢复</string>
+    <string name="reconnect_start">重连开始</string>
+    <string name="reconnect_fail">重连失败</string>
+    <string name="reconnect_success">重连成功</string>
+    <string name="senddata_timeout">发送数据超时</string>
+    <string name="send_message">发送消息</string>
+    <string name="bgm_open_failed">音乐文件打开失败</string>
+    <string name="reconnect">重连</string>
+    <string name="resume_button">恢复</string>
+
+
+
+    <string name="start_preview_button">开始预览</string>
+    <string name="wating_push">未推流</string>
+    <string name="backgroud_music">背景音乐</string>
+    <string name="flash">闪光灯</string>
+    <string name="camera">摄像头</string>
+    <string name="snapshot">截图</string>
+    <string name="stop_preview_button">停止预览</string>
+    <string name="repush_button">重新推流</string>
+    <string name="more_setting_button">更多设置</string>
+    <string name="data_args">数据指标</string>
+    <string name="local_info">本地视频统计信息</string>
+
+
+    <string name="close_ears_back">关耳返</string>
+    <string name="open_ears_back">开耳返</string>
+    <string name="open_audio_denoise">音频降噪</string>
+    <string name="open_audio_intelligent_denoise">音频智能降噪</string>
+    <string name="accompaniment">伴奏音量</string>
+    <string name="voice">人声音量</string>
+    <string name="av_resolution_music_operations">音乐操作</string>
+    <string name="pause">暂停</string>
+    <string name="resume">恢复</string>
+    <string name="stop">停止</string>
+    <string name="start">开始</string>
+    <string name="close_loop">关循环</string>
+    <string name="open_loop">开循环</string>
+    <string name="close_mute">关静音</string>
+    <string name="open_mute">开静音</string>
+    <string name="music_list">音乐列表</string>
+    <string name="no_music">无音乐</string>
+    <string name="internet_music">网络音乐</string>
+
+
+
+    <string name="setting_audio_441">44.1KHz</string>
+    <string name="setting_audio_320">32KHz</string>
+    <string name="setting_audio_160">16KHz</string>
+
+    <string name="sound_effect_reverb_off">无</string>
+    <string name="sound_effect_reverb_vocal1">人声I</string>
+    <string name="sound_effect_reverb_vocal2">人声II</string>
+    <string name="sound_effect_reverb_bathroom">澡堂</string>
+    <string name="sound_effect_reverb_smallroom_bright">明亮小房间</string>
+    <string name="sound_effect_reverb_smallroom_dark">黑暗小房间</string>
+    <string name="sound_effect_reverb_mediumroom">中等房间</string>
+    <string name="sound_effect_reverb_largeroom">大房间</string>
+    <string name="sound_effect_reverb_churchhall">教堂走廊</string>
+
+    <string name="sound_effect_title">音效</string>
+    <string name="sound_effect_change_voice">变声</string>
+    <string name="sound_effect_reverb">混响</string>
+    <string name="sound_effect_changevoice_off">无</string>
+    <string name="sound_effect_changevoice_oldman">老人</string>
+    <string name="sound_effect_changevoice_babyboy">男孩</string>
+    <string name="sound_effect_changevoice_babygirl">女孩</string>
+    <string name="sound_effect_changevoice_robot">机器人</string>
+    <string name="sound_effect_changevoice_daimo">大魔王</string>
+    <string name="sound_effect_changevoice_ktv">KTV</string>
+    <string name="sound_effect_changevoice_echo">回声</string>
+</resources>

@@ -21,7 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
-import com.aliyun.common.utils.MySystemParams;
 import com.aliyun.svideo.music.music.MusicFileBean;
 import com.aliyun.svideo.recorder.utils.FixedToastUtils;
 import com.aliyun.svideo.recorder.utils.PhoneStateManger;
@@ -69,7 +68,6 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
         super.onCreate(savedInstanceState);
         //乐视x820手机在AndroidManifest中设置横竖屏无效，并且只在该activity无效其他activity有效
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        MySystemParams.getInstance().init(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.ugsv_recorder_activity_layout);
         mVideoRecordView = findViewById(R.id.ugsv_recorder_recordview);

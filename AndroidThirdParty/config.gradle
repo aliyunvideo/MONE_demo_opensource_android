@@ -79,8 +79,8 @@ ext {
     externalWupPlugin = 'digital.wup:android-maven-publish:3.6.2'
     externalAliyunVodUpload = 'com.aliyun.video.android:upload:1.6.6'
     externalAliyunOSS = 'com.aliyun.dpa:oss-android-sdk:2.9.11'
-    externalAliyunQueen = 'com.aliyun.maliang.android:queen:2.3.0-official-full'
-    externalAliyunQueenUI = 'com.aliyunsdk.components:queen_menu:2.3.0-menu-full'
+    externalAliyunQueen = 'com.aliyun.maliang.android:queen:2.5.0-official-full'
+    externalAliyunQueenUI = 'com.aliyun.maliang.android:queen_menu:2.5.0-official-full'
     externalAnimoji = 'com.aliyun.animoji:animoji:1.2@aar'
     externalRtsSDK = 'com.aliyun.rts.android:RtsSDK:2.5.0'
 
@@ -93,18 +93,18 @@ ext {
         debug = localProperties.getProperty('source.debug')    //内部调试代码，发布删除 -- 注释勿动
     }   //内部调试代码，发布删除 -- 注释勿动
 
-    externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.2.1'
-    externalSvideopro = 'com.aliyun.video.android:svideopro:3.34.0'
-    externalSvideostandard = 'com.aliyun.video.android:svideostandard:3.34.0'
-    externalSvideosnap = 'com.aliyun.video.android:svideosnap:3.34.0'
-    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-full'
-    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-part'
-    externalARTC = 'com.aliyun.sdk.android:AlivcArtc:5.4.9.0'
+    externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.6'
+    externalSvideopro = 'com.aliyun.video.android:svideopro:3.35.0'
+    externalSvideostandard = 'com.aliyun.video.android:svideostandard:3.35.0'
+    externalSvideosnap = 'com.aliyun.video.android:svideosnap:3.35.0'
+    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:5.5.2.0-full'
+    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:5.5.2.0-part'
+    externalARTC = 'com.aliyun.sdk.android:AlivcArtc:5.5.2.0'
     externalAlivcConan = 'com.alivc.conan:AlivcConan:1.0.5'
     externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
-    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:4.4.8"
-    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:4.4.8"
-    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:1.6.0'
+    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:4.5.0"
+    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:4.5.0"
+    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:1.8.0'
 
     //内部调试代码，发布删除 -- 注释勿动
     if(debug != null && "true".equalsIgnoreCase(debug)){    //内部调试代码，发布删除 -- 注释勿动

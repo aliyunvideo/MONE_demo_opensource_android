@@ -7,7 +7,7 @@ package com.aliyun.svideo.downloader;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.aliyun.common.utils.StringUtils;
+import com.aliyun.ugsv.common.utils.StringUtils;
 import com.aliyun.svideo.downloader.zipprocessor.ZIPFileProcessor;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;

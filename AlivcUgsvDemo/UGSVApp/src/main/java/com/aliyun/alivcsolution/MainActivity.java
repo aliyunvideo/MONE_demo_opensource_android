@@ -15,6 +15,7 @@ import com.aliyun.aio.avbaseui.AVBaseListActivity;
 import com.aliyun.alivcsolution.setting.MoreSettingActivity;
 import com.aliyun.svideo.base.utils.FastClickUtil;
 import com.aliyun.svideo.editor.EditorConfig;
+import com.aliyun.svideo.template.sample.ui.TemplateListActivity;
 import com.aliyun.ugsv.common.utils.PermissionUtils;
 import com.aliyun.ugsv.common.utils.ToastUtils;
 import com.aliyun.svideo.crop.util.AUICropHelper;
@@ -40,7 +41,8 @@ public class MainActivity extends AVBaseListActivity {
     private static final int INDEX_RECORDER = 0;
     private static final int INDEX_VIDEO_TRANSCODE = 1;
     private static final int INDEX_EDITOR = 2;
-    private static final int INDEX_MORE = 3;
+    private static final int INDEX_TEMPLATE = 3;
+    private static final int INDEX_MORE = 4;
 
     private boolean showMoreSetting() {
         return BuildConfig.APK_TYPE == 0;
@@ -62,6 +64,7 @@ public class MainActivity extends AVBaseListActivity {
         menu.add(new ListModel(INDEX_RECORDER, R.drawable.ic_ugsv_recorder, getResources().getString(R.string.solution_recorder), null));
         menu.add(new ListModel(INDEX_VIDEO_TRANSCODE, R.drawable.ic_ugsv_videocrop, getResources().getString(R.string.solution_crop), null));
         menu.add(new ListModel(INDEX_EDITOR, R.drawable.ic_ugsv_editor, getResources().getString(R.string.solution_edit), null));
+        menu.add(new ListModel(INDEX_TEMPLATE, R.drawable.ic_ugsv_videocrop, getResources().getString(R.string.solution_template), null));
         if (showMoreSetting()) {
             menu.add(new ListModel(INDEX_MORE, R.drawable.ic_ugsv_more, getResources().getString(R.string.ugsv_setting_more), null));
         }
@@ -113,6 +116,10 @@ public class MainActivity extends AVBaseListActivity {
                     .showPreview(false) // Default is `true`
                     .forResult(CROP_REQUEST_CODE_CHOOSE);
             break;
+            case INDEX_TEMPLATE:
+//                TemplatePreviewEditActivity.start(MainActivity.this);
+                TemplateListActivity.start(MainActivity.this);
+                break;
             case INDEX_MORE:
                 Intent moreIntent = new Intent(MainActivity.this, MoreSettingActivity.class);
                 startActivity(moreIntent);

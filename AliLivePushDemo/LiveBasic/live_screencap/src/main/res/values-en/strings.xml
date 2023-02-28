@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_note">You can start other applications and start live...</string>
+    <string name="screen_note1">The screen function has stopped.</string>
+    <string name="narrowband_hd">Narrowband HD</string>
+
+    <string name="permission_float_deny_toast">The floating window permission is required. Obtain the floating window permission and try again.</string>
+    <string name="permission_alert_cancel_tip">Enable Later</string>
+    <string name="permission_alert_submit_tip">Enable Now</string>
+
+    <string name="back">back</string>
+    <string name="privacy_on">Privacy</string>
+    <string name="camera_on">Camera</string>
+
+    <string name="mix_on">Mix</string>
+    <string name="mix_off">Mix Off</string>
+    <string name="mic_on">Mic</string>
+    <string name="mic_off">Mic Off</string>
+</resources>

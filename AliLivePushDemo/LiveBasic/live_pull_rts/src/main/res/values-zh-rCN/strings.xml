@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Rts  -->
+    <string name="pull_rts_enter_name">超低延时直播</string>
+    <string name="pull_rts_url_title">播放地址</string>
+    <string name="pull_rts_input_hint">请输入RTS超低延时播放地址</string>
+    <string name="pull_rts_url_generate_tip">播放地址可到视频直播控制台用地址生成器生成</string>
+    <string name="pull_rts_start_play">开始播放</string>
+    <string name="pull_rts_play">播放</string>
+    <string name="pull_rts_stop">停止</string>
+    <string name="pull_rts_trace_id">TraceID获取</string>
+    <string name="pull_rts_problem_title">常见问题</string>
+    <string name="pull_rts_problem_playback_failed">播放失败</string>
+    <string name="pull_rts_problem_playback_failed_tip">请前往 视频直播控制台 > 工具箱 > 自助问题排查，输入URL自助定位播放失败问题</string>
+    <string name="pull_rts_problem_stuck_delay">播放卡顿/延时高</string>
+    <string name="pull_rts_problem_stuck_delay_step1_title">step1</string>
+    <string name="pull_rts_problem_stuck_delay_step1">请前往视频直播控制台 > 流管理 > 流检测，分析您当前的推流网络环境是否良好(帧率或时间戳是否正常)</string>
+    <string name="pull_rts_problem_stuck_delay_step2_title">step2</string>
+    <string name="pull_rts_problem_stuck_delay_step2">若您的推流网络良好，请点击【TraceID获取】获取相关信息，并提交工单寻求帮助</string>
+    <string name="pull_rts_trace_id_copy">复制</string>
+    <string name="pull_rts_trace_id_info_confirm">确认</string>
+    <string name="pull_rts_trace_id_info_close">关闭</string>
+    <string name="pull_rts_trace_id_info_error">网络建联不成功，当前未获取到TraceID信息</string>
+    <string name="pull_rts_trace_id_info_success">若您在体验Demo时碰到问题，请将以下信息通过工单的形式提交给售后</string>
+    <string name="pull_rts_trace_id_info_copy_success">信息已复制</string>
+    <string name="pull_rts_error_demote">降级</string>
+</resources>
