@@ -139,4 +139,15 @@
         app:layout_constraintStart_toStartOf="@id/iv_camera"
         app:layout_constraintTop_toBottomOf="@id/iv_camera" />
 
+    <ImageView
+        android:id="@+id/iv_speaker_phone"
+        android:layout_width="22dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_speaker_phone"
+        app:layout_constraintEnd_toEndOf="@id/iv_mute"
+        app:layout_constraintStart_toStartOf="@id/iv_mute"
+        app:layout_constraintTop_toBottomOf="@id/iv_mute" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

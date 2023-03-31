@@ -18,14 +18,11 @@ public class AliLiveUserSigGenerate {
     /**
      * DOMAIN 固定字段。
      */
-    public static final String ALILIVE_PUSH_DOMAIN = "live.aliyun.com";
+    public static final String ALILIVE_INTERACTIVE_DOMAIN = "live.aliyun.com";
     /**
      * CDN_DOMAIN。 在阿里云控制台应用管理页面创建和查看。
      */
     public static final String ALILIVE_PLAY_DOMAIN = "PLACEHOLDER";
-
-    public static final String APP_NAME = "live";
-    public static final String SOURCE_TYPE = "camera";
 
     /**
      * 过期时间

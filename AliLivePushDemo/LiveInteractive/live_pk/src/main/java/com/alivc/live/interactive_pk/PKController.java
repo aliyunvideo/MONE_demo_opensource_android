@@ -26,6 +26,7 @@ public class PKController {
     //主播推流 URL
     private final String mOwnerPushUrl;
     private String mOtherPullUrl;
+    private boolean mEnableSpeakerPhone = false;
 
     public PKController(Context context, String roomId, String userId) {
         mPKLiveManager = new PKLiveManager();
@@ -34,7 +35,7 @@ public class PKController {
         this.mOwnerUserId = userId;
         mReadFileData = new ReadFileData();
         this.mContext = context;
-        mOwnerPushUrl = URLUtils.generatePushUrl(roomId, userId, 1);
+        mOwnerPushUrl = URLUtils.generateInteractivePushUrl(roomId, userId);
     }
 
     /**
@@ -44,7 +45,7 @@ public class PKController {
      * @param roomId 对方主播的 roomId
      */
     public void setPKOtherInfo(String userId, String roomId) {
-        mOtherPullUrl = URLUtils.generatePullUrl(roomId, userId, 1);
+        mOtherPullUrl = URLUtils.generateInteractivePullUrl(roomId, userId);
         this.mOtherUserId = userId;
         this.mOtherRoomId = roomId;
     }
@@ -216,5 +217,10 @@ public class PKController {
 
     public void setMute(boolean b) {
         mPKLiveManager.setMute(b);
+    }
+
+    public void changeSpeakerPhone() {
+        mEnableSpeakerPhone = !mEnableSpeakerPhone;
+        mPKLiveManager.enableSpeakerPhone(mEnableSpeakerPhone);
     }
 }

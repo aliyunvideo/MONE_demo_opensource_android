@@ -4,19 +4,23 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+import com.alibaba.android.arouter.utils.TextUtils;
+import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.annotations.AlivcLiveNetworkQuality;
 import com.alivc.live.commonbiz.test.URLUtils;
 import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
+import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
+import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
-import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.player.AlivcLivePlayConfig;
 import com.alivc.live.player.AlivcLivePlayInfoListener;
 import com.alivc.live.player.AlivcLivePlayer;
+import com.alivc.live.player.AlivcLivePlayerStatsInfo;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.pusher.AlivcAudioAACProfileEnum;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
 import com.alivc.live.pusher.AlivcEncodeModeEnum;
-import com.alivc.live.pusher.AlivcFpsEnum;
 import com.alivc.live.pusher.AlivcImageFormat;
 import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLiveMixStream;
@@ -29,13 +33,12 @@ import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcLiveTranscodingConfig;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
-import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
+import com.alivc.live.pusher.AlivcQualityModeEnum;
 import com.alivc.live.pusher.AlivcSoundFormat;
 import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
+import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,15 +78,20 @@ public class InteractLiveBaseManager {
         // 初始化推流配置类
         mAlivcLivePushConfig = new AlivcLivePushConfig();
         mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveInteractiveMode);
-        mAlivcLivePushConfig.setResolution(LivePushGlobalConfig.CONFIG_RESOLUTION);
-        // 建议用户使用20fps
-        mAlivcLivePushConfig.setFps(AlivcFpsEnum.FPS_20);
         // 打开码率自适应，默认为true
         mAlivcLivePushConfig.setEnableBitrateControl(true);
         // 默认为竖屏，可设置home键向左或向右横屏
         mAlivcLivePushConfig.setPreviewOrientation(AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT);
         // 设置音频编码模式
         mAlivcLivePushConfig.setAudioProfile(AlivcAudioAACProfileEnum.AAC_LC);
+        mAlivcLivePushConfig.setResolution(LivePushGlobalConfig.RESOLUTION);
+
+        //自定义
+        mAlivcLivePushConfig.setQualityMode(AlivcQualityModeEnum.QM_CUSTOM);
+        //目标码率
+        mAlivcLivePushConfig.setTargetVideoBitrate(LivePushGlobalConfig.TARGET_RATE);
+        mAlivcLivePushConfig.setMinFps(LivePushGlobalConfig.MIN_FPS);
+        mAlivcLivePushConfig.setFps(LivePushGlobalConfig.FPS);
 
         mAlivcLivePushConfig.setVideoEncodeMode(LivePushGlobalConfig.VIDEO_ENCODE_HARD ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
         mAlivcLivePushConfig.setAudioEncodeMode(LivePushGlobalConfig.AUDIO_ENCODE_HARD ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
@@ -93,7 +101,7 @@ public class InteractLiveBaseManager {
         if (LivePushGlobalConfig.ENABLE_EXTERN_AV) {
             mAlivcLivePushConfig.setExternMainStream(true, AlivcImageFormat.IMAGE_FORMAT_YUVNV12, AlivcSoundFormat.SOUND_FORMAT_S16);
             mAlivcLivePushConfig.setAudioChannels(AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE);
-            mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
+            mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
         }
 
         mAlivcLivePusher = new AlivcLivePusher();
@@ -275,6 +283,16 @@ public class InteractLiveBaseManager {
 
     private void initPlayer() {
         mAliPlayer = AliPlayerFactory.createAliPlayer(mContext);
+
+        PlayerConfig playerConfig = mAliPlayer.getConfig();
+        // 纯音频 或 纯视频 的flv 需要设置 以加快起播
+        // TODO How to enable flv_strict_header
+        // 起播缓存，越大起播越稳定，但会影响起播时间，可酌情设置
+        playerConfig.mStartBufferDuration = 1000;
+        // 卡顿恢复需要的缓存，网络不好的情况可以设置大一些，当前纯音频设置500还好，视频的话建议用默认值3000.
+        playerConfig.mHighBufferDuration = 500;
+        mAliPlayer.setConfig(playerConfig);
+
         mAliPlayer.setAutoPlay(true);
 
         mAliPlayer.setOnErrorListener(errorInfo -> {
@@ -308,12 +326,22 @@ public class InteractLiveBaseManager {
             }
 
             @Override
+            public void onNetworkQualityChanged(AlivcLiveNetworkQuality quality) {
+                Log.w(TAG, "onNetworkQualityChanged: "  + quality);
+            }
+
+            @Override
             public void onError(AlivcLivePlayError alivcLivePlayError, String s) {
                 Log.d(TAG, "onError: ");
                 mIsPlaying = false;
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onPullError(alivcLivePlayError, s);
                 }
+            }
+
+            @Override
+            public void onPlayerStatistics(AlivcLivePlayerStatsInfo statsInfo) {
+                Log.i(TAG, "onPlayerStatistics: "  + statsInfo);
             }
         });
     }
@@ -416,6 +444,10 @@ public class InteractLiveBaseManager {
     }
 
     public void startPull(String url) {
+        if (TextUtils.isEmpty(url)) {
+            Log.e(TAG, "startPull error: url is empty");
+            return ;
+        }
         this.mPullUrl = url;
         if (url.startsWith(URLUtils.ARTC)) {
             mAlivcLivePlayer.startPlay(url);
@@ -428,6 +460,10 @@ public class InteractLiveBaseManager {
     }
 
     public void startPull(String key, String url) {
+        if (TextUtils.isEmpty(url)) {
+            Log.e(TAG, "startPull error: url is empty");
+            return ;
+        }
         this.mPullUrl = url;
         if (url.startsWith(URLUtils.ARTC)) {
             AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
@@ -503,6 +539,10 @@ public class InteractLiveBaseManager {
 
     public void setMute(boolean isMute){
         mAlivcLivePusher.setMute(isMute);
+    }
+
+    public void enableSpeakerPhone(boolean enableSpeakerPhone) {
+        mAlivcLivePusher.enableSpeakerphone(enableSpeakerPhone);
     }
 
     public void release() {

@@ -13,8 +13,17 @@
             android:name=".test.InformationActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="uiMode"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AVPushTheme" />
+            android:theme="@style/AVPushTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="info"
+                    android:scheme="livepush" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.LivePushActivity"
             android:alwaysRetainTaskState="true"

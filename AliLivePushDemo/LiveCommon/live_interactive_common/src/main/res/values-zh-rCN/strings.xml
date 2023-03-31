@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pull_interact_name_tv">连麦互动</string>
-    <string name="pull_multi_interact_name_tv">多人连麦</string>
+    <string name="pull_multi_interact_name_tv">多人连麦/PK</string>
     <string name="push_interactive_setting_audio_only">纯音频</string>
     <string name="push_interactive_setting_gop">GOP</string>
     <string name="push_interactive_setting_hardware_decode">开启硬解</string>
@@ -38,4 +38,10 @@
     <string name="interact_live_lost_connect">断开链接，请重新进入直播间</string>
     <string name="extern_stream_main">外部音视频</string>
     <string name="waiting_download_video_resources">正在下载外部音视频资源中，请等待</string>
+    <string name="interact_live_setting_resolution">分辨率</string>
+    <string name="target_bitrate">视频目标码率</string>
+    <string name="target_rate_value">1200</string>
+    <string name="captrue_fps">采集帧率</string>
+    <string name="init_fps">20</string>
+    <string name="min_fps">最小帧率</string>
 </resources>

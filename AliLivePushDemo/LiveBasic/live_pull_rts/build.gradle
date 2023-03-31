@@ -40,5 +40,4 @@ dependencies {
         implementation externalRtsSDK
     }
 
-    implementation externalPlayerFull
 }

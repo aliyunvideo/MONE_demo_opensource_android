@@ -1,17 +1,21 @@
 package com.alivc.live.interactive_common.bean;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.annotations.AlivcLiveNetworkQuality;
+import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.player.AlivcLivePlayInfoListener;
 import com.alivc.live.player.AlivcLivePlayerImpl;
+import com.alivc.live.player.AlivcLivePlayerStatsInfo;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 
 /**
  * AlivcLivePlayer 封装类，用于多人连麦互动
  */
 public class MultiAlivcLivePlayer extends AlivcLivePlayerImpl implements AlivcLivePlayInfoListener{
+    private static final String TAG = "MultiAlivcLivePlayer";
 
     private MultiInteractLivePushPullListener mListener;
     private boolean mIsPlaying = false;
@@ -47,11 +51,21 @@ public class MultiAlivcLivePlayer extends AlivcLivePlayerImpl implements AlivcLi
     }
 
     @Override
+    public void onNetworkQualityChanged(AlivcLiveNetworkQuality quality) {
+        Log.w(TAG, "onNetworkQualityChanged: "  + quality);
+    }
+
+    @Override
     public void onError(AlivcLivePlayError alivcLivePlayError, String s) {
         mIsPlaying = false;
         if(mListener != null){
             mListener.onPullError(mAudienceId,alivcLivePlayError,s);
         }
+    }
+
+    @Override
+    public void onPlayerStatistics(AlivcLivePlayerStatsInfo statsInfo) {
+        Log.i(TAG, "onPlayerStatistics: " + statsInfo);
     }
 
     public boolean isPulling(){

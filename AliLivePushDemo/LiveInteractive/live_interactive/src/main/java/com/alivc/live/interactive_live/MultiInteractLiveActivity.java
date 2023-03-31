@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.interactive_live.widget.MultiAlivcLiveView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
@@ -59,6 +60,7 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
     private ConnectionLostTipsView mConnectionLostTipsView;
     private ImageView mMuteImageView;
     private boolean mIsMute = false;
+    private ImageView mSpeakerPhoneImageView;
 
 
     @Override
@@ -125,6 +127,7 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
         mViewCombMap.put(mConnectTextView4, multiAlivcLiveView4);
 
         mMuteImageView = findViewById(R.id.iv_mute);
+        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
     }
 
     private void initListener() {
@@ -134,6 +137,23 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
                 mMultiAnchorController.setMute(!mIsMute);
                 mIsMute = !mIsMute;
                 mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+            }
+        });
+
+        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!FastClickUtil.isFastClick()) {
+                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
+                    if (tag == null || !tag) {
+                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
+                        mSpeakerPhoneImageView.setTag(true);
+                    } else {
+                        mSpeakerPhoneImageView.clearColorFilter();
+                        mSpeakerPhoneImageView.setTag(false);
+                    }
+                    mMultiAnchorController.changeSpeakerPhone();
+                }
             }
         });
 

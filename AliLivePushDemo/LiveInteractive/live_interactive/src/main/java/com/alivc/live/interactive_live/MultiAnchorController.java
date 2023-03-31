@@ -27,13 +27,14 @@ public class MultiAnchorController {
     private String mPullUrl;
     private final String mRoomId;
     private final String mAnchorId;
+    private boolean mEnableSpeakerPhone = false;
 
     public MultiAnchorController(Context context, String roomId, String anchorId) {
         this.mRoomId = roomId;
         this.mAnchorId = anchorId;
         this.mContext = context;
         mReadFileData = new ReadFileData();
-        mPushUrl = URLUtils.generatePushUrl(roomId, anchorId, 1);
+        mPushUrl = URLUtils.generateInteractivePushUrl(roomId, anchorId);
         mInteractLiveManager = new InteractLiveManager();
         mInteractLiveManager.init(context);
     }
@@ -44,7 +45,7 @@ public class MultiAnchorController {
      * @param viewerId 观众 id
      */
     public void setViewerId(String viewerId) {
-        mPullUrl = URLUtils.generatePullUrl(mRoomId, viewerId, 1);
+        mPullUrl = URLUtils.generateInteractivePullUrl(mRoomId, viewerId);
     }
 
     /**
@@ -132,5 +133,10 @@ public class MultiAnchorController {
 
     public void setMute(boolean b) {
         mInteractLiveManager.setMute(b);
+    }
+
+    public void changeSpeakerPhone() {
+        mEnableSpeakerPhone = !mEnableSpeakerPhone;
+        mInteractLiveManager.enableSpeakerPhone(mEnableSpeakerPhone);
     }
 }

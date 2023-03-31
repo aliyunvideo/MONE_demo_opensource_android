@@ -58,6 +58,7 @@ public class InteractLiveActivity extends AppCompatActivity {
     private RoomAndUserInfoView mAudienceInfoView;
     private ImageView mMuteImageView;
     private boolean mIsMute = false;
+    private ImageView mSpeakerPhoneImageView;
 
 
     @Override
@@ -73,8 +74,11 @@ public class InteractLiveActivity extends AppCompatActivity {
         mRoomId = getIntent().getStringExtra(DATA_HOME_ID);
         mUserId = getIntent().getStringExtra(DATA_USER_ID);
 
-        mAnchorController = new AnchorController(this, mRoomId, mUserId);
-        mViewerController = new ViewerController(this, mRoomId, mUserId);
+        if (mIsAnchor) {
+            mAnchorController = new AnchorController(this, mRoomId, mUserId);
+        } else {
+            mViewerController = new ViewerController(this, mRoomId, mUserId);
+        }
 
         initView();
         initListener();
@@ -119,6 +123,7 @@ public class InteractLiveActivity extends AppCompatActivity {
         mAudienceInfoView = findViewById(R.id.audience_info_view);
         mAnchorInfoView = findViewById(R.id.anchor_info_view);
         mMuteImageView = findViewById(R.id.iv_mute);
+        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
 //        mAudienceInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
 //        mAnchorInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
     }
@@ -146,6 +151,27 @@ public class InteractLiveActivity extends AppCompatActivity {
                 }
                 mIsMute = !mIsMute;
                 mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+            }
+        });
+
+        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!FastClickUtil.isFastClick()) {
+                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
+                    if (tag == null || !tag) {
+                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
+                        mSpeakerPhoneImageView.setTag(true);
+                    } else {
+                        mSpeakerPhoneImageView.clearColorFilter();
+                        mSpeakerPhoneImageView.setTag(false);
+                    }
+                    if (mIsAnchor) {
+                        mAnchorController.changeSpeakerPhone();
+                    } else {
+                        mViewerController.changeSpeakerPhone();
+                    }
+                }
             }
         });
 

@@ -41,6 +41,7 @@ public class PKLiveActivity extends AppCompatActivity {
     private RoomAndUserInfoView mOtherInfoView;
     private ImageView mMuteImageView;
     private boolean mIsMute = false;
+    private ImageView mSpeakerPhoneImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class PKLiveActivity extends AppCompatActivity {
         mOwnerInfoView = findViewById(R.id.owner_info_view);
         mOtherInfoView = findViewById(R.id.other_info_view);
         mMuteImageView = findViewById(R.id.iv_mute);
+        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
 //        mOwnerInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
 //        mOtherInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
 
@@ -99,6 +101,23 @@ public class PKLiveActivity extends AppCompatActivity {
                 mPKController.setMute(!mIsMute);
                 mIsMute = !mIsMute;
                 mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+            }
+        });
+
+        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!FastClickUtil.isFastClick()) {
+                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
+                    if (tag == null || !tag) {
+                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
+                        mSpeakerPhoneImageView.setTag(true);
+                    } else {
+                        mSpeakerPhoneImageView.clearColorFilter();
+                        mSpeakerPhoneImageView.setTag(false);
+                    }
+                    mPKController.changeSpeakerPhone();
+                }
             }
         });
 

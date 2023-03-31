@@ -14,8 +14,9 @@ Jdk11设置方法：Preferences -> Build, Execution, Deployment -> Build Tools -
 
 ## 配置DEMO签名
 > 出于安全风险考虑，阿里云*视频云终端SDK DEMO不对外开放测试License，需要客户自己配置签名。
-1. 为DEMO创建签名文件，请自己[百度](https://www.baidu.com/s?wd=android%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6)
-2. 进入AIOApp - build.gradle 中，找到signingConfigs， 配置您的签名信息
+1. 进入AIOApp - build.gradle 中，找到applicationId，修改为您的包名。如com.xxx.yyy。请勿使用原有包名。
+2. 为DEMO创建签名文件，请自己[百度](https://www.baidu.com/s?wd=android%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6)
+3. 进入AIOApp - build.gradle 中，找到signingConfigs， 配置您的签名信息
 
 ## 获取签名MD5 (v1.7.0后非必须)
 > 出于安全考虑，阿里云License授权需要获取签名MD5。下面给出几种获取签名MD5的方法
@@ -101,11 +102,11 @@ SDK_TYPE: 一体化包类型，默认为AliVCSDK_Premium，对应AndroidThirdPar
 ## SDK库及版本
 | 版本          | 依赖                                            | 能力项                                            |
 |-------------|-----------------------------------------------|------------------------------------------------|
-| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:1.8.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦                |
-| 全功能SDK      | com.aliyun.aio:AliVCSDK_Premium:1.8.0         | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块 | 
-| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:1.8.0             | 播放器 + 短视频                                      | 
-| 短视频场景SDK增强版 | com.aliyun.aio:AliVCSDK_UGCPro:1.8.0          | 单播放器 + 短视频 + 美颜特效                              | 
-| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:1.8.0       | 播放器  + 直播推流                                    | 
-| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:1.8.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦                    | 
-| 基础直播SDK增强版  | com.aliyun.aio:AliVCSDK_StandardLive:1.8.0    | 播放器 + 直播推流 + 美颜                                | 
-| 互动直播SDK增强版  | com.aliyun.aio:AliVCSDK_PremiumLive:1.8.0     | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦 + 美颜               |
+| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:1.9.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦                |
+| 全功能SDK      | com.aliyun.aio:AliVCSDK_Premium:1.9.0         | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块 | 
+| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:1.9.0             | 播放器 + 短视频                                      | 
+| 短视频场景SDK增强版 | com.aliyun.aio:AliVCSDK_UGCPro:1.9.0          | 单播放器 + 短视频 + 美颜特效                              | 
+| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:1.9.0       | 播放器  + 直播推流                                    | 
+| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:1.9.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦                    | 
+| 基础直播SDK增强版  | com.aliyun.aio:AliVCSDK_StandardLive:1.9.0    | 播放器 + 直播推流 + 美颜                                | 
+| 互动直播SDK增强版  | com.aliyun.aio:AliVCSDK_PremiumLive:1.9.0     | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦 + 美颜               |

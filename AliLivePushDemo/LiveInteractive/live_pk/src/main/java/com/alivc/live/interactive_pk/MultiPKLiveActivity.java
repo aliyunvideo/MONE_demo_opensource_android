@@ -57,6 +57,7 @@ public class MultiPKLiveActivity extends AppCompatActivity {
     private ConnectionLostTipsView mConnectionLostTipsView;
     private ImageView mMuteImageView;
     private boolean mIsMute = false;
+    private ImageView mSpeakerPhoneImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class MultiPKLiveActivity extends AppCompatActivity {
         mPKController.addMultiPKLiveMixTranscoding(true, mUserId, null);
 
         mMuteImageView = findViewById(R.id.iv_mute);
+        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
     }
 
     private void initRecyclerView() {
@@ -113,6 +115,23 @@ public class MultiPKLiveActivity extends AppCompatActivity {
                 mPKController.setMute(!mIsMute);
                 mIsMute = !mIsMute;
                 mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+            }
+        });
+
+        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!FastClickUtil.isFastClick()) {
+                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
+                    if (tag == null || !tag) {
+                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
+                        mSpeakerPhoneImageView.setTag(true);
+                    } else {
+                        mSpeakerPhoneImageView.clearColorFilter();
+                        mSpeakerPhoneImageView.setTag(false);
+                    }
+                    mPKController.changeSpeakerPhone();
+                }
             }
         });
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="aio_app_name">视频云MOne</string>
+    <string name="aio_app_name">视频云终端SDK</string>
     <string name="aio_app_title">视频云终端\nSDK</string>
     <string name="aio_tv_main_version">version = 1.0</string>
 

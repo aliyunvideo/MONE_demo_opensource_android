@@ -13,6 +13,12 @@ if (hasPlayer()) {
     project(':liveplayerapp').projectDir = new File("PlayerDemo/AUIPlayerApp")
     include ':AUIVideoList'
     project(':AUIVideoList').projectDir = new File("PlayerDemo/AUIVideoList")
+    include ':AUIVideoList:AUIVideoListCommon'
+    project(':AUIVideoList:AUIVideoListCommon').projectDir = new File("PlayerDemo/AUIVideoList/AUIVideoListCommon")
+    include ':AUIVideoList:AUIVideoFunctionList'
+    project(':AUIVideoList:AUIVideoFunctionList').projectDir = new File("PlayerDemo/AUIVideoList/AUIVideoFunctionList")
+    include ':AUIVideoList:AUIVideoStandradList'
+    project(':AUIVideoList:AUIVideoStandradList').projectDir = new File("PlayerDemo/AUIVideoList/AUIVideoStandradList")
     include ':AUIFullScreen'
     project(':AUIFullScreen').projectDir = new File("PlayerDemo/AUIFullScreen")
     include ':AUIVideoZXing'

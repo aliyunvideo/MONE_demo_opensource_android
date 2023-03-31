@@ -68,10 +68,10 @@ public class SoundEffectBean implements Serializable {
         static {
             mLivePushSoundEffectChangeVoice.put(0, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_off, R.string.sound_effect_changevoice_off, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_OFF.name()));
             mLivePushSoundEffectChangeVoice.put(1, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_oldman, R.string.sound_effect_changevoice_oldman, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_OLD_MAN.name()));
-            mLivePushSoundEffectChangeVoice.put(2, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_babyboy, R.string.sound_effect_changevoice_babyboy, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_BABYBOY.name()));
-            mLivePushSoundEffectChangeVoice.put(3, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_babygirl, R.string.sound_effect_changevoice_babygirl, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_BABYGILR.name()));
+            mLivePushSoundEffectChangeVoice.put(2, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_babyboy, R.string.sound_effect_changevoice_babyboy, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_BABY_BOY.name()));
+            mLivePushSoundEffectChangeVoice.put(3, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_babygirl, R.string.sound_effect_changevoice_babygirl, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_BABY_GIRL.name()));
             mLivePushSoundEffectChangeVoice.put(4, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_robot, R.string.sound_effect_changevoice_robot, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_ROBOT.name()));
-            mLivePushSoundEffectChangeVoice.put(5, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_daimo, R.string.sound_effect_changevoice_daimo, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_DAIMO.name()));
+            mLivePushSoundEffectChangeVoice.put(5, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_daimo, R.string.sound_effect_changevoice_daimo, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_DEMON.name()));
             mLivePushSoundEffectChangeVoice.put(6, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_ktv, R.string.sound_effect_changevoice_ktv, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_KTV.name()));
             mLivePushSoundEffectChangeVoice.put(7, new SoundEffectBean(R.drawable.ic_live_push_sound_effect_echo, R.string.sound_effect_changevoice_echo, AlivcLivePushAudioEffectVoiceChangeMode.SOUND_EFFECT_ECHO.name()));
         }

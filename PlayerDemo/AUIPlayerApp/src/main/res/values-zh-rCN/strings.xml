@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name" >AUIPlayerApp</string>
+
+    <!--  aio  -->
+    <string name="player_title">播放器</string>
+    <string name="player_feed_flow">信息流播放</string>
+    <string name="player_video_list">沉浸式播放</string>
+    <string name="player_full_screen">全屏播放</string>
+    <string name="player_custom">自定义播放器</string>
+
+    <!--    -->
+    <string name="player_feed_flow_msg">适用于新闻资讯、社区互动等短视频场景</string>
+    <string name="player_video_list_msg">适用于多个视频间流畅切换的短视频场景</string>
+    <string name="player_video_full_screen_msg">适用于版权视频等长视频场景</string>
+
+    <string name="alivc_common_no_read_external_storage_permission">没有文件读权限，请开启该权限</string>
+    <string name="alivc_common_no_write_external_storage_permission">没有文件写权限，请开启该权限</string>
+    <string name="alivc_recorder_camera_permission_tip">请开启摄像头/存储权限</string>
+</resources>

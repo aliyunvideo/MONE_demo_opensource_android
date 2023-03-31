@@ -144,9 +144,9 @@
     <string name="alivc_player_trailer_play_again">Play Again</string>
     <string name="alivc_player_trailer_tips">Become VIP to watch the entire video.</string>
     <string name="alivc_player_trailer_player_tips">You can only watch the first five minutes</string>
-    <string name="alivc_player_not_check_any_browser">未检测到浏览器</string>
-    <string name="alivc_player_play_screening_fail">投屏失败</string>
-    <string name="alivc_player_local_not_support_screencost">本地视频不支持投屏功能</string>
+    <string name="alivc_player_not_check_any_browser">Browser not detected</string>
+    <string name="alivc_player_play_screening_fail">Screen casting failed</string>
+    <string name="alivc_player_local_not_support_screencost">Local video does not support the screen projection function</string>
 
     <string name="alivc_player_cache_toast_4g">Connect to a WiFi or enable Download on Provider Network</string>
     <string name="alivc_player_doawload_operator">Download on Provider Network</string>
@@ -176,44 +176,44 @@
     <string name="alivc_player_video_cache_storage_tips">Videos Cached%s,Space Remaining%s</string>
     <string name="alivc_player_video_download_sts_and_auth_is_empty">VidSts/VidAuth is Null</string>
 
-    <string name="alivc_player_video_stream">视频流</string>
-    <string name="alivc_player_audio_stream">音频流</string>
+    <string name="alivc_player_video_stream">Video Stream</string>
+    <string name="alivc_player_audio_stream">Audio Stream</string>
 
     <string name="alivc_player_tips_content">RTS_SERVER_MAYBE_DISCONNECT</string>
     <string name="alivc_player_tips_wait">Waiting</string>
     <string name="alivc_player_tips_exit">Exit</string>
-    <string name="auto_video_scale">自适应</string>
-    <string name="auto_video_zoom">放大</string>
-    <string name="auto_video_tensile">拉伸</string>
-    <string name="decoder_type">解码模式</string>
-    <string name="hard_decode">硬解</string>
-    <string name="soft_decode">软解</string>
+    <string name="auto_video_scale">Autofit</string>
+    <string name="auto_video_zoom">Zoom In</string>
+    <string name="auto_video_tensile">Stretch</string>
+    <string name="decoder_type">Decoding Mode</string>
+    <string name="hard_decode">Hardware decoding</string>
+    <string name="soft_decode">Software decoding</string>
     <string name="video_speed_0.5">0.5X</string>
     <string name="video_speed_0.75">0.75X</string>
     <string name="video_speed_1.0x">1.0X</string>
     <string name="video_speed_1.25x">1.25X</string>
     <string name="video_speed_1.5x">1.5X</string>
     <string name="video_speed_2.0x">2.0X</string>
-    <string name="select_series_title">选集</string>
-    <string name="video_speed_title">倍速</string>
-    <string name="video_resolution_title">自动</string>
-    <string name="audio_mode_back">返回视频</string>
-    <string name="audio_mode_title">在锁屏和切换到后台时也能播放音频</string>
-    <string name="damkun_location">弹幕位置</string>
-    <string name="list_play_setting_title">列表内视频自动播放</string>
-    <string name="background_play_setting_title">切换至后台继续播放</string>
-    <string name="contrast_play_tip">已为您切换到上次观看位置</string>
-    <string name="danmku_input_tip">发送弹幕，加入讨论</string>
-    <string name="danmku_open_tip">已开启弹幕</string>
-    <string name="danmku_close_tip">已关闭弹幕</string>
-    <string name="video_dot_tip">看点</string>
-    <string name="location_top">顶部</string>
-    <string name="location_location_top_tip">弹幕位置切换为顶部</string>
-    <string name="location_bottom">底部</string>
-    <string name="location_location_bottom_tip">弹幕位置切换为底部</string>
-    <string name="location_unlimit">不限</string>
-    <string name="location_location_unlimit_tip">弹幕位置切换为不限</string>
-    <string name="video_speed_tip">快进中</string>
+    <string name="select_series_title">Episode</string>
+    <string name="video_speed_title">Playback Speed</string>
+    <string name="video_resolution_title">Auto</string>
+    <string name="audio_mode_back">Back</string>
+    <string name="audio_mode_title">You can still play audio on lock screen and in the background.</string>
+    <string name="damkun_location">Bullet Comment Position</string>
+    <string name="list_play_setting_title">Autoplay Videos in the List</string>
+    <string name="background_play_setting_title">Switch to the Background for Playback</string>
+    <string name="contrast_play_tip">Jumped to the last viewed position.</string>
+    <string name="danmku_input_tip">Send a bullet comment</string>
+    <string name="danmku_open_tip">Bullet comment enabled.</string>
+    <string name="danmku_close_tip">Bullet comment disabled.</string>
+    <string name="video_dot_tip">Moments</string>
+    <string name="location_top">Top</string>
+    <string name="location_location_top_tip">Bullet comment position switched to the top.</string>
+    <string name="location_bottom">Bottom</string>
+    <string name="location_location_bottom_tip">Bullet comment position switched to the bottom.</string>
+    <string name="location_unlimit">Unlimited</string>
+    <string name="location_location_unlimit_tip">Bullet comment position switched to unlimited.</string>
+    <string name="video_speed_tip">Fast forwarding.</string>
 
     <string name="alivc_net_disable">No network is found. Check your network and try again</string>
 
@@ -253,8 +253,8 @@
     <string name="alivc_player_setting_play_type_auth">AUTH</string>
     <string name="alivc_player_setting_play_type_live_sts">LiveSts</string>
     <string name="alivc_player_setting_decode_type_title">Decoder Type</string>
-    <string name="alivc_player_setting_decode_type_soft">软解</string>
-    <string name="alivc_player_setting_decode_type_hard">硬解</string>
+    <string name="alivc_player_setting_decode_type_soft">Software decoding</string>
+    <string name="alivc_player_setting_decode_type_hard">Hardware decoding</string>
     <string name="alivc_player_setting_mirror_type_title">Mirror</string>
     <string name="alivc_player_setting_mirror_type_none">None</string>
     <string name="alivc_player_setting_mirror_type_vertical">Vertical</string>
@@ -264,34 +264,34 @@
     <string name="alivc_player_setting_rotate_type_90">90</string>
     <string name="alivc_player_setting_rotate_type_180">180</string>
     <string name="alivc_player_setting_rotate_type_270">270</string>
-    <string name="alivc_player_setting_auto_switch">自适应码率</string>
-    <string name="alivc_player_setting_seek_module">seek模式</string>
-    <string name="alivc_player_setting_enable_background">后台播放</string>
+    <string name="alivc_player_setting_auto_switch">Adaptive Bitrate</string>
+    <string name="alivc_player_setting_seek_module">Seeking Mode</string>
+    <string name="alivc_player_setting_enable_background">Background Playback</string>
     <string name="alivc_player_setting_auto_open">Open</string>
     <string name="alivc_player_setting_auto_close">Close</string>
-    <string name="alivc_player_setting_seek_accurate">精准Seek</string>
-    <string name="alivc_player_setting_seek_inaccurate">非精准Seek</string>
+    <string name="alivc_player_setting_seek_accurate">Accurate seeking</string>
+    <string name="alivc_player_setting_seek_inaccurate">Inaccurate seeking</string>
 
     <!--播放参数-->
-    <string name="alivc_player_config_title">播放参数设置</string>
-    <string name="alivc_player_config_start_buffer_level">启播</string>
-    <string name="alivc_player_config_high_buffer_level">卡顿恢复</string>
-    <string name="alivc_player_config_max_buffer_packet_duration">最大缓存值</string>
-    <string name="alivc_player_config_max_delay_time">直播最大延迟</string>
-    <string name="alivc_player_config_net_work_time_out">网络超时</string>
-    <string name="alivc_player_config_probe_size">probe大小</string>
-    <string name="alivc_player_config_referrer">请求referer</string>
-    <string name="alivc_player_config_http_proxy">httpProxy代理</string>
-    <string name="alivc_player_config_retry_count">网络重试次数</string>
-    <string name="alivc_player_config_enable_cachet">开启自定义缓存</string>
-    <string name="alivc_player_config_enable_sei">开启SEI</string>
-    <string name="alivc_player_config_enable_clean_when_stop">停止显示最后帧</string>
-    <string name="alivc_player_config_max_duration">缓存最大时长</string>
-    <string name="alivc_player_config_max_size">缓存最大空间</string>
+    <string name="alivc_player_config_title">Playback Parameter Settings</string>
+    <string name="alivc_player_config_start_buffer_level">Startup</string>
+    <string name="alivc_player_config_high_buffer_level">Stuttering Fix</string>
+    <string name="alivc_player_config_max_buffer_packet_duration">Maximum Cache Value</string>
+    <string name="alivc_player_config_max_delay_time">Maximum Latency</string>
+    <string name="alivc_player_config_net_work_time_out">Network Timeout</string>
+    <string name="alivc_player_config_probe_size">Probe Size</string>
+    <string name="alivc_player_config_referrer">Request Referer</string>
+    <string name="alivc_player_config_http_proxy">HTTP Proxy</string>
+    <string name="alivc_player_config_retry_count">Network Retries</string>
+    <string name="alivc_player_config_enable_cachet">Custom Cache</string>
+    <string name="alivc_player_config_enable_sei">SEI</string>
+    <string name="alivc_player_config_enable_clean_when_stop">Last Frame Not Displayed</string>
+    <string name="alivc_player_config_max_duration">Maximum Cache Duration</string>
+    <string name="alivc_player_config_max_size">Maximum Cache Space</string>
 
 
-    <string name="alivc_player_confirm_config">使用此配置</string>
-    <string name="alivc_player_normal_config">默认配置</string>
+    <string name="alivc_player_confirm_config">Use This Configuration</string>
+    <string name="alivc_player_normal_config">Default Configuration</string>
 
     <!--change track tips-->
     <string name="alivc_player_track_change_error">Track change Error : %s --- %s</string>
@@ -303,17 +303,17 @@
 
 
 
-    <string name="aui_player_develper_mode_audio">音频</string>
-    <string name="aui_player_develper_mode_video">视频</string>
-    <string name="aui_player_develper_mode_decoder">编解码器：</string>
-    <string name="aui_player_develper_mode_hardware">硬件加速：</string>
-    <string name="aui_player_develper_mode_bitrate">比特率：</string>
-    <string name="aui_player_develper_mode_hint">请输入</string>
+    <string name="aui_player_develper_mode_audio">Audio</string>
+    <string name="aui_player_develper_mode_video">Video</string>
+    <string name="aui_player_develper_mode_decoder">Codec：</string>
+    <string name="aui_player_develper_mode_hardware">Hardware Acceleration：</string>
+    <string name="aui_player_develper_mode_bitrate">Bitrate：</string>
+    <string name="aui_player_develper_mode_hint">Enter a value</string>
 
-    <string name="aui_player_develper_mode_drop_frame">丢帧：</string>
-    <string name="aui_player_develper_mode_resolution_ratio">分辨率：</string>
-    <string name="aui_player_develper_mode_framerate">帧率：</string>
-    <string name="aui_player_develper_mode_color_standard">颜色标准:</string>
+    <string name="aui_player_develper_mode_drop_frame">Frame Drop：</string>
+    <string name="aui_player_develper_mode_resolution_ratio">Resolution：</string>
+    <string name="aui_player_develper_mode_framerate">Frame Rate：</string>
+    <string name="aui_player_develper_mode_color_standard">Color Standard:</string>
 
 
 </resources>

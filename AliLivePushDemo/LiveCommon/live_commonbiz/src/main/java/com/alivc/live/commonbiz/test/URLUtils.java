@@ -1,53 +1,82 @@
 package com.alivc.live.commonbiz.test;
 
 public class URLUtils {
-
     public static final String RTMP = "rtmp://";
     public static final String HTTP = "http://";
     public static final String ARTC = "artc://";
-    public static final String PULL_FLAG = "play";
-    public static final String PUSH_FLAG = "push";
-    public static final String SDK_APP_ID = "sdkAppId";
-    public static final String USER_ID = "userId";
-    public static final String TIMESTAMP = "timestamp";
-    public static final String TOKEN = "token";
-    public static final String NONCE = "nonce";
 
-    private static StringBuilder generateProtocol(int type) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (type == 0) {
-            stringBuilder.append(RTMP);
-        } else if (type == 1) {
-            stringBuilder.append(ARTC);
-        } else if (type == 2) {
-            stringBuilder.append(HTTP);
-        }
-        return stringBuilder;
+    private static final String FLV = ".flv";
+
+    /**
+     * 连麦推拉流地址的二级域名（Second-level domain）
+     */
+    private static final String PULL_SLD = "play";
+    private static final String PUSH_SLD = "push";
+
+    /**
+     * 连麦推拉流地址的参数配置key
+     */
+    private static final String SDK_APP_ID = "sdkAppId";
+    private static final String USER_ID = "userId";
+    private static final String TIMESTAMP = "timestamp";
+    private static final String TOKEN = "token";
+
+    private static final String APP_NAME = "live";
+
+    /**
+     * 旁路混流地址用，纯音频--->audio，音视频--->camera
+     */
+    private static final String STREAM_TASK_TYPE_CAMERA = "camera";
+    private static final String STREAM_TASK_TYPE_AUDIO = "audio";
+
+    private URLUtils() {
     }
 
     /**
-     * 根据 {@link AliLiveUserSigGenerate#ALILIVE_APPID}，{@link AliLiveUserSigGenerate#ALILIVE_APPKEY}，${@link AliLiveUserSigGenerate#getTimesTamp()},
-     * USER_ID，CHANNEL_ID 等信息生成推流地址
+     * 根据 APPID/APPKEY/PLAY_DOMAIN 连麦配置信息，生成连麦推流地址
+     * <p>
+     * 需提前配置好以下连麦配置：
+     * {@link AliLiveUserSigGenerate#ALILIVE_APPID}
+     * {@link AliLiveUserSigGenerate#ALILIVE_APPKEY}
+     * {@link AliLiveUserSigGenerate#ALILIVE_PLAY_DOMAIN}
      *
      * @param channelId 频道 ID
      * @param userId    用户 ID
-     * @param type      协议类型，0:rtmp  1：artc  2：http
-     * @return 生成的推流地址
+     * @return 连麦推流地址
      */
-    public static String generatePushUrl(String channelId, String userId, int type) {
-        String appid = PushDemoTestConstants.getTestInteractiveAppID();
-        String appkey = PushDemoTestConstants.getTestInteractiveAppKey();
-        String playDomain = PushDemoTestConstants.getTestInteractivePlayDomain();
-        long timestamp = AliLiveUserSigGenerate.getTimesTamp();
+    public static String generateInteractivePushUrl(String channelId, String userId) {
+        return generateInteractiveUrl(channelId, userId, true);
+    }
 
-        String token = AliLiveUserSigGenerate.createToken(appid,
-                appkey, channelId, userId, timestamp);
-        StringBuilder stringBuilder = generateProtocol(type);
-        stringBuilder.append(AliLiveUserSigGenerate.ALILIVE_PUSH_DOMAIN).append("/")
-                .append(PUSH_FLAG).append("/")
+    /**
+     * 根据 APPID/APPKEY/PLAY_DOMAIN 连麦配置信息，生成连麦拉流地址
+     * <p>
+     * 需提前配置好以下连麦配置：
+     * {@link AliLiveUserSigGenerate#ALILIVE_APPID}
+     * {@link AliLiveUserSigGenerate#ALILIVE_APPKEY}
+     * {@link AliLiveUserSigGenerate#ALILIVE_PLAY_DOMAIN}
+     *
+     * @param channelId 频道 ID
+     * @param userId    用户 ID
+     * @return 连麦拉流地址
+     */
+    public static String generateInteractivePullUrl(String channelId, String userId) {
+        return generateInteractiveUrl(channelId, userId, false);
+    }
+
+    private static String generateInteractiveUrl(String channelId, String userId, boolean isPush) {
+        String sld = isPush ? PUSH_SLD : PULL_SLD;
+        String appId = PushDemoTestConstants.getTestInteractiveAppID();
+        String appKey = PushDemoTestConstants.getTestInteractiveAppKey();
+        long timestamp = AliLiveUserSigGenerate.getTimesTamp();
+        String token = AliLiveUserSigGenerate.createToken(appId, appKey, channelId, userId, timestamp);
+
+        StringBuilder stringBuilder = new StringBuilder(ARTC);
+        stringBuilder.append(AliLiveUserSigGenerate.ALILIVE_INTERACTIVE_DOMAIN).append("/")
+                .append(sld).append("/")
                 .append(channelId)
                 .append("?")
-                .append(SDK_APP_ID).append("=").append(appid).append("&")
+                .append(SDK_APP_ID).append("=").append(appId).append("&")
                 .append(USER_ID).append("=").append(userId).append("&")
                 .append(TIMESTAMP).append("=").append(timestamp).append("&")
                 .append(TOKEN).append("=").append(token);
@@ -55,53 +84,64 @@ public class URLUtils {
     }
 
     /**
-     * 根据 {@link AliLiveUserSigGenerate#ALILIVE_APPID}，{@link AliLiveUserSigGenerate#ALILIVE_APPKEY}，${@link AliLiveUserSigGenerate#getTimesTamp()},
-     * USER_ID，CHANNEL_ID 等信息生成拉流地址
+     * 根据 APPID/APPKEY/PLAY_DOMAIN 连麦配置信息，生成普通观众的CDN拉流地址
+     * <p>
+     * 需提前配置好以下连麦配置：
+     * {@link AliLiveUserSigGenerate#ALILIVE_APPID}
+     * {@link AliLiveUserSigGenerate#ALILIVE_APPKEY}
+     * {@link AliLiveUserSigGenerate#ALILIVE_PLAY_DOMAIN}
      *
      * @param channelId 频道 ID
      * @param userId    用户 ID
-     * @param type      协议类型，0:rtmp  1：artc  2：http
      * @return 生成的拉流地址
      */
-    public static String generatePullUrl(String channelId, String userId, int type) {
-        String appid = PushDemoTestConstants.getTestInteractiveAppID();
-        String appkey = PushDemoTestConstants.getTestInteractiveAppKey();
-        long timestamp = AliLiveUserSigGenerate.getTimesTamp();
-
-        String token = AliLiveUserSigGenerate.createToken(appid,
-                appkey, channelId, userId, timestamp);
-        StringBuilder stringBuilder = generateProtocol(type);
-        stringBuilder.append(AliLiveUserSigGenerate.ALILIVE_PUSH_DOMAIN).append("/")
-                .append(PULL_FLAG).append("/")
-                .append(channelId)
-                .append("?")
-                .append(SDK_APP_ID).append("=").append(appid).append("&")
-                .append(USER_ID).append("=").append(userId).append("&")
-                .append(TIMESTAMP).append("=").append(timestamp).append("&")
-                .append(TOKEN).append("=").append(token);
-        return stringBuilder.toString();
+    public static String generateCDNPullUrl(String channelId, String userId, boolean isAudioOnly) {
+        /**
+         * 建议将rtmp换成http-flv的形式。理由如下：
+         * 在阿里云点播控制台生成地址时，会同时生成RTMP与HTTP-FLV的地址，这两个协议里包含的数据内容是一致的，只是网络协议通道不一样。
+         * <p>
+         * HTTP协议是互联网主要协议，CDN、运营商、中间网络设备等链路中都对HTTP有很长时间的网络优化，
+         * HTTP的默认80/443端口号也是常见白名单端口，不容易被禁用，而RTMP协议比较老，其默认端口号是1935有可能被防火墙等设备禁用，导致异常。
+         * 因此在综合网络环境下，HTTP-FLV的稳定性、性能（卡顿、延时）会比RTMP更好。
+         */
+        return generateCDNFlvPullUrl(channelId, userId, isAudioOnly);
     }
 
     /**
-     * 根据 {@link AliLiveUserSigGenerate#ALILIVE_APPID}，{@link AliLiveUserSigGenerate#ALILIVE_APPKEY}，${@link AliLiveUserSigGenerate#getTimesTamp()},
-     * SER_ID，CHANNEL_ID 等信息生成 CDN 拉流地址
-     *
-     * @param channelId 频道 ID
-     * @param userId    用户 ID
-     * @param type      协议类型，0:rtmp  1：artc  2：http
-     * @return 生成的拉流地址
+     * HTTP-FLV格式的CDN旁路拉流地址（普通观众用）
      */
-    public static String generateCDNUrl(String channelId, String userId, int type) {
-        String appid = PushDemoTestConstants.getTestInteractiveAppID();
+    private static String generateCDNFlvPullUrl(String channelId, String userId, boolean isAudioOnly) {
+        String appId = PushDemoTestConstants.getTestInteractiveAppID();
         String playDomain = PushDemoTestConstants.getTestInteractivePlayDomain();
+        String streamTaskType = isAudioOnly ? STREAM_TASK_TYPE_AUDIO : STREAM_TASK_TYPE_CAMERA;
 
-        StringBuilder stringBuilder = generateProtocol(type);
+        StringBuilder stringBuilder = new StringBuilder(HTTP);
         stringBuilder.append(playDomain).append("/")
-                .append(AliLiveUserSigGenerate.APP_NAME).append("/")
-                .append(appid).append("_")
+                .append(APP_NAME).append("/")
+                .append(appId).append("_")
                 .append(channelId).append("_")
                 .append(userId).append("_")
-                .append(AliLiveUserSigGenerate.SOURCE_TYPE);
+                .append(streamTaskType)
+                .append(FLV);
         return stringBuilder.toString();
     }
+
+    /**
+     * RTMP格式的CDN旁路拉流地址（普通观众用）
+     */
+    private static String generateCDNRtmpPullUrl(String channelId, String userId, boolean isAudioOnly) {
+        String appId = PushDemoTestConstants.getTestInteractiveAppID();
+        String playDomain = PushDemoTestConstants.getTestInteractivePlayDomain();
+        String streamTaskType = isAudioOnly ? STREAM_TASK_TYPE_AUDIO : STREAM_TASK_TYPE_CAMERA;
+
+        StringBuilder stringBuilder = new StringBuilder(RTMP);
+        stringBuilder.append(playDomain).append("/")
+                .append(APP_NAME).append("/")
+                .append(appId).append("_")
+                .append(channelId).append("_")
+                .append(userId).append("_")
+                .append(streamTaskType);
+        return stringBuilder.toString();
+    }
+
 }

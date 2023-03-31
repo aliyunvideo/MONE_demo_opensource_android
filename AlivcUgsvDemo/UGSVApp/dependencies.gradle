@@ -32,6 +32,7 @@ dependencies {
     implementation externalAndroidXConstraintlayout
     implementation externalGSON
     implementation externalOKHTTP
+    implementation externalAliyunVodUpload
     implementation 'com.github.zyyoona7:wheelview:2.0.4'
 //    implementation externalLeakcanary
     implementation externalAndroidMultiDex

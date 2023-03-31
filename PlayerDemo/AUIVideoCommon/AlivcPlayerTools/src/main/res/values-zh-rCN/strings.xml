@@ -278,4 +278,49 @@
 
     <string name="alivc_player_download_repeat_add">请勿重复添加</string>
 
+    <string name="auto_video_scale">自适应</string>
+    <string name="auto_video_zoom">放大</string>
+    <string name="auto_video_tensile">拉伸</string>
+    <string name="decoder_type">解码模式</string>
+    <string name="hard_decode">硬解</string>
+    <string name="soft_decode">软解</string>
+    <string name="video_speed_0.5">0.5X</string>
+    <string name="video_speed_0.75">0.75X</string>
+    <string name="video_speed_1.0x">1.0X</string>
+    <string name="video_speed_1.25x">1.25X</string>
+    <string name="video_speed_1.5x">1.5X</string>
+    <string name="video_speed_2.0x">2.0X</string>
+    <string name="select_series_title">选集</string>
+    <string name="video_speed_title">倍速</string>
+    <string name="video_resolution_title">自动</string>
+    <string name="audio_mode_back">返回视频</string>
+    <string name="audio_mode_title">在锁屏和切换到后台时也能播放音频</string>
+    <string name="damkun_location">弹幕位置</string>
+    <string name="list_play_setting_title">列表内视频自动播放</string>
+    <string name="background_play_setting_title">切换至后台继续播放</string>
+    <string name="contrast_play_tip">已为您切换到上次观看位置</string>
+    <string name="danmku_input_tip">发送弹幕，加入讨论</string>
+    <string name="danmku_open_tip">已开启弹幕</string>
+    <string name="danmku_close_tip">已关闭弹幕</string>
+    <string name="video_dot_tip">看点</string>
+    <string name="location_top">顶部</string>
+    <string name="location_location_top_tip">弹幕位置切换为顶部</string>
+    <string name="location_bottom">底部</string>
+    <string name="location_location_bottom_tip">弹幕位置切换为底部</string>
+    <string name="location_unlimit">不限</string>
+    <string name="location_location_unlimit_tip">弹幕位置切换为不限</string>
+    <string name="video_speed_tip">快进中</string>
+
+    <string name="aui_player_develper_mode_audio">音频</string>
+    <string name="aui_player_develper_mode_video">视频</string>
+    <string name="aui_player_develper_mode_decoder">编解码器：</string>
+    <string name="aui_player_develper_mode_hardware">硬件加速：</string>
+    <string name="aui_player_develper_mode_bitrate">比特率：</string>
+    <string name="aui_player_develper_mode_hint">请输入</string>
+
+    <string name="aui_player_develper_mode_drop_frame">丢帧：</string>
+    <string name="aui_player_develper_mode_resolution_ratio">分辨率：</string>
+    <string name="aui_player_develper_mode_framerate">帧率：</string>
+    <string name="aui_player_develper_mode_color_standard">颜色标准:</string>
+
 </resources>

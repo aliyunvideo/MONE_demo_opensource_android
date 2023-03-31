@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pull_interact_name_tv">Connect Interact</string>
-    <string name="pull_multi_interact_name_tv">Multi Connect Interact</string>
+    <string name="pull_multi_interact_name_tv">Multi Connect Interact/PK</string>
     <string name="push_interactive_setting_audio_only">Audio Only</string>
     <string name="push_interactive_setting_gop">GOP</string>
     <string name="push_interactive_setting_hardware_decode">Enable Hardware Decode</string>
@@ -39,4 +39,10 @@
     <string name="interact_live_lost_connect">Disconnect the link, please re-enter the live room</string>
     <string name="extern_stream_main">Main Extern Stream</string>
     <string name="waiting_download_video_resources">waiting for download external video resources</string>
+    <string name="interact_live_setting_resolution">Resolution</string>
+    <string name="target_bitrate">Target bitrate</string>
+    <string name="target_rate_value">1200</string>
+    <string name="captrue_fps">Captrue fps</string>
+    <string name="init_fps">20</string>
+    <string name="min_fps">Min fps</string>
 </resources>

@@ -1,11 +1,11 @@
 <resources>
-    <string name="aui_flow_feed_title">信息流播放</string>
-    <string name="aui_flow_feed_video_detail">视频详情</string>
+    <string name="aui_flow_feed_title">Information Streaming</string>
+    <string name="aui_flow_feed_video_detail">Video Details</string>
 
-    <string name="recommend_title">相关推荐</string>
+    <string name="recommend_title">Recommendations</string>
 
-    <string name="default_video_title">默认视频标题-阿里云视频展示</string>
-    <string name="default_author_name">默认昵称.阿里云</string>
-    <string name="definition">清晰度</string>
+    <string name="default_video_title">Default Title - Alibaba Cloud Video Display</string>
+    <string name="default_author_name">Default Alias - Alibaba Cloud</string>
+    <string name="definition">Definition</string>
 
 </resources>

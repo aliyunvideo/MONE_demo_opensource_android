@@ -1,0 +1,37 @@
+[
+    {
+        "title":"春天盛开的梅花，春天的气息",
+        "url":"https://vod.h5video.vip/e65fe720b67f71ed80060675a0ec0102/f1095ad0f2814d138f1b3c121a9219e2-644a08cf9e1c853b5ce9c8f3625d55ed-sd-nbv1.mp4",
+        "coverURL":"https://alivc-demo-vod.aliyuncs.com/9a3d1113be394fa9bd8d250ce789047f/snapshots/normal/6941BA2-17FDFDF3A55-1103-1445-334-2638600001.jpg"
+    },
+    {
+        "title":"虎鲸和粉红色的天空",
+        "url":"https://vod.h5video.vip/e6634280b67f71ed801c6632b68f0102/7ae21e219972419faf58ba526086d4ee-9a103738d943fe87339d26e1206fe4a7-sd-nbv1.mp4",
+        "coverURL":"https://alivc-demo-vod.aliyuncs.com/5e1c26bea56e4f19a9f2c387ecc27b92/snapshots/normal/19FAE4B2-17FDFE02F4F-1103-1445-334-2638600001.jpg"
+    },
+    {
+        "title":"城市高速公路延时摄影",
+        "url":"https://vod.h5video.vip/e667fd70b67f71edbfd47035d0b20102/7816156dc5ac444a9669745c4db3c3f7-7d0cc543c91dcedf3f64e0ad75300f01-sd-nbv1.mp4",
+        "coverURL":"https://alivc-demo-vod.aliyuncs.com/61d0ed175a934df58e8fc6f0bfeecd6c/snapshots/normal/4203E42D-17FDFE10B04-1103-1445-334-2638600001.jpg"
+    },
+    {
+        "title":"Abstract technology tunnel",
+        "url":"https://vod.h5video.vip/e66899b0b67f71ed82b30764a3fd0102/7bc6de648acf4c0a943066bd0d63f095-0cb236256dfdfd8da14353b7657dad79-sd-nbv1.mp4",
+        "coverURL":"https://alivc-demo-vod.aliyuncs.com/c504776e45de47a3af3fb40f48f8d32a/snapshots/normal/55935008-17FDFE1D288-1103-1445-334-2638600001.jpg"
+    },
+    {
+        "title":"荷兰阿姆斯特丹，球迷观看世界杯足球赛",
+        "url":"https://vod.h5video.vip/e6743270b67f71ed82b30764a3fd0102/99328e456e7941de8d128dc3d9a842bf-d337bffd94bd61d33248748ad3fbe875-sd-nbv1.mp4",
+        "coverURL":"https://alivc-demo-vod.aliyuncs.com/58002116f9454c79b71134c35187084f/snapshots/normal/4B4AC225-17FDFE2A9BD-1103-1445-334-2638600001.jpg"
+    },
+    {
+        "title":"阳光、海浪、沙滩、仙人掌……",
+        "url":"https://vod.h5video.vip/f0dc61b0b67f71ed949f6732a78f0102/917faa9d22d4479082f95a20349d4fae-5b8c4873c090c077aed6c3f95c0f9102-sd-nbv1.mp4",
+        "coverURL":"https://alivc-demo-vod.aliyuncs.com/4c6f9fcfddd24e00a225746479a6419a/snapshots/normal/45B357F3-17FDFE38B6D-1103-1445-334-2638600001.jpg"
+    },
+    {
+        "title":"厚厚的云层让人感觉心安",
+        "url":"https://vod.h5video.vip/f53841c0b67f71ed801c6632b68f0102/51e8a25415c3473fae8d62d2a0c67fb0-c4f3c575d2cc00fa1662ab0afd492b6e-sd-nbv1.mp4",
+        "coverURL":"https://alivc-demo-vod.aliyuncs.com/904bb3e1d813414b8d1e4270f3f6baa1/snapshots/normal/1AF7A1BB-17FDFE4538F-1103-1445-334-2638600001.jpg"
+    }
+]

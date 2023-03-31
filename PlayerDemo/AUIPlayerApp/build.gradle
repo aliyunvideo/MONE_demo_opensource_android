@@ -41,6 +41,9 @@ dependencies {
     implementation externalAndroidXAppcompat
     implementation externalAndroidDesign
     implementation externalAndroidXConstraintlayout
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation externalJunit
     androidTestImplementation externalTestJunit
     androidTestImplementation externalEspresso
@@ -51,12 +54,15 @@ dependencies {
         implementation externalRtsSDK
     }
 
+    implementation externalGSON
     //分包
     implementation externalAndroidMultiDex
 
     implementation project(':AUIFlowFeed')
-    implementation project(':AUIVideoList')
     implementation project(':AUIFullScreen')
+    implementation project(':AUIVideoList:AUIVideoListCommon')
+    implementation project(':AUIVideoList:AUIVideoFunctionList')
+    implementation project(':AUIVideoList:AUIVideoStandradList')
 //    implementation project(':AUIVideoDetail')
     //aio
     implementation project(':AUIFoundation:AVBaseUI')

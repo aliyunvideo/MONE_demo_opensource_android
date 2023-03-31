@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat;
 import com.aliyun.aio.avbaseui.AVBaseListActivity;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.auifullscreen.AUIFullScreenActivity;
-import com.aliyun.auivideolist.AUIVideoListActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.aliyun.auiplayerapp.videolist.AUIVideoFunctionListActivity;
+import com.aliyun.auiplayerapp.videolist.AUIVideoStandardListActivity;
 import com.aliyun.video.MainActivity;
 
 @Route(path = "/player/MainActivity")
@@ -28,9 +29,10 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
     private static final int REQUEST_PERMISSION_STORAGE = 0x0001;
 
     private static final int INDEX_FEED_FLOW = 0;
-    private static final int INDEX_VIDEO_LIST = 1;
-    private static final int INDEX_FULL_SCREEN = 2;
-    private static final int INDEX_CUSTOM = 3;
+    private static final int INDEX_VIDEO_LIST_FUNCTION = 1;
+    private static final int INDEX_VIDEO_LIST_STANDARD = 2;
+    private static final int INDEX_FULL_SCREEN = 3;
+    private static final int INDEX_CUSTOM = 4;
 
     private ListModel mListModel;
 
@@ -48,8 +50,9 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
     public List<ListModel> createListData() {
         List<ListModel> menu = new ArrayList<>();
         menu.add(new ListModel(INDEX_FEED_FLOW, R.drawable.ic_player_xinxi, getResources().getString(R.string.player_feed_flow), getResources().getString(R.string.player_feed_flow_msg)));
-        menu.add(new ListModel(INDEX_VIDEO_LIST, R.drawable.ic_player_chenjin, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_msg)));
-        menu.add(new ListModel(INDEX_FULL_SCREEN, R.drawable.ic_player_quanping, getResources().getString(R.string.player_full_screen), getResources().getString(R.string.player_feed_flow_msg)));
+        menu.add(new ListModel(INDEX_VIDEO_LIST_FUNCTION, R.drawable.ic_player_chenjin, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_msg)));
+        menu.add(new ListModel(INDEX_VIDEO_LIST_STANDARD, R.drawable.ic_player_quanping, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_msg)));
+        menu.add(new ListModel(INDEX_FULL_SCREEN, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_full_screen), getResources().getString(R.string.player_feed_flow_msg)));
 //        menu.add(new ListModel(INDEX_CUSTOM, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_custom), null));
         return menu;
     }
@@ -92,9 +95,13 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
                 Intent feedFlow = new Intent(this, MainActivity.class);
                 startActivity(feedFlow);
                 break;
-            case INDEX_VIDEO_LIST:
-                Intent videoListIntent = new Intent(this, AUIVideoListActivity.class);
+            case INDEX_VIDEO_LIST_FUNCTION:
+                Intent videoListIntent = new Intent(this, AUIVideoFunctionListActivity.class);
                 startActivity(videoListIntent);
+                break;
+            case INDEX_VIDEO_LIST_STANDARD:
+                Intent videoListIntent1 = new Intent(this, AUIVideoStandardListActivity.class);
+                startActivity(videoListIntent1);
                 break;
             case INDEX_FULL_SCREEN:
                 Intent fullscreenIntent = new Intent(this, AUIFullScreenActivity.class);

@@ -1,6 +1,5 @@
 import java.text.SimpleDateFormat
 
-apply from: '../cappbuild.gradle'
 apply plugin: 'com.android.application'
 apply from: './dependencies.gradle'
 

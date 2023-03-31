@@ -249,6 +249,8 @@ public class PushMusicBottomSheet extends AVBaseBottomSheetDialog implements Vie
 
         void onAudioNoise(boolean state);
 
+        void onEarphone(boolean state);
+
         void onAudioIntelligentNoise(boolean state);
 
         void onBGPlay(boolean state);

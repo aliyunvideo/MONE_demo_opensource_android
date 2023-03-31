@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AUIVideoList</string>
+    
+    <string name="aui_video_list_coming_soon">Coming Soon~</string>
+    <string name="aui_video_list_gesture_title">Slide up to view more videos.</string>
+</resources>

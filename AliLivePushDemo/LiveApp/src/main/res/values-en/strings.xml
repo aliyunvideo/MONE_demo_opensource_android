@@ -171,6 +171,7 @@
     <string name="open_mute">Open Mute</string>
     <string name="close_ears_back">Close Ears</string>
     <string name="open_ears_back">Open Ears</string>
+    <string name="earphone_mode">Earphone Mode</string>
     <string name="close_audio_denoise">Close Denoise</string>
     <string name="open_audio_denoise">Audio Denoise</string>
     <string name="open_audio_intelligent_denoise">Audio Intelligent Denoise</string>

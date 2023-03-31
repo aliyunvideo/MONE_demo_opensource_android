@@ -1,5 +1,12 @@
 package com.alivc.live.interactive_common;
 
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_10;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_12;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_15;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_20;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_25;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_30;
+import static com.alivc.live.pusher.AlivcFpsEnum.FPS_8;
 import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FIVE;
 import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FOUR;
 import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_ONE;
@@ -8,7 +15,9 @@ import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_TWO;
 
 import android.app.DownloadManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -20,15 +29,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alivc.live.commonbiz.ResourcesDownload;
 import com.alivc.live.commonbiz.listener.OnDownloadListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 
 public class InteractiveSettingActivity extends AppCompatActivity {
 
+    private static final int PROGRESS_0 = 0;
+    private static final int PROGRESS_16 = 16;
     private static final int PROGRESS_20 = 20;
+    private static final int PROGRESS_33 = 33;
     private static final int PROGRESS_40 = 40;
+    private static final int PROGRESS_50 = 50;
     private static final int PROGRESS_60 = 60;
+    private static final int PROGRESS_66 = 66;
     private static final int PROGRESS_80 = 80;
+    private static final int PROGRESS_90 = 90;
     private static final int PROGRESS_100 = 100;
 
     private ImageView mBackImageView;
@@ -40,6 +56,14 @@ public class InteractiveSettingActivity extends AppCompatActivity {
     private TextView mGopTextView;
     private Switch mExternVideoSwitch;
     private AVLoadingDialog mLoadingDialog;
+
+    private SeekBar mResolution;
+    private TextView mResolutionText;
+    private EditText mTargetRateEditText;
+    private SeekBar mMinFps;
+    private TextView mMinFpsText;
+    private SeekBar mFps;
+    private TextView mFpsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +88,18 @@ public class InteractiveSettingActivity extends AppCompatActivity {
         mAudioOnlySwitch.setChecked(LivePushGlobalConfig.IS_AUDIO_ONLY);
         mHardwareDecodeSwitch.setChecked(LivePushGlobalConfig.VIDEO_ENCODE_HARD);
         mExternVideoSwitch.setChecked(LivePushGlobalConfig.ENABLE_EXTERN_AV);
+
+        mResolution = findViewById(R.id.resolution_seekbar);
+        mResolutionText = findViewById(R.id.resolution_text);
+
+        mTargetRateEditText = findViewById(R.id.target_rate_edit);
+        mTargetRateEditText.setHint(String.valueOf(LivePushGlobalConfig.TARGET_RATE));
+
+        mMinFps = findViewById(R.id.min_fps_seekbar);
+        mMinFpsText = findViewById(R.id.min_fps_text);
+
+        mFps = findViewById(R.id.fps_seekbar);
+        mFpsText = findViewById(R.id.fps_text);
     }
 
     private void initListener() {
@@ -71,6 +107,11 @@ public class InteractiveSettingActivity extends AppCompatActivity {
             finish();
         });
         mCommitButton.setOnClickListener(view -> {
+            String targetRate = mTargetRateEditText.getText().toString();
+            if (!TextUtils.isEmpty(targetRate)) {
+                LivePushGlobalConfig.TARGET_RATE = Integer.parseInt(targetRate);
+            }
+
             finish();
         });
         mMultiInteractSwitch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.IS_MULTI_INTERACT = b);
@@ -127,12 +168,127 @@ public class InteractiveSettingActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        mMinFps.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                if (progress <= PROGRESS_0) {
+                    LivePushGlobalConfig.MIN_FPS = FPS_8;
+                    mMinFpsText.setText(String.valueOf(FPS_8.getFps()));
+                } else if (progress <= PROGRESS_16) {
+                    LivePushGlobalConfig.MIN_FPS = FPS_10;
+                    mMinFpsText.setText(String.valueOf(FPS_10.getFps()));
+                } else if (progress <= PROGRESS_33) {
+                    LivePushGlobalConfig.MIN_FPS = FPS_12;
+                    mMinFpsText.setText(String.valueOf(FPS_12.getFps()));
+                } else if (progress <= PROGRESS_50) {
+                    LivePushGlobalConfig.MIN_FPS = FPS_15;
+                    mMinFpsText.setText(String.valueOf(FPS_15.getFps()));
+                } else if (progress <= PROGRESS_66) {
+                    LivePushGlobalConfig.MIN_FPS = FPS_20;
+                    mMinFpsText.setText(String.valueOf(FPS_20.getFps()));
+                } else if (progress <= PROGRESS_80) {
+                    LivePushGlobalConfig.MIN_FPS = FPS_25;
+                    mMinFpsText.setText(String.valueOf(FPS_25.getFps()));
+                } else {
+                    LivePushGlobalConfig.MIN_FPS = FPS_30;
+                    mMinFpsText.setText(String.valueOf(FPS_30.getFps()));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        mFps.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                if (progress <= PROGRESS_0) {
+                    LivePushGlobalConfig.FPS = FPS_8;
+                    mFpsText.setText(String.valueOf(FPS_8.getFps()));
+                } else if (progress <= PROGRESS_16) {
+                    LivePushGlobalConfig.FPS = FPS_10;
+                    mFpsText.setText(String.valueOf(FPS_10.getFps()));
+                } else if (progress <= PROGRESS_33) {
+                    LivePushGlobalConfig.FPS = FPS_12;
+                    mFpsText.setText(String.valueOf(FPS_12.getFps()));
+                } else if (progress <= PROGRESS_50) {
+                    LivePushGlobalConfig.FPS = FPS_15;
+                    mFpsText.setText(String.valueOf(FPS_15.getFps()));
+                } else if (progress <= PROGRESS_66) {
+                    LivePushGlobalConfig.FPS = FPS_20;
+                    mFpsText.setText(String.valueOf(FPS_20.getFps()));
+                } else if (progress <= PROGRESS_80) {
+                    LivePushGlobalConfig.FPS = FPS_25;
+                    mFpsText.setText(String.valueOf(FPS_25.getFps()));
+                } else {
+                    LivePushGlobalConfig.FPS = FPS_30;
+                    mFpsText.setText(String.valueOf(FPS_30.getFps()));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        mResolution.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                if (progress <= PROGRESS_0) {
+                    LivePushGlobalConfig.RESOLUTION = AlivcResolutionEnum.RESOLUTION_180P;
+                    mResolutionText.setText("180P");
+                } else if (progress <= PROGRESS_20) {
+                    LivePushGlobalConfig.RESOLUTION = AlivcResolutionEnum.RESOLUTION_240P;
+                    mResolutionText.setText("240P");
+
+                } else if (progress <= PROGRESS_40) {
+                    LivePushGlobalConfig.RESOLUTION = AlivcResolutionEnum.RESOLUTION_360P;
+                    mResolutionText.setText("360P");
+
+                } else if (progress <= PROGRESS_60) {
+                    LivePushGlobalConfig.RESOLUTION = AlivcResolutionEnum.RESOLUTION_480P;
+                    mResolutionText.setText("480P");
+
+                } else if (progress <= PROGRESS_80) {
+                    LivePushGlobalConfig.RESOLUTION = AlivcResolutionEnum.RESOLUTION_540P;
+                    mResolutionText.setText("540P");
+
+                } else if (progress <= PROGRESS_90) {
+                    LivePushGlobalConfig.RESOLUTION = AlivcResolutionEnum.RESOLUTION_720P;
+                    mResolutionText.setText("720P");
+
+                } else {
+                    LivePushGlobalConfig.RESOLUTION = AlivcResolutionEnum.RESOLUTION_1080P;
+                    mResolutionText.setText("1080P");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
     }

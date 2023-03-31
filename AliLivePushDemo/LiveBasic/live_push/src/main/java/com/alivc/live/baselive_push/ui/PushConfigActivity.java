@@ -818,7 +818,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
             } else if (id == R.id.extern_video) {
                 mAlivcLivePushConfig.setExternMainStream(isChecked, AlivcImageFormat.IMAGE_FORMAT_YUVNV12, AlivcSoundFormat.SOUND_FORMAT_S16);
                 mAlivcLivePushConfig.setAudioChannels(AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE);
-                mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
+                mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
                 if (isChecked) {
                     startDownloadYUV();
                 }
@@ -1014,16 +1014,16 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                 }
             } else if (mAudioRate.getId() == seekBarId) {
                 if (progress <= PROGRESS_AUDIO_160) {
-                    mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_16000);
+                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_16000);
                     mAudioRateText.setText(getString(R.string.setting_audio_160));
                 } else if (progress <= PROGRESS_AUDIO_320) {
-                    mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_32000);
+                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_32000);
                     mAudioRateText.setText(getString(R.string.setting_audio_320));
                 } else if (progress <= PROGRESS_AUDIO_441) {
-                    mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
+                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
                     mAudioRateText.setText(getString(R.string.setting_audio_441));
                 } else {
-                    mAlivcLivePushConfig.setAudioSamepleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_48000);
+                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_48000);
                     mAudioRateText.setText(getString(R.string.setting_audio_480));
                 }
             } else if (mFps.getId() == seekBarId) {

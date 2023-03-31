@@ -35,12 +35,13 @@ public class ViewerController {
     private final String mRoomId;
     private String mCDNPullUrl;
     private String mAnchorId;
+    private boolean mEnableSpeakerPhone = false;
 
     public ViewerController(Context context, String roomId, String viewId) {
         this.mRoomId = roomId;
         this.mContext = context;
         mReadFileData = new ReadFileData();
-        mPushUrl = URLUtils.generatePushUrl(roomId, viewId, 1);
+        mPushUrl = URLUtils.generateInteractivePushUrl(roomId, viewId);
         mInteractLiveManager = new InteractLiveManager();
         mInteractLiveManager.init(context);
     }
@@ -86,15 +87,16 @@ public class ViewerController {
     }
 
     /**
-     * 观看直播(CDN URL)
+     * 观看直播
      *
      * @param anchorId 观看的主播 id
      */
     public void watchLive(String anchorId) {
         this.mAnchorId = anchorId;
-        //观看主播拉流地址
-        mCDNPullUrl = URLUtils.generateCDNUrl(mRoomId, anchorId, 0);
-        mPullUrl = URLUtils.generatePullUrl(mRoomId, anchorId, 1);
+        // 旁路观看主播拉流地址（CDN拉流地址）
+        mCDNPullUrl = URLUtils.generateCDNPullUrl(mRoomId, anchorId, LivePushGlobalConfig.IS_AUDIO_ONLY);
+        // 连麦观看主播拉流地址（RTC拉流地址）
+        mPullUrl = URLUtils.generateInteractivePullUrl(mRoomId, anchorId);
         mInteractLiveManager.startPull(mCDNPullUrl);
     }
 
@@ -168,5 +170,10 @@ public class ViewerController {
 
     public void setMute(boolean b) {
         mInteractLiveManager.setMute(b);
+    }
+
+    public void changeSpeakerPhone() {
+        mEnableSpeakerPhone = !mEnableSpeakerPhone;
+        mInteractLiveManager.enableSpeakerPhone(mEnableSpeakerPhone);
     }
 }

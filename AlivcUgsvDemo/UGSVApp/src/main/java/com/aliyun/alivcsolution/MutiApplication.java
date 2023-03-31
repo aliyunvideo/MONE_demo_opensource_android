@@ -8,9 +8,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
+import com.alibaba.sdk.android.vod.upload.ILogger;
+import com.alibaba.sdk.android.vod.upload.UploadLogger;
+import com.alibaba.sdk.android.vod.upload.model.OSSConfig;
 import com.aliyun.aio.avtheme.AVBaseThemeApplication;
 import com.aliyun.alivcsolution.utils.StrictModeUtils;
 import com.aliyun.ugsv.common.httpfinal.QupaiHttpFinal;
@@ -57,7 +61,12 @@ public class MutiApplication extends AVBaseThemeApplication {
             mLogPath = getExternalFilesDir("Log").getAbsolutePath() + "/ShortVideo";
             AlivcSdkCore.setLogPath(mLogPath);
         }
-        //LeakCanaryUtils.initLeakCanary(this);
+        UploadLogger.setLogger(new ILogger() {
+            @Override
+            public void onLog(String msg) {
+                Log.e("aven", msg);
+            }
+        });
         ThreadUtils.runOnSubThread(new Runnable() {
             @Override
             public void run() {

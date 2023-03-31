@@ -413,6 +413,11 @@ public class LivePushFragment extends Fragment {
                                 pusher.setAudioDenoise(state);
                             }
 
+                            @Override
+                            public void onEarphone(boolean state) {
+                                pusher.enableSpeakerphone(!state);
+                            }
+
                             /**
                              * 开启音频智能降噪（使用智能降噪须知）
                              * <p>
@@ -954,8 +959,8 @@ public class LivePushFragment extends Fragment {
         }
 
         @Override
-        public void onStoped() {
-            Log.d(TAG, "onStoped: ");
+        public void onStopped() {
+            Log.d(TAG, "onStopped: ");
         }
 
         @Override

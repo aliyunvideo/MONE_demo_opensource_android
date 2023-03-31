@@ -106,7 +106,7 @@ public class PKLiveInputActivity extends AppCompatActivity {
         mConfirmTextView.setOnClickListener(view -> {
             if(checkEnable()){
                 Intent intent;
-                if (LivePushGlobalConfig.IS_MULTI_PK) {
+                if (LivePushGlobalConfig.IS_MULTI_INTERACT) {
                     intent = new Intent(PKLiveInputActivity.this, MultiPKLiveActivity.class);
                 } else {
                     intent = new Intent(PKLiveInputActivity.this, PKLiveActivity.class);
