@@ -1,60 +1,37 @@
-AlivcSolution---为了视频云解决方案而生,展现视频云端产品的所有能力，伴随一系列的视频云解决方案.
+# 阿里云*短视频SDK DEMO
 
-# 一、一些改变
-    - 1.因为现在直播已经统一换成了Android studio 3.0+ ，所以需要将gradle plugin提高到3.0.1, gradle版本提高到4.1
-    - 2.提高之后需要将所有的compile替换为api，未来将需要替换为implementation也要进行替换
+## 运行环境
+Android Studio
 
-# 二、如何打出不同版本的Demo包？
+Gradle 6.5, 插件版本4.1.2
 
-执行gradle -Psvt=xxx assembleRelease 可选值:svideo_base，svideo_standard，svideo_pro，publish，player，upload
-执行完毕在根目录下会生成一个outDemo文件夹，即为各个产品的Demo
-需要说明的是：目前打出来的包仅仅是和官网包同步，但是具体友好还有一段距离，需要一步步将代码和第三方库等做清理.
+Java Android Studio自带 jdk11
 
-# 三、目录结构
-    App-------示例Demo入口
-        - AliyunPublish(推流模块)
-        - Aliyunplayer(播放模块)
-        - AliyunVodUpload(上传模块)
-        - AliyunVideoSdk(短视频标准版和专业版SDK)
-        - AliyunView(View组件模块)
-        - AliyunResample(音频冲采样模块)
-        - AliyunFileDownLoader:downloadermanager(文件下载模块)
-        - AliyunRecorder:pro_record(录制模块)
-        - AliyunImport:import_demo(导入模块)
-        - AliyunCrop:pro_crop(裁剪模块)
-        - AliyunEditor:editor_demo(编辑模块)
-        - AliyunHelp(License声明模块)
-        - AliyunSnap:snap_demo(基础版Demo模块)
-        - AliyunSnap:snap_core(基础版SDK模块)
-        - thirdparty-lib(以subModule的形式依赖的统一第三方依赖库)
+Jdk11设置方法：Preferences -> Build, Execution, Deployment -> Build Tools -> Gradle -> Gradle JDK -> 选择 11（如果没有11，请升级你的Android Studio版本）
 
-# 四、脚本思路
-App入口列表通过gradle脚本productFlavors来自定义不同的入口类，通过命令行接收自定义参数打包出不同版本包.根据业务不同打出不同的Demo代码
+## 配置DEMO签名
+> 出于安全风险考虑，阿里云*短视频SDK DEMO不对外开放测试License，需要客户自己配置签名。
+1. 进入UGSVApp - build.gradle 中，找到applicationId，修改为您的包名。如com.xxx.yyy。请勿使用原有包名。
+2. 为DEMO创建签名文件，请自己[百度](https://www.baidu.com/s?wd=android%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6)
+3. 进入UGSVApp - build.gradle 中，找到signingConfigs， 配置您的签名信息
 
-播放器:App + AliyunVodUpload + thirdparty-lib + setting.gradle + builid.gradle
-直播推流:App + AliyunPublish + thirdparty-lib + setting.gradle + builid.gradle
-上传:App + AliyunVodUpload + thirdparty-lib + setting.gradle + builid.gradle
-短视频基础版:App+ AliyunSnap:snap_demo + thirdparty-lib + setting.gradle + builid.gradle
-短视频标准版:App + AliyunRecorder:pro_record + AliyunEditor:editor_demo + AliyunCrop:pro_crop + AliyunImport:import_demo + AliyunFileDownLoader:downloadermanager + AliyunResample + AliyunView + AliyunVideoSdk + thirdparty-lib + AliyunHelp + setting.gradle + builid.gradle
-短视频专业版:App + AliyunRecorder:pro_record + AliyunEditor:editor_demo + AliyunCrop:pro_crop + AliyunImport:import_demo + AliyunFileDownLoader:downloadermanager + AliyunResample + AliyunView + AliyunVideoSdk + thirdparty-lib + AliyunHelp + setting.gradle + builid.gradle
+## 获取签名MD5 (v3.36.0后非必须)
+> 出于安全考虑，阿里云License授权需要获取签名MD5。下面给出几种获取签名MD5的方法
 
-### 一些思路和做法
-    - 基础版：
-        - 1.替换SDK:AliyunSdk-RCE —> QuSdk-RC.aar(目前官网基础版都叫这个名字,考虑替换为AliyunSdk-RC ——>目前也没有在Demo的基础上打包基础版的SDK。。。
-        - 2.Application删除loadLibrary代码段 'System.loadLibrary("FaceAREngine");' 'System.loadLibrary("AliFaceAREngine");’
-        - 3.删除libAliFaceAREngine.so，libFaceAREngine.so,libaliresample.so
-        - 4.拷贝snap模块，snap中包含SDK和snap的基础跳转代码
-        - 5.因为有license这件事情所以需要将预制好的keystore签名文件拷贝到相应的Demo中
-    - 标准版:
-        - 1.CameraDemo删除 ———>魔法相机
-            recorder.needFaceTrackInternal(true);
-            String path = StorageUtils.getCacheDirectory(CameraDemo.this).getAbsolutePath() + File.separator + Common.QU_NAME + File.separator;'
-             'recorder.setFaceTrackInternalModelPath(path + "/model");’
-        - 2.删除libAliFaceAREngine.so，libFaceAREngine.so
-        - 3.Application删除loadLibrary代码段
-            'System.loadLibrary("FaceAREngine");'
-            'System.loadLibrary("AliFaceAREngine");’
-        - 4.因为有license这件事情所以需要将预制好的keystore签名文件拷贝到相应的Demo中
-        — 5.待完成，applicationId目前官网的标准版和专业版一样，考虑区分。区分的主要原因是考虑license，标准版不应该有全量license功能体验
-    - 上传SDK：
-        - 上传Demo已经包含json库，编译时需要删除避免异常错误，脚本打包时需要重新引入
+方法一：
+
+通过签名工具获取。[签名工具下载](https://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/57134/cn_zh/1500877517694/app_signatures%20%281%29.apk?spm=a2c4g.11186623.0.0.17a71a1aq0CnV6&file=app_signatures%20%281%29.apk)。
+或者扫码安装：
+
+![qrcode](./sign_tool_qrcode.jpg "二维码")
+
+方法二：
+1. 下载[SignatureUtils.java](https://github.com/aliyunvideo/MONE_demo_opensource_android/blob/master/AUIFoundation/AVUtils/src/main/java/com/aliyun/aio/utils/SignatureUtils.java)到本地
+2. 调用SignatureUtils#getSingInfo(Context context)方法获取
+
+## 申请License授权
+1. 进入一体化SDK授权点播控制台。https://ice.console.aliyun.com/sdks/mine/list
+2. 点击创建应用并绑定License，并根据应用的包名和签名(v3.36.0之后不需要签名，v3.36.0之前需要填写签名)，创建授权证书
+3. 获取您的授权公钥和证书文件，下载到本地。打开UGSVApp - src - main - AndroidManifest.xml
+4. 找到 com.aliyun.alivc_license.licensekey，替换为您的公钥
+5. 找到 com.aliyun.alivc_license.licensefile，替换为您的证书文件(可不配置，默认联网更新证书)
