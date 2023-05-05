@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AUIVideoListLocalDataSource implements AUIVideoListDataSource {
@@ -19,12 +18,12 @@ public class AUIVideoListLocalDataSource implements AUIVideoListDataSource {
    private final List<VideoInfo> mVideoInfo;
 
    /**
-    * load assets/videolist.txt
+    * load assets/videolist.json
     */
    public AUIVideoListLocalDataSource(Context context){
       Gson gson = new Gson();
       StringBuilder stringBuilder = new StringBuilder();
-      try (InputStream assetsInputStream = context.getAssets().open("videolist.txt");
+      try (InputStream assetsInputStream = context.getAssets().open("videolist.json");
            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(assetsInputStream))) {
          String line;
          while ((line = bufferedReader.readLine()) != null) {
@@ -33,7 +32,7 @@ public class AUIVideoListLocalDataSource implements AUIVideoListDataSource {
       } catch (IOException e) {
          e.printStackTrace();
       }
-      mVideoInfo = gson.fromJson(stringBuilder.toString(), new TypeToken<LinkedList<VideoInfo>>() {
+      mVideoInfo = gson.fromJson(stringBuilder.toString(), new TypeToken<List<VideoInfo>>() {
       }.getType());
    }
 

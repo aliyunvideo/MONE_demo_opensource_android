@@ -57,9 +57,9 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
                 }
 
                 @Override
-                public void onRenderingStart(int position,long duration) {
+                public void onRenderingStart(int position, long duration) {
                     if (mOnPlayerListener != null) {
-                        mOnPlayerListener.onRenderingStart(getAdapterPosition(),duration);
+                        mOnPlayerListener.onRenderingStart(getAdapterPosition(), duration);
                     }
                 }
 
@@ -79,8 +79,20 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
             mAliyunRenderView.bindUrl(url);
         }
 
-        public AliPlayer getAliPlayer() {
-            return mAliyunRenderView.getAliPlayer();
+        public AliyunRenderView getAliPlayer() {
+            return mAliyunRenderView;
+        }
+
+        @Override
+        public void changePlayState() {
+            super.changePlayState();
+            if (mAliyunRenderView.isPlaying()) {
+                mAliyunRenderView.pause();
+                showPlayIcon(true);
+            } else {
+                mAliyunRenderView.start();
+                showPlayIcon(false);
+            }
         }
     }
 }

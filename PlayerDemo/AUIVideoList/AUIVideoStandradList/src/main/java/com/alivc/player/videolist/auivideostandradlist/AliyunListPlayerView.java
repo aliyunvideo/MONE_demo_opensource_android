@@ -18,13 +18,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alivc.player.videolist.auivideostandradlist.R;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
+import com.alivc.player.videolist.auivideolistcommon.listener.OnViewPagerListener;
 import com.alivc.player.videolist.auivideostandradlist.adapter.AliyunRecyclerViewAdapter;
-import com.alivc.player.videolist.auivideostandradlist.adapter.PagerLayoutManager;
-import com.alivc.player.videolist.auivideostandradlist.listener.OnViewPagerListener;
+import com.alivc.player.videolist.auivideostandradlist.adapter.AUIVideoStandardListLayoutManager;
 import com.aliyun.player.AliListPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
@@ -49,7 +50,7 @@ public class AliyunListPlayerView extends FrameLayout {
     private AliListPlayer mAliListPlayer;
 
     private StsInfo mStsInfo;
-    private PagerLayoutManager mPagerLayoutManager;
+    private AUIVideoStandardListLayoutManager mAUIVideoStandardListLayoutManager;
     /**
      * 预加载位置, 默认离底部还有5条数据时请求下一页视频列表
      */
@@ -82,10 +83,6 @@ public class AliyunListPlayerView extends FrameLayout {
      * 是否是暂停
      */
     private boolean mIsPause;
-    /**
-     * 刷新View
-     */
-//    private AlivcSwipeRefreshLayout mRefreshView;
     /**
      * 是否正在刷新
      */
@@ -264,7 +261,7 @@ public class AliyunListPlayerView extends FrameLayout {
         });
 
         mListPlayerRecyclerView.setHasFixedSize(true);
-        mListPlayerRecyclerView.setLayoutManager(mPagerLayoutManager);
+        mListPlayerRecyclerView.setLayoutManager(mAUIVideoStandardListLayoutManager);
 //        mListPlayerRecyclerView.setEmptyView(mListPlayerRecyclerViewRoot.findViewById(R.id.rl_empty_view));
 
         mRecyclerViewAdapter = new AliyunRecyclerViewAdapter(getContext());
@@ -272,17 +269,17 @@ public class AliyunListPlayerView extends FrameLayout {
     }
 
     private void initPagerLayoutManager() {
-        if (mPagerLayoutManager == null) {
-            mPagerLayoutManager = new PagerLayoutManager(getContext());
-            mPagerLayoutManager.setItemPrefetchEnabled(true);
+        if (mAUIVideoStandardListLayoutManager == null) {
+            mAUIVideoStandardListLayoutManager = new AUIVideoStandardListLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
+            mAUIVideoStandardListLayoutManager.setItemPrefetchEnabled(true);
         }
 
-        if (mPagerLayoutManager.viewPagerListenerIsNull()) {
-            mPagerLayoutManager.setOnViewPagerListener(new OnViewPagerListener() {
+        if (mAUIVideoStandardListLayoutManager.viewPagerListenerIsNull()) {
+            mAUIVideoStandardListLayoutManager.setOnViewPagerListener(new OnViewPagerListener() {
 
                 @Override
                 public void onInitComplete() {
-                    int position = mPagerLayoutManager.findFirstVisibleItemPosition();
+                    int position = mAUIVideoStandardListLayoutManager.findFirstVisibleItemPosition();
                     if (position != -1) {
                         mCurrentPosition = position;
                     }
@@ -297,7 +294,12 @@ public class AliyunListPlayerView extends FrameLayout {
                 }
 
                 @Override
-                public void onPageRelease(boolean isNext, int position, View view) {
+                public void onPageShow(int position) {
+
+                }
+
+                @Override
+                public void onPageRelease(int position) {
                     if (mCurrentPosition == position) {
                         mLastStopPosition = position;
                         stopPlay();
@@ -310,7 +312,12 @@ public class AliyunListPlayerView extends FrameLayout {
                 }
 
                 @Override
-                public void onPageSelected(int position, boolean bottom, View view) {
+                public void onPageHideHalf(int position) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
                     //重新选中视频不播放，如果该位置被stop过则会重新播放视频
                     if (mCurrentPosition == position && mLastStopPosition != position) {
                         return;

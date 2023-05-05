@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alivc.player.videolist.auivideostandradlist.listener.OnViewPagerListener;
+import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
 
 import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
@@ -16,10 +16,8 @@ import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
  * ViewPager效果的LayoutManager
  *
  */
-public class PagerLayoutManager extends LinearLayoutManager implements View.OnTouchListener {
+public class AUIVideoStandardListLayoutManager extends AUIVideoListLayoutManager implements View.OnTouchListener {
 
-    private PagerSnapHelper mPagerSnapHelper;
-    private OnViewPagerListener mOnViewPagerListener;
     private int mState;
     private int mdy;
 
@@ -28,14 +26,18 @@ public class PagerLayoutManager extends LinearLayoutManager implements View.OnTo
      */
     private int direction;
 
-    public PagerLayoutManager(Context context) {
-        super(context);
+    private int mCurrentPosition;
+
+    public AUIVideoStandardListLayoutManager(Context context, int orientation, boolean reverseLayout) {
+        super(context, orientation, reverseLayout);
         init();
     }
 
     private void init() {
         mPagerSnapHelper = new PagerSnapHelper();
+        mOrientationHelper = OrientationHelper.createOrientationHelper(this, RecyclerView.VERTICAL);
     }
+
 
     @Override
     public void onAttachedToWindow(RecyclerView recyclerView) {
@@ -52,14 +54,15 @@ public class PagerLayoutManager extends LinearLayoutManager implements View.OnTo
                 mState = newState;
                 switch (mState) {
                     case SCROLL_STATE_IDLE:
-                        View viewIdle = mPagerSnapHelper.findSnapView(PagerLayoutManager.this);
+                        View viewIdle = mPagerSnapHelper.findSnapView(AUIVideoStandardListLayoutManager.this);
                         if (viewIdle == null) {
                             return;
                         }
                         int positionIdle = getPosition(viewIdle);
-                        if (mOnViewPagerListener != null && getChildCount() == 1) {
-                            mOnViewPagerListener.onPageSelected(positionIdle, positionIdle == getItemCount() - 1, viewIdle);
+                        if (mOnViewPagerListener != null && mCurrentPosition != positionIdle) {
+                            mOnViewPagerListener.onPageSelected(positionIdle);
                         }
+                        mCurrentPosition = positionIdle;
                         break;
                     default:
                         break;
@@ -101,17 +104,6 @@ public class PagerLayoutManager extends LinearLayoutManager implements View.OnTo
         return super.scrollHorizontallyBy(dx, recycler, state);
     }
 
-    /**
-     * 设置监听
-     */
-    public void setOnViewPagerListener(OnViewPagerListener listener) {
-        this.mOnViewPagerListener = listener;
-    }
-
-    public void clearOnViewPagerListener() {
-        this.mOnViewPagerListener = null;
-    }
-
     private RecyclerView.OnChildAttachStateChangeListener mChildAttachStateChangeListener
             = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
@@ -125,11 +117,11 @@ public class PagerLayoutManager extends LinearLayoutManager implements View.OnTo
         public void onChildViewDetachedFromWindow(View view) {
             if (direction >= 0) {
                 if (mOnViewPagerListener != null) {
-                    mOnViewPagerListener.onPageRelease(true, getPosition(view), view);
+                    mOnViewPagerListener.onPageRelease(getPosition(view));
                 }
             } else {
                 if (mOnViewPagerListener != null) {
-                    mOnViewPagerListener.onPageRelease(false, getPosition(view), view);
+                    mOnViewPagerListener.onPageRelease(getPosition(view));
                 }
             }
 
@@ -147,13 +139,13 @@ public class PagerLayoutManager extends LinearLayoutManager implements View.OnTo
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
                 if (mPagerSnapHelper != null) {
-                    View snapView = mPagerSnapHelper.findSnapView(PagerLayoutManager.this);
+                    View snapView = mPagerSnapHelper.findSnapView(AUIVideoStandardListLayoutManager.this);
                     if (snapView != null) {
                         int position = getPosition(snapView);
                         //如果是第一个视频,并且
                         if (position == 0 && mdy < 0) {
                             if (mOnViewPagerListener != null && getChildCount() == 1) {
-                                mOnViewPagerListener.onPageSelected(position, false, snapView);
+                                mOnViewPagerListener.onPageSelected(position);
                             }
                         }
                     }

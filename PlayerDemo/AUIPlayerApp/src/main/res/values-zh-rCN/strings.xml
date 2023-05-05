@@ -9,7 +9,9 @@
     <string name="player_custom">自定义播放器</string>
 
     <!--    -->
-    <string name="player_feed_flow_msg">适用于新闻资讯、社区互动等短视频场景</string>
+    <string name="player_feed_flow_msg">适用于新闻咨询、社区互动等短视频场景</string>
+    <string name="player_feed_flow_function_msg">竖屏短视频场景，全屏秒开最佳实践</string>
+    <string name="player_feed_flow_standard_msg">竖屏短视频场景，标准实现</string>
     <string name="player_video_list_msg">适用于多个视频间流畅切换的短视频场景</string>
     <string name="player_video_full_screen_msg">适用于版权视频等长视频场景</string>
 

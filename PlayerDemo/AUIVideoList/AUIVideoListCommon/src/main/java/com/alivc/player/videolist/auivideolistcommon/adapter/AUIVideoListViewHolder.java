@@ -16,13 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alivc.player.videolist.auivideolistcommon.R;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
-import com.aliyun.player.AliPlayer;
 
 public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
+
+    private static boolean mEnableTitle = true;
+    private static boolean mEnableAuth = true;
+    private static boolean mEnableSeekbar = true;
+    protected static boolean mEnablePlayIcon = true;
 
     public void onBind(VideoInfo videoInfo) {
         mVideoTitleTextView.setText(videoInfo.getTitle());
         mAuthorTextView.setText("@阿里云视频云 MediaBox");
+
+        mVideoTitleTextView.setVisibility(mEnableTitle ? View.VISIBLE : View.GONE);
+        mAuthorTextView.setVisibility(mEnableAuth ? View.VISIBLE : View.GONE);
+        mSeekBar.setVisibility(mEnableSeekbar ? View.VISIBLE : View.GONE);
     }
 
     protected final FrameLayout mRootFrameLayout;
@@ -35,13 +43,17 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
     public AUIVideoListViewHolder(View itemView) {
         super(itemView);
 
-        setIsRecyclable(false);
         mRootFrameLayout = itemView.findViewById(R.id.fm_root);
         mIvCover = itemView.findViewById(R.id.iv_cover);
         mSeekBar = itemView.findViewById(R.id.seekbar);
         mVideoTitleTextView = itemView.findViewById(R.id.tv_video_title);
         mAuthorTextView = itemView.findViewById(R.id.tv_author);
         mPlayImageView = itemView.findViewById(R.id.iv_play);
+
+        mSeekBar.setVisibility(mEnableSeekbar ? View.VISIBLE : View.GONE);
+        mVideoTitleTextView.setVisibility(mEnableTitle ? View.VISIBLE : View.GONE);
+        mAuthorTextView.setVisibility(mEnableAuth ? View.VISIBLE : View.GONE);
+        mPlayImageView.setVisibility(View.GONE);
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -72,8 +84,6 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
      */
     public abstract void bindUrl(String url);
 
-    public abstract AliPlayer getAliPlayer();
-
     public ViewGroup getRootView() {
         return mRootFrameLayout;
     }
@@ -82,15 +92,35 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
         return mIvCover;
     }
 
+    public static void enableTitleTextView(boolean isShown) {
+        mEnableTitle = isShown;
+    }
+
+    public static void enableAuthTextView(boolean isShown) {
+        mEnableAuth = isShown;
+    }
+
     public ProgressBar getSeekBar() {
         return mSeekBar;
     }
 
+    public static void enableSeekBar(boolean isShown) {
+        mEnableSeekbar = isShown;
+    }
+
+    public static void enablePlayIcon(boolean isShown) {
+        mEnablePlayIcon = isShown;
+    }
+
     public void showPlayIcon(boolean isShown) {
-        if (isShown) {
-            mPlayImageView.setVisibility(View.VISIBLE);
+        if (mEnablePlayIcon) {
+            mPlayImageView.setVisibility(isShown ? View.VISIBLE : View.GONE);
         } else {
             mPlayImageView.setVisibility(View.GONE);
         }
+    }
+
+    public void changePlayState() {
+
     }
 }

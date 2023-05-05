@@ -135,8 +135,8 @@ public class AUIRecorderView extends FrameLayout
     private int maxRecordTime = 15 * 1000;
     //关键帧间隔
     private int mGop = 5;
-    //渲染方式
-    private BeautySDKType mRenderingMode = BeautySDKType.QUEEN;
+    //美颜类型
+    private BeautySDKType mBeautyType = BeautySDKType.QUEEN;
 
     private AUIPropsChooser gifEffectChooser;
     /**
@@ -262,14 +262,14 @@ public class AUIRecorderView extends FrameLayout
      * 初始化美颜SDK
      */
     private void initBeauty() {
-        if (mRenderingMode != null) {
-            final BeautyInterface beautyInterface = BeautyFactory.createBeauty(mRenderingMode, getContext());
+        if (mBeautyType != null) {
+            final BeautyInterface beautyInterface = BeautyFactory.createBeauty(mBeautyType, getContext());
             if (beautyInterface != null) {
                 beautyInterface.init(getContext(), new IAliyunBeautyInitCallback() {
                     @Override
                     public void onInit(int code) {
                         if (code == BeautyConstant.BEAUTY_INIT_SUCCEED) {
-                            if (mRenderingMode == BeautySDKType.DEFAULT && recorder != null) {
+                            if (mBeautyType == BeautySDKType.DEFAULT && recorder != null) {
                                 beautyInterface.addDefaultBeautyLevelChangeListener(new OnDefaultBeautyLevelChangeListener() {
                                     @Override
                                     public void onDefaultBeautyLevelChange(int level) {
@@ -1503,6 +1503,15 @@ public class AUIRecorderView extends FrameLayout
         if (recorder != null) {
             recorder.resizePreviewSize(params.width, params.height);
         }
+    }
+
+    /**
+     * 设置美颜类型，默认是Queen
+     *
+     * @param beautyType
+     */
+    public void setBeautyType(BeautySDKType beautyType) {
+        mBeautyType = beautyType;
     }
 
     private FrameLayout.LayoutParams getVideoLayoutParams() {

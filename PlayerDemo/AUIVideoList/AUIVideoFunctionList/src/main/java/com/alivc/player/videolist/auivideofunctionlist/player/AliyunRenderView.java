@@ -186,4 +186,8 @@ public class AliyunRenderView {
     public void openLoopPlay(boolean openLoopPlay) {
         mAliPlayer.setLoop(openLoopPlay);
     }
+
+    public void seekTo(long progress) {
+        mAliPlayer.seekTo(progress);
+    }
 }

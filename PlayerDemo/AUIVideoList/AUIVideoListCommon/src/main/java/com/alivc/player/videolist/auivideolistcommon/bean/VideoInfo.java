@@ -8,7 +8,7 @@ public class VideoInfo {
     private int id = new Random().nextInt();
     private String url;
     private String title;
-    private String coverUrl;
+    private String author;
 
     public String getUrl() {
         return url;
@@ -26,12 +26,12 @@ public class VideoInfo {
         this.title = title;
     }
 
-    public String getCoverUrl() {
-        return coverUrl;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setCoverUrl(String coverUrl) {
-        this.coverUrl = coverUrl;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public int getId() {
@@ -47,11 +47,11 @@ public class VideoInfo {
         if (this == o) return true;
         if (!(o instanceof VideoInfo)) return false;
         VideoInfo videoInfo = (VideoInfo) o;
-        return id == videoInfo.id && Objects.equals(url, videoInfo.url) && Objects.equals(title, videoInfo.title) && Objects.equals(coverUrl, videoInfo.coverUrl);
+        return id == videoInfo.id && Objects.equals(url, videoInfo.url) && Objects.equals(title, videoInfo.title) && Objects.equals(author, videoInfo.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, url, title, coverUrl);
+        return Objects.hash(id, url, title, author);
     }
 }

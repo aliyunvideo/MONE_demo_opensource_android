@@ -37,5 +37,7 @@ dependencies {
     implementation project(':AUIFoundation:AVBaseUI')
 
     implementation externalPlayerFull
+    api externalGSON
+    api 'com.squareup.okhttp3:okhttp:4.8.1'
     api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }

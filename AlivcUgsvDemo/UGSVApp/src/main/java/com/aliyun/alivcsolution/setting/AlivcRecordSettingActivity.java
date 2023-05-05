@@ -40,6 +40,7 @@ import com.aliyun.svideo.recorder.RecorderConfig;
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
 import com.aliyun.svideosdk.common.struct.common.VideoQuality;
 import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
+import com.aliyun.ugsv.auibeauty.api.constant.BeautySDKType;
 
 /**
  * 视频录制模块的 录制参数设置界面 原RecorderSettingTest Created by Administrator on 2017/3/2.
@@ -88,6 +89,12 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
     private TextView mTvVideoQuality;
     private AVCommonPickerDialog.ArgsSelector mVideoQuality;
     private static final int REQUEST_CODE_QUALITY = 0x15;
+
+    //美颜类型
+    private RelativeLayout mBeautyTypeLayout;
+    private TextView mTvBeautyType;
+    private AVCommonPickerDialog.ArgsSelector mBeautyTypeSelector;
+    private static final int REQUEST_CODE_BEAUTY = 0x16;
 
     private RelativeLayout mVideoFrameRateLayout;
     private EditText mFrameRateEdit;
@@ -148,6 +155,10 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
         mVideoQualityLayout.setOnClickListener(this);
         mTvVideoQuality = findViewById(R.id.tv_video_quality);
 
+        mBeautyTypeLayout = findViewById(R.id.beauty_sdk_type);
+        mBeautyTypeLayout.setOnClickListener(this);
+        mTvBeautyType = findViewById(R.id.tv_beauty_sdk_type);
+
         mVideoFrameRateLayout= findViewById(R.id.video_frame_rate_layout);
         mVideoFrameRateLayout.setOnClickListener(this);
         mFrameRateEdit = findViewById(R.id.ed_video_frame_rate);
@@ -204,6 +215,18 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
         mVideoQuality.mItemList.add(new AVCommonPickerDialog.PickerItem(getResources().getString(R.string.alivc_crop_setting_quality_low), VideoQuality.LD));
         mVideoQuality.mSelectedIndex = 1;
         mVideoQuality.mTitle = getResources().getString(R.string.alivc_crop_setting_quality);
+
+        mBeautyTypeSelector = new AVCommonPickerDialog.ArgsSelector();
+        mBeautyTypeSelector.mRequestCode = REQUEST_CODE_BEAUTY;
+        mBeautyTypeSelector.mItemList.add(new AVCommonPickerDialog.PickerItem(
+                getResources().getString(R.string.alivc_setting_rendering_queen),
+                BeautySDKType.QUEEN));
+        mBeautyTypeSelector.mItemList.add(new AVCommonPickerDialog.PickerItem(
+                getResources().getString(R.string.alivc_setting_rendering_default),
+                BeautySDKType.DEFAULT));
+        mBeautyTypeSelector.mSelectedIndex = 0;
+        mBeautyTypeSelector.mTitle =
+                getResources().getString(R.string.alivc_recorder_setting_rendering_mode);
     }
 
     private void copyAssets() {
@@ -235,6 +258,9 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
         } else if (requestCode == REQUEST_CODE_QUALITY) {
             RecorderConfig.Companion.getInstance().setVideoQuality((VideoQuality)pickerItem.mAttachValue);
             mTvVideoQuality.setText(pickerItem.mItemName);
+        } else if (requestCode == REQUEST_CODE_BEAUTY) {
+            RecorderConfig.Companion.getInstance().setBeautyType((BeautySDKType) pickerItem.mAttachValue);
+            mTvBeautyType.setText(pickerItem.mItemName);
         }
     }
 
@@ -417,6 +443,14 @@ public class AlivcRecordSettingActivity extends AVBaseThemeActivity implements V
             mVideoQuality.mSelectedIndex = mVideoQuality.findSelectedIndexByText(CropConfig.Companion.getInstance().getVideoQuality());
             mPickerDialog = new AVCommonPickerDialog.Builder(mVideoQuality).setListener(this).build();
             mPickerDialog.show(getSupportFragmentManager(), mVideoQuality.mTitle);
+        } else if (v == mBeautyTypeLayout) {
+            mBeautyTypeSelector.mSelectedIndex = mBeautyTypeSelector.findSelectedIndexByText(
+                    RecorderConfig.Companion.getInstance().getBeautyType());
+            mPickerDialog = new AVCommonPickerDialog
+                    .Builder(mBeautyTypeSelector)
+                    .setListener(this)
+                    .build();
+            mPickerDialog.show(getSupportFragmentManager(), mBeautyTypeSelector.mTitle);
         }
     }
 

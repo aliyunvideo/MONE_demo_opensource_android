@@ -93,7 +93,7 @@
     <string name="alivc_recorder_setting_duet_mute">视频静音</string>
     <string name="alivc_recorder_setting_duet_mix">混音</string>
     <string name="alivc_recorder_setting_video_style">拍摄方式</string>
-    <string name="alivc_recorder_setting_rendering_mode">高级美颜</string>
+    <string name="alivc_recorder_setting_rendering_mode">美颜类型</string>
     <string name="alivc_recorder_setting_watermark">添加水印</string>
     <string name="alivc_recorder_setting_general_text">普通</string>
     <string name="alivc_recorder_setting_mix_text">合拍</string>

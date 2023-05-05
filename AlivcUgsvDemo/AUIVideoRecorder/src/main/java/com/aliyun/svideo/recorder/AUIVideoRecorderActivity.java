@@ -84,6 +84,7 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
         mVideoRecordView.isUseFlip(RecorderConfig.Companion.getInstance().isVideoFlip());
         mVideoRecordView.setMaxRecordTime(RecorderConfig.Companion.getInstance().getMaxDuration());
         mVideoRecordView.setMinRecordTime(RecorderConfig.Companion.getInstance().getMinDuration());
+        mVideoRecordView.setBeautyType(RecorderConfig.Companion.getInstance().getBeautyType());
         AliyunIRecorder alivcRecorder = AliyunRecorderCreator.getRecorderInstance(this);
         com.aliyun.svideosdk.common.struct.recorder.MediaInfo outputInfo = new com.aliyun.svideosdk.common.struct.recorder.MediaInfo();
         outputInfo.setFps(RecorderConfig.Companion.getInstance().getFps());

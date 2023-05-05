@@ -82,6 +82,7 @@ public class ViewerController {
 
             @Override
             public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
+                mInteractLiveManager.setPullView(null);
             }
         });
     }

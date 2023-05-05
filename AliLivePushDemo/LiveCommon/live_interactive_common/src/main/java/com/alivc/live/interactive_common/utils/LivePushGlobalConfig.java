@@ -18,6 +18,11 @@ public class LivePushGlobalConfig {
     public static boolean AUDIO_ENCODE_HARD = true;
 
     /**
+     * 视频编码H265
+     */
+    public static boolean VIDEO_CODEC_H265 = false;
+
+    /**
      * 纯音频
      */
     public static boolean IS_AUDIO_ONLY = false;

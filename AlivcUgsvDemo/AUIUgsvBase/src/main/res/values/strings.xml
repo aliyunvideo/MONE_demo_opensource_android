@@ -49,7 +49,7 @@
     <string name="alivc_base_beauty_queen_copyright">Advanced features are supported by queen</string>
     <string name="alivc_setting_rendering_faceunity">FaceUnity</string>
     <string name="alivc_setting_rendering_queen">Queen</string>
-    <string name="alivc_setting_rendering_default">默认</string>
+    <string name="alivc_setting_rendering_default">Basic</string>
 
     <string name="alivc_base_beauty_copyright_link">View details</string>
     <string name="alivc_base_svideo_next">Next</string>

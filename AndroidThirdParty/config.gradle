@@ -102,9 +102,9 @@ ext {
     externalARTC = 'com.aliyun.sdk.android:AlivcArtc:5.5.2.0'
     externalAlivcConan = 'com.alivc.conan:AlivcConan:1.0.5'
     externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
-    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:4.5.1"
-    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:4.5.1"
-    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:1.9.0'
+    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:6.0.0"
+    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:6.0.0"
+    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:6.0.0'
 
     //内部调试代码，发布删除 -- 注释勿动
     if(debug != null && "true".equalsIgnoreCase(debug)){    //内部调试代码，发布删除 -- 注释勿动

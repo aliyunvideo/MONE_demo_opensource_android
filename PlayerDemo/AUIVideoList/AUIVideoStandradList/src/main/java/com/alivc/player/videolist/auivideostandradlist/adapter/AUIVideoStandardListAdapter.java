@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
-import com.aliyun.player.AliPlayer;
 
 public class AUIVideoStandardListAdapter extends AUIVideoListAdapter {
 
@@ -30,11 +29,6 @@ public class AUIVideoStandardListAdapter extends AUIVideoListAdapter {
         @Override
         public void bindUrl(String url) {
 
-        }
-
-        @Override
-        public AliPlayer getAliPlayer() {
-            return null;
         }
     }
 }

@@ -93,7 +93,7 @@
     <string name="alivc_recorder_setting_duet_bg_scale_mode_fill">Fill</string>
     <string name="alivc_recorder_setting_duet_bg_scale_mode_crop">Crop</string>
     <string name="alivc_recorder_setting_duet_bg_scale_mode_stretch">Stretch</string>
-    <string name="alivc_recorder_setting_rendering_mode">Rendering Mode</string>
+    <string name="alivc_recorder_setting_rendering_mode">Beauty Type</string>
     <string name="alivc_recorder_setting_watermark">Add watermark</string>
     <string name="alivc_recorder_setting_multi_text">Multi</string>
 

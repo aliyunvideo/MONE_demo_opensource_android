@@ -10,6 +10,8 @@
 
     <!--    -->
     <string name="player_feed_flow_msg">Suitable for short video scenarios such as news broadcast and community activities.</string>
+    <string name="player_feed_flow_function_msg">Vertical screen short video scene，Best practices for full screen second on</string>
+    <string name="player_feed_flow_standard_msg">Vertical screen short video scene, standard implementation</string>
     <string name="player_video_list_msg">Suitable for short video scenarios in which you can switch among multiple videos.</string>
     <string name="player_video_full_screen_msg">Suitable for copyrighted long video scenarios.</string>
 

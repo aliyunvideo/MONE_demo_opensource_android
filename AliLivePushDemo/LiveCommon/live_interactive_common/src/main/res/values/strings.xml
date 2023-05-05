@@ -5,6 +5,7 @@
     <string name="push_interactive_setting_audio_only">Audio Only</string>
     <string name="push_interactive_setting_gop">GOP</string>
     <string name="push_interactive_setting_hardware_decode">Enable Hardware Decode</string>
+    <string name="push_interactive_h265">H265</string>
     <string name="interact_live">Interact Live</string>
     <string name="pk_live">PK Interaction</string>
     <string name="interact_setting">Interact Setting</string>

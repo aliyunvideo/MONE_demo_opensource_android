@@ -10,15 +10,18 @@ import android.view.ViewParent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListView;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListDiffCallback;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
+import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
-import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
 import com.alivc.player.videolist.auivideostandradlist.adapter.AUIVideoStandardListAdapter;
+import com.alivc.player.videolist.auivideostandradlist.adapter.AUIVideoStandardListLayoutManager;
 import com.aliyun.player.bean.InfoBean;
+import com.aliyun.player.bean.InfoCode;
 
 import java.util.List;
 
@@ -27,7 +30,6 @@ public class AUIVideoStandardListView extends AUIVideoListView {
     private AUIVideoStandardListController mController;
     private TextureView mTextureView;
     private boolean mAutoPlayNext;
-    private int mCurrentPosition;
 
     public AUIVideoStandardListView(@NonNull Context context) {
         super(context);
@@ -49,34 +51,7 @@ public class AUIVideoStandardListView extends AUIVideoListView {
         initTextureView();
         mController = new AUIVideoStandardListController(mContext);
 
-        mController.setPlayerListener(new PlayerListener() {
-            @Override
-            public void onPrepared(int position) {
-
-            }
-
-            @Override
-            public void onInfo(int position, InfoBean infoBean) {
-
-            }
-
-            @Override
-            public void onPlayStateChanged(int position, boolean isPaused) {
-
-            }
-
-            @Override
-            public void onRenderingStart(int position, long duration) {
-
-            }
-
-            @Override
-            public void onCompletion(int position) {
-                if (mAutoPlayNext && mCurrentPosition < mAUIVideoListAdapter.getItemCount()) {
-                    mRecyclerView.smoothScrollToPosition(mCurrentPosition + 1);
-                }
-            }
-        });
+        mController.setPlayerListener(this);
     }
 
     private void initTextureView() {
@@ -128,14 +103,19 @@ public class AUIVideoStandardListView extends AUIVideoListView {
     }
 
     @Override
+    protected AUIVideoListLayoutManager initLayoutManager() {
+        return new AUIVideoStandardListLayoutManager(mContext,LinearLayoutManager.VERTICAL,false);
+    }
+
+    @Override
     protected AUIVideoListAdapter initAUIVideoListAdapter(Context context) {
         return new AUIVideoStandardListAdapter(new AUIVideoListDiffCallback());
     }
 
     @Override
     public void loadSources(List<VideoInfo> videoBeanList) {
-        super.loadSources(videoBeanList);
         mController.loadSource(videoBeanList);
+        super.loadSources(videoBeanList);
     }
 
     @Override
@@ -155,16 +135,90 @@ public class AUIVideoStandardListView extends AUIVideoListView {
     }
 
     @Override
+    public void onPlayStateChanged(int position, boolean isPaused) {
+        super.onPlayStateChanged(position, isPaused);
+        AUIVideoListViewHolder viewHolderByPosition = getViewHolderByPosition(mSelectedPosition);
+        if (viewHolderByPosition != null) {
+            viewHolderByPosition.showPlayIcon(isPaused);
+        }
+    }
+
+    @Override
+    public void onSeek(int position, long seekPosition) {
+        super.onSeek(position, seekPosition);
+        mController.seek(seekPosition);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        mController.onPlayStateChange();
+    }
+
+    @Override
+    public void onInitComplete() {
+        this.mSelectedPosition = 0;
+        addTextureView(mSelectedPosition);
+        mController.onPageSelected(mSelectedPosition);
+    }
+
+    @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
-        this.mCurrentPosition = position;
         addTextureView(position);
         mController.onPageSelected(position);
+    }
+
+    @Override
+    public void onPageRelease(int position) {
+        super.onPageRelease(position);
+        AUIVideoListViewHolder viewHolderByPosition = getViewHolderByPosition(position);
+        if (viewHolderByPosition != null) {
+            viewHolderByPosition.showPlayIcon(false);
+        }
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mController.destroy();
+    }
+
+    @Override
+    public void onRenderingStart(int position, long duration) {
+        super.onRenderingStart(position, duration);
+        AUIVideoListViewHolder viewHolderByPosition = getViewHolderByPosition(mSelectedPosition);
+        if (viewHolderByPosition != null) {
+            viewHolderByPosition.getSeekBar().setMax((int) duration);
+        }
+    }
+
+    @Override
+    public void onInfo(int position, InfoBean infoBean) {
+        super.onInfo(position, infoBean);
+        if (infoBean.getCode() == InfoCode.CurrentPosition) {
+            AUIVideoListViewHolder viewHolderByPosition = getViewHolderByPosition(mSelectedPosition);
+            if (viewHolderByPosition != null) {
+                viewHolderByPosition.getSeekBar().setProgress((int) infoBean.getExtraValue());
+            }
+        }
+    }
+
+    @Override
+    public void onCompletion(int position) {
+        super.onCompletion(position);
+        if (mAutoPlayNext && mSelectedPosition < mAUIVideoListAdapter.getItemCount()) {
+            mRecyclerView.smoothScrollToPosition(mSelectedPosition + 1);
+        }
+    }
+
+    /**
+     * 设置预加载数量
+     */
+    public void setPreloadCount(int preloadCount) {
+        mController.setPreloadCount(preloadCount);
+    }
+
+    public void enableLocalCache(boolean enable,String path) {
+        mController.enableLocalCache(enable,path);
     }
 }

@@ -52,6 +52,7 @@ public class InteractiveSettingActivity extends AppCompatActivity {
     private Button mCommitButton;
     private Switch mAudioOnlySwitch;
     private Switch mHardwareDecodeSwitch;
+    private Switch mH265Switch;
     private SeekBar mGopSeekBar;
     private TextView mGopTextView;
     private Switch mExternVideoSwitch;
@@ -80,6 +81,7 @@ public class InteractiveSettingActivity extends AppCompatActivity {
         mMultiInteractSwitch = findViewById(R.id.multi_interaction_control);
         mAudioOnlySwitch = findViewById(R.id.audio_only_switch);
         mHardwareDecodeSwitch = findViewById(R.id.hardware_decode_switch);
+        mH265Switch = findViewById(R.id.h265_switch);
         mGopSeekBar = findViewById(R.id.gop_seekbar);
         mExternVideoSwitch = findViewById(R.id.extern_video_switch);
         mGopTextView = findViewById(R.id.gop_text);
@@ -87,6 +89,7 @@ public class InteractiveSettingActivity extends AppCompatActivity {
         mMultiInteractSwitch.setChecked(LivePushGlobalConfig.IS_MULTI_INTERACT);
         mAudioOnlySwitch.setChecked(LivePushGlobalConfig.IS_AUDIO_ONLY);
         mHardwareDecodeSwitch.setChecked(LivePushGlobalConfig.VIDEO_ENCODE_HARD);
+        mH265Switch.setChecked(LivePushGlobalConfig.VIDEO_CODEC_H265);
         mExternVideoSwitch.setChecked(LivePushGlobalConfig.ENABLE_EXTERN_AV);
 
         mResolution = findViewById(R.id.resolution_seekbar);
@@ -117,6 +120,7 @@ public class InteractiveSettingActivity extends AppCompatActivity {
         mMultiInteractSwitch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.IS_MULTI_INTERACT = b);
         mAudioOnlySwitch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.IS_AUDIO_ONLY = b);
         mHardwareDecodeSwitch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.VIDEO_ENCODE_HARD = b);
+        mH265Switch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.VIDEO_CODEC_H265 = b);
         mExternVideoSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             LivePushGlobalConfig.ENABLE_EXTERN_AV = b;
             if (b) {

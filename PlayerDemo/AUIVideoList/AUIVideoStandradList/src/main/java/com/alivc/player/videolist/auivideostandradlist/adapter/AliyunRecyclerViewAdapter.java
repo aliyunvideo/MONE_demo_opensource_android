@@ -40,29 +40,29 @@ public class AliyunRecyclerViewAdapter extends RecyclerView.Adapter<AliyunRecycl
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        VideoInfo videoListBean = mVideoListBeanItems.get(position);
-        String coverUrlPath;
-        if(TextUtils.isEmpty(videoListBean.getCoverUrl())){
-            coverUrlPath = videoListBean.getCoverUrl();
-        }else{
-            coverUrlPath = videoListBean.getCoverUrl();
-        }
-        ImageView mThumb = holder.getCoverView();
-
-        if(mContext != null){
-            if(mContext instanceof Activity){
-                Activity activity = (Activity) mContext;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    if(!activity.isFinishing()|| !activity.isDestroyed()){
-                        loadPicture(holder,coverUrlPath,mThumb);
-                    }
-                }else{
-                    if(!activity.isFinishing() ){
-                        loadPicture(holder,coverUrlPath,mThumb);
-                    }
-                }
-            }
-        }
+//        VideoInfo videoListBean = mVideoListBeanItems.get(position);
+//        String coverUrlPath;
+//        if(TextUtils.isEmpty(videoListBean.getCoverUrl())){
+//            coverUrlPath = videoListBean.getCoverUrl();
+//        }else{
+//            coverUrlPath = videoListBean.getCoverUrl();
+//        }
+//        ImageView mThumb = holder.getCoverView();
+//
+//        if(mContext != null){
+//            if(mContext instanceof Activity){
+//                Activity activity = (Activity) mContext;
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                    if(!activity.isFinishing()|| !activity.isDestroyed()){
+//                        loadPicture(holder,coverUrlPath,mThumb);
+//                    }
+//                }else{
+//                    if(!activity.isFinishing() ){
+//                        loadPicture(holder,coverUrlPath,mThumb);
+//                    }
+//                }
+//            }
+//        }
     }
 
     private void loadPicture(final MyViewHolder holder, String coverPath, final ImageView iv){

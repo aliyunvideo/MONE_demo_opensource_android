@@ -21,6 +21,7 @@ import com.alivc.live.pusher.AlivcAudioAACProfileEnum;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
 import com.alivc.live.pusher.AlivcEncodeModeEnum;
+import com.alivc.live.pusher.AlivcEncodeType;
 import com.alivc.live.pusher.AlivcImageFormat;
 import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLiveMixStream;
@@ -95,6 +96,7 @@ public class InteractLiveBaseManager {
 
         mAlivcLivePushConfig.setVideoEncodeMode(LivePushGlobalConfig.VIDEO_ENCODE_HARD ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
         mAlivcLivePushConfig.setAudioEncodeMode(LivePushGlobalConfig.AUDIO_ENCODE_HARD ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
+        mAlivcLivePushConfig.setVideoEncodeType(LivePushGlobalConfig.VIDEO_CODEC_H265 ? AlivcEncodeType.Encode_TYPE_H265 : AlivcEncodeType.Encode_TYPE_H264);
 
         mAlivcLivePushConfig.setAudioOnly(LivePushGlobalConfig.IS_AUDIO_ONLY);
 

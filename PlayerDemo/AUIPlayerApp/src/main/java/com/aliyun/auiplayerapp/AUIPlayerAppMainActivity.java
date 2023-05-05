@@ -50,9 +50,9 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
     public List<ListModel> createListData() {
         List<ListModel> menu = new ArrayList<>();
         menu.add(new ListModel(INDEX_FEED_FLOW, R.drawable.ic_player_xinxi, getResources().getString(R.string.player_feed_flow), getResources().getString(R.string.player_feed_flow_msg)));
-        menu.add(new ListModel(INDEX_VIDEO_LIST_FUNCTION, R.drawable.ic_player_chenjin, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_msg)));
-        menu.add(new ListModel(INDEX_VIDEO_LIST_STANDARD, R.drawable.ic_player_quanping, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_msg)));
-        menu.add(new ListModel(INDEX_FULL_SCREEN, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_full_screen), getResources().getString(R.string.player_feed_flow_msg)));
+        menu.add(new ListModel(INDEX_VIDEO_LIST_FUNCTION, R.drawable.ic_player_chenjin, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_function_msg)));
+        menu.add(new ListModel(INDEX_VIDEO_LIST_STANDARD, R.drawable.ic_player_quanping, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_standard_msg)));
+        menu.add(new ListModel(INDEX_FULL_SCREEN, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_full_screen), getResources().getString(R.string.player_video_full_screen_msg)));
 //        menu.add(new ListModel(INDEX_CUSTOM, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_custom), null));
         return menu;
     }

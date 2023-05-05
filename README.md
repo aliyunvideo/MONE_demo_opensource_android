@@ -102,11 +102,11 @@ SDK_TYPE: 一体化包类型，默认为AliVCSDK_Premium，对应AndroidThirdPar
 ## SDK库及版本
 | 版本          | 依赖                                            | 能力项                                            |
 |-------------|-----------------------------------------------|------------------------------------------------|
-| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:1.9.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦                |
-| 全功能SDK      | com.aliyun.aio:AliVCSDK_Premium:1.9.0         | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块 | 
-| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:1.9.0             | 播放器 + 短视频                                      | 
-| 短视频场景SDK增强版 | com.aliyun.aio:AliVCSDK_UGCPro:1.9.0          | 单播放器 + 短视频 + 美颜特效                              | 
-| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:1.9.0       | 播放器  + 直播推流                                    | 
-| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:1.9.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦                    | 
-| 基础直播SDK增强版  | com.aliyun.aio:AliVCSDK_StandardLive:1.9.0    | 播放器 + 直播推流 + 美颜                                | 
-| 互动直播SDK增强版  | com.aliyun.aio:AliVCSDK_PremiumLive:1.9.0     | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦 + 美颜               |
+| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:6.0.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦                |
+| 全功能SDK      | com.aliyun.aio:AliVCSDK_Premium:6.0.0         | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 高级美颜 + 后处理模块 | 
+| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:6.0.0             | 播放器 + 短视频                                      | 
+| 短视频场景SDK增强版 | com.aliyun.aio:AliVCSDK_UGCPro:6.0.0          | 单播放器 + 短视频 + 美颜特效                              | 
+| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:6.0.0       | 播放器  + 直播推流                                    | 
+| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:6.0.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦                    | 
+| 基础直播SDK增强版  | com.aliyun.aio:AliVCSDK_StandardLive:6.0.0    | 播放器 + 直播推流 + 美颜                                | 
+| 互动直播SDK增强版  | com.aliyun.aio:AliVCSDK_PremiumLive:6.0.0     | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦 + 美颜               |

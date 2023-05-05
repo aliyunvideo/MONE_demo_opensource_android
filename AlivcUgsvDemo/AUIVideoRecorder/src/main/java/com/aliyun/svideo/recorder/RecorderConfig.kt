@@ -3,6 +3,7 @@ package com.aliyun.svideo.recorder
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode
 import com.aliyun.svideosdk.common.struct.common.VideoQuality
 import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs
+import com.aliyun.ugsv.auibeauty.api.constant.BeautySDKType
 
 open class RecorderConfig {
     companion object {
@@ -36,6 +37,8 @@ open class RecorderConfig {
     var ratio = RATIO_MODE_9_16
     /**码率*/
     var bitRate = DEFAULT_BITRATE
+    /**美颜类型*/
+    var beautyType = BeautySDKType.QUEEN
 
     var fps = 30
 
@@ -54,6 +57,7 @@ open class RecorderConfig {
         resolution = RESOLUTION_720P
         ratio = RATIO_MODE_9_16
         bitRate = DEFAULT_BITRATE
+        beautyType = BeautySDKType.QUEEN
         fps = 30
 
         minDuration = 2 * 1000

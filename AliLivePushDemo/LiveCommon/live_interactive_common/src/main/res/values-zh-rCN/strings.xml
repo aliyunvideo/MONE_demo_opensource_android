@@ -5,6 +5,7 @@
     <string name="push_interactive_setting_audio_only">纯音频</string>
     <string name="push_interactive_setting_gop">GOP</string>
     <string name="push_interactive_setting_hardware_decode">开启硬解</string>
+    <string name="push_interactive_h265">H265</string>
     <string name="interact_live">连麦互动</string>
     <string name="pk_live">PK互动</string>
     <string name="interact_setting">参数设置</string>
