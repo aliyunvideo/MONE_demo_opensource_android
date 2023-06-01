@@ -41,6 +41,7 @@ import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -330,6 +331,11 @@ public class InteractLiveBaseManager {
             @Override
             public void onNetworkQualityChanged(AlivcLiveNetworkQuality quality) {
                 Log.w(TAG, "onNetworkQualityChanged: "  + quality);
+            }
+
+            @Override
+            public void onReceiveSEIMessage(int payload, byte[] data) {
+                Log.d(TAG, "onReceiveSEIMessage: " + payload + ", " + new String(data, StandardCharsets.UTF_8));
             }
 
             @Override

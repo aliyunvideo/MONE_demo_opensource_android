@@ -1,4 +1,4 @@
-# AliLivePushDemo 6.0.0
+# AliLivePushDemo
 
 <!-- Author: runchen.brc@alibaba-inc.com -->
 
@@ -16,6 +16,12 @@ A demo project for Apsara Video Live Push SDK.
 ## **Getting Started**
 
 ### **Android推荐使用maven集成：**
+
+* **版本更新记录**
+
+[SDK下载与历史记录](https://help.aliyun.com/document_detail/267433.html)
+
+[SDK download and release notes](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/sdk-download-and-release-notes)
 
 - **基础版**
 
@@ -46,7 +52,9 @@ implementation "com.alivc.pusher:AlivcLivePusher_Interactive:${version}"
 
 ### **SDK接口文档**
 
-[API Doc](https://help.aliyun.com/document_detail/94843.html?#section-d8t-6hq-n0d)
+[接口文档](https://help.aliyun.com/document_detail/94843.html?#section-d8t-6hq-n0d)
+
+[API Doc](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/push-sdk-for-android-sdk-integration#section-d8t-6hq-n0d)
 
 ### **Product**
 
@@ -59,6 +67,8 @@ implementation "com.alivc.pusher:AlivcLivePusher_Interactive:${version}"
 [Push SDK](https://www.alibabacloud.com/product/apsaravideo-for-live/streaming-sdk)
 
 [Push SDK Doc](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/push-sdk-1)
+
+[Co-streaming](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/live-video-connection)
 
 ## **Help**
 

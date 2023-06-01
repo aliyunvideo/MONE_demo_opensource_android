@@ -11,6 +11,8 @@ import com.alivc.live.player.AlivcLivePlayerImpl;
 import com.alivc.live.player.AlivcLivePlayerStatsInfo;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * AlivcLivePlayer 封装类，用于多人连麦互动
  */
@@ -53,6 +55,11 @@ public class MultiAlivcLivePlayer extends AlivcLivePlayerImpl implements AlivcLi
     @Override
     public void onNetworkQualityChanged(AlivcLiveNetworkQuality quality) {
         Log.w(TAG, "onNetworkQualityChanged: "  + quality);
+    }
+
+    @Override
+    public void onReceiveSEIMessage(int payload, byte[] data) {
+        Log.d(TAG, "onReceiveSEIMessage: " + payload + ", " + new String(data, StandardCharsets.UTF_8));
     }
 
     @Override

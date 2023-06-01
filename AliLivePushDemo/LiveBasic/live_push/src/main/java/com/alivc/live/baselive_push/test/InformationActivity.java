@@ -79,6 +79,7 @@ public class InformationActivity extends AppCompatActivity {
                 "SDK Version: " + AlivcLiveBase.getSDKVersion(),
                 "SDK Build Type: " + BuildConfig.BUILD_TYPE,
                 "SDK Build Interactive: " + com.alivc.live.pusher.BuildConfig.BUILD_INTERACTIVE,
+                "SDK Pre Environment: " + com.alivc.live.pusher.BuildConfig.PUSH_SDK_PRE_ENV,
                 "SDK Head Commit ID: " + com.alivc.live.pusher.BuildConfig.HEAD_COMMIT_ID,
                 "SDK Build ID: " + BuildConfig.MTL_BUILD_ID,
                 "SDK Build Timestamp: " + BuildConfig.MTL_BUILD_TIMESTAMP
