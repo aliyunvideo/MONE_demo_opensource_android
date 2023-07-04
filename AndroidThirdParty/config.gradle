@@ -80,7 +80,7 @@ ext {
     externalAliyunVodUpload = 'com.aliyun.video.android:upload:1.6.6'
     externalAliyunOSS = 'com.aliyun.dpa:oss-android-sdk:2.9.11'
     externalAliyunQueen = 'com.aliyun.maliang.android:queen:2.5.0-official-full'
-    externalAliyunQueenUI = 'com.aliyun.maliang.android:queen_menu:2.5.0-official-full'
+    externalAliyunQueenUI = 'com.aliyun.maliang.android:queen_menu:6.1.0-official-pro'
     externalAnimoji = 'com.aliyun.animoji:animoji:1.2@aar'
     externalRtsSDK = 'com.aliyun.rts.android:RtsSDK:2.5.0'
 
@@ -93,7 +93,12 @@ ext {
         debug = localProperties.getProperty('source.debug')    //内部调试代码，发布删除 -- 注释勿动
     }   //内部调试代码，发布删除 -- 注释勿动
 
-    externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.6'
+    if(project.hasProperty("svideoIndependent") && "true".equalsIgnoreCase(svideoIndependent)){
+        externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.6.0-part-SNAPSHOT'
+    }else{
+        externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.6'
+    }
+
     externalSvideopro = 'com.aliyun.video.android:svideopro:3.36.0'
     externalSvideostandard = 'com.aliyun.video.android:svideostandard:3.36.0'
     externalSvideosnap = 'com.aliyun.video.android:svideosnap:3.36.0'
@@ -104,7 +109,7 @@ ext {
     externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
     externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:6.0.0"
     externalLivePusher = "com.alivc.pusher:AlivcLivePusher:6.0.0"
-    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:6.1.0-dev-22576376-20230517.000520-1'
+    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:6.2.0'
 
     //内部调试代码，发布删除 -- 注释勿动
     if(debug != null && "true".equalsIgnoreCase(debug)){    //内部调试代码，发布删除 -- 注释勿动

@@ -104,6 +104,10 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
     }
 
     @Override
+    public void init() {
+    }
+
+    @Override
     public void init(long glContext) {
         Log.i(TAG, "init: " + glContext);
         mShareGlContext = glContext;
@@ -164,6 +168,11 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
     @Override
     public void removeMaterialParams(String path) {
 
+    }
+
+    @Override
+    public int onTextureInput(int inputTexture, int textureWidth, int textureHeight) {
+        return 0;
     }
 
     @Override

@@ -1,12 +1,18 @@
 package com.alivc.live.interactive_common;
 
 import android.content.Context;
+import android.hardware.Camera;
 import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.alibaba.android.arouter.utils.TextUtils;
+import com.alivc.component.custom.AlivcLivePushCustomFilter;
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.annotations.AlivcLiveNetworkQuality;
+import com.alivc.live.annotations.AlivcLivePushKickedOutType;
+import com.alivc.live.beauty.BeautyFactory;
+import com.alivc.live.beauty.BeautyInterface;
+import com.alivc.live.beauty.constant.BeautySDKType;
 import com.alivc.live.commonbiz.test.URLUtils;
 import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -38,6 +44,7 @@ import com.alivc.live.pusher.AlivcQualityModeEnum;
 import com.alivc.live.pusher.AlivcSoundFormat;
 import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
+import com.aliyun.player.IPlayer;
 import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
 
@@ -68,6 +75,9 @@ public class InteractLiveBaseManager {
     private String mPullUrl;
     private boolean mHasPulled = false;
     private boolean mHasPushed = false;
+    private BeautyInterface mBeautyManager;
+    //CameraId，美颜需要使用
+    private int mCameraId;
 
     public void init(Context context) {
         mContext = context.getApplicationContext();
@@ -109,6 +119,7 @@ public class InteractLiveBaseManager {
 
         mAlivcLivePusher = new AlivcLivePusher();
         mAlivcLivePusher.init(mContext, mAlivcLivePushConfig);
+        mCameraId = mAlivcLivePushConfig.getCameraType();
 
         mAlivcLivePusher.setLivePushErrorListener(new AlivcLivePushErrorListener() {
             @Override
@@ -210,12 +221,24 @@ public class InteractLiveBaseManager {
 
             @Override
             public void onPushStatistics(AlivcLivePusher alivcLivePusher, AlivcLivePushStatsInfo alivcLivePushStatsInfo) {
-                Log.i(TAG, "onPushStatistics: ");
+                Log.i(TAG, "onPushStatistics: " + alivcLivePushStatsInfo);
             }
 
             @Override
             public void onSetLiveMixTranscodingConfig(AlivcLivePusher alivcLivePusher, boolean b, String s) {
                 Log.d(TAG, "onSetLiveMixTranscodingConfig: ");
+            }
+
+            @Override
+            public void onKickedOutByServer(AlivcLivePusher pusher, AlivcLivePushKickedOutType kickedOutType) {
+                Log.d(TAG, "onKickedOutByServer: " + kickedOutType);
+                // TODO 韩宇 1、这块逻辑貌似没有生效；2、回调嵌套太多层了，不够清晰；3、两个回调可以合并掉？？
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onPushError();
+                }
+                if (mMultiInteractLivePushPullListener != null) {
+                    mMultiInteractLivePushPullListener.onPushError();
+                }
             }
         });
 
@@ -273,6 +296,16 @@ public class InteractLiveBaseManager {
             }
 
             @Override
+            public void onPushURLTokenWillExpire(AlivcLivePusher pusher) {
+                Log.d(TAG, "onPushURLTokenWillExpire: ");
+            }
+
+            @Override
+            public void onPushURLTokenExpired(AlivcLivePusher pusher) {
+                Log.d(TAG, "onPushURLTokenExpired: ");
+            }
+
+            @Override
             public void onSendMessage(AlivcLivePusher alivcLivePusher) {
                 Log.d(TAG, "onSendMessage: ");
             }
@@ -280,6 +313,27 @@ public class InteractLiveBaseManager {
             @Override
             public void onPacketsLost(AlivcLivePusher alivcLivePusher) {
                 Log.d(TAG, "onPacketsLost: ");
+            }
+        });
+
+        mAlivcLivePusher.setCustomFilter(new AlivcLivePushCustomFilter() {
+            @Override
+            public void customFilterCreate() {
+                initBeautyManager();
+            }
+
+            @Override
+            public int customFilterProcess(int inputTexture, int textureWidth, int textureHeight, long extra) {
+                if (mBeautyManager == null) {
+                    return inputTexture;
+                }
+
+                return mBeautyManager.onTextureInput(inputTexture, textureWidth, textureHeight);
+            }
+
+            @Override
+            public void customFilterDestroy() {
+                destroyBeautyManager();
             }
         });
     }
@@ -294,12 +348,24 @@ public class InteractLiveBaseManager {
         playerConfig.mStartBufferDuration = 1000;
         // 卡顿恢复需要的缓存，网络不好的情况可以设置大一些，当前纯音频设置500还好，视频的话建议用默认值3000.
         playerConfig.mHighBufferDuration = 500;
+        // 需要开启SEI监听
+        playerConfig.mEnableSEI = true;
         mAliPlayer.setConfig(playerConfig);
 
         mAliPlayer.setAutoPlay(true);
 
         mAliPlayer.setOnErrorListener(errorInfo -> {
             mAliPlayer.prepare();
+        });
+
+        mAliPlayer.setOnSeiDataListener(new IPlayer.OnSeiDataListener() {
+            @Override
+            public void onSeiData(int i, byte[] bytes) {
+                Log.d(TAG, "onSeiData: " + i + ", " + new String(bytes, StandardCharsets.UTF_8));
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onPlayerSei(i, bytes);
+                }
+            }
         });
 
         mAlivcLivePlayer = new MultiAlivcLivePlayer(mContext, AlivcLiveMode.AlivcLiveInteractiveMode);
@@ -330,12 +396,15 @@ public class InteractLiveBaseManager {
 
             @Override
             public void onNetworkQualityChanged(AlivcLiveNetworkQuality quality) {
-                Log.w(TAG, "onNetworkQualityChanged: "  + quality);
+                Log.w(TAG, "onNetworkQualityChanged: " + quality);
             }
 
             @Override
             public void onReceiveSEIMessage(int payload, byte[] data) {
                 Log.d(TAG, "onReceiveSEIMessage: " + payload + ", " + new String(data, StandardCharsets.UTF_8));
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onReceiveSEIMessage(payload, data);
+                }
             }
 
             @Override
@@ -349,7 +418,7 @@ public class InteractLiveBaseManager {
 
             @Override
             public void onPlayerStatistics(AlivcLivePlayerStatsInfo statsInfo) {
-                Log.i(TAG, "onPlayerStatistics: "  + statsInfo);
+                Log.i(TAG, "onPlayerStatistics: " + statsInfo);
             }
         });
     }
@@ -454,7 +523,7 @@ public class InteractLiveBaseManager {
     public void startPull(String url) {
         if (TextUtils.isEmpty(url)) {
             Log.e(TAG, "startPull error: url is empty");
-            return ;
+            return;
         }
         this.mPullUrl = url;
         if (url.startsWith(URLUtils.ARTC)) {
@@ -470,7 +539,7 @@ public class InteractLiveBaseManager {
     public void startPull(String key, String url) {
         if (TextUtils.isEmpty(url)) {
             Log.e(TAG, "startPull error: url is empty");
-            return ;
+            return;
         }
         this.mPullUrl = url;
         if (url.startsWith(URLUtils.ARTC)) {
@@ -515,6 +584,11 @@ public class InteractLiveBaseManager {
     public void pause(String key) {
     }
 
+    //发送 SEI
+    public void sendSEI(String text) {
+        mAlivcLivePusher.sendMessage(text, 1, 2000, true);
+    }
+
     public void resume() {
         if (mHasPushed) {
             mAlivcLivePusher.resumeAsync();
@@ -542,10 +616,15 @@ public class InteractLiveBaseManager {
     public void switchCamera() {
         if (mAlivcLivePusher.isPushing()) {
             mAlivcLivePusher.switchCamera();
+            if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+            } else {
+                mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+            }
         }
     }
 
-    public void setMute(boolean isMute){
+    public void setMute(boolean isMute) {
         mAlivcLivePusher.setMute(isMute);
     }
 
@@ -589,5 +668,30 @@ public class InteractLiveBaseManager {
 
     public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {
         mMultiInteractLivePushPullListener = listener;
+    }
+
+    /**
+     * 初始化美颜相关资源
+     */
+    private void initBeautyManager() {
+        if (mBeautyManager == null && LivePushGlobalConfig.ENABLE_BEAUTY) {
+            // v4.4.4版本-v6.1.0版本，互动模式下的美颜，处理逻辑参考BeautySDKType.INTERACT_QUEEN，即：InteractQueenBeautyImpl；
+            // v6.1.0以后的版本（从v6.2.0开始），基础模式下的美颜，和互动模式下的美颜，处理逻辑保持一致，即：QueenBeautyImpl；
+            mBeautyManager = BeautyFactory.createBeauty(BeautySDKType.QUEEN, mContext);
+            // initialize in texture thread.
+            mBeautyManager.init();
+            mBeautyManager.setBeautyEnable(LivePushGlobalConfig.ENABLE_BEAUTY);
+            mBeautyManager.switchCameraId(mCameraId);
+        }
+    }
+
+    /**
+     * 美颜相关资源销毁
+     */
+    private void destroyBeautyManager() {
+        if (mBeautyManager != null) {
+            mBeautyManager.release();
+            mBeautyManager = null;
+        }
     }
 }

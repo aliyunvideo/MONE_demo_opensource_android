@@ -96,6 +96,28 @@
         app:layout_constraintStart_toStartOf="@id/iv_mute"
         app:layout_constraintTop_toBottomOf="@id/iv_mute" />
 
+    <ImageView
+        android:id="@+id/iv_sei"
+        android:layout_width="22dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_sei"
+        app:layout_constraintEnd_toEndOf="@id/iv_speaker_phone"
+        app:layout_constraintStart_toStartOf="@id/iv_speaker_phone"
+        app:layout_constraintTop_toBottomOf="@id/iv_speaker_phone" />
+
+    <ImageView
+        android:id="@+id/iv_beauty"
+        android:layout_width="22dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/beauty_selector"
+        app:layout_constraintEnd_toEndOf="@id/iv_sei"
+        app:layout_constraintStart_toStartOf="@id/iv_sei"
+        app:layout_constraintTop_toBottomOf="@id/iv_sei" />
+
 
     <FrameLayout
         android:id="@+id/fl_un_connect"
@@ -139,6 +161,24 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.aliyunsdk.queen.menu.BeautyMenuPanel
+        android:id="@+id/beauty_beauty_menuPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.alivc.live.baselive_common.AutoScrollMessagesView
+        android:id="@+id/sei_view"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/iv_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/anchor_info_view"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

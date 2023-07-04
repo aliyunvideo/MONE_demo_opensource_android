@@ -20,6 +20,14 @@
 
     </FrameLayout>
 
+    <com.alivc.live.interactive_common.widget.RoomAndUserInfoView
+        android:id="@+id/view_userinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="@id/frame_other"
+        app:layout_constraintTop_toTopOf="@id/frame_other" />
+
     <FrameLayout
         android:id="@+id/fl_un_connect"
         android:layout_width="0dp"

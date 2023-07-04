@@ -6,9 +6,13 @@ import android.widget.FrameLayout;
 import com.alivc.live.commonbiz.ReadFileData;
 import com.alivc.live.commonbiz.ResourcesDownload;
 import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -86,10 +90,34 @@ public class PKController {
 
     public void setPKLiveMixTranscoding(boolean needMix) {
         if (needMix) {
-            mPKLiveManager.setLiveMixTranscodingConfig(mOwnerUserId, mOtherUserId);
+            mPKLiveManager.setLiveMixTranscodingConfig(mOwnerUserId, mOtherUserId, false);
         } else {
-            mPKLiveManager.setLiveMixTranscodingConfig(null, null);
+            mPKLiveManager.setLiveMixTranscodingConfig(null, null, false);
         }
+    }
+
+    /**
+     * 静音对端主播（一般用于PK惩罚环节的业务场景）
+     *
+     * @param mute 静音
+     */
+    public void mutePKMixStream(boolean mute) {
+        if (!isPKing() || mPKLiveManager == null) {
+            return;
+        }
+
+        // 是否静音连麦实时流
+        MultiAlivcLivePlayer player = mPKLiveManager.getCurrentInteractLivePlayer();
+        if (player != null) {
+            if (mute) {
+                player.pauseAudioPlaying();
+            } else {
+                player.resumeAudioPlaying();
+            }
+        }
+
+        // 更新混流静音
+        mPKLiveManager.setLiveMixTranscodingConfig(mOwnerUserId, mOtherUserId, mute);
     }
 
     /**
@@ -191,6 +219,18 @@ public class PKController {
         }
     }
 
+    public void muteAnchor(String userKey, boolean mute) {
+        // 更新连麦静音
+        if (mute) {
+            mPKLiveManager.pauseAudioPlaying(userKey);
+        } else {
+            mPKLiveManager.resumeAudioPlaying(userKey);
+        }
+
+        // 更新混流静音
+        mPKLiveManager.muteAnchorMultiStream(userKey.split("=")[0], mute);
+    }
+
     /**
      * 用于多人 PK 场景，根据 RoomId 和 UserId 生成 UserKey
      *
@@ -222,5 +262,15 @@ public class PKController {
     public void changeSpeakerPhone() {
         mEnableSpeakerPhone = !mEnableSpeakerPhone;
         mPKLiveManager.enableSpeakerPhone(mEnableSpeakerPhone);
+    }
+
+    public void sendSEI(String text) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("LivePushPKSEI",text);
+            mPKLiveManager.sendSEI(jsonObject.toString());
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

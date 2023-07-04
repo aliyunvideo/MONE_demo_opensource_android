@@ -5,19 +5,23 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_room_id"
+        android:id="@+id/tv_user_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/fill_ultraweak"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_user_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/fill_ultraweak"
-        app:layout_constraintStart_toStartOf="@id/tv_room_id"
-        app:layout_constraintTop_toBottomOf="@id/tv_room_id" />
+    <ImageButton
+        android:id="@+id/iv_interact_mute"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_interact_not_mute"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/tv_user_info"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

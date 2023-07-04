@@ -17,6 +17,7 @@ import android.app.DownloadManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -65,6 +66,7 @@ public class InteractiveSettingActivity extends AppCompatActivity {
     private TextView mMinFpsText;
     private SeekBar mFps;
     private TextView mFpsText;
+    private Switch mBeautySwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,9 @@ public class InteractiveSettingActivity extends AppCompatActivity {
         mGopSeekBar = findViewById(R.id.gop_seekbar);
         mExternVideoSwitch = findViewById(R.id.extern_video_switch);
         mGopTextView = findViewById(R.id.gop_text);
+        mBeautySwitch = findViewById(R.id.beauty_switch);
 
+        mBeautySwitch.setChecked(LivePushGlobalConfig.ENABLE_BEAUTY);
         mMultiInteractSwitch.setChecked(LivePushGlobalConfig.IS_MULTI_INTERACT);
         mAudioOnlySwitch.setChecked(LivePushGlobalConfig.IS_AUDIO_ONLY);
         mHardwareDecodeSwitch.setChecked(LivePushGlobalConfig.VIDEO_ENCODE_HARD);
@@ -121,6 +125,7 @@ public class InteractiveSettingActivity extends AppCompatActivity {
         mAudioOnlySwitch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.IS_AUDIO_ONLY = b);
         mHardwareDecodeSwitch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.VIDEO_ENCODE_HARD = b);
         mH265Switch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.VIDEO_CODEC_H265 = b);
+        mBeautySwitch.setOnCheckedChangeListener((compoundButton, b) -> LivePushGlobalConfig.ENABLE_BEAUTY = b);
         mExternVideoSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             LivePushGlobalConfig.ENABLE_EXTERN_AV = b;
             if (b) {

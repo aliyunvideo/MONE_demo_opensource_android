@@ -92,4 +92,6 @@
     <string name="music_mode">Music Mode</string>
     <string name="extern_stream_main">Main Extern Stream</string>
     <string name="local_log">Local log</string>
+
+    <string name="live_push_send_sei">Send SEI</string>
 </resources>

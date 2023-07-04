@@ -41,9 +41,6 @@
 
 -keep class android.** { *;}
 
-#仅alivctest包才会用到的混淆规则
--keep class com.uc.crashsdk.** { *; }
-
 # For native methods, see http:#proguard.sourceforge.net/manual/examples.html#native
 #保留native方法的类名和方法名
 -keepclasseswithmembernames class * {

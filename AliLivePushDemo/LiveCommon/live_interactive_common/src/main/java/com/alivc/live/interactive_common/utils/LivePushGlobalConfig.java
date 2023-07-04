@@ -23,6 +23,11 @@ public class LivePushGlobalConfig {
     public static boolean VIDEO_CODEC_H265 = false;
 
     /**
+     * 美颜
+     */
+    public static boolean ENABLE_BEAUTY = true;
+
+    /**
      * 纯音频
      */
     public static boolean IS_AUDIO_ONLY = false;

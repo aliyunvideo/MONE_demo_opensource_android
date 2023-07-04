@@ -38,6 +38,7 @@ android {
 }
 
 dependencies {
+
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     testImplementation 'junit:junit:4.+'
@@ -50,6 +51,7 @@ dependencies {
     api project(':AUIFoundation:AVUtils')
     api project(':LiveCommon:live_commonutils')
     api project(':LiveCommon:live_commonbiz')
+    api externalPlayerFull
     if (file(livePushSdkSourceCode).exists()) {
         api project(':alivc-livepusher-lib')
     } else if (hasInteractiveLive()) {
@@ -58,9 +60,8 @@ dependencies {
         api externalLivePusher
     }
 
-    if (!"true".equalsIgnoreCase(allInOne)) {
-        api fileTree(dir: 'player', include: ['*.aar'])
-    }
+    implementation project(':LiveBeauty:live_beauty')
+    implementation project(':LiveBeauty:live_queenbeauty')
 
     implementation 'com.acker:simplezxing:1.5'
     implementation externalARouter

@@ -10,4 +10,7 @@ public abstract class InteractLivePushPullListener {
     public void onPushSuccess(){}
     public void onPushError(){}
     public void onConnectionLost(){}
+    public void onReceiveSEIMessage(int payload, byte[] data) {}
+
+    public void onPlayerSei(int i, byte[] bytes) {}
 }

@@ -3,7 +3,7 @@ import java.text.SimpleDateFormat
 apply plugin: 'com.android.library'
 
 ext.MTL_buildId = getEnvValue("MUPP_BUILD_ID", '')
-ext.MTL_buildTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())
+ext.MTL_buildTimestamp = new SimpleDateFormat("yyMMddHHmmss").format(new Date())
 // special configurations, only used for test.
 ext.Interactive_AppID = getEnvValue("INTERACTIVE_APP_ID", '')
 ext.Interactive_AppKey = getEnvValue("INTERACTIVE_APP_KEY", '')

@@ -93,4 +93,6 @@
     <string name="sound_effect_changevoice_daimo">Daimo</string>
     <string name="sound_effect_changevoice_ktv">KTV</string>
     <string name="sound_effect_changevoice_echo">Echo</string>
+
+    <string name="live_push_send_sei">Send SEI</string>
 </resources>

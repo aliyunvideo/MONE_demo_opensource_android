@@ -99,4 +99,6 @@
     <string name="music_mode">音乐模式</string>
     <string name="extern_stream_main">外部音视频</string>
     <string name="local_log">本地日志</string>
+
+    <string name="live_push_send_sei">发送 SEI</string>
 </resources>

@@ -39,6 +39,7 @@
 
     <string name="interact_live_lost_connect">Disconnect the link, please re-enter the live room</string>
     <string name="extern_stream_main">Main Extern Stream</string>
+    <string name="beauty_switch">Beauty</string>
     <string name="waiting_download_video_resources">waiting for download external video resources</string>
     <string name="interact_live_setting_resolution">Resolution</string>
     <string name="target_bitrate">Target bitrate</string>

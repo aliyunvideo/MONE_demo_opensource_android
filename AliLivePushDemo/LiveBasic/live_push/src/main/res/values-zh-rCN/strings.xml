@@ -93,4 +93,6 @@
     <string name="sound_effect_changevoice_daimo">大魔王</string>
     <string name="sound_effect_changevoice_ktv">KTV</string>
     <string name="sound_effect_changevoice_echo">回声</string>
+
+    <string name="live_push_send_sei">发送 SEI</string>
 </resources>

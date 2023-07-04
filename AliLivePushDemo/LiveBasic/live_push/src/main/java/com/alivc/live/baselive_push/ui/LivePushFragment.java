@@ -31,7 +31,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alivc.component.custom.AlivcLivePushCustomFilter;
 import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.annotations.AlivcLivePushKickedOutType;
 import com.alivc.live.baselive_common.CommonDialog;
+import com.alivc.live.baselive_common.LivePusherSEIView;
 import com.alivc.live.baselive_push.R;
 import com.alivc.live.baselive_push.adapter.IPushController;
 import com.alivc.live.baselive_push.adapter.OnSoundEffectChangedListener;
@@ -61,6 +63,9 @@ import com.alivc.live.pusher.AlivcSnapshotListener;
 import com.alivc.live.pusher.WaterMarkInfo;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyunsdk.queen.menu.BeautyMenuPanel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -166,6 +171,7 @@ public class LivePushFragment extends Fragment {
     private SoundEffectView mSoundEffectView;
 
     private LivePushViewModel mLivePushViewModel;
+    private LivePusherSEIView mSeiView;
 
     public static LivePushFragment newInstance(AlivcLivePushConfig livePushConfig, String url, boolean async, boolean mAudio, boolean mVideoOnly, int cameraId,
                                                boolean isFlash, int mode, String authTime, String privacyKey, boolean mixExtern,
@@ -251,26 +257,18 @@ public class LivePushFragment extends Fragment {
         if (pusher != null && (mBeautyOn)) {
             pusher.setCustomFilter(new AlivcLivePushCustomFilter() {
                 @Override
-                public void customFilterCreate(long var1) {
-                    Log.d(TAG, "customFilterCreate start-" + var1);
-                    initBeautyManager(var1);
-                    Log.d(TAG, "customFilterCreate end");
+                public void customFilterCreate() {
+                    Log.d(TAG, "customFilterCreate---> thread_id: " + Thread.currentThread().getId());
+                    initBeautyManager();
                 }
 
                 @Override
-                public int customFilterProcess(int inputTexture, int textureWidth, int textureHeight, float[] textureMatrix, boolean isOES, long extra) {
+                public int customFilterProcess(int inputTexture, int textureWidth, int textureHeight, long extra) {
                     if (mBeautyManager == null) {
                         return inputTexture;
                     }
 
-                    int ret = inputTexture;
-                    if (mAlivcLivePushConfig != null && mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveInteractiveMode) {
-                        ret = mBeautyManager.onTextureInput(inputTexture, textureWidth, textureHeight, textureMatrix, isOES);
-                    } else {
-                        ret = mBeautyManager.onTextureInput(inputTexture, textureWidth, textureHeight, textureMatrix, false);
-                    }
-
-                    return ret;
+                    return mBeautyManager.onTextureInput(inputTexture, textureWidth, textureHeight);
                 }
 
                 @Override
@@ -294,6 +292,19 @@ public class LivePushFragment extends Fragment {
         mBeautyBeautyContainerView = view.findViewById(R.id.beauty_beauty_menuPanel);
         mBeautyBeautyContainerView.onHideMenu();
         mSoundEffectView = view.findViewById(R.id.sound_effect_view);
+
+        mSeiView = view.findViewById(R.id.sei_view);
+
+        mSeiView.setSendSeiViewListener(text -> {
+            AlivcLivePusher livePusher = mPushController.getLivePusher();
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("LivePushSEI", text);
+                livePusher.sendMessage(jsonObject.toString(), 1, 2000, true);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         mSoundEffectView.setOnSoundEffectChangedListener(new OnSoundEffectChangedListener() {
             @Override
@@ -870,6 +881,11 @@ public class LivePushFragment extends Fragment {
         public void onSetLiveMixTranscodingConfig(AlivcLivePusher alivcLivePusher, boolean b, String s) {
             Log.d(TAG, "onSetLiveMixTranscodingConfig: ");
         }
+
+        @Override
+        public void onKickedOutByServer(AlivcLivePusher pusher, AlivcLivePushKickedOutType kickedOutType) {
+            Log.d(TAG, "onKickedOutByServer: " + kickedOutType);
+        }
     };
 
     AlivcLivePushErrorListener mPushErrorListener = new AlivcLivePushErrorListener() {
@@ -939,6 +955,16 @@ public class LivePushFragment extends Fragment {
         public String onPushURLAuthenticationOverdue(AlivcLivePusher pusher) {
             Log.d(TAG, "onPushURLAuthenticationOverdue: ");
             return "";
+        }
+
+        @Override
+        public void onPushURLTokenWillExpire(AlivcLivePusher pusher) {
+            Log.d(TAG, "onPushURLTokenWillExpire: ");
+        }
+
+        @Override
+        public void onPushURLTokenExpired(AlivcLivePusher pusher) {
+            Log.d(TAG, "onPushURLTokenExpired: ");
         }
 
         @Override
@@ -1257,18 +1283,14 @@ public class LivePushFragment extends Fragment {
     }
 
 
-    private void initBeautyManager(long glContext) {
+    private void initBeautyManager() {
         if (mBeautyManager == null) {
             Log.d(TAG, "initBeautyManager start");
-            if (mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveBasicMode) {
-                //非互动模式下，美颜初始化
-                mBeautyManager = BeautyFactory.createBeauty(BeautySDKType.QUEEN, LivePushFragment.this.getActivity());
-            } else {
-                //互动模式下，美颜初始化
-                mBeautyManager = BeautyFactory.createBeauty(BeautySDKType.INTERACT_QUEEN, LivePushFragment.this.getActivity());
-            }
+            // v4.4.4版本-v6.1.0版本，互动模式下的美颜，处理逻辑参考BeautySDKType.INTERACT_QUEEN，即：InteractQueenBeautyImpl；
+            // v6.1.0以后的版本（从v6.2.0开始），基础模式下的美颜，和互动模式下的美颜，处理逻辑保持一致，即：QueenBeautyImpl；
+            mBeautyManager = BeautyFactory.createBeauty(BeautySDKType.QUEEN, LivePushFragment.this.getActivity());
             // initialize in texture thread.
-            mBeautyManager.init(glContext);
+            mBeautyManager.init();
             mBeautyManager.setBeautyEnable(isBeautyEnable);
             mBeautyManager.switchCameraId(mCameraId);
             Log.d(TAG, "initBeautyManager end");
@@ -1304,7 +1326,7 @@ public class LivePushFragment extends Fragment {
         }
     }
 
-    public void updateOperaButtonState(boolean bool){
+    public void updateOperaButtonState(boolean bool) {
         mOperaButton.post(() -> {
             mOperaButton.setText(bool ? getSafeString(R.string.pause_button) : getSafeString(R.string.resume_button));
             mOperaButton.setSelected(!bool);

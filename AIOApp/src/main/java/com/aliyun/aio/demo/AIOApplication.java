@@ -14,6 +14,7 @@ import androidx.multidex.MultiDex;
 
 import com.aliyun.aio.avtheme.AVBaseThemeApplication;
 import com.aliyun.aio.demo.utils.ReflectUtils;
+import com.aliyun.common.AlivcBase;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -35,6 +36,7 @@ public class AIOApplication extends AVBaseThemeApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+        AlivcBase.setIntegrationWay("Demo_AIO");
         mUgcApplication = createChildApplication("com.aliyun.alivcsolution.MutiApplication");
         if(mUgcApplication != null) {
             ReflectUtils.reflect(mUgcApplication).method("attachBaseContext",base);

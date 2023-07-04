@@ -14,6 +14,18 @@ public interface BeautyInterface {
 
     /**
      * 初始化美颜
+     *
+     * @note 注意：直播SDK 从v6.2.0 开始，接口发生变动，不再透出内部glcontext，以供外部进行上下文切换，并进行美颜处理
+     * @note 后续所有video texture回调，将在gl线程回调；
+     * @note 普通直播模式/直播连麦模式，应用层接入美颜Queen SDK的逻辑，将共享使用QueenBeautyImpl中（即：BeautySDKType.QUEEN）
+     */
+    void init();
+
+    /**
+     * 初始化美颜
+     *
+     * @param glContext GL上下文
+     * @Deprecated 接口弃用！！！
      */
     void init(long glContext);
 
@@ -96,8 +108,23 @@ public interface BeautyInterface {
      * @param inputTexture  输入纹理id
      * @param textureWidth  纹理宽度
      * @param textureHeight 纹理高度
+     * @return 输出纹理
+     * @note 默认输出为Sample2D格式的纹理
+     */
+    int onTextureInput(int inputTexture, int textureWidth, int textureHeight);
+
+    /**
+     * 纹理输入接口，用于图像处理
+     *
+     * @param inputTexture  输入纹理id
+     * @param textureWidth  纹理宽度
+     * @param textureHeight 纹理高度
      * @param isOES         是否是OES纹理，true->OES, false->Sample2D
      * @return 输出纹理
+     * @Deprecated 接口弃用！！！
+     * @note 注意：直播SDK 从v6.2.0 开始，接口发生变动，不再回调OES格式的纹理；
+     * @note 普通直播模式/直播连麦模式，统一回调Sample2D格式的纹理，且回调位于GL线程！
+     * @note 普通直播模式/直播连麦模式，应用层接入美颜Queen SDK的逻辑，将共享使用QueenBeautyImpl中（即：BeautySDKType.QUEEN）
      */
     int onTextureInput(int inputTexture, int textureWidth, int textureHeight, float[] textureMatrix, boolean isOES);
 

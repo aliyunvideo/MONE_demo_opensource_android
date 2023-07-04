@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alivc.live.baselive_common.AutoScrollMessagesView;
+import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -26,6 +28,7 @@ import com.alivc.live.commonutils.StatusBarUtil;
 import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
 import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
+import com.aliyunsdk.queen.menu.BeautyMenuPanel;
 
 public class InteractLiveActivity extends AppCompatActivity {
 
@@ -59,6 +62,10 @@ public class InteractLiveActivity extends AppCompatActivity {
     private ImageView mMuteImageView;
     private boolean mIsMute = false;
     private ImageView mSpeakerPhoneImageView;
+    private ImageView mBeautyImageView;
+    private BeautyMenuPanel mBeautyMenuPanel;
+    private ImageView mSeiImageView;
+    private AutoScrollMessagesView mSeiView;
 
 
     @Override
@@ -90,8 +97,7 @@ public class InteractLiveActivity extends AppCompatActivity {
             mAnchorController.setAnchorRenderView(mBigFrameLayout);
             mAnchorController.setViewerRenderView(mSmallFrameLayout);
             mAnchorController.startPush();
-            mAnchorInfoView.setRoomId(mRoomId);
-            mAnchorInfoView.setUserId(mUserId);
+            mAnchorInfoView.setUserInfo(mRoomId, mUserId);
         } else {
             mViewerController.setAnchorRenderView(mBigFrameLayout);
             mViewerController.setViewerRenderView(mSmallFrameLayout);
@@ -111,6 +117,10 @@ public class InteractLiveActivity extends AppCompatActivity {
         mShowConnectIdTextView = findViewById(R.id.tv_show_connect);
         mBigFrameLayout = findViewById(R.id.big_fl);
         mSmallFrameLayout = findViewById(R.id.small_fl);
+        mBeautyImageView = findViewById(R.id.iv_beauty);
+        mBeautyMenuPanel = findViewById(R.id.beauty_beauty_menuPanel);
+        mSeiImageView = findViewById(R.id.iv_sei);
+        mSeiView = findViewById(R.id.sei_view);
         TextView mHomeIdTextView = findViewById(R.id.tv_home_id);
 
         mHomeIdTextView.setText(mRoomId);
@@ -129,6 +139,27 @@ public class InteractLiveActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+        //美颜
+        mBeautyImageView.setOnClickListener(view -> {
+            if (LivePushGlobalConfig.ENABLE_BEAUTY) {
+                if (mBeautyMenuPanel.isShown()) {
+                    mBeautyMenuPanel.setVisibility(View.GONE);
+                    mBeautyMenuPanel.onHideMenu();
+                } else {
+                    mBeautyMenuPanel.setVisibility(View.VISIBLE);
+                    mBeautyMenuPanel.onShowMenu();
+                }
+            }
+        });
+
+        //SEI
+        mSeiImageView.setOnClickListener(view -> {
+            if (mSeiView.isShown()) {
+                mSeiView.setVisibility(View.GONE);
+            } else {
+                mSeiView.setVisibility(View.VISIBLE);
+            }
+        });
         mConnectionLostTipsView.setConnectionLostListener(new ConnectionLostListener() {
             @Override
             public void onConfirm() {
@@ -214,6 +245,11 @@ public class InteractLiveActivity extends AppCompatActivity {
                         }
                     });
                 }
+
+                @Override
+                public void onPlayerSei(int i, byte[] bytes) {
+                    mSeiView.appendMessage(new String(bytes));
+                }
             });
         } else {
             mViewerController.setInteractLivePushPullListener(new InteractLivePushPullListener() {
@@ -243,6 +279,11 @@ public class InteractLiveActivity extends AppCompatActivity {
                             mConnectionLostTipsView.show();
                         }
                     });
+                }
+
+                @Override
+                public void onPlayerSei(int i, byte[] bytes) {
+                    mSeiView.appendMessage(new String(bytes));
                 }
             });
         }
@@ -413,10 +454,7 @@ public class InteractLiveActivity extends AppCompatActivity {
     }
 
     private void setInfoView(String roomId, String anchorId, String audienceId) {
-        mAudienceInfoView.setRoomId(roomId);
-        mAnchorInfoView.setRoomId(roomId);
-
-        mAudienceInfoView.setUserId(audienceId);
-        mAnchorInfoView.setUserId(anchorId);
+        mAudienceInfoView.setUserInfo(roomId, audienceId);
+        mAnchorInfoView.setUserInfo(roomId, anchorId);
     }
 }

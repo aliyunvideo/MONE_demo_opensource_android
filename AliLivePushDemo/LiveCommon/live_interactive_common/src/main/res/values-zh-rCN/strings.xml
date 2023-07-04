@@ -38,6 +38,7 @@
     <string name="interact_live_viewer_left">观众已离开，结束连麦</string>
     <string name="interact_live_lost_connect">断开链接，请重新进入直播间</string>
     <string name="extern_stream_main">外部音视频</string>
+    <string name="beauty_switch">美颜</string>
     <string name="waiting_download_video_resources">正在下载外部音视频资源中，请等待</string>
     <string name="interact_live_setting_resolution">分辨率</string>
     <string name="target_bitrate">视频目标码率</string>

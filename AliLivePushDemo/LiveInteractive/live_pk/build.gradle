@@ -42,7 +42,14 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation project(':LiveCommon:live_basic_common')
     api project(':LiveCommon:live_interactive_common')
     implementation externalARouter
     annotationProcessor externalARouterCompiler
+
+    implementation project(':LiveBeauty:live_beauty')
+    implementation project(':LiveBeauty:live_queenbeauty')
+    implementation(externalAliyunQueenUI) {
+        exclude group: 'com.aliyun.maliang.android', module: 'queen'
+    }
 }

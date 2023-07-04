@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,7 @@ import java.util.Map;
 public class MultiPKLiveRecyclerViewAdapter extends RecyclerView.Adapter<MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder> {
 
     private Map<Integer, Integer> mFLayoutWithPositionMap = new HashMap<>();
-    private OnPKConnectClickListener mListener;
+    private OnPKItemClickListener mListener;
     private List<Boolean> mData;
     private OnPKItemViewChangedListener mOnPKItemViewChangedListener;
 
@@ -74,7 +76,7 @@ public class MultiPKLiveRecyclerViewAdapter extends RecyclerView.Adapter<MultiPK
         return mData == null ? 0 : mData.size();
     }
 
-    public void setOnPKConnectClickListener(OnPKConnectClickListener listener) {
+    public void setOnPKConnectClickListener(OnPKItemClickListener listener) {
         this.mListener = listener;
     }
 
@@ -88,12 +90,24 @@ public class MultiPKLiveRecyclerViewAdapter extends RecyclerView.Adapter<MultiPK
 
     public class MultiPKLiveViewHolder extends RecyclerView.ViewHolder {
 
+        private final RoomAndUserInfoView mUserInfoView;
         private final TextView mConnectTextView;
         private final FrameLayout mOtherFrameLayout;
         private final FrameLayout mUnConnectFrameLayout;
 
         public MultiPKLiveViewHolder(@NonNull View itemView) {
             super(itemView);
+            mUserInfoView = itemView.findViewById(R.id.view_userinfo);
+            mUserInfoView.enableMute(true);
+            mUserInfoView.initListener(new RoomAndUserInfoView.OnClickEventListener() {
+                @Override
+                public void onClickInteractMute(boolean mute) {
+                    if (mListener != null) {
+                        mListener.onPKMuteClick(getAdapterPosition(), mute);
+                    }
+                }
+            });
+
             mConnectTextView = itemView.findViewById(R.id.tv_connect);
             mOtherFrameLayout = itemView.findViewById(R.id.frame_other);
             mUnConnectFrameLayout = itemView.findViewById(R.id.fl_un_connect);
@@ -104,6 +118,10 @@ public class MultiPKLiveRecyclerViewAdapter extends RecyclerView.Adapter<MultiPK
                     mListener.onPKConnectClick(getAdapterPosition());
                 }
             });
+        }
+
+        public void initUserInfo(String channelId, String userId) {
+            mUserInfoView.setUserInfo(channelId, userId);
         }
 
         public FrameLayout getRenderFrameLayout() {
@@ -119,8 +137,10 @@ public class MultiPKLiveRecyclerViewAdapter extends RecyclerView.Adapter<MultiPK
         }
     }
 
-    public interface OnPKConnectClickListener {
+    public interface OnPKItemClickListener {
         void onPKConnectClick(int position);
+
+        void onPKMuteClick(int position, boolean mute);
     }
 
     public interface OnPKItemViewChangedListener {

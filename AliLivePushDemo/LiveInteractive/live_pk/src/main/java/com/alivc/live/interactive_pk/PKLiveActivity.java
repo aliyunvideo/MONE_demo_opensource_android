@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alivc.live.baselive_common.AutoScrollMessagesView;
+import com.alivc.live.baselive_common.LivePusherSEIView;
+import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -18,6 +21,7 @@ import com.alivc.live.interactive_common.widget.AUILiveDialog;
 import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
 import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
+import com.aliyunsdk.queen.menu.BeautyMenuPanel;
 
 /**
  * PK 互动界面
@@ -29,6 +33,7 @@ public class PKLiveActivity extends AppCompatActivity {
     private InteractLiveIntent mCurrentIntent;
     private String mRoomId;
     private String mUserId;
+
     private ImageView mCloseImageView;
     private ImageView mCameraImageView;
     private TextView mConnectTextView;
@@ -42,6 +47,11 @@ public class PKLiveActivity extends AppCompatActivity {
     private ImageView mMuteImageView;
     private boolean mIsMute = false;
     private ImageView mSpeakerPhoneImageView;
+    private LivePusherSEIView mSeiView;
+    private ImageView mBeautyImageView;
+    private BeautyMenuPanel mBeautyMenuPanel;
+    private AutoScrollMessagesView mSeiMessageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +76,24 @@ public class PKLiveActivity extends AppCompatActivity {
         mOtherFrameLayout = findViewById(R.id.frame_other);
         mUnConnectFrameLayout = findViewById(R.id.fl_un_connect);
         mShowConnectTextView = findViewById(R.id.tv_show_connect);
+        mSeiView = findViewById(R.id.sei_view);
+        mSeiMessageView = findViewById(R.id.sei_receive_view);
+
+        mBeautyImageView = findViewById(R.id.iv_beauty);
+        mBeautyMenuPanel = findViewById(R.id.beauty_beauty_menuPanel);
 
         TextView mHomeIdTextView = findViewById(R.id.tv_home_id);
         mHomeIdTextView.setText(mRoomId);
 
         mOwnerInfoView = findViewById(R.id.owner_info_view);
         mOtherInfoView = findViewById(R.id.other_info_view);
+        mOtherInfoView.enableMute(true);
+        mOtherInfoView.initListener(new RoomAndUserInfoView.OnClickEventListener() {
+            @Override
+            public void onClickInteractMute(boolean mute) {
+                mPKController.mutePKMixStream(mute);
+            }
+        });
         mMuteImageView = findViewById(R.id.iv_mute);
         mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
 //        mOwnerInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
@@ -83,6 +105,22 @@ public class PKLiveActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+        //美颜
+        mBeautyImageView.setOnClickListener(view -> {
+            if (LivePushGlobalConfig.ENABLE_BEAUTY) {
+                if (mBeautyMenuPanel.isShown()) {
+                    mBeautyMenuPanel.setVisibility(View.GONE);
+                    mBeautyMenuPanel.onHideMenu();
+                } else {
+                    mBeautyMenuPanel.setVisibility(View.VISIBLE);
+                    mBeautyMenuPanel.onShowMenu();
+                }
+            }
+        });
+
+        mSeiView.setSendSeiViewListener(text -> {
+            mPKController.sendSEI(text);
+        });
         mConnectionLostTipsView.setConnectionLostListener(new ConnectionLostListener() {
             @Override
             public void onConfirm() {
@@ -172,6 +210,11 @@ public class PKLiveActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onReceiveSEIMessage(int payload, byte[] data) {
+                mSeiMessageView.appendMessage(new String(data));
+            }
+
+            @Override
             public void onPushSuccess() {
             }
 
@@ -241,11 +284,8 @@ public class PKLiveActivity extends AppCompatActivity {
     }
 
     private void setInfoView(String ownerRoomId, String otherRoomId, String ownerId, String otherId) {
-        mOwnerInfoView.setRoomId(ownerRoomId);
-        mOwnerInfoView.setUserId(ownerId);
-
-        mOtherInfoView.setRoomId(otherRoomId);
-        mOtherInfoView.setUserId(otherId);
+        mOwnerInfoView.setUserInfo(ownerRoomId, ownerId);
+        mOtherInfoView.setUserInfo(otherRoomId, otherId);
     }
 
     @Override

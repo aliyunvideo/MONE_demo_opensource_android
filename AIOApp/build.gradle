@@ -84,9 +84,6 @@ android {
     }
 }
 
-configurations {
-    aioimplementation
-}
 
 dependencies {
     implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
@@ -115,11 +112,7 @@ dependencies {
 
     implementation externalARouter
     annotationProcessor externalARouterCompiler
-
-    testImplementation externalJunit
-    androidTestImplementation externalTestJunit
-    androidTestImplementation externalEspresso
-    aioimplementation externalAllInOne
+    implementation externalAllInOne
 }
 
 import java.security.MessageDigest
@@ -134,17 +127,5 @@ afterEvaluate {
         if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
             return
         }
-    }
-    def configuration = project.configurations.getByName('aioimplementation')
-    def dstPath = projectDir.absolutePath + "/build/outputs/aar/"
-    configuration.each { aioFile ->
-        println aioFile.absolutePath
-        println dstPath
-        copy {
-            from aioFile.absolutePath
-            into dstPath
-        }
-        digest.update(aioFile.bytes)
-        file(dstPath + digest.digest().encodeHex().toString() + ".md5").text = "empty"
     }
 }

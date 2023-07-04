@@ -61,7 +61,7 @@ public class QueenBeautyImpl implements BeautyInterface {
     }
 
     @Override
-    public void init(long glContext) {
+    public void init() {
         if (mMediaChainEngine == null) {
             // 美颜库需要在texture线程中运行，如果未创建美颜引擎, 创建美颜引擎
             Log.d(TAG, "init");
@@ -74,6 +74,10 @@ public class QueenBeautyImpl implements BeautyInterface {
 
             isBeautyEnable = true;
         }
+    }
+
+    @Override
+    public void init(long glContext) {
     }
 
     @Override
@@ -140,7 +144,7 @@ public class QueenBeautyImpl implements BeautyInterface {
     }
 
     @Override
-    public int onTextureInput(int inputTexture, int textureWidth, int textureHeight, float[] textureMatrix, boolean isOES) {
+    public int onTextureInput(int inputTexture, int textureWidth, int textureHeight) {
         if (!isLicenseValid){
             return inputTexture;
         }
@@ -212,6 +216,11 @@ public class QueenBeautyImpl implements BeautyInterface {
         GLES20.glBindFramebuffer(GL_FRAMEBUFFER, oldFboId[0]);
 
         return mOutTexture2D.getTextureId();
+    }
+
+    @Override
+    public int onTextureInput(int inputTexture, int textureWidth, int textureHeight, float[] textureMatrix, boolean isOES) {
+        return 0;
     }
 
     @Override

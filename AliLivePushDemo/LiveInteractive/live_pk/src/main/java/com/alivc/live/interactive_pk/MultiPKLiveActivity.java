@@ -260,17 +260,26 @@ public class MultiPKLiveActivity extends AppCompatActivity {
             }
         });
 
-        mMultiPKLiveRecyclerViewAdapter.setOnPKConnectClickListener(position -> {
-            String content = getUserKeyByPosition(position);
-            mStopPKSplit = new String[]{};
-            if (!TextUtils.isEmpty(content) && content.contains("=")) {
-                mStopPKSplit = content.split("=");
+        mMultiPKLiveRecyclerViewAdapter.setOnPKConnectClickListener(new MultiPKLiveRecyclerViewAdapter.OnPKItemClickListener() {
+            @Override
+            public void onPKConnectClick(int position) {
+                String content = getUserKeyByPosition(position);
+                mStopPKSplit = new String[]{};
+                if (!TextUtils.isEmpty(content) && content.contains("=")) {
+                    mStopPKSplit = content.split("=");
+                }
+                if (mStopPKSplit.length > 0 && mPKController.isPKing(mStopPKSplit[0], mStopPKSplit[1])) {
+                    mCurrentIntent = InteractLiveIntent.INTENT_STOP_PULL;
+                    showInteractLiveDialog(position, getResources().getString(R.string.pk_live_connect_finish_tips), false);
+                } else {
+                    showInteractLiveDialog(position, null, true);
+                }
             }
-            if (mStopPKSplit.length > 0 && mPKController.isPKing(mStopPKSplit[0], mStopPKSplit[1])) {
-                mCurrentIntent = InteractLiveIntent.INTENT_STOP_PULL;
-                showInteractLiveDialog(position, getResources().getString(R.string.pk_live_connect_finish_tips), false);
-            } else {
-                showInteractLiveDialog(position, null, true);
+
+            @Override
+            public void onPKMuteClick(int position, boolean mute) {
+                String userKey = getUserKeyByPosition(position);
+                mPKController.muteAnchor(userKey, mute);
             }
         });
     }

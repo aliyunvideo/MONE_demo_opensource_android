@@ -39,6 +39,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.acker.simplezxing.activity.CaptureActivity;
+import com.alivc.live.annotations.AlivcLivePushKickedOutType;
 import com.alivc.live.baselive_common.PushConfigBottomSheet;
 import com.alivc.live.baselive_common.PushConfigDialogImpl;
 import com.alivc.live.baselive_recording.R;
@@ -649,6 +650,11 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
             public void onSetLiveMixTranscodingConfig(AlivcLivePusher alivcLivePusher, boolean b, String s) {
                 Log.d(TAG, "onSetLiveMixTranscodingConfig: ");
             }
+
+            @Override
+            public void onKickedOutByServer(AlivcLivePusher pusher, AlivcLivePushKickedOutType kickedOutType) {
+                Log.d(TAG, "onKickedOutByServer: " + kickedOutType);
+            }
         });
 
         mAlivcLivePusher.setLivePushErrorListener(new AlivcLivePushErrorListener() {
@@ -709,6 +715,16 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
             public String onPushURLAuthenticationOverdue(AlivcLivePusher alivcLivePusher) {
                 Log.d(TAG, "onPushURLAuthenticationOverdue: ");
                 return null;
+            }
+
+            @Override
+            public void onPushURLTokenWillExpire(AlivcLivePusher pusher) {
+                Log.d(TAG, "onPushURLTokenWillExpire: ");
+            }
+
+            @Override
+            public void onPushURLTokenExpired(AlivcLivePusher pusher) {
+                Log.d(TAG, "onPushURLTokenExpired: ");
             }
 
             @Override
