@@ -7,39 +7,60 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.alivc.live.commonbiz.ReadFileData;
-import com.alivc.live.commonbiz.ResourcesDownload;
+import com.alivc.live.commonbiz.LocalStreamReader;
+import com.alivc.live.commonbiz.ResourcesConst;
+import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePusher;
+import com.alivc.live.pusher.AlivcResolutionEnum;
 
 import java.io.File;
 
 public class LivePushViewModel extends AndroidViewModel {
 
     private final Context mApplicationContext;
-    private final ReadFileData mReadFileData;
+    private LocalStreamReader mLocalStreamReader;
 
     public LivePushViewModel(@NonNull Application application) {
         super(application);
         mApplicationContext = application;
-        mReadFileData = new ReadFileData();
+    }
+
+    public void initReadFile(AlivcLivePushConfig config) {
+        AlivcResolutionEnum resolution = config.getResolution();
+        int width = AlivcResolutionEnum.getResolutionWidth(resolution, config.getLivePushMode());
+        int height = AlivcResolutionEnum.getResolutionHeight(resolution, config.getLivePushMode());
+        mLocalStreamReader = new LocalStreamReader.Builder()
+                .setVideoWith(width)
+                .setVideoHeight(height)
+                .setVideoStride(width)
+                .setVideoSize(height * width * 3 / 2)
+                .setVideoRotation(0)
+                .setAudioSampleRate(44100)
+                .setAudioChannel(1)
+                .setAudioBufferSize(2048)
+                .build();
     }
 
     private void startYUV(final Context context, AlivcLivePusher mAlivcLivePusher) {
-        File f = ResourcesDownload.localCaptureYUVFilePath(context);
-        mReadFileData.readYUVData(f, (buffer, pts) -> mAlivcLivePusher.inputStreamVideoData(buffer, 720, 1280, 720, 1280 * 720 * 3 / 2, pts, 0));
+        File f = ResourcesConst.localCaptureYUVFilePath(context);
+        mLocalStreamReader.readYUVData(f, (buffer, pts, videoWidth, videoHeight, videoStride, videoSize, videoRotation) -> {
+            mAlivcLivePusher.inputStreamVideoData(buffer, videoWidth, videoHeight, videoStride, videoSize, pts, videoRotation);
+        });
     }
 
     public void stopYUV() {
-        mReadFileData.stopYUV();
+        mLocalStreamReader.stopYUV();
     }
 
     public void stopPcm() {
-        mReadFileData.stopPcm();
+        mLocalStreamReader.stopPcm();
     }
 
     private void startPCM(final Context context, AlivcLivePusher mAlivcLivePusher) {
-        File f = new File(context.getFilesDir().getPath() + File.separator + "alivc_resource/441.pcm");
-        mReadFileData.readPCMData(f, (buffer, length, pts) -> mAlivcLivePusher.inputStreamAudioData(buffer, length, 44100, 1, pts));
+        File f = ResourcesConst.localCapturePCMFilePath(context);
+        mLocalStreamReader.readPCMData(f, (buffer, length, pts, audioSampleRate, audioChannel) -> {
+            mAlivcLivePusher.inputStreamAudioData(buffer, length, audioSampleRate, audioChannel, pts);
+        });
     }
 
     public void onSurfaceCreated(boolean mAsync, SurfaceView mPreviewView, AlivcLivePusher mAlivcLivePusher) {

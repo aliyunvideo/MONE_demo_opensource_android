@@ -32,11 +32,10 @@
 
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:maxAspectRatio="2.4"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FlowerBro">
+        android:usesCleartextTraffic="true">
         <activity
             android:name="com.aliyun.video.MainActivity"
             android:configChanges="orientation|screenSize|uiMode"

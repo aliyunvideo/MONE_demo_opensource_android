@@ -64,7 +64,7 @@ dependencies {
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     api 'com.makeramen:roundedimageview:2.3.0'
-    api 'com.github.lihangleo2:ShadowLayout:3.2.0'
+//    api 'com.github.lihangleo2:ShadowLayout:3.3.3'
 
 
 }

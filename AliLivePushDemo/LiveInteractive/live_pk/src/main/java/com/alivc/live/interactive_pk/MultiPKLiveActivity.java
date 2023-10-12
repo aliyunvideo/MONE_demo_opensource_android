@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
@@ -20,7 +21,6 @@ import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
 import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
-import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +40,6 @@ public class MultiPKLiveActivity extends AppCompatActivity {
     private String mRoomId;
     private String mUserId;
     private ImageView mCloseImageView;
-    private ImageView mCameraImageView;
     private TextView mShowConnectTextView;
     private FrameLayout mOwnerFrameLayout;
     private RecyclerView mRecyclerView;
@@ -55,9 +54,8 @@ public class MultiPKLiveActivity extends AppCompatActivity {
     //停止 PK 时需要的 roomId 和 userId
     private String[] mStopPKSplit;
     private ConnectionLostTipsView mConnectionLostTipsView;
-    private ImageView mMuteImageView;
     private boolean mIsMute = false;
-    private ImageView mSpeakerPhoneImageView;
+    private InteractiveSettingView mInteractiveSettingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +75,6 @@ public class MultiPKLiveActivity extends AppCompatActivity {
     private void initView() {
         mAUILiveDialog = new AUILiveDialog(this);
         mCloseImageView = findViewById(R.id.iv_close);
-        mCameraImageView = findViewById(R.id.iv_camera);
         mOwnerFrameLayout = findViewById(R.id.frame_owner);
         mShowConnectTextView = findViewById(R.id.tv_show_connect);
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -90,8 +87,7 @@ public class MultiPKLiveActivity extends AppCompatActivity {
         mPKController.startPush(mOwnerFrameLayout);
         mPKController.addMultiPKLiveMixTranscoding(true, mUserId, null);
 
-        mMuteImageView = findViewById(R.id.iv_mute);
-        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
+        mInteractiveSettingView = findViewById(R.id.interactive_setting_view);
     }
 
     private void initRecyclerView() {
@@ -109,29 +105,23 @@ public class MultiPKLiveActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        mMuteImageView.setOnClickListener(new View.OnClickListener() {
+
+        mInteractiveSettingView.setOnInteractiveSettingListener(new InteractiveSettingView.OnInteractiveSettingListener() {
             @Override
-            public void onClick(View view) {
+            public void onSwitchCameraClick() {
+                mPKController.switchCamera();
+            }
+
+            @Override
+            public void onMuteClick() {
                 mPKController.setMute(!mIsMute);
                 mIsMute = !mIsMute;
-                mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+                mInteractiveSettingView.changeMute(mIsMute);
             }
-        });
 
-        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (!FastClickUtil.isFastClick()) {
-                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
-                    if (tag == null || !tag) {
-                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
-                        mSpeakerPhoneImageView.setTag(true);
-                    } else {
-                        mSpeakerPhoneImageView.clearColorFilter();
-                        mSpeakerPhoneImageView.setTag(false);
-                    }
-                    mPKController.changeSpeakerPhone();
-                }
+            public void onSpeakerPhoneClick() {
+                mPKController.changeSpeakerPhone();
             }
         });
 
@@ -149,12 +139,6 @@ public class MultiPKLiveActivity extends AppCompatActivity {
         mCloseImageView.setOnClickListener(view -> {
             mCurrentIntent = InteractLiveIntent.INTENT_FINISH;
             showInteractLiveDialog(0, getResources().getString(R.string.interact_live_leave_room_tips), false);
-        });
-
-        mCameraImageView.setOnClickListener(view -> {
-            if (!FastClickUtil.isFastClick()) {
-                mPKController.switchCamera();
-            }
         });
 
         mMultiPKLiveRecyclerViewAdapter.setOnPKItemViewChangedListener(new MultiPKLiveRecyclerViewAdapter.OnPKItemViewChangedListener() {

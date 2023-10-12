@@ -1,6 +1,10 @@
 package com.alivc.live.interactive_common;
 
+import static com.alivc.live.interactive_common.utils.LivePushGlobalConfig.mAlivcLivePushConfig;
+import static com.alivc.live.interactive_common.utils.LivePushGlobalConfig.mWaterMarkInfos;
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -14,24 +18,22 @@ import com.alivc.live.beauty.BeautyFactory;
 import com.alivc.live.beauty.BeautyInterface;
 import com.alivc.live.beauty.constant.BeautySDKType;
 import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
+import com.alivc.live.interactive_common.manager.TimestampWatermarkManager;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.player.AlivcLivePlayConfig;
 import com.alivc.live.player.AlivcLivePlayInfoListener;
 import com.alivc.live.player.AlivcLivePlayer;
 import com.alivc.live.player.AlivcLivePlayerStatsInfo;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
-import com.alivc.live.pusher.AlivcAudioAACProfileEnum;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
-import com.alivc.live.pusher.AlivcEncodeModeEnum;
-import com.alivc.live.pusher.AlivcEncodeType;
 import com.alivc.live.pusher.AlivcImageFormat;
 import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLiveMixStream;
-import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushError;
 import com.alivc.live.pusher.AlivcLivePushErrorListener;
 import com.alivc.live.pusher.AlivcLivePushInfoListener;
@@ -39,9 +41,8 @@ import com.alivc.live.pusher.AlivcLivePushNetworkListener;
 import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcLiveTranscodingConfig;
-import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
-import com.alivc.live.pusher.AlivcQualityModeEnum;
 import com.alivc.live.pusher.AlivcSoundFormat;
+import com.alivc.live.pusher.WaterMarkInfo;
 import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
@@ -56,7 +57,6 @@ import java.util.Map;
 public class InteractLiveBaseManager {
 
     protected static final String TAG = "InteractLiveManager";
-    protected AlivcLivePushConfig mAlivcLivePushConfig;
     protected FrameLayout mAudienceFrameLayout;
     //多人连麦混流
     protected final ArrayList<AlivcLiveMixStream> mMultiInteractLiveMixStreamsArray = new ArrayList<>();
@@ -79,47 +79,39 @@ public class InteractLiveBaseManager {
     //CameraId，美颜需要使用
     private int mCameraId;
 
+    private TimestampWatermarkManager mTimestampWatermarkManager;
+
     public void init(Context context) {
-        mContext = context.getApplicationContext();
-        initLivePusherSDK();
-        initPlayer();
+        init(context, false);
     }
 
-    private void initLivePusherSDK() {
+    public void init(Context context, boolean isInteractiveURL) {
+        mContext = context.getApplicationContext();
+        initLivePusherSDK(isInteractiveURL);
+        initPlayer();
+        initWatermarks();
+    }
+
+    private void initLivePusherSDK(boolean isInteractiveURL) {
         AlivcLiveBase.registerSDK();
         // 初始化推流配置类
-        mAlivcLivePushConfig = new AlivcLivePushConfig();
         mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveInteractiveMode);
-        // 打开码率自适应，默认为true
-        mAlivcLivePushConfig.setEnableBitrateControl(true);
-        // 默认为竖屏，可设置home键向左或向右横屏
-        mAlivcLivePushConfig.setPreviewOrientation(AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT);
-        // 设置音频编码模式
-        mAlivcLivePushConfig.setAudioProfile(AlivcAudioAACProfileEnum.AAC_LC);
-        mAlivcLivePushConfig.setResolution(LivePushGlobalConfig.RESOLUTION);
+        // 同一进程下，只能设置一次；如需修改，需要杀进程再设置；建议接入方改成固定配置，而非可配置；demo中可配置是为了测试^_^
+        mAlivcLivePushConfig.setH5CompatibleMode(LivePushGlobalConfig.IS_H5_COMPATIBLE);
+        mAlivcLivePushConfig.setEnableRTSForInteractiveMode(isInteractiveURL);
 
-        //自定义
-        mAlivcLivePushConfig.setQualityMode(AlivcQualityModeEnum.QM_CUSTOM);
-        //目标码率
-        mAlivcLivePushConfig.setTargetVideoBitrate(LivePushGlobalConfig.TARGET_RATE);
-        mAlivcLivePushConfig.setMinFps(LivePushGlobalConfig.MIN_FPS);
-        mAlivcLivePushConfig.setFps(LivePushGlobalConfig.FPS);
-
-        mAlivcLivePushConfig.setVideoEncodeMode(LivePushGlobalConfig.VIDEO_ENCODE_HARD ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
-        mAlivcLivePushConfig.setAudioEncodeMode(LivePushGlobalConfig.AUDIO_ENCODE_HARD ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
-        mAlivcLivePushConfig.setVideoEncodeType(LivePushGlobalConfig.VIDEO_CODEC_H265 ? AlivcEncodeType.Encode_TYPE_H265 : AlivcEncodeType.Encode_TYPE_H264);
-
-        mAlivcLivePushConfig.setAudioOnly(LivePushGlobalConfig.IS_AUDIO_ONLY);
-
-        if (LivePushGlobalConfig.ENABLE_EXTERN_AV) {
+        if (mAlivcLivePushConfig.isExternMainStream()) {
             mAlivcLivePushConfig.setExternMainStream(true, AlivcImageFormat.IMAGE_FORMAT_YUVNV12, AlivcSoundFormat.SOUND_FORMAT_S16);
             mAlivcLivePushConfig.setAudioChannels(AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE);
             mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
         }
 
         mAlivcLivePusher = new AlivcLivePusher();
-        mAlivcLivePusher.init(mContext, mAlivcLivePushConfig);
+        mAlivcLivePusher.init(mContext.getApplicationContext(), mAlivcLivePushConfig);
         mCameraId = mAlivcLivePushConfig.getCameraType();
+
+        // 设置音量回调频率和平滑系数（仅互动模式下生效）
+        mAlivcLivePusher.enableAudioVolumeIndication(300, 3, 1);
 
         mAlivcLivePusher.setLivePushErrorListener(new AlivcLivePushErrorListener() {
             @Override
@@ -156,7 +148,7 @@ public class InteractLiveBaseManager {
 
             @Override
             public void onPreviewStopped(AlivcLivePusher pusher) {
-                Log.d(TAG, "onPreviewStoped: ");
+                Log.d(TAG, "onPreviewStopped: ");
             }
 
             @Override
@@ -184,7 +176,7 @@ public class InteractLiveBaseManager {
 
             @Override
             public void onPushStopped(AlivcLivePusher pusher) {
-                Log.d(TAG, "onPushStoped: ");
+                Log.d(TAG, "onPushStopped: ");
                 pusher.stopPreview();
                 mHasPushed = false;
             }
@@ -240,6 +232,18 @@ public class InteractLiveBaseManager {
                     mMultiInteractLivePushPullListener.onPushError();
                 }
             }
+
+            @Override
+            public void onMicrophoneVolumeUpdate(AlivcLivePusher pusher, int volume) {
+                // 麦克风音量回调（仅互动模式下生效，需设置AlivcLivePusher#enableAudioVolumeIndication接口）
+                // Log.d(TAG, "onMicrophoneVolumeUpdate: " + volume);
+            }
+
+            @Override
+            public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId) {
+                // 用户加入房间回调
+                ToastUtils.show("用户" + userId + "加入房间");
+            }
         });
 
         mAlivcLivePusher.setLivePushNetworkListener(new AlivcLivePushNetworkListener() {
@@ -287,6 +291,11 @@ public class InteractLiveBaseManager {
             @Override
             public void onConnectFail(AlivcLivePusher alivcLivePusher) {
                 Log.d(TAG, "onConnectFail: ");
+            }
+
+            @Override
+            public void onNetworkQualityChanged(AlivcLiveNetworkQuality upQuality, AlivcLiveNetworkQuality downQuality) {
+
             }
 
             @Override
@@ -395,8 +404,8 @@ public class InteractLiveBaseManager {
             }
 
             @Override
-            public void onNetworkQualityChanged(AlivcLiveNetworkQuality quality) {
-                Log.w(TAG, "onNetworkQualityChanged: " + quality);
+            public void onNetworkQualityChanged(AlivcLiveNetworkQuality upQuality, AlivcLiveNetworkQuality downQuality) {
+                Log.w(TAG, "onNetworkQualityChanged: " + upQuality);
             }
 
             @Override
@@ -405,6 +414,12 @@ public class InteractLiveBaseManager {
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onReceiveSEIMessage(payload, data);
                 }
+            }
+
+            @Override
+            public void onPlayoutVolumeUpdate(int volume, boolean isSpeaking) {
+                // 音频音量(仅互动模式下生效，需设置AlivcLivePusher#enableAudioVolumeIndication接口)
+                // Log.d(TAG, "onPlayoutVolumeUpdate: " + volume + ", " + isSpeaking);
             }
 
             @Override
@@ -419,6 +434,34 @@ public class InteractLiveBaseManager {
             @Override
             public void onPlayerStatistics(AlivcLivePlayerStatsInfo statsInfo) {
                 Log.i(TAG, "onPlayerStatistics: " + statsInfo);
+            }
+        });
+    }
+
+    private void initWatermarks() {
+        final float x;
+        final float y;
+        final float width;
+
+        if (!mWaterMarkInfos.isEmpty()) {
+            WaterMarkInfo waterMarkInfo = mWaterMarkInfos.get(0);
+            x = waterMarkInfo.mWaterMarkCoordX;
+            y = waterMarkInfo.mWaterMarkCoordY;
+            width = waterMarkInfo.mWaterMarkWidth;
+        } else {
+            x = 0f;
+            y = 0f;
+            width = 1;
+        }
+
+        // 互动模式下使用该接口添加水印，最多添加一个，多则替代
+        mTimestampWatermarkManager = new TimestampWatermarkManager();
+        mTimestampWatermarkManager.init(new TimestampWatermarkManager.OnWatermarkListener() {
+            @Override
+            public void onWatermarkUpdate(Bitmap bitmap) {
+                if (mAlivcLivePusher != null) {
+                    mAlivcLivePusher.addWaterMark(bitmap, x, y, width);
+                }
             }
         });
     }
@@ -496,10 +539,18 @@ public class InteractLiveBaseManager {
         mAlivcLivePusher.startPushAsync(mPushUrl);
     }
 
+    public void stopPreview() {
+        mAlivcLivePusher.stopPreview();
+    }
+
     public void stopPush() {
         if (mAlivcLivePusher.isPushing()) {
             mAlivcLivePusher.stopPush();
         }
+    }
+
+    public void stopCamera() {
+        mAlivcLivePusher.stopCamera();
     }
 
     public void setPullView(FrameLayout frameLayout, boolean isAnchor) {
@@ -556,9 +607,7 @@ public class InteractLiveBaseManager {
     }
 
     public void stopPull() {
-        if (isPulling()) {
-            mAlivcLivePlayer.stopPlay();
-        }
+        mAlivcLivePlayer.stopPlay();
         mHasPulled = false;
     }
 
@@ -586,7 +635,7 @@ public class InteractLiveBaseManager {
 
     //发送 SEI
     public void sendSEI(String text) {
-        mAlivcLivePusher.sendMessage(text, 1, 2000, true);
+        mAlivcLivePusher.sendMessage(text, 0, 0, false);
     }
 
     public void resume() {
@@ -656,6 +705,11 @@ public class InteractLiveBaseManager {
 
         mInteractLivePushPullListener = null;
         mMultiInteractLivePushPullListener = null;
+
+        if (mTimestampWatermarkManager != null) {
+            mTimestampWatermarkManager.destroy();
+            mTimestampWatermarkManager = null;
+        }
     }
 
     public void clearLiveMixTranscodingConfig() {

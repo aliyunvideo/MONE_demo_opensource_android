@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
 }
-
+apply from: '../../common.gradle'
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -32,7 +32,7 @@ dependencies {
 
     implementation project(':AUIFoundation:AVBaseUI')
     implementation project(':AUIFoundation:AVTheme')
-    implementation externalSvideopro
+    api project.ext.ugc_sdk
     implementation externalAndroidXAppcompat
     implementation externalAndroidDesign
     implementation externalAndroidXConstraintlayout

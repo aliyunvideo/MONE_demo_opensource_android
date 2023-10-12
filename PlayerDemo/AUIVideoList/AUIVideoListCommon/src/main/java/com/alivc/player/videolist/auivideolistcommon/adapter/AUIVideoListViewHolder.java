@@ -14,8 +14,10 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewType;
 import com.alivc.player.videolist.auivideolistcommon.R;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
+import com.aliyun.aio.utils.DensityUtil;
 
 public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,6 +41,7 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
     protected final TextView mVideoTitleTextView;
     protected final TextView mAuthorTextView;
     protected final ImageView mPlayImageView;
+    protected final ImageView mBackImageView;
 
     public AUIVideoListViewHolder(View itemView) {
         super(itemView);
@@ -49,8 +52,16 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
         mVideoTitleTextView = itemView.findViewById(R.id.tv_video_title);
         mAuthorTextView = itemView.findViewById(R.id.tv_author);
         mPlayImageView = itemView.findViewById(R.id.iv_play);
+        mBackImageView = itemView.findViewById(R.id.iv_back);
 
         mSeekBar.setVisibility(mEnableSeekbar ? View.VISIBLE : View.GONE);
+        if (getViewType() == AUIVideoListViewType.EPISODE) {
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSeekBar.getLayoutParams();
+            layoutParams.bottomMargin = DensityUtil.dip2px(mSeekBar.getContext(), 84);
+            mSeekBar.setLayoutParams(layoutParams);
+            mSeekBar.requestLayout();
+        }
+
         mVideoTitleTextView.setVisibility(mEnableTitle ? View.VISIBLE : View.GONE);
         mAuthorTextView.setVisibility(mEnableAuth ? View.VISIBLE : View.GONE);
         mPlayImageView.setVisibility(View.GONE);
@@ -77,12 +88,23 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
                 mListener.onItemClick(getAdapterPosition());
             }
         });
+
+        mBackImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onBackPress();
+                }
+            }
+        });
     }
 
     /*
-        update video source
-     */
+            update video source
+         */
     public abstract void bindUrl(String url);
+
+    protected abstract AUIVideoListViewType getViewType();
 
     public ViewGroup getRootView() {
         return mRootFrameLayout;

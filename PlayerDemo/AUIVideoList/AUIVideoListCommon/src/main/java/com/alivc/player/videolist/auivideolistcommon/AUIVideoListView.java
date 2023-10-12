@@ -1,6 +1,5 @@
 package com.alivc.player.videolist.auivideolistcommon;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter;
-import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
+import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
 import com.alivc.player.videolist.auivideolistcommon.listener.OnCompletionListener;
 import com.alivc.player.videolist.auivideolistcommon.listener.OnLoadDataListener;
@@ -27,6 +26,7 @@ import com.alivc.player.videolist.auivideolistcommon.listener.OnSeekChangedListe
 import com.alivc.player.videolist.auivideolistcommon.listener.OnViewPagerListener;
 import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
 import com.aliyun.aio.avbaseui.widget.AVToast;
+import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 
 import java.util.ArrayList;
@@ -51,12 +51,13 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
     private SwipeRefreshLayout mRefreshLayout;
     protected AUIVideoListAdapter mAUIVideoListAdapter;
     private boolean mIsLoadMore = false;
-    private final List<VideoInfo> mDataList = new ArrayList<>();
+    protected final List<VideoInfo> mDataList = new ArrayList<>();
     private AUIVideoListController mController;
     private String mReloadUrl;
     private OnCompletionListener mReloadListener;
     private String mLoadMoreUrl;
     private OnCompletionListener mLoadMoreListener;
+    private boolean mInited = false;
 
     public AUIVideoListView(@NonNull Context context) {
         super(context);
@@ -81,11 +82,6 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
         mGestureLinearLayout = mInflateView.findViewById(R.id.ll_gesture);
         mRefreshLayout = mInflateView.findViewById(R.id.refresh);
 
-        mInflateView.findViewById(R.id.iv_back).setOnClickListener(v -> {
-            if (mContext instanceof Activity) {
-                ((Activity) mContext).finish();
-            }
-        });
         mGestureLinearLayout.setOnClickListener(view -> mGestureLinearLayout.setVisibility(View.GONE));
 
         mRefreshLayout.setOnRefreshListener(() -> {
@@ -117,6 +113,8 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
         mAUIVideoListAdapter.setOnSeekBarStateChangeListener(this);
         mAUIVideoListAdapter.setOnPlayerListener(this);
     }
+
+    protected abstract AUIVideoListViewType getViewType();
 
     protected abstract AUIVideoListLayoutManager initLayoutManager();
 
@@ -205,6 +203,11 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
     }
 
     @Override
+    public void onError(ErrorInfo errorInfo){
+
+    }
+
+    @Override
     public void onCompletion(int position) {
 
     }
@@ -244,7 +247,7 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
             }
         }
         if (position == mDataList.size() - 1) {
-            AVToast.show(mContext,true,R.string.alivc_player_tip_last_video);
+            AVToast.show(mContext, true, R.string.alivc_player_tip_last_video);
         }
     }
 
@@ -255,6 +258,11 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
 
     @Override
     public void onPageHideHalf(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollTo(int position) {
 
     }
 
@@ -302,7 +310,9 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
                     1.如下，如果是刷新加载数据，手动调用 onPageSelected(0)。
                     2.创建新的 List 对象，设置给 ListAdapter。
              */
+            MoveToPosition(0);
             onPageSelected(0);
+            SetInited(false);
         }
     }
 
@@ -326,6 +336,32 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
         AUIVideoListViewHolder.enableSeekBar(open);
     }
 
+    public void MoveToPosition(int position) {
+        int gap = Math.abs(mSelectedPosition - position);
+        if (gap == 0) {
+            // 如果跳的是当前剧集，不响应事件
+            return;
+        } else if (gap == 1) {
+            // 如果是上下集的关系，直接平滑切换
+            mRecyclerView.smoothScrollToPosition(position);
+        } else {
+            int targetPosition = mSelectedPosition > position ? position + 1 : position - 1;
+            // 参考了抖音的交互逻辑，可以发现，点击剧集跳转时，有一个平滑的过程
+            // 大概是这样的，比如从第1集到第5集，平滑的过程不是1->2->3->4->5，而是1->4->5
+            // 所以实现逻辑应该是：先直接从1跳转到4，再完成4->5的平滑切换
+            mRecyclerView.scrollToPosition(targetPosition);
+            mRecyclerView.smoothScrollToPosition(position);
+        }
+    }
+
+    public void SetInited(boolean isInited){
+        mInited = isInited;
+    }
+
+    public boolean IsInited(){
+        return mInited;
+    }
+
     public void showPlayTitleContent(boolean open) {
         AUIVideoListViewHolder.enableTitleTextView(open);
         AUIVideoListViewHolder.enableAuthTextView(open);
@@ -339,6 +375,13 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
 
     public abstract void autoPlayNext(boolean autoPlayNext);
 
+    public int getManagerPostion() {
+        return mAUIVideoListLayoutManager.findLastVisibleItemPosition();
+    }
+
+    public void setRefreshing(boolean isRefresh){
+        mRefreshLayout.setRefreshing(isRefresh);
+    }
 
     /*
      * =============================================

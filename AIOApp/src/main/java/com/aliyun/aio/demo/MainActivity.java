@@ -33,6 +33,7 @@ public class MainActivity extends AVBaseThemeActivity {
     private static final int INDEX_UGSV = 1;
     private static final int INDEX_PLAYER = 2;
     private static final int INDEX_SOLUTION = 3;
+    private static final int INDEX_INTERACT_LIVE = 4;
 
     @Override
     protected int specifiedThemeMode() {
@@ -87,6 +88,9 @@ public class MainActivity extends AVBaseThemeActivity {
             case INDEX_SOLUTION:
                 jumpToSolution();
                 break;
+            case INDEX_INTERACT_LIVE:
+                jumpToInteractLive();
+                break;
         }
     };
 
@@ -100,6 +104,8 @@ public class MainActivity extends AVBaseThemeActivity {
                 getResources().getString(R.string.aio_live_player_desc), R.drawable.ic_main_player, R.drawable.ic_main_grid_item_chakan));
         list.add(new MainPageItem(INDEX_SOLUTION, getResources().getString(R.string.aio_solution),
                 getResources().getString(R.string.aio_solution_desc), R.drawable.ic_main_more, R.drawable.ic_main_grid_item_chakan2));
+        list.add(new MainPageItem(INDEX_INTERACT_LIVE, getResources().getString(R.string.aio_interactive_live),
+                getResources().getString(R.string.aio_interactive_live_desc), R.mipmap.ic_main_interact_live, R.drawable.ic_main_grid_item_chakan));
         mMainGridAdapter.setData(list);
     }
 
@@ -120,4 +126,7 @@ public class MainActivity extends AVBaseThemeActivity {
         Toast.makeText(this, "精彩内容，即将开放", Toast.LENGTH_SHORT).show();
     }
 
+    private void jumpToInteractLive(){
+        ARouter.getInstance().build("/auicall/CallEntryActivity").navigation();
+    }
 }

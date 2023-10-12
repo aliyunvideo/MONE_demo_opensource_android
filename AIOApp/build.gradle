@@ -76,6 +76,7 @@ android {
         pickFirst '**/libc++_shared.so'
         pickFirst '**/libMNN.so'
         pickFirst '**/libMNN_CL.so'
+        pickFirst '**/libalivcffmpeg.so'
     }
 
     buildFeatures {
@@ -97,8 +98,8 @@ dependencies {
         implementation project(':LiveApp')
     }
     if (hasPlayer()) {
-        println("hasPlayer implementation project(':liveplayerapp')")
-        implementation project(':liveplayerapp')
+        println("hasPlayer implementation project(':AUIPlayerApp')")
+        implementation project(':AUIPlayerApp')
     }
     if (hasUGC()) {
         println("hasUGSV implementation project(':UGSVApp')")
@@ -113,6 +114,9 @@ dependencies {
     implementation externalARouter
     annotationProcessor externalARouterCompiler
     implementation externalAllInOne
+    if(hasInteractiveLive()){
+        
+    }
 }
 
 import java.security.MessageDigest

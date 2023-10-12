@@ -1,18 +1,22 @@
 package com.alivc.player.videolist.auivideofunctionlist.adapter;
 
+import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.alivc.player.videolist.auivideofunctionlist.player.AliyunRenderView;
+import com.alivc.player.videolist.auivdieofunctionlist.R;
 import com.alivc.player.videolist.auivideofunctionlist.player.AliPlayerPool;
+import com.alivc.player.videolist.auivideofunctionlist.player.AliyunRenderView;
+import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewType;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
 import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
-import com.aliyun.player.AliPlayer;
+import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 
 public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
@@ -22,8 +26,9 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
     }
 
     @Override
-    public AUIVideoListViewHolder customCreateViewHolder(View view) {
-        return new AUIVideoFunctionListViewHolder(view);
+    public AUIVideoListViewHolder customCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.ilr_view_function_list_item, parent, false);
+        return new AUIVideoFunctionListViewHolder(inflate);
     }
 
     public static class AUIVideoFunctionListViewHolder extends AUIVideoListViewHolder {
@@ -69,6 +74,11 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
                         mOnPlayerListener.onCompletion(getAdapterPosition());
                     }
                 }
+
+                @Override
+                public void onError(ErrorInfo errorInfo){
+
+                }
             });
         }
 
@@ -93,6 +103,11 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
                 mAliyunRenderView.start();
                 showPlayIcon(false);
             }
+        }
+
+        @Override
+        protected AUIVideoListViewType getViewType() {
+            return AUIVideoListViewType.FUNCTION_LIST;
         }
     }
 }

@@ -60,7 +60,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME :'live' ]
+                arguments = [AROUTER_MODULE_NAME: 'live']
             }
         }
     }
@@ -100,6 +100,7 @@ android {
         pickFirst '**/libc++_shared.so'
         pickFirst '**/libMNN.so'
         pickFirst '**/libMNN_CL.so'
+        pickFirst '**/libalivcffmpeg.so'
     }
     publishNonDefault true
     lintOptions {
@@ -126,5 +127,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // 手动集成：本地依赖SDK
+    // implementation fileTree(dir: 'src/main/libs', include: ['*.jar', '*.aar'])
 }
 

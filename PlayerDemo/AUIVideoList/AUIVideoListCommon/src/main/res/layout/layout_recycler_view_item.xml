@@ -9,6 +9,10 @@
         android:id="@+id/fm_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextureView
+            android:id="@+id/fm_root_textureview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </FrameLayout>
 
@@ -27,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="41dp"
         android:maxHeight="15dp"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:progressDrawable="@drawable/layer_seekbar"
         android:thumb="@drawable/shape_seekbar_thumb"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,5 +73,16 @@
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"
         android:src="@mipmap/aui_video_list_play_icon"/>
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_av_action_bar_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

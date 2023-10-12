@@ -2,7 +2,6 @@ package com.alivc.player.videolist.auivideostandradlist;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.GestureDetector;
@@ -21,11 +20,10 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alivc.player.videolist.auivideostandradlist.R;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
 import com.alivc.player.videolist.auivideolistcommon.listener.OnViewPagerListener;
-import com.alivc.player.videolist.auivideostandradlist.adapter.AliyunRecyclerViewAdapter;
 import com.alivc.player.videolist.auivideostandradlist.adapter.AUIVideoStandardListLayoutManager;
+import com.alivc.player.videolist.auivideostandradlist.adapter.AliyunRecyclerViewAdapter;
 import com.aliyun.player.AliListPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
@@ -270,7 +268,7 @@ public class AliyunListPlayerView extends FrameLayout {
 
     private void initPagerLayoutManager() {
         if (mAUIVideoStandardListLayoutManager == null) {
-            mAUIVideoStandardListLayoutManager = new AUIVideoStandardListLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
+            mAUIVideoStandardListLayoutManager = new AUIVideoStandardListLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             mAUIVideoStandardListLayoutManager.setItemPrefetchEnabled(true);
         }
 
@@ -314,6 +312,10 @@ public class AliyunListPlayerView extends FrameLayout {
                 @Override
                 public void onPageHideHalf(int position) {
 
+                }
+
+                @Override
+                public void onPageScrollTo(int position) {
                 }
 
                 @Override
@@ -419,7 +421,7 @@ public class AliyunListPlayerView extends FrameLayout {
         }
     }
 
-    public void addUrl(String url,String randomUUID){
+    public void addUrl(String url, String randomUUID) {
         if (mAliListPlayer != null) {
             mAliListPlayer.addUrl(url, randomUUID);
         }
@@ -456,11 +458,11 @@ public class AliyunListPlayerView extends FrameLayout {
         hideRefresh();
     }
 
-    public void showRefresh(){
+    public void showRefresh() {
 
     }
 
-    public void hideRefresh(){
+    public void hideRefresh() {
 
     }
 
@@ -474,7 +476,7 @@ public class AliyunListPlayerView extends FrameLayout {
     /**
      * 获取关联表
      */
-    public SparseArray<String> getCorrelationTable(){
+    public SparseArray<String> getCorrelationTable() {
         return this.mSparseArray;
     }
 
@@ -524,7 +526,7 @@ public class AliyunListPlayerView extends FrameLayout {
      * 销毁
      */
     public void destroy() {
-        if(mAliListPlayer != null){
+        if (mAliListPlayer != null) {
             mAliListPlayer.stop();
             mAliListPlayer.release();
         }

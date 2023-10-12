@@ -128,3 +128,10 @@
     @**.CalledByNative *;
 }
 
+-keep class com.aliyun.rts.network.* { *; }
+-keep class com.alibaba.dingpaas.** { *; }
+-keep class com.dingtalk.mars.** { *; }
+-keep class com.dingtalk.bifrost.** { *; }
+-keep class com.dingtalk.mobile.** { *; }
+-keep class org.android.spdy.** { *; }
+-keep class com.alibaba.dingpaas.interaction.** { *; }

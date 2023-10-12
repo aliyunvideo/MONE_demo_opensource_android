@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pull_interact_name_tv">连麦互动</string>
+    <string name="pull_interact_name_url">推拉裸流</string>
     <string name="pull_multi_interact_name_tv">多人连麦/PK</string>
+    <string name="h5_compatible_name_tv">H5兼容模式</string>
     <string name="push_interactive_setting_audio_only">纯音频</string>
     <string name="push_interactive_setting_gop">GOP</string>
     <string name="push_interactive_setting_hardware_decode">开启硬解</string>
     <string name="push_interactive_h265">H265</string>
     <string name="interact_live">连麦互动</string>
+    <string name="interact_live_url_title">推拉裸流配置</string>
+    <string name="interact_live_push_url">请输入推流地址</string>
+    <string name="interact_live_pull_url">请输入拉流地址</string>
+    <string name="interact_start_push">开始推流</string>
+    <string name="interact_stop_push">停止推流</string>
     <string name="pk_live">PK互动</string>
     <string name="interact_setting">参数设置</string>
     <string name="interact_live_cancel">取消</string>
@@ -27,6 +34,7 @@
     <string name="interact_stop_connect">结束连麦</string>
     <string name="pk_stop_connect">结束PK</string>
     <string name="interact_live_connect_tips">请输入观众的用户ID</string>
+    <string name="interact_live_url_connect_tips">请输入连麦观众的 URL</string>
     <string name="interact_live_connect_author_tips">请输入主播的用户ID</string>
     <string name="interact_live_connect_room_tips">请输入主播的房间号</string>
     <string name="interact_live_connect_input_error_tips">请输入内容</string>
@@ -46,4 +54,6 @@
     <string name="captrue_fps">采集帧率</string>
     <string name="init_fps">20</string>
     <string name="min_fps">最小帧率</string>
+
+    <string name="live_push_switch_to_facing_back_camera">扫码前请切换到后置摄像头</string>
 </resources>

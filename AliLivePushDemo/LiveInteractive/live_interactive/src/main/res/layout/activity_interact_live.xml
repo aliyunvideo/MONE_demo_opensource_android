@@ -21,7 +21,7 @@
             android:layout_width="90dp"
             android:layout_height="160dp"
             android:layout_gravity="right|bottom"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="33dp"
             android:layout_marginBottom="110dp" />
 
     </FrameLayout>
@@ -66,46 +66,22 @@
         app:layout_constraintStart_toStartOf="@id/tv_home_id"
         app:layout_constraintTop_toBottomOf="@id/tv_home_id" />
 
-    <ImageView
-        android:id="@+id/iv_camera"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+    <com.alivc.live.interactive_common.widget.InteractiveSettingView
+        android:id="@+id/interactive_setting_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_camera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_home_id" />
+        app:layout_constraintTop_toTopOf="@id/tv_home_id"/>
 
-    <ImageView
-        android:id="@+id/iv_mute"
-        android:layout_width="22dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_interact_volume_on"
-        app:layout_constraintEnd_toEndOf="@id/iv_camera"
-        app:layout_constraintStart_toStartOf="@id/iv_camera"
-        app:layout_constraintTop_toBottomOf="@id/iv_camera" />
-
-    <ImageView
-        android:id="@+id/iv_speaker_phone"
-        android:layout_width="22dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_speaker_phone"
-        app:layout_constraintEnd_toEndOf="@id/iv_mute"
-        app:layout_constraintStart_toStartOf="@id/iv_mute"
-        app:layout_constraintTop_toBottomOf="@id/iv_mute" />
-
-    <ImageView
-        android:id="@+id/iv_sei"
-        android:layout_width="22dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_sei"
-        app:layout_constraintEnd_toEndOf="@id/iv_speaker_phone"
-        app:layout_constraintStart_toStartOf="@id/iv_speaker_phone"
-        app:layout_constraintTop_toBottomOf="@id/iv_speaker_phone" />
+    <com.alivc.live.interactive_common.widget.InteractiveConnectView
+        android:id="@+id/connect_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/iv_beauty"
@@ -114,71 +90,38 @@
         android:layout_marginTop="20dp"
         android:scaleType="centerCrop"
         android:src="@drawable/beauty_selector"
-        app:layout_constraintEnd_toEndOf="@id/iv_sei"
-        app:layout_constraintStart_toStartOf="@id/iv_sei"
-        app:layout_constraintTop_toBottomOf="@id/iv_sei" />
+        app:layout_constraintEnd_toEndOf="@id/interactive_setting_view"
+        app:layout_constraintStart_toStartOf="@id/interactive_setting_view"
+        app:layout_constraintTop_toBottomOf="@id/interactive_setting_view"/>
 
+    <ImageView
+        android:id="@+id/iv_mute_local_camera"
+        android:layout_width="22dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_camera_mute"
+        app:layout_constraintEnd_toEndOf="@id/iv_beauty"
+        app:layout_constraintStart_toStartOf="@id/iv_beauty"
+        app:layout_constraintTop_toBottomOf="@id/iv_beauty" />
 
-    <FrameLayout
-        android:id="@+id/fl_un_connect"
-        android:layout_width="90dp"
-        android:layout_height="160dp"
-        android:layout_marginBottom="15dp"
-        android:background="@color/border_infrared"
-        app:layout_constraintBottom_toTopOf="@id/tv_connect"
-        app:layout_constraintEnd_toEndOf="@id/tv_connect"
-        app:layout_constraintStart_toStartOf="@id/tv_connect">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_interact_live_un_connect_bg" />
-
-    </FrameLayout>
 
     <com.alivc.live.interactive_common.widget.RoomAndUserInfoView
         android:id="@+id/audience_info_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@id/fl_un_connect"
-        app:layout_constraintTop_toTopOf="@id/fl_un_connect" />
-
-    <TextView
-        android:id="@+id/tv_connect"
-        android:layout_width="94dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="65dp"
-        android:background="@drawable/shape_pysh_btn_bg"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:text="@string/interact_start_connect"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/connect_view"
+        app:layout_constraintTop_toTopOf="@id/connect_view" />
 
     <com.aliyunsdk.queen.menu.BeautyMenuPanel
         android:id="@+id/beauty_beauty_menuPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.alivc.live.baselive_common.AutoScrollMessagesView
-        android:id="@+id/sei_view"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/iv_camera"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/anchor_info_view"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

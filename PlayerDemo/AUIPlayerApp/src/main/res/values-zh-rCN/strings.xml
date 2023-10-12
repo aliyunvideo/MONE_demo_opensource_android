@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" >AUIPlayerApp</string>
+    <string name="app_name" >阿里云播放器</string>
 
     <!--  aio  -->
     <string name="player_title">播放器</string>
@@ -7,6 +7,8 @@
     <string name="player_video_list">沉浸式播放</string>
     <string name="player_full_screen">全屏播放</string>
     <string name="player_custom">自定义播放器</string>
+    <string name="player_episode">短剧</string>
+
 
     <!--    -->
     <string name="player_feed_flow_msg">适用于新闻咨询、社区互动等短视频场景</string>
@@ -14,6 +16,8 @@
     <string name="player_feed_flow_standard_msg">竖屏短视频场景，标准实现</string>
     <string name="player_video_list_msg">适用于多个视频间流畅切换的短视频场景</string>
     <string name="player_video_full_screen_msg">适用于版权视频等长视频场景</string>
+    <string name="player_video_episode_msg">适用于短剧场景</string>
+
 
     <string name="alivc_common_no_read_external_storage_permission">没有文件读权限，请开启该权限</string>
     <string name="alivc_common_no_write_external_storage_permission">没有文件写权限，请开启该权限</string>

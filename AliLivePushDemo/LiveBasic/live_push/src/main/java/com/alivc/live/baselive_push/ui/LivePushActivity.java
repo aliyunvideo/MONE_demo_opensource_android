@@ -34,17 +34,17 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.baselive_push.R;
 import com.alivc.live.baselive_push.adapter.IPushController;
-import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.commonutils.NetWorkUtils;
+import com.alivc.live.commonutils.StatusBarUtil;
 import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
 import com.alivc.live.pusher.SurfaceStatus;
 import com.alivc.live.pusher.WaterMarkInfo;
-import com.alivc.live.commonutils.NetWorkUtils;
-import com.alivc.live.commonutils.StatusBarUtil;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 
 import java.util.ArrayList;
@@ -139,10 +139,16 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
         mAlivcLivePushConfig = (AlivcLivePushConfig) getIntent().getSerializableExtra(AlivcLivePushConfig.CONFIG);
         ArrayList<WaterMarkInfo> waterMarkInfos = (ArrayList<WaterMarkInfo>) getIntent().getSerializableExtra(WATER_MARK_INFOS);
 
+        mLivePushViewModel.initReadFile(mAlivcLivePushConfig);
+
         setOrientation(mOrientation);
         setContentView(R.layout.activity_push);
         initView();
 
+        if (mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveInteractiveMode) {
+            // 同一进程下，只能设置一次；如需修改，需要杀进程再设置
+            mAlivcLivePushConfig.setH5CompatibleMode(true);
+        }
         mAlivcLivePusher = new AlivcLivePusher();
         try {
             mAlivcLivePusher.init(getApplicationContext(), mAlivcLivePushConfig);
@@ -307,7 +313,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
         public void surfaceCreated(SurfaceHolder surfaceHolder) {
             if (mSurfaceStatus == SurfaceStatus.UNINITED) {
                 mSurfaceStatus = SurfaceStatus.CREATED;
-                mLivePushViewModel.onSurfaceCreated(mAsync,mPreviewView,mAlivcLivePusher);
+                mLivePushViewModel.onSurfaceCreated(mAsync, mPreviewView, mAlivcLivePusher);
             } else if (mSurfaceStatus == SurfaceStatus.DESTROYED) {
                 mSurfaceStatus = SurfaceStatus.RECREATED;
             }
@@ -378,11 +384,11 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
         if (mAlivcLivePusher != null) {
             try {
                 if (!isPause) {
-                    if (mAlivcLivePusher != null) {
-                        mAlivcLivePusher.pause();
-                        isPause = true;
-                        mAlivcLivePusher.pauseBGM();
-                    }
+                    mAlivcLivePusher.pause();
+                    isPause = true;
+                }
+                if (mLivePushFragment.isBGMPlaying()) {
+                    mAlivcLivePusher.pauseBGM();
                 }
             } catch (IllegalStateException e) {
                 e.printStackTrace();
@@ -418,6 +424,7 @@ public class LivePushActivity extends AVBaseThemeActivity implements IPushContro
     public class FragmentAdapter extends FragmentPagerAdapter {
 
         List<Fragment> fragmentList = new ArrayList<>();
+
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             this.fragmentList = fragmentList;

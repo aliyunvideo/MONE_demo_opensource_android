@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alivc.live.baselive_push.Common;
+import com.alivc.live.baselive_common.Common;
+import com.alivc.live.baselive_common.bean.MusicInfo;
 import com.alivc.live.baselive_push.R;
-import com.alivc.live.baselive_push.bean.MusicInfo;
 
 import java.util.ArrayList;
 

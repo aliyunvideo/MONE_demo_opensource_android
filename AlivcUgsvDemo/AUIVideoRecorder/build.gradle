@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
-
+apply from: '../common.gradle'
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -40,11 +40,10 @@ dependencies {
     implementation project(':AUIMedia')
 
     implementation externalGSON
-    implementation externalSvideopro
+    api project.ext.ugc_sdk
     implementation externalAndroidXAppcompat
     implementation externalAndroidDesign
     implementation externalAndroidXConstraintlayout
-    implementation externalSvideopro
     implementation (externalAliyunQueenUI) {
         exclude group: 'com.aliyun.maliang.android', module: 'queen'
     }

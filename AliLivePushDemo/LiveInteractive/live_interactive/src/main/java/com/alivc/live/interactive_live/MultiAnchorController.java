@@ -3,11 +3,12 @@ package com.alivc.live.interactive_live;
 import android.content.Context;
 import android.widget.FrameLayout;
 
-import com.alivc.live.commonbiz.ReadFileData;
-import com.alivc.live.commonbiz.ResourcesDownload;
+import com.alivc.live.commonbiz.LocalStreamReader;
+import com.alivc.live.commonbiz.ResourcesConst;
 import com.alivc.live.commonbiz.test.URLUtils;
 import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+import com.alivc.live.pusher.AlivcResolutionEnum;
 
 import java.io.File;
 
@@ -18,7 +19,7 @@ public class MultiAnchorController {
 
     private final InteractLiveManager mInteractLiveManager;
     private final Context mContext;
-    private final ReadFileData mReadFileData;
+    private final LocalStreamReader mLocalStreamReader;
     //主播预览 View
     private FrameLayout mAnchorRenderView;
     //主播推流地址
@@ -33,7 +34,19 @@ public class MultiAnchorController {
         this.mRoomId = roomId;
         this.mAnchorId = anchorId;
         this.mContext = context;
-        mReadFileData = new ReadFileData();
+        AlivcResolutionEnum resolution = LivePushGlobalConfig.mAlivcLivePushConfig.getResolution();
+        int width = AlivcResolutionEnum.getResolutionWidth(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
+        int height = AlivcResolutionEnum.getResolutionHeight(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
+        mLocalStreamReader = new LocalStreamReader.Builder()
+                .setVideoWith(width)
+                .setVideoHeight(height)
+                .setVideoStride(width)
+                .setVideoSize(height * width * 3 / 2)
+                .setVideoRotation(0)
+                .setAudioSampleRate(44100)
+                .setAudioChannel(1)
+                .setAudioBufferSize(2048)
+                .build();
         mPushUrl = URLUtils.generateInteractivePushUrl(roomId, anchorId);
         mInteractLiveManager = new InteractLiveManager();
         mInteractLiveManager.init(context);
@@ -83,11 +96,15 @@ public class MultiAnchorController {
     }
 
     private void externAV() {
-        if (LivePushGlobalConfig.ENABLE_EXTERN_AV) {
-            File yuvFile = ResourcesDownload.localCaptureYUVFilePath(mContext);
-            mReadFileData.readYUVData(yuvFile, (buffer, pts) -> mInteractLiveManager.inputStreamVideoData(buffer, 720, 1280, 720, 1280 * 720 * 3 / 2, pts, 0));
-            File pcmFile = new File(mContext.getFilesDir().getPath() + File.separator + "alivc_resource/441.pcm");
-            mReadFileData.readPCMData(pcmFile, (buffer, length, pts) -> mInteractLiveManager.inputStreamAudioData(buffer, length, 44100, 1, pts));
+        if (LivePushGlobalConfig.mAlivcLivePushConfig.isExternMainStream()) {
+            File yuvFile = ResourcesConst.localCaptureYUVFilePath(mContext);
+            mLocalStreamReader.readYUVData(yuvFile, (buffer, pts, videoWidth, videoHeight, videoStride, videoSize, videoRotation) -> {
+                mInteractLiveManager.inputStreamVideoData(buffer, videoWidth, videoHeight, videoStride, videoSize, pts, videoRotation);
+            });
+            File pcmFile = ResourcesConst.localCapturePCMFilePath(mContext);
+            mLocalStreamReader.readPCMData(pcmFile, (buffer, length, pts, audioSampleRate, audioChannel) -> {
+                mInteractLiveManager.inputStreamAudioData(buffer, length, audioSampleRate, audioChannel, pts);
+            });
         }
     }
 
@@ -123,8 +140,8 @@ public class MultiAnchorController {
 
     public void release() {
         mInteractLiveManager.release();
-        mReadFileData.stopYUV();
-        mReadFileData.stopPcm();
+        mLocalStreamReader.stopYUV();
+        mLocalStreamReader.stopPcm();
     }
 
     public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {

@@ -13,11 +13,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.aliyun.svideo.base.AliyunSnapVideoParam;
 import com.aliyun.ugsv.common.utils.FastClickUtil;
 import com.aliyun.svideo.media.MediaInfo;
 import com.aliyun.svideo.media.MediaStorage;
 import com.aliyun.svideo.media.MutiMediaView;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
 import com.aliyun.svideosdk.common.struct.common.CropKey;
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
 import com.aliyun.svideosdk.common.struct.common.VideoQuality;

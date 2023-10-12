@@ -39,13 +39,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.acker.simplezxing.activity.CaptureActivity;
+import com.alivc.live.annotations.AlivcLiveNetworkQuality;
 import com.alivc.live.annotations.AlivcLivePushKickedOutType;
 import com.alivc.live.baselive_common.PushConfigBottomSheet;
 import com.alivc.live.baselive_common.PushConfigDialogImpl;
 import com.alivc.live.baselive_recording.R;
+import com.alivc.live.baselive_recording.VideoRecordViewManager;
 import com.alivc.live.baselive_recording.floatwindowpermission.FloatWindowManager;
 import com.alivc.live.baselive_recording.service.ForegroundService;
 import com.alivc.live.commonbiz.test.PushDemoTestConstants;
+import com.alivc.live.commonutils.StatusBarUtil;
 import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushError;
@@ -56,10 +59,8 @@ import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
 import com.alivc.live.pusher.AlivcResolutionEnum;
-import com.alivc.live.commonutils.StatusBarUtil;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
-import com.alivc.live.baselive_recording.VideoRecordViewManager;
 
 import java.io.File;
 
@@ -655,6 +656,17 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
             public void onKickedOutByServer(AlivcLivePusher pusher, AlivcLivePushKickedOutType kickedOutType) {
                 Log.d(TAG, "onKickedOutByServer: " + kickedOutType);
             }
+
+            @Override
+            public void onMicrophoneVolumeUpdate(AlivcLivePusher pusher, int volume) {
+                // 麦克风音量回调（仅互动模式下生效，需设置AlivcLivePusher#enableAudioVolumeIndication接口）
+                // Log.d(TAG, "onMicrophoneVolumeUpdate: " + volume);
+            }
+
+            @Override
+            public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId) {
+
+            }
         });
 
         mAlivcLivePusher.setLivePushErrorListener(new AlivcLivePushErrorListener() {
@@ -709,6 +721,11 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
             public void onConnectFail(AlivcLivePusher alivcLivePusher) {
                 Log.d(TAG, "onConnectFail: ");
                 showDialog(getResources().getString(R.string.connect_fail));
+            }
+
+            @Override
+            public void onNetworkQualityChanged(AlivcLiveNetworkQuality upQuality, AlivcLiveNetworkQuality downQuality) {
+
             }
 
             @Override

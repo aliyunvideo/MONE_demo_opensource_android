@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply from: '../script_config.gradle'
-
+apply from: '../common.gradle'
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -29,10 +29,10 @@ dependencies {
     implementation externalAlivcFFmpeg
 
     if (buildProductType == SVIDEO_PRO || buildProductType == ALL||buildProductType == LITTLEVIDEO){
-        api externalSvideopro
+        api project.ext.ugc_sdk
     }else if (buildProductType == SVIDEO_STANDARD){
-        api externalSvideostandard
+        api project.ext.ugc_sdk
     }else if (buildProductType == SVIDEO_BASE){
-        api externalSvideosnap
+        api project.ext.ugc_sdk
     }
 }

@@ -1,6 +1,9 @@
 package com.alivc.live.interactive_live;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,16 +17,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.alivc.live.baselive_common.AutoScrollMessagesView;
+import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+import com.acker.simplezxing.activity.CaptureActivity;
+import com.alivc.live.interactive_common.widget.InteractLiveTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveConnectView;
+import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
-import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.commonutils.StatusBarUtil;
 import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
@@ -32,9 +41,12 @@ import com.aliyunsdk.queen.menu.BeautyMenuPanel;
 
 public class InteractLiveActivity extends AppCompatActivity {
 
+    private static final int REQ_CODE_PERMISSION = 0x1111;
     public static final String DATA_IS_ANCHOR = "data_is_anchor";
     public static final String DATA_HOME_ID = "data_home_id";
     public static final String DATA_USER_ID = "data_user_id";
+    public static final String DATA_IS_URL = "data_is_url";
+    public static final String DATA_INTERACTIVE_URL = "data_interactive_url";
 
     private AUILiveDialog mAUILiveDialog;
 
@@ -44,10 +56,7 @@ public class InteractLiveActivity extends AppCompatActivity {
     private InteractLiveIntent mCurrentIntent;
     private String mRoomId;
     private String mUserId;
-    private TextView mConnectTextView;
-    private FrameLayout mUnConnectFrameLayout;
     private ImageView mCloseImageView;
-    private ImageView mCameraImageView;
     private TextView mShowConnectIdTextView;
     //大窗口
     private FrameLayout mBigFrameLayout;
@@ -59,13 +68,19 @@ public class InteractLiveActivity extends AppCompatActivity {
     private ConnectionLostTipsView mConnectionLostTipsView;
     private RoomAndUserInfoView mAnchorInfoView;
     private RoomAndUserInfoView mAudienceInfoView;
-    private ImageView mMuteImageView;
     private boolean mIsMute = false;
-    private ImageView mSpeakerPhoneImageView;
+    //输入 URL 方式连麦
+    private boolean mIsInteractiveUrl;
+    private String mInteractiveURL;
+    private InteractLiveTipsView interactLiveTipsView;
+    private InteractiveConnectView mInteractiveConnectView;
+    private InteractiveSettingView mInteractiveSettingView;
     private ImageView mBeautyImageView;
+    private ImageView mMuteLocalCameraImageView;
     private BeautyMenuPanel mBeautyMenuPanel;
     private ImageView mSeiImageView;
     private AutoScrollMessagesView mSeiView;
+    private boolean mMuteLocalCamera = false;
 
 
     @Override
@@ -80,6 +95,8 @@ public class InteractLiveActivity extends AppCompatActivity {
         mIsAnchor = getIntent().getBooleanExtra(DATA_IS_ANCHOR, true);
         mRoomId = getIntent().getStringExtra(DATA_HOME_ID);
         mUserId = getIntent().getStringExtra(DATA_USER_ID);
+        mIsInteractiveUrl = getIntent().getBooleanExtra(DATA_IS_URL,false);
+        mInteractiveURL = getIntent().getStringExtra(DATA_INTERACTIVE_URL);
 
         if (mIsAnchor) {
             mAnchorController = new AnchorController(this, mRoomId, mUserId);
@@ -109,18 +126,18 @@ public class InteractLiveActivity extends AppCompatActivity {
 
     private void initView() {
         mAUILiveDialog = new AUILiveDialog(this);
-        mConnectTextView = findViewById(R.id.tv_connect);
-        mUnConnectFrameLayout = findViewById(R.id.fl_un_connect);
+        mInteractiveConnectView = findViewById(R.id.connect_view);
         mBigSurfaceView = findViewById(R.id.big_surface_view);
         mCloseImageView = findViewById(R.id.iv_close);
-        mCameraImageView = findViewById(R.id.iv_camera);
         mShowConnectIdTextView = findViewById(R.id.tv_show_connect);
         mBigFrameLayout = findViewById(R.id.big_fl);
         mSmallFrameLayout = findViewById(R.id.small_fl);
+        mInteractiveSettingView = findViewById(R.id.interactive_setting_view);
         mBeautyImageView = findViewById(R.id.iv_beauty);
+        mMuteLocalCameraImageView = findViewById(R.id.iv_mute_local_camera);
         mBeautyMenuPanel = findViewById(R.id.beauty_beauty_menuPanel);
-        mSeiImageView = findViewById(R.id.iv_sei);
-        mSeiView = findViewById(R.id.sei_view);
+//        mSeiImageView = findViewById(R.id.iv_sei);
+//        mSeiView = findViewById(R.id.sei_view);
         TextView mHomeIdTextView = findViewById(R.id.tv_home_id);
 
         mHomeIdTextView.setText(mRoomId);
@@ -132,8 +149,6 @@ public class InteractLiveActivity extends AppCompatActivity {
 
         mAudienceInfoView = findViewById(R.id.audience_info_view);
         mAnchorInfoView = findViewById(R.id.anchor_info_view);
-        mMuteImageView = findViewById(R.id.iv_mute);
-        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
 //        mAudienceInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
 //        mAnchorInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
     }
@@ -152,14 +167,25 @@ public class InteractLiveActivity extends AppCompatActivity {
             }
         });
 
-        //SEI
-        mSeiImageView.setOnClickListener(view -> {
-            if (mSeiView.isShown()) {
-                mSeiView.setVisibility(View.GONE);
-            } else {
-                mSeiView.setVisibility(View.VISIBLE);
+        mMuteLocalCameraImageView.setOnClickListener(view -> {
+            if (!FastClickUtil.isFastClick()) {
+                mMuteLocalCamera = !mMuteLocalCamera;
+                if (mIsAnchor) {
+                    mAnchorController.muteLocalCamera(mMuteLocalCamera);
+                } else {
+                    mViewerController.muteLocalCamera(mMuteLocalCamera);
+                }
             }
         });
+
+        //SEI
+//        mSeiImageView.setOnClickListener(view -> {
+//            if (mSeiView.isShown()) {
+//                mSeiView.setVisibility(View.GONE);
+//            } else {
+//                mSeiView.setVisibility(View.VISIBLE);
+//            }
+//        });
         mConnectionLostTipsView.setConnectionLostListener(new ConnectionLostListener() {
             @Override
             public void onConfirm() {
@@ -169,40 +195,6 @@ public class InteractLiveActivity extends AppCompatActivity {
                         finish();
                     }
                 });
-            }
-        });
-
-        mMuteImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mIsAnchor) {
-                    mAnchorController.setMute(!mIsMute);
-                }else{
-                    mViewerController.setMute(!mIsMute);
-                }
-                mIsMute = !mIsMute;
-                mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
-            }
-        });
-
-        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!FastClickUtil.isFastClick()) {
-                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
-                    if (tag == null || !tag) {
-                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
-                        mSpeakerPhoneImageView.setTag(true);
-                    } else {
-                        mSpeakerPhoneImageView.clearColorFilter();
-                        mSpeakerPhoneImageView.setTag(false);
-                    }
-                    if (mIsAnchor) {
-                        mAnchorController.changeSpeakerPhone();
-                    } else {
-                        mViewerController.changeSpeakerPhone();
-                    }
-                }
             }
         });
 
@@ -218,12 +210,10 @@ public class InteractLiveActivity extends AppCompatActivity {
                 public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
                     super.onPullError(errorType, errorMsg);
                     runOnUiThread(() -> {
-                        if (errorType == AlivcLivePlayError.AlivcLivePlayErrorStreamStopped) {
-                            changeSmallSurfaceViewVisible(false);
-                            mAnchorController.stopConnect();
-                            updateConnectTextView(false);
-                            ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
-                        }
+                        changeSmallSurfaceViewVisible(false);
+                        mAnchorController.stopConnect();
+                        updateConnectTextView(false);
+                        ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
                     });
                 }
 
@@ -248,7 +238,7 @@ public class InteractLiveActivity extends AppCompatActivity {
 
                 @Override
                 public void onPlayerSei(int i, byte[] bytes) {
-                    mSeiView.appendMessage(new String(bytes));
+//                    mSeiView.appendMessage(new String(bytes));
                 }
             });
         } else {
@@ -283,13 +273,13 @@ public class InteractLiveActivity extends AppCompatActivity {
 
                 @Override
                 public void onPlayerSei(int i, byte[] bytes) {
-                    mSeiView.appendMessage(new String(bytes));
+//                    mSeiView.appendMessage(new String(bytes));
                 }
             });
         }
 
         //开始连麦
-        mConnectTextView.setOnClickListener(view -> {
+        mInteractiveConnectView.setConnectClickListener(() -> {
             if (mIsAnchor) {
                 if (mAnchorController.isOnConnected()) {
                     //主播端停止连麦
@@ -322,12 +312,33 @@ public class InteractLiveActivity extends AppCompatActivity {
             showInteractLiveDialog(getResources().getString(R.string.interact_live_leave_room_tips), false);
         });
 
-        mCameraImageView.setOnClickListener(view -> {
-            if (!FastClickUtil.isFastClick()) {
+        mInteractiveSettingView.setOnInteractiveSettingListener(new InteractiveSettingView.OnInteractiveSettingListener() {
+            @Override
+            public void onSwitchCameraClick() {
                 if (mIsAnchor) {
                     mAnchorController.switchCamera();
                 } else {
                     mViewerController.switchCamera();
+                }
+            }
+
+            @Override
+            public void onMuteClick() {
+                if (mIsAnchor) {
+                    mAnchorController.setMute(!mIsMute);
+                }else{
+                    mViewerController.setMute(!mIsMute);
+                }
+                mIsMute = !mIsMute;
+                mInteractiveSettingView.changeMute(mIsMute);
+            }
+
+            @Override
+            public void onSpeakerPhoneClick() {
+                if (mIsAnchor) {
+                    mAnchorController.changeSpeakerPhone();
+                } else {
+                    mViewerController.changeSpeakerPhone();
                 }
             }
         });
@@ -335,23 +346,22 @@ public class InteractLiveActivity extends AppCompatActivity {
 
     private void changeSmallSurfaceViewVisible(boolean isShowSurfaceView) {
         mSmallFrameLayout.setVisibility(isShowSurfaceView ? View.VISIBLE : View.INVISIBLE);
-        mUnConnectFrameLayout.setVisibility(isShowSurfaceView ? View.INVISIBLE : View.VISIBLE);
+        mInteractiveConnectView.isShow(isShowSurfaceView);
     }
 
     public void updateConnectTextView(boolean connecting) {
         if (connecting) {
             mShowConnectIdTextView.setVisibility(View.VISIBLE);
-            mConnectTextView.setText(getResources().getString(R.string.interact_stop_connect));
-            mConnectTextView.setBackground(getResources().getDrawable(R.drawable.shape_interact_live_un_connect_btn_bg));
+            mInteractiveConnectView.connected();
         } else {
             mShowConnectIdTextView.setVisibility(View.GONE);
-            mConnectTextView.setText(getResources().getString(R.string.interact_start_connect));
-            mConnectTextView.setBackground(getResources().getDrawable(R.drawable.shape_pysh_btn_bg));
+            mInteractiveConnectView.unConnected();
         }
     }
 
-    private void showInteractLiveDialog(String content, boolean showInputView) {
-        InteractLiveTipsView interactLiveTipsView = new InteractLiveTipsView(InteractLiveActivity.this);
+    private void showInteractLiveDialog(String content, boolean showInputView, boolean showQR) {
+        interactLiveTipsView = new InteractLiveTipsView(InteractLiveActivity.this);
+        interactLiveTipsView.showQrIcon(showQR);
         interactLiveTipsView.showInputView(showInputView);
         interactLiveTipsView.setContent(content);
         mAUILiveDialog.setContentView(interactLiveTipsView);
@@ -394,9 +404,10 @@ public class InteractLiveActivity extends AppCompatActivity {
                     mAUILiveDialog.dismiss();
                     if (mIsAnchor) {
                         //主播端，输入观众 id 后，开始连麦
-                        mAnchorController.startConnect(content);
-
-                        setInfoView(mRoomId, mUserId, content);
+                        mAnchorController.startConnect(content,mIsInteractiveUrl);
+                        if (!mIsInteractiveUrl) {
+                            setInfoView(mRoomId, mUserId, content);
+                        }
                     } else {
                         //观众端，输入主播 id 后，观看直播
                         mViewerController.watchLive(content);
@@ -405,7 +416,16 @@ public class InteractLiveActivity extends AppCompatActivity {
                     }
                 }
             }
+
+            @Override
+            public void onQrClick() {
+                startQr();
+            }
         });
+    }
+
+    private void showInteractLiveDialog(String content, boolean showInputView) {
+        showInteractLiveDialog(content,showInputView,false);
     }
 
     private void changeConnectRenderView(boolean connect) {
@@ -456,5 +476,55 @@ public class InteractLiveActivity extends AppCompatActivity {
     private void setInfoView(String roomId, String anchorId, String audienceId) {
         mAudienceInfoView.setUserInfo(roomId, audienceId);
         mAnchorInfoView.setUserInfo(roomId, anchorId);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CaptureActivity.REQ_CODE:
+                switch (resultCode) {
+                    case RESULT_OK:
+                        if (interactLiveTipsView != null) {
+                            interactLiveTipsView.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
+                        }
+                        break;
+                    case RESULT_CANCELED:
+                        if (data != null && interactLiveTipsView != null) {
+                            // for some reason camera is not working correctly
+                            interactLiveTipsView.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void startQr() {
+        if (ContextCompat.checkSelfPermission(InteractLiveActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // Do not have the permission of camera, request it.
+            ActivityCompat.requestPermissions(InteractLiveActivity.this, new String[]{Manifest.permission.CAMERA}, REQ_CODE_PERMISSION);
+        } else {
+            // Have gotten the permission
+            startCaptureActivityForResult();
+        }
+    }
+
+    private void startCaptureActivityForResult() {
+        Intent intent = new Intent(InteractLiveActivity.this, CaptureActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(CaptureActivity.KEY_NEED_BEEP, CaptureActivity.VALUE_BEEP);
+        bundle.putBoolean(CaptureActivity.KEY_NEED_VIBRATION, CaptureActivity.VALUE_VIBRATION);
+        bundle.putBoolean(CaptureActivity.KEY_NEED_EXPOSURE, CaptureActivity.VALUE_NO_EXPOSURE);
+        bundle.putByte(CaptureActivity.KEY_FLASHLIGHT_MODE, CaptureActivity.VALUE_FLASHLIGHT_OFF);
+        bundle.putByte(CaptureActivity.KEY_ORIENTATION_MODE, CaptureActivity.VALUE_ORIENTATION_AUTO);
+        bundle.putBoolean(CaptureActivity.KEY_SCAN_AREA_FULL_SCREEN, CaptureActivity.VALUE_SCAN_AREA_FULL_SCREEN);
+        bundle.putBoolean(CaptureActivity.KEY_NEED_SCAN_HINT_TEXT, CaptureActivity.VALUE_SCAN_HINT_TEXT);
+        intent.putExtra(CaptureActivity.EXTRA_SETTING_BUNDLE, bundle);
+        startActivityForResult(intent, CaptureActivity.REQ_CODE);
     }
 }

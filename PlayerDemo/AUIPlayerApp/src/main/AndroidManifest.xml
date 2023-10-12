@@ -3,30 +3,42 @@
     package="com.aliyun.auiplayerapp">
 
     <application
+        android:name=".PlayerApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AUIFullScreen">
+        android:theme="@style/AVAppTheme">
+
         <activity
-            android:name=".videolist.AUIVideoStandardListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".videolist.AUIVideoFunctionListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:name=".PlayerMainActivity"
+            android:alwaysRetainTaskState="true"
+            android:clearTaskOnLaunch="false"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".AUIPlayerAppMainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
+
+        <!--    配置license    -->
+        <meta-data
+            android:name="com.aliyun.alivc_license.licensekey"
+            android:value="boUXvLvaWNowNDcspf088e6f00c2d442fa95446dd270fef82" />
+        <meta-data
+            android:name="com.aliyun.alivc_license.licensefile"
+            android:value="assets/cert/AliVideoCert-com_aliyun_auiplayerapp-20230830094812.crt" />
+
     </application>
 
 </manifest>

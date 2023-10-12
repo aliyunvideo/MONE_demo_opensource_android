@@ -3,4 +3,8 @@
     <declare-styleable name="InteractLiveRadioButton">
         <attr name="ilrb_text" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="InteractiveQrEditView">
+        <attr name="title" format="string" />
+    </declare-styleable>
 </resources>

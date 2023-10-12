@@ -58,7 +58,9 @@ def hasRTS() {
     println("hasLive sdkType = " + sdkType)
     return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
             AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_BasicLive.equalsIgnoreCase(sdkType) ||
             AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_StandardLive.equalsIgnoreCase(sdkType) ||
             AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
 }
 

@@ -1,8 +1,10 @@
 package com.alivc.live.interactive_common.listener;
 
-public interface InteractLiveTipsViewListener {
+public abstract class InteractLiveTipsViewListener {
 
-    void onCancel();
-    void onConfirm();
-    void onInputConfirm(String content);
+    public void onCancel(){}
+    public void onConfirm(){}
+    public void onInputConfirm(String content){}
+
+    public void onQrClick(){}
 }

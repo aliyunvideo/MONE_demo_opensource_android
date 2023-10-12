@@ -1,5 +1,7 @@
 package com.alivc.live.interactive_pk;
 
+import static com.alivc.live.interactive_common.utils.LivePushGlobalConfig.mAlivcLivePushConfig;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.FrameLayout;

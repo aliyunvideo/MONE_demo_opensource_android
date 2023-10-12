@@ -15,32 +15,10 @@
         android:textColor="@color/text_ultraweak"
         android:textSize="@dimen/font_size_24px" />
 
-    <FrameLayout
+    <com.alivc.live.baselive_common.LivePushResolutionView
+        android:id="@+id/resolution_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_height_size_45"
-        android:paddingEnd="20dp"
-        android:orientation="horizontal">
-
-        <SeekBar
-            android:id="@+id/resolution_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="30dp"
-            android:maxHeight="5dp"
-            android:minHeight="5dp"
-            android:progress="80"
-            android:theme="@style/Push_SeekBar_Style" />
-
-        <TextView
-            android:id="@+id/resolution_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:text="@string/setting_resolution_540P"
-            android:textColor="@color/text_strong"
-            android:textSize="12sp" />
-    </FrameLayout>
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="match_parent"

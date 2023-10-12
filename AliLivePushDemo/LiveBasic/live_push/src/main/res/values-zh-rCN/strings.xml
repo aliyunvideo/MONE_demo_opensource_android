@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="push_args">推流参数</string>
-    <string name="stream_pusher_tip">推流功能</string>
     <string name="interaction_mode">互动模式</string>
+    <string name="live_push_mode">推流模式</string>
     <string name="start_button">进入直播</string>
     <string name="waiting_download_video_resources">正在下载外部音视频资源中，请等待</string>
+    <string name="live_push_mode_normal">普通模式</string>
+    <string name="live_push_mode_interaction">互动模式</string>
+    <string name="live_push_mode_raw_stream">推拉裸流</string>
 
-    <string name="ok">确定</string>
     <string name="success">成功</string>
     <string name="failed">失败</string>
     <string name="pause_button">暂停</string>
-    <string name="dialog_title">提示</string>
     <string name="connecting_dialog_tips">推流连接中，请稍后</string>
     <string name="pushing">推流中</string>
     <string name="beauty_off_tips">美颜开关关闭，请在设置开启后重试...</string>

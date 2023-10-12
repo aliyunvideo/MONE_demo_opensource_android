@@ -23,4 +23,7 @@
 
     <string name="aio_btn_cancel">取消</string>
     <string name="aio_btn_ok">确定</string>
+
+    <string name="aio_interactive_live">互动直播</string>
+    <string name="aio_interactive_live_desc">音视频通话</string>
 </resources>

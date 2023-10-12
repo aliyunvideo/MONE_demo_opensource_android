@@ -1,10 +1,10 @@
-# AliLivePushDemo
-
-<!-- Author: runchen.brc@alibaba-inc.com -->
+# amdemos-android-live
 
 A demo project for Apsara Video Live Push SDK.
 
-### **Environment**
+## **Demo编译**
+
+### **环境要求**
 
 * Android SDK
 * JDK 8
@@ -13,36 +13,109 @@ A demo project for Apsara Video Live Push SDK.
 
 * Android Studio
 
-## **Getting Started**
+## **Demo体验**
+
+![DEMO QRCODE](https://alivc-demo-cms.alicdn.com/versionProduct/resources/livePush/demo_qrcode.png)
+
+## **快速集成**
 
 ### **Android推荐使用maven集成：**
 
-* **版本更新记录**
-
-[SDK下载与历史记录](https://help.aliyun.com/document_detail/267433.html)
-
-[SDK download and release notes](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/sdk-download-and-release-notes)
+#### **1、在工程build.gradle配置脚本中的dependencies中添加如下代码**
 
 - **基础版**
 
-**注意：如果同时集成直播推流SDK和播放器SDK，会存在冲突问题。可以使用[音视频终端 SDK](https://help.aliyun.com/document_detail/458782.html?spm=a2c4g.462744.0.0.24063633DUUjdg)避免冲突**
-
-```
+```groovy
 implementation "com.alivc.pusher:AlivcLivePusher:${version}"
 ```
 
 - **互动版**
 
-```
+```groovy
 implementation "com.alivc.pusher:AlivcLivePusher_Interactive:${version}"
 ```
 
-## **Reference**
+* **版本更新记录**
 
-### **官网文档**
+  * [SDK下载与历史记录](https://help.aliyun.com/zh/live/developer-reference/sdk-download-and-release-notes)
 
+  * [SDK download and release notes](https://www.alibabacloud.com/help/en/live/developer-reference/sdk-download-and-release-notes)
+
+**注意：如果同时集成直播推流SDK和播放器SDK，会存在冲突问题，可以使用[音视频终端 SDK](https://help.aliyun.com/product/261167.html)避免冲突。集成方式请参考[标准集成·Android端](https://help.aliyun.com/document_detail/2412570.html)。**
+
+#### **2、在项目build.gradle中增加Maven源**
+
+```groovy
+maven { url 'https://maven.aliyun.com/nexus/content/repositories/releases' }
+```
+
+#### **3、在 defaultConfig 中，指定App使用的CPU架构（目前SDK支持 armeabi 、 armeabi-v7a 和 arm64-v8a）**
+
+```groovy
+defaultConfig {
+  ndk {
+    abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+  }
+}
+```
+
+#### **4、配置License**
+
+推流SDK升级到4.4.2及以后版本，接入一体化License服务，您需要配置License文件。具体操作，请参见[推流SDK License集成指南](https://help.aliyun.com/zh/live/developer-reference/integrate-a-push-sdk-license)。
+
+#### **5、其它工程配置**
+
+* **权限配置**
+
+```xml
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.REORDER_TASKS" />
+<uses-permission android:name="android.permission.VIBRATE" />
+<!-- 添加录音权限 -->
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+<!-- 添加相机权限 -->
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+```
+
+* **混淆配置**
+
+```tex
+-keep class org.webrtc.** { *; }
+-keep class com.alivc.** { *; }
+-keep class com.aliyun.** { *; }
+-keep class com.cicada.** { *; }
+```
+
+## **链接指引**
+
+### **文档**
+
+* [阿里云·视频直播](https://www.aliyun.com/product/live)
 * [推流SDK](https://help.aliyun.com/document_detail/97659.html)
-* [直播连麦](https://help.aliyun.com/document_detail/449478.html)
+* [接口文档](https://help.aliyun.com/zh/live/developer-reference/integrate-push-sdk-for-android#section-d8t-6hq-n0d)
+* [互动直播](https://help.aliyun.com/zh/live/user-guide/interactive-live)
+* [音视频终端SDK](https://help.aliyun.com/product/261167.html)
+
+### **Global**
+
+* [ApsaraVideo Live](https://www.alibabacloud.com/zh/product/apsaravideo-for-live)
+* [Push SDK](https://www.alibabacloud.com/product/apsaravideo-for-live/streaming-sdk)
+* [Push SDK Doc](https://www.alibabacloud.com/help/en/live/developer-reference/push-sdk/)
+* [API Doc](https://www.alibabacloud.com/help/en/live/developer-reference/integrate-push-sdk-for-android#section-d8t-6hq-n0d)
+* [Interactive streaming](https://www.alibabacloud.com/help/en/live/user-guide/interactive-live/)
 
 ### **控制台**
 
@@ -50,31 +123,10 @@ implementation "com.alivc.pusher:AlivcLivePusher_Interactive:${version}"
 * [直播连麦控制台](https://live.console.aliyun.com/connect_microphone/demo#/connect_microphone/demo)
 * [License控制台](https://live.console.aliyun.com/connect_microphone/demo#/sdks/license)
 
-### **SDK接口文档**
-
-[接口文档](https://help.aliyun.com/document_detail/94843.html?#section-d8t-6hq-n0d)
-
-[API Doc](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/push-sdk-for-android-sdk-integration#section-d8t-6hq-n0d)
-
-### **Product**
-
-[阿里云·视频直播](https://www.aliyun.com/product/live)
-
-[ApsaraVideo Live](https://www.alibabacloud.com/product/apsaravideo-for-live)
-
-### **Global**
-
-[Push SDK](https://www.alibabacloud.com/product/apsaravideo-for-live/streaming-sdk)
-
-[Push SDK Doc](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/push-sdk-1)
-
-[Co-streaming](https://www.alibabacloud.com/help/en/apsaravideo-live/latest/live-video-connection)
-
-## **Help**
+## **帮助**
 
 如果您在使用推流SDK有任何问题或建议，欢迎通过钉钉搜索群号32825314或44911608加入推流SDK开发者生态群。
 
 [视频直播-帮助中心](https://help.aliyun.com/product/29949.html)
 
 [ApsaraVideo Live Help](https://www.alibabacloud.com/help/en/apsaravideo-live)
-

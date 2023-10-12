@@ -32,7 +32,7 @@
 
 #2023-01-03最新混淆规则（直播SDK版本>=4.4.9，一体化SDK版本>=1.7.0）
 #SDK内部已做混淆，外部全部keep即可。
-#混淆规则请见官网文档：https://help.aliyun.com/document_detail/94843.html
+#混淆规则请见官网文档：https://help.aliyun.com/zh/live/developer-reference/integrate-push-sdk-for-android
 -keep class org.webrtc.** { *; }
 -keep class com.alivc.** { *; }
 -keep class com.aliyun.** { *; }

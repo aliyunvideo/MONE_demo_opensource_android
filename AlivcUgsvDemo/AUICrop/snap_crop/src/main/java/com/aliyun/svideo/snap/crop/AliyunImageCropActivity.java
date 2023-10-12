@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.aliyun.svideo.base.AliyunSnapVideoParam;
 import com.aliyun.ugsv.common.utils.BitmapUtils;
 import com.aliyun.ugsv.common.utils.ThreadUtils;
 import com.aliyun.ugsv.common.utils.UriUtils;
@@ -48,7 +49,6 @@ import com.aliyun.svideosdk.common.struct.common.CropKey;
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
 import com.aliyun.svideosdk.common.struct.common.VideoQuality;
 import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
 import com.aliyun.ugsv.common.utils.DateTimeUtils;
 import com.aliyun.ugsv.common.utils.image.ImageLoaderImpl;
 

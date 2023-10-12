@@ -1,0 +1,35 @@
+dependencies {
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidDesign
+    implementation externalAndroidXConstraintlayout
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation externalJunit
+    androidTestImplementation externalTestJunit
+    androidTestImplementation externalEspresso
+
+    implementation externalARouter
+    annotationProcessor externalARouterCompiler
+    implementation externalRtsSDK
+    if (!hasRTS()) {
+        implementation externalRtsSDK
+    }
+
+    implementation externalGSON
+    //分包
+    implementation externalAndroidMultiDex
+
+    implementation project(':AUIFlowFeed')
+    implementation project(':AUIFullScreen')
+    implementation project(':AUIVideoList:AUIVideoListCommon')
+    implementation project(':AUIVideoList:AUIVideoFunctionList')
+    implementation project(':AUIVideoList:AUIVideoStandradList')
+    implementation project(':AUIVideoList:AUIVideoEpisode')
+
+//    implementation project(':AUIVideoDetail')
+    //aio
+    implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIFoundation:AVTheme')
+
+    //Test
+//    implementation project(':AUIPlayerUiKit:VideoUICommon')
+}

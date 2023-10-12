@@ -3,13 +3,14 @@ package com.alivc.live.interactive_pk;
 import android.content.Context;
 import android.widget.FrameLayout;
 
-import com.alivc.live.commonbiz.ReadFileData;
-import com.alivc.live.commonbiz.ResourcesDownload;
+import com.alivc.live.commonbiz.LocalStreamReader;
+import com.alivc.live.commonbiz.ResourcesConst;
 import com.alivc.live.commonbiz.test.URLUtils;
 import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+import com.alivc.live.pusher.AlivcResolutionEnum;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +21,7 @@ public class PKController {
 
     private final PKLiveManager mPKLiveManager;
     private final Context mContext;
-    private final ReadFileData mReadFileData;
+    private final LocalStreamReader mLocalStreamReader;
     //主播房间号和 ID
     private String mOwnerRoomId;
     private String mOwnerUserId;
@@ -37,7 +38,19 @@ public class PKController {
         mPKLiveManager.init(context.getApplicationContext());
         this.mOwnerRoomId = roomId;
         this.mOwnerUserId = userId;
-        mReadFileData = new ReadFileData();
+        AlivcResolutionEnum resolution = LivePushGlobalConfig.mAlivcLivePushConfig.getResolution();
+        int width = AlivcResolutionEnum.getResolutionWidth(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
+        int height = AlivcResolutionEnum.getResolutionHeight(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
+        mLocalStreamReader = new LocalStreamReader.Builder()
+                .setVideoWith(width)
+                .setVideoHeight(height)
+                .setVideoStride(width)
+                .setVideoSize(height * width * 3 / 2)
+                .setVideoRotation(0)
+                .setAudioSampleRate(44100)
+                .setAudioChannel(1)
+                .setAudioBufferSize(2048)
+                .build();
         this.mContext = context;
         mOwnerPushUrl = URLUtils.generateInteractivePushUrl(roomId, userId);
     }
@@ -65,11 +78,15 @@ public class PKController {
     }
 
     private void externAV() {
-        if (LivePushGlobalConfig.ENABLE_EXTERN_AV) {
-            File yuvFile = ResourcesDownload.localCaptureYUVFilePath(mContext);
-            mReadFileData.readYUVData(yuvFile, (buffer, pts) -> mPKLiveManager.inputStreamVideoData(buffer, 720, 1280, 720, 1280 * 720 * 3 / 2, pts, 0));
-            File pcmFile = new File(mContext.getFilesDir().getPath() + File.separator + "alivc_resource/441.pcm");
-            mReadFileData.readPCMData(pcmFile, (buffer, length, pts) -> mPKLiveManager.inputStreamAudioData(buffer, length, 44100, 1, pts));
+        if (LivePushGlobalConfig.mAlivcLivePushConfig.isExternMainStream()) {
+            File yuvFile = ResourcesConst.localCaptureYUVFilePath(mContext);
+            mLocalStreamReader.readYUVData(yuvFile, (buffer, pts, videoWidth, videoHeight, videoStride, videoSize, videoRotation) -> {
+                mPKLiveManager.inputStreamVideoData(buffer, videoWidth, videoHeight, videoStride, videoSize, pts, videoRotation);
+            });
+            File pcmFile = ResourcesConst.localCapturePCMFilePath(mContext);
+            mLocalStreamReader.readPCMData(pcmFile, (buffer, length, pts, audioSampleRate, audioChannel) -> {
+                mPKLiveManager.inputStreamAudioData(buffer, length, audioSampleRate, audioChannel, pts);
+            });
         }
     }
 
@@ -251,8 +268,8 @@ public class PKController {
 
     public void release() {
         mPKLiveManager.release();
-        mReadFileData.stopYUV();
-        mReadFileData.stopPcm();
+        mLocalStreamReader.stopYUV();
+        mLocalStreamReader.stopPcm();
     }
 
     public void setMute(boolean b) {
@@ -267,7 +284,7 @@ public class PKController {
     public void sendSEI(String text) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("LivePushPKSEI",text);
+            jsonObject.put("LivePushPKSEI", text);
             mPKLiveManager.sendSEI(jsonObject.toString());
         } catch (JSONException e) {
             throw new RuntimeException(e);

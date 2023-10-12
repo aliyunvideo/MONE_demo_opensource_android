@@ -1,4 +1,12 @@
 apply from: 'script_config.gradle'
+
+if (file(sdk_code_path).exists()) {
+    include ':AliyunVideoSdk'
+    project(':AliyunVideoSdk').projectDir = new File(sdk_code_path, 'AliyunVideoSdk')
+}
+
+include ':3rd'
+project(':3rd').projectDir = new File(settingsDir, '../AndroidThirdParty')
 include ':UGSVApp'
 
 include ':AUIMedia'//短视频媒体选择

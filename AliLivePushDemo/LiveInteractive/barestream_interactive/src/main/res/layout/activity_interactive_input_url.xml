@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_weak">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_av_action_bar_back"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="@string/interact_live_url_title"
+        android:textColor="@color/text_strong"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:text="@string/interact_setting"
+        android:textColor="@color/text_strong"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/shape_rect_blue"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:text="@string/interact_live_confirm"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.alivc.live.interactive_common.widget.InteractiveQrEditView
+                android:id="@+id/push_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="@string/interact_live_push_url" />
+
+            <com.alivc.live.interactive_common.widget.InteractiveQrEditView
+                android:id="@+id/pull_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="@id/push_view"
+                app:layout_constraintStart_toStartOf="@id/push_view"
+                app:layout_constraintTop_toBottomOf="@id/push_view"
+                app:title="@string/interact_live_pull_url" />
+
+            <LinearLayout
+                android:id="@+id/more_pull_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/pull_view">
+
+                <com.alivc.live.interactive_common.widget.InteractiveQrEditView
+                    android:id="@+id/pull_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="@id/push_view"
+                    app:layout_constraintStart_toStartOf="@id/push_view"
+                    app:layout_constraintTop_toBottomOf="@id/push_view"
+                    app:title="@string/interact_live_pull_url" />
+
+                <com.alivc.live.interactive_common.widget.InteractiveQrEditView
+                    android:id="@+id/pull_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="@id/push_view"
+                    app:layout_constraintStart_toStartOf="@id/push_view"
+                    app:layout_constraintTop_toBottomOf="@id/push_view"
+                    app:title="@string/interact_live_pull_url" />
+
+                <com.alivc.live.interactive_common.widget.InteractiveQrEditView
+                    android:id="@+id/pull_view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="@id/push_view"
+                    app:layout_constraintStart_toStartOf="@id/push_view"
+                    app:layout_constraintTop_toBottomOf="@id/push_view"
+                    app:title="@string/interact_live_pull_url" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

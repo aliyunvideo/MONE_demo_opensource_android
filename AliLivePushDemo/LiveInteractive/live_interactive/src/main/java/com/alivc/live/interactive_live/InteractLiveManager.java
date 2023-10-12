@@ -1,5 +1,7 @@
 package com.alivc.live.interactive_live;
 
+import static com.alivc.live.interactive_common.utils.LivePushGlobalConfig.mAlivcLivePushConfig;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -161,7 +163,7 @@ public class InteractLiveManager extends InteractLiveBaseManager {
         super.release();
     }
 
-    public void setGOP(AlivcVideoEncodeGopEnum gop) {
-        mAlivcLivePushConfig.setVideoEncodeGop(gop);
+    public void muteLocalCamera(boolean muteLocalCamera) {
+        mAlivcLivePusher.muteLocalCamera(muteLocalCamera);
     }
 }

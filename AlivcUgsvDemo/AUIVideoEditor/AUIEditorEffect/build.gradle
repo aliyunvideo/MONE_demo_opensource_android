@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
-
+apply from: '../../common.gradle'
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -40,7 +40,7 @@ dependencies {
     implementation project(':AUIVideoEditor:AUIEditorCommon')
     implementation project(':AUIFoundation:AVBaseUI')
     implementation project(':AUIVideoEditor:AUIVideoTrack')
-    implementation externalSvideopro
+    api project.ext.ugc_sdk
     implementation externalAndroidXCoreKtx
     implementation externalAndroidXAppcompat
     implementation externalAndroidDesign

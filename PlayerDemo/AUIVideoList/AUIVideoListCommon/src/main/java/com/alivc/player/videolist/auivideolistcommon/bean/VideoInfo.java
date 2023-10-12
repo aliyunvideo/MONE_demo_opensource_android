@@ -10,6 +10,8 @@ public class VideoInfo {
     private String title;
     private String author;
 
+    private int position = 0;
+
     public String getUrl() {
         return url;
     }
@@ -40,6 +42,14 @@ public class VideoInfo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPosition(){
+        return position;
+    }
+
+    public void setPosition(int position){
+        this.position = position;
     }
 
     @Override

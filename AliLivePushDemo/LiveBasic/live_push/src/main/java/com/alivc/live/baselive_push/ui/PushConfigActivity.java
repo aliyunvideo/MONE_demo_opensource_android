@@ -1,30 +1,10 @@
 
 package com.alivc.live.baselive_push.ui;
 
-import static com.alivc.live.pusher.AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE;
-import static com.alivc.live.pusher.AlivcAudioChannelEnum.AUDIO_CHANNEL_TWO;
-import static com.alivc.live.pusher.AlivcEncodeType.Encode_TYPE_H264;
-import static com.alivc.live.pusher.AlivcEncodeType.Encode_TYPE_H265;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_10;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_12;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_15;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_20;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_25;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_30;
-import static com.alivc.live.pusher.AlivcFpsEnum.FPS_8;
 import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_AUTO_FOCUS;
-import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_INT_AUDIO_RETRY_COUNT;
-import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_INT_RETRY_INTERVAL;
 import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_PREVIEW_MIRROR;
 import static com.alivc.live.pusher.AlivcLivePushConstants.DEFAULT_VALUE_PUSH_MIRROR;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT;
-import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT;
 import static com.alivc.live.pusher.AlivcPreviewOrientationEnum.ORIENTATION_PORTRAIT;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FIVE;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_FOUR;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_ONE;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_THREE;
-import static com.alivc.live.pusher.AlivcVideoEncodeGopEnum.GOP_TWO;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -39,14 +19,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,22 +30,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.acker.simplezxing.activity.CaptureActivity;
-import com.alivc.live.baselive_common.PushConfigBottomSheet;
-import com.alivc.live.baselive_common.PushConfigDialogImpl;
-import com.alivc.live.baselive_push.Common;
+import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.baselive_common.Common;
+import com.alivc.live.baselive_common.LivePushSettingView;
+import com.alivc.live.baselive_common.PushWaterMarkDialog;
 import com.alivc.live.baselive_push.R;
 import com.alivc.live.baselive_push.test.InformationActivity;
-import com.alivc.live.baselive_push.ui.widget.PushWaterMarkDialog;
-import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.commonbiz.ResourcesDownload;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.commonbiz.listener.OnDownloadListener;
 import com.alivc.live.commonbiz.test.PushDemoTestConstants;
-import com.alivc.live.pusher.AlivcAudioAACProfileEnum;
+import com.alivc.live.commonutils.FastClickUtil;
+import com.alivc.live.commonutils.LogcatHelper;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
 import com.alivc.live.pusher.AlivcAudioSceneModeEnum;
@@ -79,15 +56,11 @@ import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLivePushCameraTypeEnum;
 import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushConstants;
-import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewDisplayMode;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
-import com.alivc.live.pusher.AlivcQualityModeEnum;
 import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.alivc.live.pusher.AlivcSoundFormat;
 import com.alivc.live.pusher.WaterMarkInfo;
-import com.alivc.live.commonutils.FastClickUtil;
-import com.alivc.live.commonutils.LogcatHelper;
 import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
@@ -100,6 +73,9 @@ import java.util.ArrayList;
 public class PushConfigActivity extends AVBaseThemeActivity {
 
     private RelativeLayout mInteractionRelativeLayout;
+    private RadioGroup mLivePushModeRadioGroup;
+    private LivePushSettingView mLivePushSettingView;
+    private AlivcResolutionEnum mCurrentResolution = AlivcResolutionEnum.RESOLUTION_540P;
 
     @Override
     protected int specifiedThemeMode() {
@@ -108,87 +84,19 @@ public class PushConfigActivity extends AVBaseThemeActivity {
 
     private AlivcResolutionEnum mDefinition = AlivcResolutionEnum.RESOLUTION_540P;
     private static final int REQ_CODE_PERMISSION = 0x1111;
-    private static final int PROGRESS_0 = 0;
-    private static final int PROGRESS_16 = 16;
-    private static final int PROGRESS_20 = 20;
-    private static final int PROGRESS_33 = 33;
-    private static final int PROGRESS_40 = 40;
-    private static final int PROGRESS_50 = 50;
-    private static final int PROGRESS_60 = 60;
-    private static final int PROGRESS_66 = 66;
-    private static final int PROGRESS_75 = 75;
-    private static final int PROGRESS_80 = 80;
-    private static final int PROGRESS_90 = 90;
-    private static final int PROGRESS_100 = 100;
-
-    private static final int PROGRESS_AUDIO_160 = 20;
-    private static final int PROGRESS_AUDIO_320 = 40;
-    private static final int PROGRESS_AUDIO_441 = 60;
-    private static final int PROGRESS_AUDIO_480 = 80;
     private InputMethodManager manager;
 
     private View mPublish;
-    private SeekBar mResolution;
-    private SeekBar mAudioRate;
-    private SeekBar mFps;
-    private SeekBar mMinFps;
-    private SeekBar mGop;
-    private TextView mResolutionText;
-    private TextView mAudioRateText;
-    private TextView mWaterPosition;
-    private TextView mFpsText;
-    private TextView mMinFpsText;
-    private TextView mGOPText;
-    private TextView mQualityMode;
-    private TextView mAudioProfiles;
-    private TextView mAudioRadio;
-    private TextView mVideoEncoder;
-    private TextView mBFrames;
-    private TextView mOrientation;
-    private TextView mDisplayMode;
-    private TextView mPushMode;
     private TextView mLocalLogTv;
-
-
     private EditText mUrl;
-    private EditText mTargetRate;
-    private EditText mMinRate;
-    private EditText mInitRate;
-    private EditText mAudioBitRate;
-    private EditText mRetryInterval;
-    private EditText mRetryCount;
-    private EditText mAuthTime;
-    private EditText mPrivacyKey;
-
-    private Switch mWaterMark;
-    private Switch mPushMirror;
-    private Switch mPreviewMirror;
-    private Switch mHardCode;
-    private Switch mAudioHardCode;
-    private Switch mCamera;
-    private Switch mAutoFocus;
-    private Switch mBeautyOn;
-    private Switch mAsync;
-    private Switch mFlash;
-    private Switch mLog;
-    private Switch mMusicMode;
-    private Switch mBitrate;
-    private Switch mVariableResolution;
-    private Switch mExtern;
-    private Switch mPauseImage;
-    private Switch mNetworkImage;
-    private Switch mInteractionControlSwitch;
     private ImageView mQr;
     private ImageView mBack;
-    private TextView mPushTex;
 
     private AlivcLivePushConfig mAlivcLivePushConfig;
     private boolean mAsyncValue = true;
     private boolean mAudioOnlyPush = false;
     private boolean mVideoOnlyPush = false;
     private AlivcPreviewOrientationEnum mOrientationEnum = ORIENTATION_PORTRAIT;
-    private AlivcQualityModeEnum mQualityModeEnum = AlivcQualityModeEnum.QM_RESOLUTION_FIRST;
-
     private ArrayList<WaterMarkInfo> mWaterMarkInfos = new ArrayList<>();
 
     private int mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
@@ -198,24 +106,11 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     private String mPrivacyKeyStr = "";
     private boolean mMixStream = false;
 
-    private AlivcLivePusher mAlivcLivePusher = null;
-
-    private CharSequence mCustomTargetBitrateValue = "";
-    private CharSequence mCustomMinBitrateValue = "";
-    private CharSequence mCustomInitBitrateValue = "";
-    private CharSequence mCustomAudioBitrateValue = "";
-
     private View mTabArgsLayout;
     private View mTabActionLayout;
     private View mTabArgsView;
     private View mTabActionView;
-    private LinearLayout mTabArgsContentLayout;
-    private LinearLayout mTabActionContentLayout;
-    private Switch mAdvanceConfig;
-    private LinearLayout mAdvanceLayout;
     private int mFpsConfig = 25;//默认帧率
-    private PushConfigDialogImpl mPushConfigDialog = new PushConfigDialogImpl();
-    private long mCaptureDownloadId;
 
     @Nullable
     private AVLoadingDialog mLoadingDialog;
@@ -253,8 +148,6 @@ public class PushConfigActivity extends AVBaseThemeActivity {
         AlivcLivePushConfig.setMediaProjectionPermissionResultData(null);
         initView();
         setClick();
-        Common.copyAsset(this);
-        Common.copyAll(this);
         addWaterMarkInfo();
         if (mAlivcLivePushConfig != null) {
             mAlivcLivePushConfig.setPreviewDisplayMode(AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FILL);
@@ -270,101 +163,24 @@ public class PushConfigActivity extends AVBaseThemeActivity {
 
     }
 
-    private void turnOnBitRateFps(boolean on) {
-        if (!on) {
-            mFps.setProgress(83);
-            mAlivcLivePushConfig.setFps(FPS_25);
-            mFpsText.setText(String.valueOf(FPS_25.getFps()));
-            mTargetRate.setFocusable(false);
-            mMinRate.setFocusable(false);
-            mInitRate.setFocusable(false);
-            mFps.setFocusable(false);
-            mTargetRate.setFocusableInTouchMode(false);
-            mMinRate.setFocusableInTouchMode(false);
-            mInitRate.setFocusableInTouchMode(false);
-            mFps.setFocusableInTouchMode(false);
-        } else {
-            mTargetRate.setFocusable(true);
-            mMinRate.setFocusable(true);
-            mInitRate.setFocusable(true);
-            mTargetRate.setFocusableInTouchMode(true);
-            mMinRate.setFocusableInTouchMode(true);
-            mInitRate.setFocusableInTouchMode(true);
-            mTargetRate.requestFocus();
-            mInitRate.requestFocus();
-            mMinRate.requestFocus();
-        }
-    }
-
     private void initView() {
         mUrl = (EditText) findViewById(R.id.url_editor);
         mPublish = findViewById(R.id.beginPublish);
-        mResolution = (SeekBar) findViewById(R.id.resolution_seekbar);
-        mResolutionText = (TextView) findViewById(R.id.resolution_text);
-        mFps = (SeekBar) findViewById(R.id.fps_seekbar);
-        mFpsText = (TextView) findViewById(R.id.fps_text);
-        mTargetRate = (EditText) findViewById(R.id.target_rate_edit);
-        mMinRate = (EditText) findViewById(R.id.min_rate_edit);
-        mInitRate = (EditText) findViewById(R.id.init_rate_edit);
-        mAudioBitRate = (EditText) findViewById(R.id.audio_bitrate);
-        mAudioRate = (SeekBar) findViewById(R.id.audio_rate_seekbar);
-        mAudioRateText = (TextView) findViewById(R.id.audio_rate_text);
-        mRetryInterval = (EditText) findViewById(R.id.retry_interval);
-        mRetryCount = (EditText) findViewById(R.id.retry_count);
-        mAuthTime = (EditText) findViewById(R.id.auth_time);
-        mPrivacyKey = (EditText) findViewById(R.id.privacy_key);
-        mMinFps = (SeekBar) findViewById(R.id.min_fps_seekbar);
-        mMinFpsText = (TextView) findViewById(R.id.min_fps_text);
-        mWaterMark = (Switch) findViewById(R.id.watermark_switch);
-        mWaterPosition = (TextView) findViewById(R.id.water_position);
-        mPushMirror = (Switch) findViewById(R.id.push_mirror_switch);
-        mPreviewMirror = (Switch) findViewById(R.id.preview_mirror_switch);
-        mHardCode = (Switch) findViewById(R.id.hard_switch);
-        mAudioHardCode = (Switch) findViewById(R.id.audio_hardenc);
-        mCamera = (Switch) findViewById(R.id.camera_switch);
-//        mAudioOnly = (Switch) findViewById(R.id.audio_only_switch);
-//        mVideoOnly = (Switch) findViewById(R.id.video_only_switch);
-        mAutoFocus = (Switch) findViewById(R.id.autofocus_switch);
-        mBeautyOn = (Switch) findViewById(R.id.beautyOn_switch);
-        mAsync = (Switch) findViewById(R.id.async_switch);
-        mAdvanceConfig = (Switch) findViewById(R.id.advance_config);
-        mLog = (Switch) findViewById(R.id.log_switch);
-        mMusicMode = (Switch) findViewById(R.id.music_mode_switch);
-        mBitrate = (Switch) findViewById(R.id.bitrate_control);
-        mVariableResolution = (Switch) findViewById(R.id.variable_resolution);
-        mExtern = (Switch) findViewById(R.id.extern_video);
-        mPauseImage = (Switch) findViewById(R.id.pause_image);
-        mNetworkImage = (Switch) findViewById(R.id.network_image);
         mQr = (ImageView) findViewById(R.id.qr_code);
         mBack = (ImageView) findViewById(R.id.iv_back);
-        mAudioRadio = (TextView) findViewById(R.id.audio_channel);
-        mVideoEncoder = (TextView) findViewById(R.id.video_encoder_type);
-        mBFrames = (TextView) findViewById(R.id.b_frame_num);
-        mQualityMode = findViewById(R.id.quality_modes);
-        mGop = (SeekBar) findViewById(R.id.gop_seekbar);
-        mGOPText = (TextView) findViewById(R.id.gop_text);
-        mOrientation = (TextView) findViewById(R.id.main_orientation);
-        mDisplayMode = (TextView) findViewById(R.id.setting_display_mode);
-        mAudioProfiles = (TextView) findViewById(R.id.audio_profiles);
-        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
+
         SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
         SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-        turnOnBitRateFps(false);
         mTabArgsLayout = findViewById(R.id.tab_args_layout);
         mTabActionLayout = findViewById(R.id.tab_action_layout);
         mTabArgsView = (View) findViewById(R.id.tab_args_view);
         mTabActionView = (View) findViewById(R.id.tab_action_view);
-        mTabArgsContentLayout = (LinearLayout) findViewById(R.id.push_args_setting);
-        mTabActionContentLayout = (LinearLayout) findViewById(R.id.push_function_setting);
-        mAdvanceLayout = (LinearLayout) findViewById(R.id.advance_layout);
-        mPushMode = findViewById(R.id.push_mode);
         mLocalLogTv = findViewById(R.id.local_log);
 //        mVideoEncoder.check(R.id.h264_encoder);
 //        mBFrames.check(R.id.b_frame_no);
-        mInteractionControlSwitch = findViewById(R.id.interaction_control);
         mInteractionRelativeLayout = findViewById(R.id.rl_interaction);
+        mLivePushModeRadioGroup = findViewById(R.id.live_push_mode);
+        mLivePushSettingView = findViewById(R.id.push_setting_view);
 
         mInteractionRelativeLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
 
@@ -372,51 +188,197 @@ public class PushConfigActivity extends AVBaseThemeActivity {
         if (!initUrl.isEmpty()) {
             mUrl.setText(initUrl);
         }
+
+        mLivePushSettingView.showArgsContent(true);
+
+        // 推拉裸流为定制功能，仅针对于有定制需求的客户开放使用；为避免客户理解错乱，故对外演示demo隐藏此入口。
+        AppCompatRadioButton radioButton = findViewById(R.id.push_mode_raw_stream);
+        radioButton.setVisibility(View.GONE);
     }
 
     private void setClick() {
+        mLivePushSettingView.bitrateControl.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setEnableBitrateControl(isChecked);
+        });
+        mLivePushSettingView.targetVideoBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), bitrate);
+        });
+        mLivePushSettingView.minVideoBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintMinBit(getApplicationContext(), bitrate);
+        });
+        mLivePushSettingView.variableResolution.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setEnableAutoResolution(isChecked);
+        });
+        mLivePushSettingView.minFps.observe(this, minFps -> {
+            mAlivcLivePushConfig.setMinFps(minFps);
+        });
+        mLivePushSettingView.audioSampleRate.observe(this, sampleRate -> {
+            mAlivcLivePushConfig.setAudioSampleRate(sampleRate);
+        });
+        mLivePushSettingView.gop.observe(this, gop -> {
+            mAlivcLivePushConfig.setVideoEncodeGop(gop);
+        });
+        mLivePushSettingView.fps.observe(this, fps -> {
+            mFpsConfig = fps.getFps();
+            mAlivcLivePushConfig.setFps(fps);
+        });
+        mLivePushSettingView.videoHardwareDecode.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setVideoEncodeMode(isChecked ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
+        });
+        mLivePushSettingView.audioHardwareDecode.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setAudioEncodeMode(isChecked ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
+        });
+        mLivePushSettingView.pushMirror.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setPushMirror(isChecked);
+            SharedPreferenceUtils.setPushMirror(getApplicationContext(), isChecked);
+        });
+        mLivePushSettingView.previewMirror.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setPreviewMirror(isChecked);
+            SharedPreferenceUtils.setPreviewMirror(getApplicationContext(), isChecked);
+        });
+        mLivePushSettingView.enableFrontCamera.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setCameraType(isChecked ? AlivcLivePushCameraTypeEnum.CAMERA_TYPE_FRONT : AlivcLivePushCameraTypeEnum.CAMERA_TYPE_BACK);
+            mCameraId = (isChecked ? AlivcLivePushCameraTypeEnum.CAMERA_TYPE_FRONT.getCameraId() : AlivcLivePushCameraTypeEnum.CAMERA_TYPE_BACK.getCameraId());
+        });
+        mLivePushSettingView.resolution.observe(this, resolution -> {
+            mCurrentResolution = resolution;
+        });
+        mLivePushSettingView.autoFocus.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setAutoFocus(isChecked);
+            SharedPreferenceUtils.setAutofocus(getApplicationContext(), isChecked);
+        });
+        mLivePushSettingView.enableBeauty.observe(this, isChecked -> {
+            SharedPreferenceUtils.setBeautyOn(getApplicationContext(), isChecked);
+        });
+        mLivePushSettingView.videoOnly.observe(this, isChecked -> {
+            mVideoOnlyPush = isChecked;
+            mAlivcLivePushConfig.setVideoOnly(mVideoOnlyPush);
+        });
+        mLivePushSettingView.audioOnly.observe(this, isChecked -> {
+            mAudioOnlyPush = isChecked;
+            mAlivcLivePushConfig.setAudioOnly(mAudioOnlyPush);
+        });
+        mLivePushSettingView.pauseImage.observe(this, isChecked -> {
+            if (!isChecked) {
+                mAlivcLivePushConfig.setPausePushImage("");
+            } else {
+                if (mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT.getOrientation() || mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT.getOrientation()) {
+                    mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push_land.png");
+                } else {
+                    mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push.png");
+                }
+            }
+        });
+        mLivePushSettingView.netWorkImage.observe(this, isChecked -> {
+            if (!isChecked) {
+                mAlivcLivePushConfig.setNetworkPoorPushImage("");
+            } else {
+                if (mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT.getOrientation() || mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT.getOrientation()) {
+                    mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network_land.png");
+                } else {
+                    mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
+                }
+            }
+        });
+
+        mLivePushSettingView.async.observe(this, isChecked -> {
+            mAsyncValue = isChecked;
+        });
+        mLivePushSettingView.musicMode.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setAudioSceneMode(isChecked ? AlivcAudioSceneModeEnum.AUDIO_SCENE_MUSIC_MODE : AlivcAudioSceneModeEnum.AUDIO_SCENE_DEFAULT_MODE);
+        });
+        mLivePushSettingView.extern.observe(this, isChecked -> {
+            mAlivcLivePushConfig.setExternMainStream(isChecked, AlivcImageFormat.IMAGE_FORMAT_YUVNV12, AlivcSoundFormat.SOUND_FORMAT_S16);
+            mAlivcLivePushConfig.setAudioChannels(AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE);
+            mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
+            if (isChecked) {
+                startDownloadYUV();
+            }
+        });
+        mLivePushSettingView.localLog.observe(this, isChecked -> {
+            if (isChecked) {
+                LogcatHelper.getInstance(getApplicationContext()).start();
+            } else {
+                LogcatHelper.getInstance(getApplicationContext()).stop();
+            }
+        });
+
+        mLivePushSettingView.previewDisplayMode.observe(this, previewDisplayMode -> {
+            mAlivcLivePushConfig.setPreviewDisplayMode(previewDisplayMode);
+            SharedPreferenceUtils.setDisplayFit(getApplicationContext(), previewDisplayMode.getPreviewDisplayMode());
+        });
+
+        mLivePushSettingView.audioChannel.observe(this, audioChannel -> {
+            mAlivcLivePushConfig.setAudioChannels(audioChannel);
+        });
+
+        mLivePushSettingView.audioProfile.observe(this, audioProfile -> {
+            mAlivcLivePushConfig.setAudioProfile(audioProfile);
+        });
+
+        mLivePushSettingView.videoEncodeType.observe(this, videoEncodeType -> {
+            mAlivcLivePushConfig.setVideoEncodeType(videoEncodeType);
+        });
+
+        mLivePushSettingView.bFrame.observe(this, bFrame -> {
+            mAlivcLivePushConfig.setBFrames(bFrame);
+        });
+
+        mLivePushSettingView.previewOrientation.observe(this, orientation -> {
+            mAlivcLivePushConfig.setPreviewOrientation(orientation);
+            mOrientationEnum = orientation;
+        });
+
+        mLivePushSettingView.pauseImagePath.observe(this, path -> {
+            if (mAlivcLivePushConfig.getPausePushImage() == null || mAlivcLivePushConfig.getPausePushImage().equals("")) {
+                mAlivcLivePushConfig.setPausePushImage(path);
+            }
+        });
+
+        mLivePushSettingView.netWorkImagePath.observe(this, path -> {
+            if (mAlivcLivePushConfig.getNetworkPoorPushImage() != null && !mAlivcLivePushConfig.getNetworkPoorPushImage().equals("")) {
+                mAlivcLivePushConfig.setNetworkPoorPushImage(path);
+            }
+        });
+
+        mLivePushSettingView.qualityMode.observe(this, quality -> {
+            mAlivcLivePushConfig.setQualityMode(quality);
+        });
+
+        mLivePushSettingView.showWaterMark.observe(this, isShown -> {
+            if (isShown) {
+                PushWaterMarkDialog pushWaterMarkDialog = new PushWaterMarkDialog();
+                pushWaterMarkDialog.setWaterMarkInfo(mWaterMarkInfos);
+                pushWaterMarkDialog.show(getSupportFragmentManager(), "waterDialog");
+            }
+        });
+
         mPublish.setOnClickListener(onClickListener);
-        mWaterPosition.setOnClickListener(onClickListener);
         mTabArgsLayout.setOnClickListener(onClickListener);
         mTabActionLayout.setOnClickListener(onClickListener);
-        mWaterMark.setOnCheckedChangeListener(onCheckedChangeListener);
-        mPushMirror.setOnCheckedChangeListener(onCheckedChangeListener);
-        mPreviewMirror.setOnCheckedChangeListener(onCheckedChangeListener);
-        mHardCode.setOnCheckedChangeListener(onCheckedChangeListener);
-        mAudioHardCode.setOnCheckedChangeListener(onCheckedChangeListener);
-        mCamera.setOnCheckedChangeListener(onCheckedChangeListener);
-        mAutoFocus.setOnCheckedChangeListener(onCheckedChangeListener);
-        mBeautyOn.setOnCheckedChangeListener(onCheckedChangeListener);
-        mAdvanceConfig.setOnCheckedChangeListener(onCheckedChangeListener);
-        mResolution.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        mAudioRate.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        mExtern.setOnCheckedChangeListener(onCheckedChangeListener);
-        mFps.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        mMinFps.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        mAsync.setOnCheckedChangeListener(onCheckedChangeListener);
-        mLog.setOnCheckedChangeListener(onCheckedChangeListener);
-        mMusicMode.setOnCheckedChangeListener(onCheckedChangeListener);
-        mBitrate.setOnCheckedChangeListener(onCheckedChangeListener);
-        mVariableResolution.setOnCheckedChangeListener(onCheckedChangeListener);
-        mPauseImage.setOnCheckedChangeListener(onCheckedChangeListener);
-        mNetworkImage.setOnCheckedChangeListener(onCheckedChangeListener);
-        mInteractionControlSwitch.setOnCheckedChangeListener(onCheckedChangeListener);
         mQr.setOnClickListener(onClickListener);
         mBack.setOnClickListener(onClickListener);
-        mAudioRadio.setOnClickListener(onClickListener);
-        mVideoEncoder.setOnClickListener(onClickListener);
-        mBFrames.setOnClickListener(onClickListener);
-        mQualityMode.setOnClickListener(onClickListener);
-        mGop.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        mOrientation.setOnClickListener(onClickListener);
-        mDisplayMode.setOnClickListener(onClickListener);
-        mAudioProfiles.setOnClickListener(onClickListener);
-        mPushMode.setOnClickListener(onClickListener);
         mLocalLogTv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 jump2InformationActivity();
                 return true;
+            }
+        });
+
+        mLivePushModeRadioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+            if (i == R.id.push_mode_interaction) {
+                //互动模式
+                mAlivcLivePushConfig.setEnableRTSForInteractiveMode(false);
+                mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveInteractiveMode);
+            } else if (i == R.id.push_mode_raw_stream) {
+                //推拉裸流
+                mAlivcLivePushConfig.setEnableRTSForInteractiveMode(true);
+                mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveInteractiveMode);
+            } else {
+                //标准模式
+                mAlivcLivePushConfig.setEnableRTSForInteractiveMode(false);
+                mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveBasicMode);
             }
         });
     }
@@ -432,8 +394,14 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                 if (getPushConfig() != null) {
 
                     ArrayList<WaterMarkInfo> waterMarkInfos = new ArrayList<>();
-                    if (mWaterMark.isChecked()) {
+                    if (mLivePushSettingView.enableWaterMark()) {
                         waterMarkInfos.addAll(mWaterMarkInfos);
+                    }
+                    if (mCurrentResolution == AlivcResolutionEnum.RESOLUTION_SELF_DEFINE) {
+                        AlivcResolutionEnum.RESOLUTION_SELF_DEFINE.setSelfDefineResolution(mLivePushSettingView.getSelfDefineResolutionWidth(),mLivePushSettingView.getSelfDefineResolutionHeight());
+                        mAlivcLivePushConfig.setResolution(AlivcResolutionEnum.RESOLUTION_SELF_DEFINE);
+                    } else {
+                        mAlivcLivePushConfig.setResolution(mCurrentResolution);
                     }
 
                     if (mUrl.getText().toString().contains("rtmp://") || mUrl.getText().toString().contains("artc://")) {
@@ -442,7 +410,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                             public void run() {
                                 LivePushActivity.startActivity(PushConfigActivity.this, mAlivcLivePushConfig, mUrl.getText().toString(),
                                         mAsyncValue, mAudioOnlyPush, mVideoOnlyPush, mOrientationEnum, mCameraId, isFlash, mAuthTimeStr,
-                                        mPrivacyKeyStr, mMixStream, mAlivcLivePushConfig.isExternMainStream(), mBeautyOn.isChecked(), mFpsConfig,
+                                        mPrivacyKeyStr, mMixStream, mAlivcLivePushConfig.isExternMainStream(), mLivePushSettingView.enableBeauty(), mFpsConfig,
                                         waterMarkInfos);
                             }
                         });
@@ -458,716 +426,18 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                     // Have gotten the permission
                     startCaptureActivityForResult();
                 }
-            } else if (id == R.id.water_position) {
-                if (mWaterMark.isChecked()) {
-                    PushWaterMarkDialog pushWaterMarkDialog = new PushWaterMarkDialog();
-                    pushWaterMarkDialog.setWaterMarkInfo(mWaterMarkInfos);
-                    pushWaterMarkDialog.show(getSupportFragmentManager(), "waterDialog");
-                }
             } else if (id == R.id.iv_back) {
                 finish();
             } else if (id == R.id.tab_args_layout) {
                 mTabArgsView.setVisibility(View.VISIBLE);
                 mTabActionView.setVisibility(View.INVISIBLE);
-                mTabArgsContentLayout.setVisibility(View.VISIBLE);
+                mLivePushSettingView.showArgsContent(true);
                 mInteractionRelativeLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
-                mTabActionContentLayout.setVisibility(View.GONE);
             } else if (id == R.id.tab_action_layout) {
                 mTabActionView.setVisibility(View.VISIBLE);
                 mTabArgsView.setVisibility(View.INVISIBLE);
-                mTabArgsContentLayout.setVisibility(View.GONE);
+                mLivePushSettingView.showArgsContent(false);
                 mInteractionRelativeLayout.setVisibility(View.GONE);
-                mTabActionContentLayout.setVisibility(View.VISIBLE);
-            } else if (id == R.id.quality_modes) {
-                mPushConfigDialog.showConfigDialog(mQualityMode, mQualityListener, 0);
-            } else if (id == R.id.audio_profiles) {
-                mPushConfigDialog.showConfigDialog(mAudioProfiles, mAudioProfilesListener, 0);
-            } else if (id == R.id.audio_channel) {
-                mPushConfigDialog.showConfigDialog(mAudioRadio, mAudioChannelListener, 1);
-            } else if (id == R.id.video_encoder_type) {
-                mPushConfigDialog.showConfigDialog(mVideoEncoder, mEncoderTypeListener, 0);
-            } else if (id == R.id.b_frame_num) {
-                mPushConfigDialog.showConfigDialog(mBFrames, mFrameNumListener, 0);
-            } else if (id == R.id.main_orientation) {
-                mPushConfigDialog.showConfigDialog(mOrientation, mOrientationListener, 0);
-            } else if (id == R.id.setting_display_mode) {
-                mPushConfigDialog.showConfigDialog(mDisplayMode, mDisplayModenListener, 0);
-            } else if (id == R.id.push_mode) {
-                mPushConfigDialog.showConfigDialog(mPushMode, mPushModeListener, 0);
-            }
-        }
-    };
-
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mPushModeListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String data, int index) {
-            mAudioOnlyPush = (index == 1);
-            mVideoOnlyPush = (index == 2);
-            mAlivcLivePushConfig.setAudioOnly(mAudioOnlyPush);
-            mAlivcLivePushConfig.setVideoOnly(mVideoOnlyPush);
-        }
-    };
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mDisplayModenListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String data, int index) {
-            if (index == 0) {
-                mAlivcLivePushConfig.setPreviewDisplayMode(AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_SCALE_FILL);
-                SharedPreferenceUtils.setDisplayFit(getApplicationContext(), AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_SCALE_FILL.getPreviewDisplayMode());
-            } else if (index == 1) {
-                mAlivcLivePushConfig.setPreviewDisplayMode(AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FIT);
-                SharedPreferenceUtils.setDisplayFit(getApplicationContext(), AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FIT.getPreviewDisplayMode());
-            } else if (index == 2) {
-                mAlivcLivePushConfig.setPreviewDisplayMode(AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FILL);
-                SharedPreferenceUtils.setDisplayFit(getApplicationContext(), AlivcPreviewDisplayMode.ALIVC_LIVE_PUSHER_PREVIEW_ASPECT_FILL.getPreviewDisplayMode());
-            }
-        }
-    };
-
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mOrientationListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String data, int index) {
-            if (index == 0) {
-                mAlivcLivePushConfig.setPreviewOrientation(ORIENTATION_PORTRAIT);
-                mOrientationEnum = ORIENTATION_PORTRAIT;
-                if (mAlivcLivePushConfig.getPausePushImage() == null || mAlivcLivePushConfig.getPausePushImage().equals("")) {
-                    mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push.png");
-                }
-                if (mAlivcLivePushConfig.getNetworkPoorPushImage() != null && !mAlivcLivePushConfig.getNetworkPoorPushImage().equals("")) {
-                    mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
-                }
-            } else if (index == 1) {
-                mAlivcLivePushConfig.setPreviewOrientation(ORIENTATION_LANDSCAPE_HOME_LEFT);
-                mOrientationEnum = ORIENTATION_LANDSCAPE_HOME_LEFT;
-                if (mAlivcLivePushConfig.getPausePushImage() == null || mAlivcLivePushConfig.getPausePushImage().equals("")) {
-                    mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push.png");
-                }
-                if (mAlivcLivePushConfig.getNetworkPoorPushImage() != null && !mAlivcLivePushConfig.getNetworkPoorPushImage().equals("")) {
-                    mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
-                }
-            } else if (index == 2) {
-                mAlivcLivePushConfig.setPreviewOrientation(ORIENTATION_LANDSCAPE_HOME_RIGHT);
-                mOrientationEnum = ORIENTATION_LANDSCAPE_HOME_RIGHT;
-                if (mAlivcLivePushConfig.getPausePushImage() == null || mAlivcLivePushConfig.getPausePushImage().equals("")) {
-                    mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push.png");
-                }
-                if (mAlivcLivePushConfig.getNetworkPoorPushImage() != null && !mAlivcLivePushConfig.getNetworkPoorPushImage().equals("")) {
-                    mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
-                }
-            }
-        }
-    };
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mFrameNumListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String data, int index) {
-            if (index == 0) {
-                mAlivcLivePushConfig.setBFrames(0);
-            } else if (index == 1) {
-                mAlivcLivePushConfig.setBFrames(1);
-            } else if (index == 2) {
-                mAlivcLivePushConfig.setBFrames(3);
-            }
-
-        }
-    };
-
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mEncoderTypeListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String data, int index) {
-            if (index == 0) {
-                mAlivcLivePushConfig.setVideoEncodeType(Encode_TYPE_H264);
-            } else if (index == 1) {
-                mAlivcLivePushConfig.setVideoEncodeType(Encode_TYPE_H265);
-            }
-
-        }
-    };
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mAudioChannelListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String data, int index) {
-            if (index == 0) {
-                mAlivcLivePushConfig.setAudioChannels(AUDIO_CHANNEL_ONE);
-            } else if (index == 1) {
-                mAlivcLivePushConfig.setAudioChannels(AUDIO_CHANNEL_TWO);
-            }
-
-
-        }
-    };
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mAudioProfilesListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String data, int index) {
-            if (index == 0) {
-                mAlivcLivePushConfig.setAudioProfile(AlivcAudioAACProfileEnum.AAC_LC);
-            } else if (index == 1) {
-                mAlivcLivePushConfig.setAudioProfile(AlivcAudioAACProfileEnum.HE_AAC);
-            } else if (index == 2) {
-                mAlivcLivePushConfig.setAudioProfile(AlivcAudioAACProfileEnum.HE_AAC);
-            } else if (index == 3) {
-                mAlivcLivePushConfig.setAudioProfile(AlivcAudioAACProfileEnum.AAC_LD);
-            }
-
-
-        }
-    };
-    private final PushConfigBottomSheet.OnPushConfigSelectorListener mQualityListener = new PushConfigBottomSheet.OnPushConfigSelectorListener() {
-        @Override
-        public void confirm(String tips, int i) {
-            mQualityMode.setText(tips);
-            if (i == 0) {
-                if (AlivcQualityModeEnum.QM_CUSTOM.equals(mAlivcLivePushConfig.getQualityMode())) {
-                    mCustomTargetBitrateValue = mTargetRate.getText();
-                    mCustomMinBitrateValue = mMinRate.getText();
-                    mCustomInitBitrateValue = mInitRate.getText();
-                    mCustomAudioBitrateValue = mAudioBitRate.getText();
-                    mTargetRate.setText("");
-                    mMinRate.setText("");
-                    mInitRate.setText("");
-                    mAudioBitRate.setText("");
-                }
-                if (mAlivcLivePushConfig != null) {
-                    mAlivcLivePushConfig.setQualityMode(AlivcQualityModeEnum.QM_RESOLUTION_FIRST);
-                    if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_180P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_240P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_360P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_480P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_540P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_720P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                }
-                turnOnBitRateFps(false);
-            } else if (i == 1) {
-                if (AlivcQualityModeEnum.QM_CUSTOM.equals(mAlivcLivePushConfig.getQualityMode())) {
-                    mCustomTargetBitrateValue = mTargetRate.getText();
-                    mCustomMinBitrateValue = mMinRate.getText();
-                    mCustomInitBitrateValue = mInitRate.getText();
-                    mCustomAudioBitrateValue = mAudioBitRate.getText();
-                    mTargetRate.setText("");
-                    mMinRate.setText("");
-                    mInitRate.setText("");
-                    mAudioBitRate.setText("");
-                }
-                if (mAlivcLivePushConfig != null) {
-                    mAlivcLivePushConfig.setQualityMode(AlivcQualityModeEnum.QM_FLUENCY_FIRST);
-                    if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_180P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_240P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_360P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_480P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_540P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_720P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                }
-                turnOnBitRateFps(false);
-            } else if (i == 2) {
-                mTargetRate.setText(mCustomTargetBitrateValue);
-                mMinRate.setText(mCustomMinBitrateValue);
-                mInitRate.setText(mCustomInitBitrateValue);
-                mAudioBitRate.setText(mCustomAudioBitrateValue);
-                if (mAlivcLivePushConfig != null) {
-                    mAlivcLivePushConfig.setQualityMode(AlivcQualityModeEnum.QM_CUSTOM);
-                    if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_180P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_240P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_360P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_480P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_540P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mDefinition.equals(AlivcResolutionEnum.RESOLUTION_720P)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                }
-                turnOnBitRateFps(true);
-            }
-
-        }
-    };
-
-    private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            int id = buttonView.getId();
-            if (id == R.id.watermark_switch) {
-                if (mWaterPosition != null) {
-                    mWaterPosition.setClickable(isChecked);
-                    mWaterPosition.setTextColor(isChecked ? getResources().getColor(R.color.colourful_text_strong) : getResources().getColor(R.color.text_ultraweak));
-                }
-            } else if (id == R.id.push_mirror_switch) {
-                mAlivcLivePushConfig.setPushMirror(isChecked);
-                SharedPreferenceUtils.setPushMirror(getApplicationContext(), isChecked);
-            } else if (id == R.id.preview_mirror_switch) {
-                mAlivcLivePushConfig.setPreviewMirror(isChecked);
-                SharedPreferenceUtils.setPreviewMirror(getApplicationContext(), isChecked);
-            } else if (id == R.id.hard_switch) {
-                mAlivcLivePushConfig.setVideoEncodeMode(isChecked ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
-            } else if (id == R.id.audio_hardenc) {
-                mAlivcLivePushConfig.setAudioEncodeMode(isChecked ? AlivcEncodeModeEnum.Encode_MODE_HARD : AlivcEncodeModeEnum.Encode_MODE_SOFT);
-            } else if (id == R.id.camera_switch) {
-                mAlivcLivePushConfig.setCameraType(isChecked ? AlivcLivePushCameraTypeEnum.CAMERA_TYPE_FRONT : AlivcLivePushCameraTypeEnum.CAMERA_TYPE_BACK);
-                mCameraId = (isChecked ? AlivcLivePushCameraTypeEnum.CAMERA_TYPE_FRONT.getCameraId() : AlivcLivePushCameraTypeEnum.CAMERA_TYPE_BACK.getCameraId());
-            } else if (id == R.id.autofocus_switch) {
-                mAlivcLivePushConfig.setAutoFocus(isChecked);
-                SharedPreferenceUtils.setAutofocus(getApplicationContext(), isChecked);
-            } else if (id == R.id.advance_config) {
-                if (isChecked) {
-                    mAdvanceLayout.setVisibility(View.VISIBLE);
-                } else {
-                    mAdvanceLayout.setVisibility(View.GONE);
-                }
-            } else if (id == R.id.beautyOn_switch) {
-                SharedPreferenceUtils.setBeautyOn(getApplicationContext(), isChecked);
-            } else if (id == R.id.async_switch) {
-                mAsyncValue = isChecked;
-            } else if (id == R.id.log_switch) {
-                if (isChecked) {
-                    LogcatHelper.getInstance(getApplicationContext()).start();
-                } else {
-                    LogcatHelper.getInstance(getApplicationContext()).stop();
-                }
-            } else if (id == R.id.music_mode_switch) {
-                mAlivcLivePushConfig.setAudioSceneMode(isChecked ? AlivcAudioSceneModeEnum.AUDIO_SCENE_MUSIC_MODE : AlivcAudioSceneModeEnum.AUDIO_SCENE_DEFAULT_MODE);
-            } else if (id == R.id.bitrate_control) {
-                mAlivcLivePushConfig.setEnableBitrateControl(isChecked);
-            } else if (id == R.id.variable_resolution) {
-                mAlivcLivePushConfig.setEnableAutoResolution(isChecked);
-            } else if (id == R.id.extern_video) {
-                mAlivcLivePushConfig.setExternMainStream(isChecked, AlivcImageFormat.IMAGE_FORMAT_YUVNV12, AlivcSoundFormat.SOUND_FORMAT_S16);
-                mAlivcLivePushConfig.setAudioChannels(AlivcAudioChannelEnum.AUDIO_CHANNEL_ONE);
-                mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
-                if (isChecked) {
-                    startDownloadYUV();
-                }
-            } else if (id == R.id.pause_image) {
-                if (!isChecked) {
-                    mAlivcLivePushConfig.setPausePushImage("");
-                } else {
-                    if (mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT.getOrientation() || mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT.getOrientation()) {
-                        mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push_land.png");
-                    } else {
-                        mAlivcLivePushConfig.setPausePushImage(getFilesDir().getPath() + File.separator + "alivc_resource/background_push.png");
-                    }
-                }
-            } else if (id == R.id.network_image) {
-                if (!isChecked) {
-                    mAlivcLivePushConfig.setNetworkPoorPushImage("");
-                } else {
-                    if (mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_LEFT.getOrientation() || mAlivcLivePushConfig.getPreviewOrientation() == AlivcPreviewOrientationEnum.ORIENTATION_LANDSCAPE_HOME_RIGHT.getOrientation()) {
-                        mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network_land.png");
-                    } else {
-                        mAlivcLivePushConfig.setNetworkPoorPushImage(getFilesDir().getPath() + File.separator + "alivc_resource/poor_network.png");
-                    }
-                }
-            } else if (id == R.id.interaction_control) {
-                if (isChecked) {
-                    mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveInteractiveMode);
-                } else {
-                    mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveBasicMode);
-                }
-            }
-        }
-    };
-
-    private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            int seekBarId = seekBar.getId();
-            if (mResolution.getId() == seekBarId) {
-                if (progress <= PROGRESS_0) {
-                    mDefinition = AlivcResolutionEnum.RESOLUTION_180P;
-                    mResolutionText.setText(R.string.setting_resolution_180P);
-                    if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_RESOLUTION_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_FLUENCY_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_180P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                } else if (progress > PROGRESS_0 && progress <= PROGRESS_20) {
-                    mDefinition = AlivcResolutionEnum.RESOLUTION_240P;
-                    mResolutionText.setText(R.string.setting_resolution_240P);
-                    if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_RESOLUTION_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_FLUENCY_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_240P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                } else if (progress > PROGRESS_20 && progress <= PROGRESS_40) {
-                    mDefinition = AlivcResolutionEnum.RESOLUTION_360P;
-                    mResolutionText.setText(R.string.setting_resolution_360P);
-                    if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_RESOLUTION_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_FLUENCY_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_360P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                } else if (progress > PROGRESS_40 && progress <= PROGRESS_60) {
-                    mDefinition = AlivcResolutionEnum.RESOLUTION_480P;
-                    mResolutionText.setText(R.string.setting_resolution_480P);
-                    if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_RESOLUTION_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_FLUENCY_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_480P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                } else if (progress > PROGRESS_60 && progress <= PROGRESS_80) {
-                    mDefinition = AlivcResolutionEnum.RESOLUTION_540P;
-                    mResolutionText.setText(R.string.setting_resolution_540P);
-                    if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_RESOLUTION_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_FLUENCY_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_540P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                } else if (progress > PROGRESS_80 && progress <= PROGRESS_90) {
-                    mDefinition = AlivcResolutionEnum.RESOLUTION_720P;
-                    mResolutionText.setText(R.string.setting_resolution_720P);
-                    if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_RESOLUTION_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_FLUENCY_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_720P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                } else if (progress > PROGRESS_90) {
-                    mDefinition = AlivcResolutionEnum.RESOLUTION_1080P;
-                    mResolutionText.setText(R.string.setting_resolution_1080P);
-                    if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_RESOLUTION_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_1080P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_1080P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else if (mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_FLUENCY_FIRST)) {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P_FLUENCY_FIRST.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_1080P_FLUENCY_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_1080P_FLUENCY_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    } else {
-                        mTargetRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
-                        mMinRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
-                        mInitRate.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_1080P.DEFAULT_VALUE_INT_INIT_BITRATE.getBitrate()));
-                        SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_1080P.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate());
-                        SharedPreferenceUtils.setHintMinBit(getApplicationContext(), AlivcLivePushConstants.BITRATE_1080P.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate());
-                    }
-                }
-            } else if (mAudioRate.getId() == seekBarId) {
-                if (progress <= PROGRESS_AUDIO_160) {
-                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_16000);
-                    mAudioRateText.setText(getString(R.string.setting_audio_160));
-                } else if (progress <= PROGRESS_AUDIO_320) {
-                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_32000);
-                    mAudioRateText.setText(getString(R.string.setting_audio_320));
-                } else if (progress <= PROGRESS_AUDIO_441) {
-                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_44100);
-                    mAudioRateText.setText(getString(R.string.setting_audio_441));
-                } else {
-                    mAlivcLivePushConfig.setAudioSampleRate(AlivcAudioSampleRateEnum.AUDIO_SAMPLE_RATE_48000);
-                    mAudioRateText.setText(getString(R.string.setting_audio_480));
-                }
-            } else if (mFps.getId() == seekBarId) {
-                if (!mAlivcLivePushConfig.getQualityMode().equals(AlivcQualityModeEnum.QM_CUSTOM)) {
-                    mFps.setProgress(83);
-                    mAlivcLivePushConfig.setFps(FPS_25);
-                    mFpsConfig = 25;
-                    mFpsText.setText(String.valueOf(FPS_25.getFps()));
-                    return;
-                }
-                if (progress <= PROGRESS_0) {
-                    mAlivcLivePushConfig.setFps(FPS_8);
-                    mFpsText.setText(String.valueOf(FPS_8.getFps()));
-                    mFpsConfig = 8;
-                } else if (progress > PROGRESS_0 && progress <= PROGRESS_16) {
-                    mAlivcLivePushConfig.setFps(FPS_10);
-                    mFpsText.setText(String.valueOf(FPS_10.getFps()));
-                    mFpsConfig = 10;
-                } else if (progress > PROGRESS_16 && progress <= PROGRESS_33) {
-                    mAlivcLivePushConfig.setFps(FPS_12);
-                    mFpsText.setText(String.valueOf(FPS_12.getFps()));
-                    mFpsConfig = 12;
-                } else if (progress > PROGRESS_33 && progress <= PROGRESS_50) {
-                    mAlivcLivePushConfig.setFps(FPS_15);
-                    mFpsText.setText(String.valueOf(FPS_15.getFps()));
-                    mFpsConfig = 15;
-                } else if (progress > PROGRESS_50 && progress <= PROGRESS_66) {
-                    mAlivcLivePushConfig.setFps(FPS_20);
-                    mFpsText.setText(String.valueOf(FPS_20.getFps()));
-                    mFpsConfig = 20;
-                } else if (progress > PROGRESS_66 && progress <= PROGRESS_80) {
-                    mAlivcLivePushConfig.setFps(FPS_25);
-                    mFpsText.setText(String.valueOf(FPS_25.getFps()));
-                    mFpsConfig = 25;
-                } else if (progress > PROGRESS_80) {
-                    mAlivcLivePushConfig.setFps(FPS_30);
-                    mFpsText.setText(String.valueOf(FPS_30.getFps()));
-                    mFpsConfig = 30;
-                }
-            } else if (mMinFps.getId() == seekBarId) {
-                if (progress <= PROGRESS_0) {
-                    mAlivcLivePushConfig.setMinFps(FPS_8);
-                    mMinFpsText.setText(String.valueOf(FPS_8.getFps()));
-                } else if (progress > PROGRESS_0 && progress <= PROGRESS_16) {
-                    mAlivcLivePushConfig.setMinFps(FPS_10);
-                    mMinFpsText.setText(String.valueOf(FPS_10.getFps()));
-                } else if (progress > PROGRESS_16 && progress <= PROGRESS_33) {
-                    mAlivcLivePushConfig.setMinFps(FPS_12);
-                    mMinFpsText.setText(String.valueOf(FPS_12.getFps()));
-                } else if (progress > PROGRESS_33 && progress <= PROGRESS_50) {
-                    mAlivcLivePushConfig.setMinFps(FPS_15);
-                    mMinFpsText.setText(String.valueOf(FPS_15.getFps()));
-                } else if (progress > PROGRESS_50 && progress <= PROGRESS_66) {
-                    mAlivcLivePushConfig.setMinFps(FPS_20);
-                    mMinFpsText.setText(String.valueOf(FPS_20.getFps()));
-                } else if (progress > PROGRESS_66 && progress <= PROGRESS_80) {
-                    mAlivcLivePushConfig.setMinFps(FPS_25);
-                    mMinFpsText.setText(String.valueOf(FPS_25.getFps()));
-                } else if (progress > PROGRESS_80) {
-                    mAlivcLivePushConfig.setMinFps(FPS_30);
-                    mMinFpsText.setText(String.valueOf(FPS_30.getFps()));
-                }
-            } else if (mGop.getId() == seekBarId) {
-                if (progress <= PROGRESS_20) {
-                    mAlivcLivePushConfig.setVideoEncodeGop(GOP_ONE);
-                    mGOPText.setText("1/s");
-                } else if (progress > PROGRESS_20 && progress <= PROGRESS_40) {
-                    mAlivcLivePushConfig.setVideoEncodeGop(GOP_TWO);
-                    mGOPText.setText("2/s");
-                } else if (progress > PROGRESS_40 && progress <= PROGRESS_60) {
-                    mAlivcLivePushConfig.setVideoEncodeGop(GOP_THREE);
-                    mGOPText.setText("3/s");
-                } else if (progress > PROGRESS_60 && progress <= PROGRESS_80) {
-                    mAlivcLivePushConfig.setVideoEncodeGop(GOP_FOUR);
-                    mGOPText.setText("4/s");
-                } else if (progress > PROGRESS_80 && progress <= PROGRESS_100) {
-                    mAlivcLivePushConfig.setVideoEncodeGop(GOP_FIVE);
-                    mGOPText.setText("5/s");
-                }
-            }
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            int progress = seekBar.getProgress();
-            if (mResolution.getId() == seekBar.getId()) {
-                if (progress < PROGRESS_0) {
-                    seekBar.setProgress(0);
-                } else if (progress > PROGRESS_0 && progress <= PROGRESS_20) {
-                    seekBar.setProgress(PROGRESS_20);
-                } else if (progress > PROGRESS_20 && progress <= PROGRESS_40) {
-                    seekBar.setProgress(PROGRESS_40);
-                } else if (progress > PROGRESS_40 && progress <= PROGRESS_60) {
-                    seekBar.setProgress(PROGRESS_60);
-                } else if (progress > PROGRESS_60 && progress <= PROGRESS_80) {
-                    seekBar.setProgress(PROGRESS_80);
-                } else if (progress > PROGRESS_80 && progress <= PROGRESS_90) {
-                    seekBar.setProgress(PROGRESS_90);
-                } else if (progress > PROGRESS_90) {
-                    seekBar.setProgress(PROGRESS_100);
-                }
-            } else if (mFps.getId() == seekBar.getId()) {
-                if (progress <= PROGRESS_0) {
-                    seekBar.setProgress(0);
-                } else if (progress > PROGRESS_0 && progress <= PROGRESS_16) {
-                    seekBar.setProgress(PROGRESS_16);
-                } else if (progress > PROGRESS_16 && progress <= PROGRESS_33) {
-                    seekBar.setProgress(PROGRESS_33);
-                } else if (progress > PROGRESS_33 && progress <= PROGRESS_50) {
-                    seekBar.setProgress(PROGRESS_50);
-                } else if (progress > PROGRESS_50 && progress <= PROGRESS_66) {
-                    seekBar.setProgress(PROGRESS_66);
-                } else if (progress > PROGRESS_66 && progress <= PROGRESS_80) {
-                    seekBar.setProgress(PROGRESS_80);
-                } else if (progress > PROGRESS_80) {
-                    seekBar.setProgress(PROGRESS_100);
-                }
-            } else if (mAudioRate.getId() == seekBar.getId()) {
-                if (progress <= PROGRESS_AUDIO_160) {
-                    seekBar.setProgress(PROGRESS_AUDIO_160);
-                } else if (progress <= PROGRESS_AUDIO_320) {
-                    seekBar.setProgress(PROGRESS_AUDIO_320);
-                } else if (progress <= PROGRESS_AUDIO_441) {
-                    seekBar.setProgress(PROGRESS_AUDIO_441);
-                } else {
-                    seekBar.setProgress(PROGRESS_AUDIO_480);
-                }
-            } else if (mGop.getId() == seekBar.getId()) {
-                if (progress <= 20) {
-                    seekBar.setProgress(PROGRESS_20);
-                } else if (progress <= 40) {
-                    seekBar.setProgress(PROGRESS_40);
-                } else if (progress <= 60) {
-                    seekBar.setProgress(PROGRESS_60);
-                } else if (progress <= 80) {
-                    seekBar.setProgress(PROGRESS_80);
-                } else if (progress <= 100) {
-                    seekBar.setProgress(PROGRESS_100);
-                }
             }
         }
     };
@@ -1176,10 +446,10 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mPushMirror.setChecked(SharedPreferenceUtils.isPushMirror(getApplicationContext(), DEFAULT_VALUE_PUSH_MIRROR));
-        mPreviewMirror.setChecked(SharedPreferenceUtils.isPreviewMirror(getApplicationContext(), DEFAULT_VALUE_PREVIEW_MIRROR));
-        mAutoFocus.setChecked(SharedPreferenceUtils.isAutoFocus(getApplicationContext(), DEFAULT_VALUE_AUTO_FOCUS));
-        mBeautyOn.setChecked(SharedPreferenceUtils.isBeautyOn(getApplicationContext()));
+        mLivePushSettingView.setPushMirror(SharedPreferenceUtils.isPushMirror(getApplicationContext(),DEFAULT_VALUE_PUSH_MIRROR));
+        mLivePushSettingView.setPreviewMirror(SharedPreferenceUtils.isPreviewMirror(getApplicationContext(), DEFAULT_VALUE_PREVIEW_MIRROR));
+        mLivePushSettingView.setAutoFocus(SharedPreferenceUtils.isAutoFocus(getApplicationContext(), DEFAULT_VALUE_AUTO_FOCUS));
+        mLivePushSettingView.setBeautyOn(SharedPreferenceUtils.isBeautyOn(getApplicationContext()));
     }
 
     private void startCaptureActivityForResult() {
@@ -1221,49 +491,20 @@ public class PushConfigActivity extends AVBaseThemeActivity {
             return null;
         }
         mAlivcLivePushConfig.setResolution(mDefinition);
-        if (!mInitRate.getText().toString().isEmpty()) {
-            mAlivcLivePushConfig.setInitialVideoBitrate(Integer.valueOf(mInitRate.getText().toString()));
-        } else {
-            mAlivcLivePushConfig.setInitialVideoBitrate(Integer.valueOf(mInitRate.getHint().toString()));
-        }
+        mAlivcLivePushConfig.setInitialVideoBitrate(Integer.parseInt(mLivePushSettingView.getInitVideoBitrate()));
+        mAlivcLivePushConfig.setAudioBitRate(1000 * Integer.parseInt(mLivePushSettingView.getAudioBitrate()));
 
-        if (!mAudioBitRate.getText().toString().isEmpty()) {
-            mAlivcLivePushConfig.setAudioBitRate(1000 * Integer.valueOf(mAudioBitRate.getText().toString()));
-        } else {
-            mAlivcLivePushConfig.setAudioBitRate(1000 * Integer.valueOf(mAudioBitRate.getHint().toString()));
-        }
+        mAlivcLivePushConfig.setMinVideoBitrate(Integer.parseInt(mLivePushSettingView.getMinVideoBitrate()));
+        SharedPreferenceUtils.setMinBit(getApplicationContext(), Integer.parseInt(mLivePushSettingView.getMinVideoBitrate()));
 
-        if (!mMinRate.getText().toString().isEmpty()) {
-            mAlivcLivePushConfig.setMinVideoBitrate(Integer.valueOf(mMinRate.getText().toString()));
-            SharedPreferenceUtils.setMinBit(getApplicationContext(), Integer.valueOf(mMinRate.getText().toString()));
-        } else {
-            mAlivcLivePushConfig.setMinVideoBitrate(Integer.valueOf(mMinRate.getHint().toString()));
-            SharedPreferenceUtils.setMinBit(getApplicationContext(), Integer.valueOf(mMinRate.getHint().toString()));
-        }
+        mAlivcLivePushConfig.setTargetVideoBitrate(Integer.parseInt(mLivePushSettingView.getTargetVideoBitrate()));
+        SharedPreferenceUtils.setTargetBit(getApplicationContext(), Integer.parseInt(mLivePushSettingView.getTargetVideoBitrate()));
 
-        if (!mTargetRate.getText().toString().isEmpty()) {
-            mAlivcLivePushConfig.setTargetVideoBitrate(Integer.valueOf(mTargetRate.getText().toString()));
-            SharedPreferenceUtils.setTargetBit(getApplicationContext(), Integer.valueOf(mTargetRate.getText().toString()));
-        } else {
-            mAlivcLivePushConfig.setTargetVideoBitrate(Integer.valueOf(mTargetRate.getHint().toString()));
-            SharedPreferenceUtils.setTargetBit(getApplicationContext(), Integer.valueOf(mTargetRate.getHint().toString()));
-        }
+        mAlivcLivePushConfig.setConnectRetryCount(mLivePushSettingView.getRetryCount());
+        mAlivcLivePushConfig.setConnectRetryInterval(mLivePushSettingView.getRetryInterval());
 
-        if (!mRetryCount.getText().toString().isEmpty()) {
-            mAlivcLivePushConfig.setConnectRetryCount(Integer.valueOf(mRetryCount.getText().toString()));
-        } else {
-            mAlivcLivePushConfig.setConnectRetryCount(DEFAULT_VALUE_INT_AUDIO_RETRY_COUNT);
-        }
-
-        if (!mRetryInterval.getText().toString().isEmpty()) {
-            mAlivcLivePushConfig.setConnectRetryInterval(Integer.valueOf(mRetryInterval.getText().toString()));
-        } else {
-            mAlivcLivePushConfig.setConnectRetryInterval(DEFAULT_VALUE_INT_RETRY_INTERVAL);
-        }
-
-        mAuthTimeStr = mAuthTime.getText().toString();
-
-        mPrivacyKeyStr = mPrivacyKey.getText().toString();
+        mAuthTimeStr = mLivePushSettingView.getAuthTime();
+        mPrivacyKeyStr = mLivePushSettingView.getPrivacyKey();
 
         return mAlivcLivePushConfig;
     }
@@ -1303,15 +544,11 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                 }
                 break;
             case LivePushActivity.REQ_CODE_PUSH: {
-                if (mTargetRate != null && mMinRate != null) {
-
-                    if (!mTargetRate.getText().toString().isEmpty() || Integer.valueOf(mTargetRate.getHint().toString()) != SharedPreferenceUtils.getTargetBit(getApplicationContext())) {
-                        mTargetRate.setText(String.valueOf(SharedPreferenceUtils.getTargetBit(getApplicationContext())));
-                    }
-
-                    if (!mMinRate.getText().toString().isEmpty() || Integer.valueOf(mMinRate.getHint().toString()) != SharedPreferenceUtils.getMinBit(getApplicationContext())) {
-                        mMinRate.setText(String.valueOf(SharedPreferenceUtils.getMinBit(getApplicationContext())));
-                    }
+                if (!mLivePushSettingView.getTargetVideoBitrateOnlyEditText().isEmpty() || Integer.parseInt(mLivePushSettingView.getTargetVideoBitrateOnlyHint()) != SharedPreferenceUtils.getTargetBit(getApplicationContext())) {
+                    mLivePushSettingView.setTargetVideoBitrateText(String.valueOf(SharedPreferenceUtils.getTargetBit(getApplicationContext())));
+                }
+                if (!mLivePushSettingView.getMinVideoBitrateOnlyEditText().isEmpty() || Integer.parseInt(mLivePushSettingView.getMinVideoBitrateOnlyHint()) != SharedPreferenceUtils.getMinBit(getApplicationContext())) {
+                    mLivePushSettingView.setMinVideoBitrateText(String.valueOf(SharedPreferenceUtils.getMinBit(getApplicationContext())));
                 }
             }
             break;
@@ -1337,7 +574,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        SharedPreferenceUtils.clear(getApplicationContext());
-        mPushConfigDialog.destroy();
+        mLivePushSettingView.destroy();
     }
 
     private void checkModelAndRun(final Runnable runnable) {
@@ -1386,7 +623,8 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     }
 
     private void startDownloadYUV() {
-        mCaptureDownloadId = ResourcesDownload.downloadCaptureYUV(this, new OnDownloadListener() {
+        //    private PushConfigDialogImpl mPushConfigDialog = new PushConfigDialogImpl();
+        long mCaptureDownloadId = ResourcesDownload.downloadCaptureYUV(this, new OnDownloadListener() {
             @Override
             public void onDownloadSuccess(long downloadId) {
                 hideProgressDialog();
@@ -1402,7 +640,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
                 hideProgressDialog();
                 AVToast.show(PushConfigActivity.this, true, errorMsg);
                 if (errorCode != DownloadManager.ERROR_FILE_ALREADY_EXISTS) {
-                    mExtern.setChecked(false);
+                    mLivePushSettingView.externDownloadError();
                 }
             }
         });
@@ -1413,5 +651,4 @@ public class PushConfigActivity extends AVBaseThemeActivity {
         Intent intent = new Intent(this, InformationActivity.class);
         startActivity(intent);
     }
-
 }

@@ -1,16 +1,58 @@
-apply plugin: 'com.android.library'
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+apply from: './dependencies.gradle'
+
+ext.MTL_buildId = getEnvValue("MUPP_BUILD_ID", 'localbuild')
+ext.MTL_buildTimestamp = new SimpleDateFormat("yyMMddHHmmss").format(new Date())
+
+//@keria:cannot make method static
+String getEnvValue(key, defValue) {
+    def val = System.getProperty(key)
+    if (null != val) {
+        return val
+    }
+    val = System.getenv(key)
+    if (null != val) {
+        return val
+    }
+    return defValue
+}
+
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
     defaultConfig {
+        applicationId "com.aliyun.auiplayerapp"
+
         minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+
+        versionCode 1
+        versionName "1.0"
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME :'player' ]
+                arguments = [AROUTER_MODULE_NAME: 'player']
             }
         }
     }
+
+    signingConfigs {
+        release {
+        }
+    }
+
+    buildTypes {
+        all {
+            buildConfigField "String", "MTL_BUILD_ID", "\"${MTL_buildId}\""
+            buildConfigField "String", "MTL_BUILD_TIMESTAMP", "\"${MTL_buildTimestamp}\""
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -34,37 +76,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
 
-dependencies {
-
-    implementation externalAndroidXAppcompat
-    implementation externalAndroidDesign
-    implementation externalAndroidXConstraintlayout
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation externalJunit
-    androidTestImplementation externalTestJunit
-    androidTestImplementation externalEspresso
-
-    implementation externalARouter
-    annotationProcessor externalARouterCompiler
-    if (!hasRTS()) {
-        implementation externalRtsSDK
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "${project.name}-${variant.buildType.name}-${MTL_buildId}.apk"
+        }
     }
-
-    implementation externalGSON
-    //分包
-    implementation externalAndroidMultiDex
-
-    implementation project(':AUIFlowFeed')
-    implementation project(':AUIFullScreen')
-    implementation project(':AUIVideoList:AUIVideoListCommon')
-    implementation project(':AUIVideoList:AUIVideoFunctionList')
-    implementation project(':AUIVideoList:AUIVideoStandradList')
-//    implementation project(':AUIVideoDetail')
-    //aio
-    implementation project(':AUIFoundation:AVBaseUI')
-    implementation project(':AUIFoundation:AVTheme')
 }

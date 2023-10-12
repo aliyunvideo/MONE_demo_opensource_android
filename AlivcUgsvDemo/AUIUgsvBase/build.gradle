@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply from: '../common.gradle'
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -24,7 +24,6 @@ dependencies {
     implementation project(':AUIMedia')
     implementation externalAlivcConan
     implementation externalGSON
-    implementation externalAlivcCore
     implementation externalAlivcFFmpeg
-    api externalSvideopro
+    api project.ext.ugc_sdk
 }

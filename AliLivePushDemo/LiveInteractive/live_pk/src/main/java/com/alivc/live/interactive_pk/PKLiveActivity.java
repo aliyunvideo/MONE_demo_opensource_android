@@ -12,13 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alivc.live.baselive_common.AutoScrollMessagesView;
 import com.alivc.live.baselive_common.LivePusherSEIView;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
-import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
 import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
 import com.aliyunsdk.queen.menu.BeautyMenuPanel;
@@ -33,9 +33,7 @@ public class PKLiveActivity extends AppCompatActivity {
     private InteractLiveIntent mCurrentIntent;
     private String mRoomId;
     private String mUserId;
-
     private ImageView mCloseImageView;
-    private ImageView mCameraImageView;
     private TextView mConnectTextView;
     private TextView mShowConnectTextView;
     private FrameLayout mOwnerFrameLayout;
@@ -44,14 +42,12 @@ public class PKLiveActivity extends AppCompatActivity {
     private ConnectionLostTipsView mConnectionLostTipsView;
     private RoomAndUserInfoView mOwnerInfoView;
     private RoomAndUserInfoView mOtherInfoView;
-    private ImageView mMuteImageView;
     private boolean mIsMute = false;
-    private ImageView mSpeakerPhoneImageView;
+    private InteractiveSettingView mInteractiveSettingView;
     private LivePusherSEIView mSeiView;
+    private AutoScrollMessagesView mSeiMessageView;
     private ImageView mBeautyImageView;
     private BeautyMenuPanel mBeautyMenuPanel;
-    private AutoScrollMessagesView mSeiMessageView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +66,6 @@ public class PKLiveActivity extends AppCompatActivity {
     private void initView() {
         mAUILiveDialog = new AUILiveDialog(this);
         mCloseImageView = findViewById(R.id.iv_close);
-        mCameraImageView = findViewById(R.id.iv_camera);
         mConnectTextView = findViewById(R.id.tv_connect);
         mOwnerFrameLayout = findViewById(R.id.frame_owner);
         mOtherFrameLayout = findViewById(R.id.frame_other);
@@ -94,8 +89,7 @@ public class PKLiveActivity extends AppCompatActivity {
                 mPKController.mutePKMixStream(mute);
             }
         });
-        mMuteImageView = findViewById(R.id.iv_mute);
-        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
+        mInteractiveSettingView = findViewById(R.id.interactive_setting_view);
 //        mOwnerInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
 //        mOtherInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
 
@@ -133,41 +127,28 @@ public class PKLiveActivity extends AppCompatActivity {
             }
         });
 
-        mMuteImageView.setOnClickListener(new View.OnClickListener() {
+        mInteractiveSettingView.setOnInteractiveSettingListener(new InteractiveSettingView.OnInteractiveSettingListener() {
             @Override
-            public void onClick(View view) {
+            public void onSwitchCameraClick() {
+                mPKController.switchCamera();
+            }
+
+            @Override
+            public void onMuteClick() {
                 mPKController.setMute(!mIsMute);
                 mIsMute = !mIsMute;
-                mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+                mInteractiveSettingView.changeMute(mIsMute);
             }
-        });
 
-        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (!FastClickUtil.isFastClick()) {
-                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
-                    if (tag == null || !tag) {
-                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
-                        mSpeakerPhoneImageView.setTag(true);
-                    } else {
-                        mSpeakerPhoneImageView.clearColorFilter();
-                        mSpeakerPhoneImageView.setTag(false);
-                    }
-                    mPKController.changeSpeakerPhone();
-                }
+            public void onSpeakerPhoneClick() {
+                mPKController.changeSpeakerPhone();
             }
         });
 
         mCloseImageView.setOnClickListener(view -> {
             mCurrentIntent = InteractLiveIntent.INTENT_FINISH;
             showInteractLiveDialog(getResources().getString(R.string.interact_live_leave_room_tips), false);
-        });
-
-        mCameraImageView.setOnClickListener(view -> {
-            if (!FastClickUtil.isFastClick()) {
-                mPKController.switchCamera();
-            }
         });
 
         //开始 PK

@@ -17,8 +17,11 @@
     <string name="setting_resolution_540P">540P</string>
     <string name="setting_resolution_720P">720P</string>
     <string name="setting_resolution_1080P">1080P</string>
+    <string name="setting_resolution_self_define">Self Define</string>
     <string name="bitrate_control">Bitrate Control</string>
     <string name="variable_resolution">Variable Resolution</string>
+    <string name="resolution_width">width：</string>
+    <string name="resolution_height">height：</string>
     <string name="resolution_label_desc">To enable the system to automatically switch to the most suitable resolution, you must enable adaptive bitrate streaming. For more information, see the API reference.</string>
     <string name="advance_config">Advanced Settings</string>
     <string name="display_mode">DisplayMode</string>
@@ -42,6 +45,9 @@
     <string name="init_fps">20</string>
     <string name="audio_sampling_rate">Audio sampling rate</string>
     <string name="setting_audio_480">48KHz</string>
+    <string name="setting_audio_441">44.1KHz</string>
+    <string name="setting_audio_320">32KHz</string>
+    <string name="setting_audio_160">16KHz</string>
     <string name="GOP">Gop</string>
     <string name="audio_profile">Audio profile</string>
     <string name="sound_track">Sound track</string>
@@ -94,4 +100,8 @@
     <string name="local_log">Local log</string>
 
     <string name="live_push_send_sei">Send SEI</string>
+    <string name="dialog_title">Error tips</string>
+    <string name="ok">OK</string>
+    <string name="push_args">Stream Ingest Parameters</string>
+    <string name="stream_pusher_tip">Stream Ingest Features</string>
 </resources>

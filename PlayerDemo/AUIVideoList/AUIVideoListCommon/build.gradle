@@ -35,6 +35,7 @@ dependencies {
 
     implementation project(':AUIFoundation:AVTheme')
     implementation project(':AUIFoundation:AVBaseUI')
+    implementation project(':AUIFoundation:AVUtils')
 
     implementation externalPlayerFull
     api externalGSON

@@ -21,8 +21,11 @@
     <string name="setting_resolution_540P">540P</string>
     <string name="setting_resolution_720P">720P</string>
     <string name="setting_resolution_1080P">1080P</string>
+    <string name="setting_resolution_self_define">自定义</string>
 
     <string name="bitrate_control">码率自适应</string>
+    <string name="resolution_width">宽：</string>
+    <string name="resolution_height">高：</string>
     <string name="variable_resolution">可变分辨率</string>
     <string name="resolution_label_desc">分辨率自适应需开启码率自适应，详细请参考api文档</string>
     <string name="advance_config">高级设置</string>
@@ -47,6 +50,9 @@
     <string name="init_fps">20</string>
     <string name="audio_sampling_rate">音频采样率</string>
     <string name="setting_audio_480">48KHz</string>
+    <string name="setting_audio_441">44.1KHz</string>
+    <string name="setting_audio_320">32KHz</string>
+    <string name="setting_audio_160">16KHz</string>
     <string name="GOP">关键帧间隔</string>
     <string name="audio_profile">音频编码</string>
     <string name="sound_track">声道</string>
@@ -101,4 +107,8 @@
     <string name="local_log">本地日志</string>
 
     <string name="live_push_send_sei">发送 SEI</string>
+    <string name="dialog_title">提示</string>
+    <string name="ok">确定</string>
+    <string name="push_args">推流参数</string>
+    <string name="stream_pusher_tip">推流功能</string>
 </resources>

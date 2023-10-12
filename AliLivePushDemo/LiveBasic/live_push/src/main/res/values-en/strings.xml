@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="push_args">Stream Ingest Parameters</string>
-    <string name="stream_pusher_tip">Stream Ingest Features</string>
     <string name="interaction_mode">Interaction Mode</string>
+    <string name="live_push_mode">LivePush Mode</string>
     <string name="start_button">Start pushing</string>
     <string name="waiting_download_video_resources">waiting for download external video resources</string>
+    <string name="live_push_mode_normal">Normal</string>
+    <string name="live_push_mode_interaction">Interaction</string>
+    <string name="live_push_mode_raw_stream">RawStream</string>
 
-    <string name="ok">OK</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
 
     <string name="pause_button">Pause</string>
-    <string name="dialog_title">Error tips</string>
     <string name="connecting_dialog_tips">pushing_wating</string>
     <string name="pushing">Ingesting...</string>
 

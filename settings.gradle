@@ -9,32 +9,41 @@ include ':AIOApp'
 
 //-------------------------------播放器DEMO Start-------------------------------------
 if (hasPlayer()) {
-    include ':liveplayerapp'
-    project(':liveplayerapp').projectDir = new File("PlayerDemo/AUIPlayerApp")
-    include ':AUIVideoList'
-    project(':AUIVideoList').projectDir = new File("PlayerDemo/AUIVideoList")
+    include ':AUIPlayerApp'
+    project(':AUIPlayerApp').projectDir = new File("PlayerDemo/AUIPlayerApp")
+    project(':AUIPlayerApp').setBuildFileName('build_lib.gradle')
+
+    include ':AUIFlowFeed'
+    project(':AUIFlowFeed').projectDir = new File("PlayerDemo/AUIFlowFeed")
+
+    include ':AUIFullScreen'
+    project(':AUIFullScreen').projectDir = new File("PlayerDemo/AUIFullScreen")
+    include ':AUIPlayerServer'
+    project(':AUIPlayerServer').projectDir = new File("PlayerDemo/AUIPlayerServer")
+
+    include ':AUIVideoCommon'
+    project(':AUIVideoCommon').projectDir = new File("PlayerDemo/AUIVideoCommon")
+    include ':AUIVideoCommon:common'
+    project(':AUIVideoCommon:common').projectDir = new File("PlayerDemo/AUIVideoCommon/common")
+    include ':AUIVideoCommon:database'
+    project(':AUIVideoCommon:database').projectDir = new File("PlayerDemo/AUIVideoCommon/database")
+    include ':AUIVideoCommon:easyfloat'
+    project(':AUIVideoCommon:easyfloat').projectDir = new File("PlayerDemo/AUIVideoCommon/easyfloat")
+    include ':AUIVideoCommon:skeleton'
+    project(':AUIVideoCommon:skeleton').projectDir = new File("PlayerDemo/AUIVideoCommon/skeleton")
+    include ':AUIVideoCommon:AliyunPlayerBase'
+    project(':AUIVideoCommon:AliyunPlayerBase').projectDir = new File("PlayerDemo/AUIVideoCommon/AliyunPlayerBase")
+    include ':AUIVideoCommon:AlivcPlayerTools'
+    project(':AUIVideoCommon:AlivcPlayerTools').projectDir = new File("PlayerDemo/AUIVideoCommon/AlivcPlayerTools")
+
     include ':AUIVideoList:AUIVideoListCommon'
     project(':AUIVideoList:AUIVideoListCommon').projectDir = new File("PlayerDemo/AUIVideoList/AUIVideoListCommon")
     include ':AUIVideoList:AUIVideoFunctionList'
     project(':AUIVideoList:AUIVideoFunctionList').projectDir = new File("PlayerDemo/AUIVideoList/AUIVideoFunctionList")
     include ':AUIVideoList:AUIVideoStandradList'
     project(':AUIVideoList:AUIVideoStandradList').projectDir = new File("PlayerDemo/AUIVideoList/AUIVideoStandradList")
-    include ':AUIFullScreen'
-    project(':AUIFullScreen').projectDir = new File("PlayerDemo/AUIFullScreen")
-    include ':AUIVideoZXing'
-    project(':AUIVideoZXing').projectDir = new File("PlayerDemo/zxing")
-    include ':AUIFlowFeed'
-    project(':AUIFlowFeed').projectDir = new File("PlayerDemo/AUIFlowFeed")
-    include ':AUIPlayerServer'
-    project(':AUIPlayerServer').projectDir = new File('PlayerDemo/AUIPlayerServer')
-    include ':AUIVideoCommon'
-    project(':AUIVideoCommon').projectDir = new File("PlayerDemo/AUIVideoCommon")
-    include ':AUIVideoCommon:common'
-    include ':AUIVideoCommon:database'
-    include ':AUIVideoCommon:easyfloat'
-    include ':AUIVideoCommon:skeleton'
-    include ':AUIVideoCommon:AliyunPlayerBase'
-    include ':AUIVideoCommon:AlivcPlayerTools'
+    include ':AUIVideoList:AUIVideoEpisode'
+    project(':AUIVideoList:AUIVideoEpisode').projectDir = new File("PlayerDemo/AUIVideoList/AUIVideoEpisode")
 }
 //-------------------------------播放器DEMO End-------------------------------------
 
@@ -61,6 +70,7 @@ if (hasLive()) {
     project(':LiveInteractive').projectDir = new File("AliLivePushDemo/LiveInteractive")
     include ':LiveInteractive:live_pk'
     include ':LiveInteractive:live_interactive'
+    include ':LiveInteractive:barestream_interactive'
 
     include ':LiveCommon'
     project(':LiveCommon').projectDir = new File("AliLivePushDemo/LiveCommon")
@@ -123,3 +133,23 @@ if (hasUGC()) {
     }
 }
 //-------------------------------短视频DEMO End-------------------------------------
+
+//-------------------------------AUICall START-------------------------------------
+def hasAUICall = false
+
+if(hasAUICall && hasInteractiveLive()){
+    include ':auicall'
+    project(':auicall').projectDir = new File(rootProject.projectDir, 'AUIRoomEngine/Android/AUICall')
+    include ':AUIRoomEngine'
+    project(':AUIRoomEngine').projectDir = new File(rootProject.projectDir, 'AUIRoomEngine/Android/AUIRoomEngine')
+    include ':AUIBaseKits:AUICommon'
+    project(':AUIBaseKits:AUICommon').projectDir = new File(rootProject.projectDir, 'AUIBaseKits/AUICommon')
+    include ':AUIBaseKits:AUIMessage'
+    project(':AUIBaseKits:AUIMessage').projectDir = new File(rootProject.projectDir, 'AUIBaseKits/AUIMessage')
+    include ':AUIBaseKits:AUIMessage:AUIMessageImpl-Internal'
+    project(':AUIBaseKits:AUIMessage:AUIMessageImpl-Internal').projectDir = new File(rootProject.projectDir, 'AUIBaseKits/AUIMessage/AUIMessageImpl-Internal')
+    include ':AUIBaseKits:AUIMessage:AUIMessageImpl-RongCloud'
+    project(':AUIBaseKits:AUIMessage:AUIMessageImpl-RongCloud').projectDir = new File(rootProject.projectDir, 'AUIBaseKits/AUIMessage/AUIMessageImpl-RongCloud')
+
+}
+//-------------------------------AUICall END-------------------------------------

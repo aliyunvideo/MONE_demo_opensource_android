@@ -15,7 +15,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.alivc.live.commonutils.FastClickUtil;
+import com.alivc.live.interactive_common.widget.InteractLiveTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveConnectView;
+import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.interactive_live.widget.MultiAlivcLiveView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
@@ -31,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class MultiInteractLiveActivity extends AppCompatActivity implements View.OnClickListener {
+public class MultiInteractLiveActivity extends AppCompatActivity {
 
     public static final String DATA_IS_ANCHOR = "data_is_anchor";
     public static final String DATA_HOME_ID = "data_home_id";
@@ -42,12 +44,7 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
     //Dialog 弹窗的意图
     private InteractLiveIntent mCurrentIntent;
     private String mRoomId;
-    private TextView mConnectTextView1;
-    private TextView mConnectTextView2;
-    private TextView mConnectTextView3;
-    private TextView mConnectTextView4;
     private ImageView mCloseImageView;
-    private ImageView mCameraImageView;
     private TextView mShowConnectIdTextView;
     //大窗口
     private FrameLayout mBigFrameLayout;
@@ -58,10 +55,12 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
     //根据 id 获取其他 View
     private final Map<String, MultiAlivcLiveView> mIdViewCombMap = new HashMap<>();
     private ConnectionLostTipsView mConnectionLostTipsView;
-    private ImageView mMuteImageView;
     private boolean mIsMute = false;
-    private ImageView mSpeakerPhoneImageView;
-
+    private InteractiveSettingView mInteractiveSettingView;
+    private InteractiveConnectView mInteractiveConnectView1;
+    private InteractiveConnectView mInteractiveConnectView2;
+    private InteractiveConnectView mInteractiveConnectView3;
+    private InteractiveConnectView mInteractiveConnectView4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,19 +88,16 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
 
     private void initView() {
         mAUILiveDialog = new AUILiveDialog(this);
-        mConnectTextView1 = findViewById(R.id.tv_connect_1);
-        mConnectTextView2 = findViewById(R.id.tv_connect_2);
-        mConnectTextView3 = findViewById(R.id.tv_connect_3);
-        mConnectTextView4 = findViewById(R.id.tv_connect_4);
-        FrameLayout mUnConnectFrameLayout1 = findViewById(R.id.fl_un_connect_1);
-        FrameLayout mUnConnectFrameLayout2 = findViewById(R.id.fl_un_connect_2);
-        FrameLayout mUnConnectFrameLayout3 = findViewById(R.id.fl_un_connect_3);
-        FrameLayout mUnConnectFrameLayout4 = findViewById(R.id.fl_un_connect_4);
+        mInteractiveConnectView1 = findViewById(R.id.connect_view_1);
+        mInteractiveConnectView2 = findViewById(R.id.connect_view_2);
+        mInteractiveConnectView3 = findViewById(R.id.connect_view_3);
+        mInteractiveConnectView4 = findViewById(R.id.connect_view_4);
+
         mBigSurfaceView = findViewById(R.id.big_surface_view);
         mCloseImageView = findViewById(R.id.iv_close);
-        mCameraImageView = findViewById(R.id.iv_camera);
         mShowConnectIdTextView = findViewById(R.id.tv_show_connect);
         mBigFrameLayout = findViewById(R.id.big_fl);
+        mInteractiveSettingView = findViewById(R.id.interactive_setting_view);
         //小窗口
         FrameLayout mSmallFrameLayout1 = findViewById(R.id.small_fl_1);
         FrameLayout mSmallFrameLayout2 = findViewById(R.id.small_fl_2);
@@ -116,44 +112,35 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
         mBigSurfaceView.setZOrderOnTop(true);
         mBigSurfaceView.setZOrderMediaOverlay(true);
 
-        MultiAlivcLiveView multiAlivcLiveView1 = new MultiAlivcLiveView(mUnConnectFrameLayout1, mSmallFrameLayout1, mConnectTextView1);
-        MultiAlivcLiveView multiAlivcLiveView2 = new MultiAlivcLiveView(mUnConnectFrameLayout2, mSmallFrameLayout2, mConnectTextView2);
-        MultiAlivcLiveView multiAlivcLiveView3 = new MultiAlivcLiveView(mUnConnectFrameLayout3, mSmallFrameLayout3, mConnectTextView3);
-        MultiAlivcLiveView multiAlivcLiveView4 = new MultiAlivcLiveView(mUnConnectFrameLayout4, mSmallFrameLayout4, mConnectTextView4);
+        MultiAlivcLiveView multiAlivcLiveView1 = new MultiAlivcLiveView(mInteractiveConnectView1.getConnectFrameLayout(), mSmallFrameLayout1, mInteractiveConnectView1.getConnectTextView());
+        MultiAlivcLiveView multiAlivcLiveView2 = new MultiAlivcLiveView(mInteractiveConnectView2.getConnectFrameLayout(), mSmallFrameLayout2, mInteractiveConnectView2.getConnectTextView());
+        MultiAlivcLiveView multiAlivcLiveView3 = new MultiAlivcLiveView(mInteractiveConnectView3.getConnectFrameLayout(), mSmallFrameLayout3, mInteractiveConnectView3.getConnectTextView());
+        MultiAlivcLiveView multiAlivcLiveView4 = new MultiAlivcLiveView(mInteractiveConnectView4.getConnectFrameLayout(), mSmallFrameLayout4, mInteractiveConnectView4.getConnectTextView());
 
-        mViewCombMap.put(mConnectTextView1, multiAlivcLiveView1);
-        mViewCombMap.put(mConnectTextView2, multiAlivcLiveView2);
-        mViewCombMap.put(mConnectTextView3, multiAlivcLiveView3);
-        mViewCombMap.put(mConnectTextView4, multiAlivcLiveView4);
+        mViewCombMap.put(mInteractiveConnectView1.getConnectTextView(), multiAlivcLiveView1);
+        mViewCombMap.put(mInteractiveConnectView2.getConnectTextView(), multiAlivcLiveView2);
+        mViewCombMap.put(mInteractiveConnectView3.getConnectTextView(), multiAlivcLiveView3);
+        mViewCombMap.put(mInteractiveConnectView4.getConnectTextView(), multiAlivcLiveView4);
 
-        mMuteImageView = findViewById(R.id.iv_mute);
-        mSpeakerPhoneImageView = findViewById(R.id.iv_speaker_phone);
     }
 
     private void initListener() {
-        mMuteImageView.setOnClickListener(new View.OnClickListener() {
+        mInteractiveSettingView.setOnInteractiveSettingListener(new InteractiveSettingView.OnInteractiveSettingListener() {
             @Override
-            public void onClick(View view) {
+            public void onSwitchCameraClick() {
+                mMultiAnchorController.switchCamera();
+            }
+
+            @Override
+            public void onMuteClick() {
                 mMultiAnchorController.setMute(!mIsMute);
                 mIsMute = !mIsMute;
-                mMuteImageView.setImageResource(mIsMute ? R.drawable.ic_interact_volume_off : R.drawable.ic_interact_volume_on);
+                mInteractiveSettingView.changeMute(mIsMute);
             }
-        });
 
-        mSpeakerPhoneImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (!FastClickUtil.isFastClick()) {
-                    Boolean tag = (Boolean) mSpeakerPhoneImageView.getTag();
-                    if (tag == null || !tag) {
-                        mSpeakerPhoneImageView.setColorFilter(R.color.text_blue);
-                        mSpeakerPhoneImageView.setTag(true);
-                    } else {
-                        mSpeakerPhoneImageView.clearColorFilter();
-                        mSpeakerPhoneImageView.setTag(false);
-                    }
-                    mMultiAnchorController.changeSpeakerPhone();
-                }
+            public void onSpeakerPhoneClick() {
+                mMultiAnchorController.changeSpeakerPhone();
             }
         });
 
@@ -182,15 +169,13 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
             @Override
             public void onPullError(String audienceId, AlivcLivePlayError errorType, String errorMsg) {
                 runOnUiThread(() -> {
-                    if (errorType == AlivcLivePlayError.AlivcLivePlayErrorStreamStopped) {
-                        mMultiAnchorController.stopConnect(audienceId);
-                        MultiAlivcLiveView multiAlivcLiveView = mIdViewCombMap.get(audienceId);
-                        if (multiAlivcLiveView != null) {
-                            changeSmallSurfaceViewVisible(false, multiAlivcLiveView);
-                            updateConnectTextView(false, multiAlivcLiveView.getConnectTextView());
-                        }
-                        ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
+                    mMultiAnchorController.stopConnect(audienceId);
+                    MultiAlivcLiveView multiAlivcLiveView = mIdViewCombMap.get(audienceId);
+                    if (multiAlivcLiveView != null) {
+                        changeSmallSurfaceViewVisible(false, multiAlivcLiveView);
+                        updateConnectTextView(false, multiAlivcLiveView.getConnectTextView());
                     }
+                    ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
                 });
             }
 
@@ -206,17 +191,34 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
         });
 
         //开始连麦
-        mConnectTextView1.setOnClickListener(this);
-        mConnectTextView2.setOnClickListener(this);
-        mConnectTextView3.setOnClickListener(this);
-        mConnectTextView4.setOnClickListener(this);
+        mInteractiveConnectView1.setConnectClickListener(() -> {
+            clickStartConnect(mInteractiveConnectView1.getConnectTextView());
+        });
+        mInteractiveConnectView2.setConnectClickListener(() -> {
+            clickStartConnect(mInteractiveConnectView2.getConnectTextView());
+        });
+        mInteractiveConnectView3.setConnectClickListener(() -> {
+            clickStartConnect(mInteractiveConnectView3.getConnectTextView());
+        });
+        mInteractiveConnectView4.setConnectClickListener(() -> {
+            clickStartConnect(mInteractiveConnectView4.getConnectTextView());
+        });
 
         mCloseImageView.setOnClickListener(view -> {
             mCurrentIntent = InteractLiveIntent.INTENT_FINISH;
             showInteractLiveDialog(null, getResources().getString(R.string.interact_live_leave_room_tips), false);
         });
+    }
 
-        mCameraImageView.setOnClickListener(view -> mMultiAnchorController.switchCamera());
+    private void clickStartConnect(TextView mCurrentTextView) {
+        if (mCurrentTextView != null && mCurrentTextView.getTag() != null && mMultiAnchorController.isOnConnected(mCurrentTextView.getTag().toString())) {
+            //主播端停止连麦
+            mCurrentIntent = InteractLiveIntent.INTENT_STOP_PULL;
+            showInteractLiveDialog(mCurrentTextView, getResources().getString(R.string.interact_live_connect_finish_tips), false);
+        } else {
+            //主播端开始连麦，输入用户 id
+            showInteractLiveDialog(mCurrentTextView, getResources().getString(R.string.interact_live_connect_tips), true);
+        }
     }
 
     private void changeSmallSurfaceViewVisible(boolean isShowSurfaceView, MultiAlivcLiveView alivcLiveView) {
@@ -291,7 +293,6 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
         });
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -316,33 +317,6 @@ public class MultiInteractLiveActivity extends AppCompatActivity implements View
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        String key = "";
-        TextView mCurrentTextView = null;
-        if (view == mConnectTextView1) {
-            mCurrentTextView = mConnectTextView1;
-            key = (String) mConnectTextView1.getTag();
-        } else if (view == mConnectTextView2) {
-            mCurrentTextView = mConnectTextView2;
-            key = (String) mConnectTextView2.getTag();
-        } else if (view == mConnectTextView3) {
-            mCurrentTextView = mConnectTextView3;
-            key = (String) mConnectTextView3.getTag();
-        } else if (view == mConnectTextView4) {
-            mCurrentTextView = mConnectTextView4;
-            key = (String) mConnectTextView4.getTag();
-        }
-        if (mMultiAnchorController.isOnConnected(key)) {
-            //主播端停止连麦
-            mCurrentIntent = InteractLiveIntent.INTENT_STOP_PULL;
-            showInteractLiveDialog(mCurrentTextView, getResources().getString(R.string.interact_live_connect_finish_tips), false);
-        } else {
-            //主播端开始连麦，输入用户 id
-            showInteractLiveDialog(mCurrentTextView, getResources().getString(R.string.interact_live_connect_tips), true);
         }
     }
 }

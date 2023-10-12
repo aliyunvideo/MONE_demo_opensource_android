@@ -4,9 +4,9 @@
         android:id="@android:id/background"
         android:gravity="center_vertical|fill_horizontal">
         <shape android:shape="rectangle">
-            <corners android:radius="2dp"/>
-            <size android:height="4dp"/>
-            <solid android:color="@color/black"/>
+            <corners android:radius="2dp" />
+            <size android:height="2dp" />
+            <solid android:color="@color/fill_strong" />
         </shape>
     </item>
 
@@ -16,9 +16,9 @@
         <clip>
             <shape android:shape="rectangle">
 
-                <corners android:radius="2dp"/>
-                <size android:height="4dp"/>
-                <solid android:color="@color/black"/>
+                <corners android:radius="2dp" />
+                <size android:height="2dp" />
+                <solid android:color="@color/fill_strong" />
             </shape>
         </clip>
     </item>
@@ -28,9 +28,9 @@
         android:gravity="center_vertical|fill_horizontal">
         <clip>
             <shape android:shape="rectangle">
-                <corners android:radius="2dp"/>
-                <size android:height="3dp"/>
-                <solid android:color="@color/player_seekbar_thumb"/>
+                <corners android:radius="2dp" />
+                <size android:height="2dp" />
+                <solid android:color="@color/fill_infrared" />
             </shape>
         </clip>
     </item>

@@ -6,10 +6,6 @@
     <string name="setting_resolution_540P">540P</string>
     <string name="setting_resolution_720P">720P</string>
     <string name="setting_resolution_1080P">1080P</string>
-    <string name="setting_audio_480">48KHz</string>
-    <string name="setting_audio_441">44.1KHz</string>
-    <string name="setting_audio_320">32KHz</string>
-    <string name="setting_audio_160">16KHz</string>
     <string name="setting_audio_aac_lc">LC</string>
     <string name="setting_audio_aac_he">HE-AAC</string>
     <string name="setting_audio_aac_hev2">HEv2-AAC</string>
@@ -202,6 +198,7 @@
     <string name="pull_common_enter_name_tv">Screen Sharing</string>
     <string name="pull_interact_name_tv">Connect Interact</string>
     <string name="pull_multi_interact_name_tv">Multi Connect Interact</string>
+    <string name="h5_compatible_name_tv">H5 Compatible</string>
     <string name="pull_multi_pk_name">Multi PK Interact</string>
     <string name="push_enter_name_tv">Camera Pushing</string>
     <string name="interact_live">Interact Live</string>

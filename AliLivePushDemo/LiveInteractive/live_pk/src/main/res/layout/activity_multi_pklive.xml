@@ -43,15 +43,6 @@
         app:layout_constraintStart_toStartOf="@id/tv_home_id"
         app:layout_constraintTop_toBottomOf="@id/tv_home_id" />
 
-    <ImageView
-        android:id="@+id/iv_camera"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_home_id" />
-
     <FrameLayout
         android:id="@+id/frame_owner"
         android:layout_width="150dp"
@@ -86,25 +77,12 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <ImageView
-        android:id="@+id/iv_mute"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/ic_interact_volume_on"
-        app:layout_constraintEnd_toEndOf="@id/iv_camera"
-        app:layout_constraintStart_toStartOf="@id/iv_camera"
-        app:layout_constraintTop_toBottomOf="@id/iv_camera" />
-
-    <ImageView
-        android:id="@+id/iv_speaker_phone"
-        android:layout_width="22dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_speaker_phone"
-        app:layout_constraintEnd_toEndOf="@id/iv_mute"
-        app:layout_constraintStart_toStartOf="@id/iv_mute"
-        app:layout_constraintTop_toBottomOf="@id/iv_mute" />
+    <com.alivc.live.interactive_common.widget.InteractiveSettingView
+        android:id="@+id/interactive_setting_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_home_id"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

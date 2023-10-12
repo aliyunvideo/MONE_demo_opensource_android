@@ -36,10 +36,9 @@ dependencies {
 
     implementation project(':LiveBeauty:live_beauty')
     implementation project(':LiveBeauty:live_queenbeauty')
-
-    implementation 'com.acker:simplezxing:1.5'
-
-    implementation(externalAliyunQueenUI) {
+    api(externalAliyunQueenUI) {
         exclude group: 'com.aliyun.maliang.android', module: 'queen'
     }
+
+    implementation 'com.acker:simplezxing:1.5'
 }

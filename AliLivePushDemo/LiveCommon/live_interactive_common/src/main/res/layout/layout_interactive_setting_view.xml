@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_camera"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/ic_camera" />
+
+    <ImageView
+        android:id="@+id/iv_mute"
+        android:layout_width="22dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_interact_volume_on" />
+
+    <ImageView
+        android:id="@+id/iv_speaker_phone"
+        android:layout_width="22dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_speaker_phone" />
+
+</merge>

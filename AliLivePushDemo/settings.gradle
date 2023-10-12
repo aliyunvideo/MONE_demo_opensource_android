@@ -4,6 +4,19 @@ if (file(livePushSdkSourceCode).exists()) {
     project(':alivc-livepusher-lib').projectDir = file(livePushSdkSourceCode)
 }
 
+apply from: 'https://code.alibaba-inc.com/apsara-media-box/imp-android-gradle-config/raw/master/aio/media_box_debug_config.gradle'  //内部调试代码，发布删除 -- 注释勿动
+
+if(this.ext.has('source_debug') && this.ext.source_debug) {  //内部调试代码，发布删除 -- 注释勿动
+    println("[mediabox] apply from: \"${this.ext.source_path}/settings.gradle\"")  //内部调试代码，发布删除 -- 注释勿动
+
+    include ':AUIFoundation'   //内部调试代码，发布删除 -- 注释勿动
+    project(':AUIFoundation').projectDir = new File(settingsDir, '../AUIFoundation')  //内部调试代码，发布删除 -- 注释勿动
+    include ':AndroidThirdParty'  //内部调试代码，发布删除 -- 注释勿动
+    project(':AndroidThirdParty').projectDir = new File(settingsDir, '../AndroidThirdParty')  //内部调试代码，发布删除 -- 注释勿动
+
+    apply from: "${this.ext.source_path}/settings.gradle"  //内部调试代码，发布删除 -- 注释勿动
+}  //内部调试代码，发布删除 -- 注释勿动
+
 include ':AndroidThirdParty'
 include ':AUIFoundation:AVTheme'
 include ':AUIFoundation:AVBaseUI'
@@ -20,8 +33,10 @@ include ':LiveBasic:live_pull_rts'
 
 include ':LiveInteractive:live_pk'
 include ':LiveInteractive:live_interactive'
+include ':LiveInteractive:barestream_interactive'
 
 include ':LiveCommon:live_commonbiz'
 include ':LiveCommon:live_commonutils'
 include ':LiveCommon:live_basic_common'
 include ':LiveCommon:live_interactive_common'
+

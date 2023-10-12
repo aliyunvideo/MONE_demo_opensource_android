@@ -1,8 +1,5 @@
 package com.alivc.live.pusher.demo;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.PermissionChecker;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -10,27 +7,32 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
+
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.baselive_pull.ui.PlayerActivity;
 import com.alivc.live.baselive_pull_rts.InputRtsUrlActivity;
 import com.alivc.live.baselive_push.ui.PushConfigActivity;
 import com.alivc.live.baselive_recording.ui.VideoRecordConfigActivity;
-import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.commonbiz.test.PushDemoTestConstants;
+import com.alivc.live.commonutils.ContextUtils;
+import com.alivc.live.commonutils.FastClickUtil;
+import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.interactive_common.InteractAppInfoActivity;
+import com.alivc.live.interactive_live.InteractLiveInputActivity;
+import com.alivc.live.interactive_pk.PKLiveInputActivity;
 import com.alivc.live.pusher.AlivcLiveBase;
 import com.aliyun.aio.avbaseui.AVBaseListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alivc.live.interactive_common.InteractAppInfoActivity;
-import com.alivc.live.interactive_live.InteractLiveInputActivity;
-import com.alivc.live.interactive_pk.PKLiveInputActivity;
-import com.alivc.live.commonutils.ContextUtils;
-import com.alivc.live.commonutils.FastClickUtil;
-import com.alivc.live.commonutils.ToastUtils;
-
+/**
+ * 一体化Demo·直播推流导航页
+ */
 @Route(path = "/live/MainActivity")
 public class PushMainActivity extends AVBaseListActivity {
     private static final int INDEX_CAMERA_PUSH = 0;
@@ -62,7 +64,7 @@ public class PushMainActivity extends AVBaseListActivity {
 //        menu.add(new ListModel(INDEX_LOCAL_VIDEO_PUSH, R.drawable.ic_live_bendi, getResources().getString(R.string.push_local_video_name_tv), "本期忽略"));
         menu.add(new ListModel(INDEX_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rtc_enter_name_tv), "支持常见协议，如FLV、RTMP、HLS、RTS等"));
         if (AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode)) {
-            menu.add(new ListModel(INDEX_RTS_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rts_enter_name),""));
+            menu.add(new ListModel(INDEX_RTS_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rts_enter_name), ""));
             menu.add(new ListModel(INDEX_INTERACT_LIVE, R.drawable.ic_live_interact, getResources().getString(R.string.interact_live), getResources().getString(R.string.interact_live)));
             menu.add(new ListModel(INDEX_INTERACT_PK_LIVE, R.drawable.ic_pk_interact, getResources().getString(R.string.pk_live), getResources().getString(R.string.pk_live)));
         }

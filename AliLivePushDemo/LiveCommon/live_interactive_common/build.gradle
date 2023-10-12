@@ -51,10 +51,10 @@ dependencies {
     api project(':AUIFoundation:AVUtils')
     api project(':LiveCommon:live_commonutils')
     api project(':LiveCommon:live_commonbiz')
+    api project(':LiveCommon:live_basic_common')
     api externalPlayerFull
-    if (file(livePushSdkSourceCode).exists()) {
-        api project(':alivc-livepusher-lib')
-    } else if (hasInteractiveLive()) {
+
+    if (hasInteractiveLive()) {
         api externalLivePusherInteractive
     } else {
         api externalLivePusher

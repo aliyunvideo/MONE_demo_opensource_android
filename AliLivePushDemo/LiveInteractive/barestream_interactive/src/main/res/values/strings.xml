@@ -1,0 +1,4 @@
+<resources>
+    <string name="interactive_bare_stream_start_pull">开始拉流</string>
+    <string name="interactive_bare_stream_stop_pull">结束拉流</string>
+</resources>

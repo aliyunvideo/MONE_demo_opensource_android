@@ -29,10 +29,15 @@ import java.util.List;
 
 /**
  * 非互动模式下，美颜实现相关类
+ *
+ * @note v4.4.4版本-v6.1.0版本，互动模式下的美颜，处理逻辑参考BeautySDKType.INTERACT_QUEEN，即：InteractQueenBeautyImpl；
+ * @note v6.1.0以后的版本（从v6.2.0开始），基础模式下的美颜，和互动模式下的美颜，处理逻辑保持一致，即：QueenBeautyImpl；
  */
 @Keep
 public class QueenBeautyImpl implements BeautyInterface {
     private static final String TAG = "QueenBeautyImpl";
+
+    private static final boolean FLAG_ENABLE_DEBUG_LOG = false;
 
     private final Context mContext;
 
@@ -73,6 +78,11 @@ public class QueenBeautyImpl implements BeautyInterface {
             }
 
             isBeautyEnable = true;
+        }
+
+        // 是否开启美颜SDK的debug日志
+        if (mMediaChainEngine != null && FLAG_ENABLE_DEBUG_LOG) {
+            mMediaChainEngine.enableDebugLog();
         }
     }
 
@@ -145,9 +155,12 @@ public class QueenBeautyImpl implements BeautyInterface {
 
     @Override
     public int onTextureInput(int inputTexture, int textureWidth, int textureHeight) {
-        if (!isLicenseValid){
+        // 判断美颜license是否生效，如果不生效，不做美颜处理
+        if (!isLicenseValid) {
+            Log.e(TAG, "license for queen sdk is invalid!");
             return inputTexture;
         }
+
         glThreadId = Thread.currentThread().getId();
 
         if (mMediaChainEngine == null || !isBeautyEnable) {
@@ -189,12 +202,12 @@ public class QueenBeautyImpl implements BeautyInterface {
                 // 推流的输入纹理经过处理，非原始摄像头采集纹理，这里单独针对角度适配: 右 out = 90 / 左 out = 270
                 mMediaChainEngine.setRenderAndFaceFlip(Flip.kFlipY, Flip.kNone);
                 // 此处的inputAngle实际为inputAngle += (outAngle-inputAngle),所以直接用outAngle代替
-                mMediaChainEngine.updateInputTextureBufferAndRunAlg(outAngle, (outAngle+180)%360, Flip.kFlipY, false);
+                mMediaChainEngine.updateInputTextureBufferAndRunAlg(outAngle, (outAngle + 180) % 360, Flip.kFlipY, false);
             } else { // 正 out = 180 / 倒立 out = 0
                 // 解决抠图和美发头像上下翻转的问题
                 // 推流的输入纹理经过处理，非原始摄像头采集纹理，这里单独针对角度适配: 正 out = 180 : 倒立 out = 0
                 mMediaChainEngine.setRenderAndFaceFlip(Flip.kFlipY, Flip.kNone);
-                mMediaChainEngine.updateInputTextureBufferAndRunAlg(outAngle, 180-outAngle, Flip.kFlipY, false);
+                mMediaChainEngine.updateInputTextureBufferAndRunAlg(outAngle, 180 - outAngle, Flip.kFlipY, false);
                 mMediaChainEngine.setSegmentInfoFlipY(true);
             }
             hasRunAlg = true;
@@ -205,9 +218,14 @@ public class QueenBeautyImpl implements BeautyInterface {
 
         int retCode = mMediaChainEngine.render();
         isAlgDataRendered = true;
-        Log.i(TAG, Thread.currentThread().getId() + " - " +"render : " + (SystemClock.uptimeMillis()-now) + "ms, hasRunAlg: " + hasRunAlg + ", textureW: " + textureWidth + ", textureH: " + textureHeight + ", outAngle: " + outAngle);
-        if (retCode == -9 || retCode == -10) {
-            Log.d(TAG, "queen error code:" + retCode + ",please ensure license valid");
+
+        if (FLAG_ENABLE_DEBUG_LOG) {
+            Log.i(TAG, Thread.currentThread().getId() + " - " + "render : " + (SystemClock.uptimeMillis() - now) + "ms, hasRunAlg: " + hasRunAlg
+                    + ", textureW: " + textureWidth + ", textureH: " + textureHeight + ", outAngle: " + outAngle);
+        }
+
+        if (retCode != 0) {
+            Log.w(TAG, "queen error code:" + retCode + ", please ensure license valid");
             GLES20.glBindFramebuffer(GL_FRAMEBUFFER, oldFboId[0]);
             isLicenseValid = false;
             return inputTexture;
@@ -241,7 +259,7 @@ public class QueenBeautyImpl implements BeautyInterface {
                 outputAngle = (180 + displayOrientation - mDeviceOrientation + 360) % 360;
             }
 
-            Log.d(TAG, "inputAngle" + inputAngle + ",outputAngle" + outputAngle);
+            Log.d(TAG, "inputAngle=" + inputAngle + ", outputAngle=" + outputAngle);
 
             mMediaChainEngine.updateInputDataAndRunAlg(image, format, width, height, stride, inputAngle, outputAngle, 0);
         }

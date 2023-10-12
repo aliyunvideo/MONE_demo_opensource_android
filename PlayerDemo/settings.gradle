@@ -1,6 +1,30 @@
-include ':app', ':aliliveplayer'
-def withExternalPlayer = System.getenv("ANDROID_ENABLE_EXTERNALPLAYER")
+include ':AUIPlayerApp'
 
-if(withExternalPlayer != 'false') {
+def withExternalPlayer = System.getenv("ANDROID_ENABLE_EXTERNALPLAYER")
+if (withExternalPlayer != 'false') {
     include ':ExternalPlayerExoLibrary'
 }
+
+include ':AndroidThirdParty'
+
+include ':AUIFoundation:AVTheme'
+include ':AUIFoundation:AVBaseUI'
+include ':AUIFoundation:AVMatisse'
+include ':AUIFoundation:AVUtils'
+
+include ':AUIFlowFeed'
+include ':AUIFullScreen'
+include ':AUIPlayerServer'
+
+include ':AUIVideoCommon'
+include ':AUIVideoCommon:common'
+include ':AUIVideoCommon:database'
+include ':AUIVideoCommon:easyfloat'
+include ':AUIVideoCommon:skeleton'
+include ':AUIVideoCommon:AliyunPlayerBase'
+include ':AUIVideoCommon:AlivcPlayerTools'
+
+include ':AUIVideoList:AUIVideoListCommon'
+include ':AUIVideoList:AUIVideoFunctionList'
+include ':AUIVideoList:AUIVideoStandradList'
+include ':AUIVideoList:AUIVideoEpisode'

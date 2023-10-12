@@ -6,6 +6,7 @@ import android.util.Log;
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.annotations.AlivcLiveNetworkQuality;
 import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
+import com.alivc.live.player.AlivcLivePlayConfig;
 import com.alivc.live.player.AlivcLivePlayInfoListener;
 import com.alivc.live.player.AlivcLivePlayerImpl;
 import com.alivc.live.player.AlivcLivePlayerStatsInfo;
@@ -53,6 +54,10 @@ public class MultiAlivcLivePlayer extends AlivcLivePlayerImpl implements AlivcLi
     }
 
     @Override
+    public void onNetworkQualityChanged(AlivcLiveNetworkQuality upQuality, AlivcLiveNetworkQuality downQuality) {
+
+    }
+
     public void onNetworkQualityChanged(AlivcLiveNetworkQuality quality) {
         Log.w(TAG, "onNetworkQualityChanged: "  + quality);
     }
@@ -60,6 +65,12 @@ public class MultiAlivcLivePlayer extends AlivcLivePlayerImpl implements AlivcLi
     @Override
     public void onReceiveSEIMessage(int payload, byte[] data) {
         Log.d(TAG, "onReceiveSEIMessage: " + payload + ", " + new String(data, StandardCharsets.UTF_8));
+    }
+
+    @Override
+    public void onPlayoutVolumeUpdate(int volume, boolean isSpeaking) {
+        // 音频音量(仅互动模式下生效，需设置AlivcLivePusher#enableAudioVolumeIndication接口)
+        // Log.d(TAG, "onPlayoutVolumeUpdate: " + volume + ", " + isSpeaking);
     }
 
     @Override

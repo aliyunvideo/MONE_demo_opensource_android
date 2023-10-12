@@ -3,11 +3,12 @@ package com.alivc.live.interactive_live;
 import android.content.Context;
 import android.widget.FrameLayout;
 
-import com.alivc.live.commonbiz.ReadFileData;
-import com.alivc.live.commonbiz.ResourcesDownload;
+import com.alivc.live.commonbiz.LocalStreamReader;
+import com.alivc.live.commonbiz.ResourcesConst;
 import com.alivc.live.commonbiz.test.URLUtils;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+import com.alivc.live.pusher.AlivcResolutionEnum;
 
 import java.io.File;
 
@@ -18,7 +19,7 @@ public class AnchorController {
 
     private final InteractLiveManager mInteractLiveManager;
     private final Context mContext;
-    private final ReadFileData mReadFileData;
+    private final LocalStreamReader mLocalStreamReader;
     //主播预览 View
     private FrameLayout mAnchorRenderView;
     //观众连麦预览 View
@@ -27,18 +28,38 @@ public class AnchorController {
     private final String mPushUrl;
     //观众连麦拉流地址
     private String mPullUrl;
-    private final String mRoomId;
-    private final String mAnchorId;
+    private String mRoomId;
+    private String mAnchorId;
     private boolean mEnableSpeakerPhone = false;
 
     public AnchorController(Context context, String roomId, String anchorId) {
         this.mRoomId = roomId;
         this.mAnchorId = anchorId;
         this.mContext = context;
-        mReadFileData = new ReadFileData();
+        AlivcResolutionEnum resolution = LivePushGlobalConfig.mAlivcLivePushConfig.getResolution();
+        int width = AlivcResolutionEnum.getResolutionWidth(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
+        int height = AlivcResolutionEnum.getResolutionHeight(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
+        mLocalStreamReader = new LocalStreamReader.Builder()
+                .setVideoWith(width)
+                .setVideoHeight(height)
+                .setVideoStride(width)
+                .setVideoSize(height * width * 3 / 2)
+                .setVideoRotation(0)
+                .setAudioSampleRate(44100)
+                .setAudioChannel(1)
+                .setAudioBufferSize(2048)
+                .build();
         mPushUrl = URLUtils.generateInteractivePushUrl(roomId, anchorId);
         mInteractLiveManager = new InteractLiveManager();
         mInteractLiveManager.init(context);
+    }
+
+    public AnchorController(Context context, String interactiveURL) {
+        this.mContext = context;
+        mLocalStreamReader = new LocalStreamReader();
+        mPushUrl = interactiveURL;
+        mInteractLiveManager = new InteractLiveManager();
+        mInteractLiveManager.init(context, true);
     }
 
     /**
@@ -73,31 +94,38 @@ public class AnchorController {
      */
     public void startPush() {
         externAV();
-        mInteractLiveManager.setGOP(LivePushGlobalConfig.GOP);
         mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl, true);
     }
 
     private void externAV() {
-        if (LivePushGlobalConfig.ENABLE_EXTERN_AV) {
-            File yuvFile = ResourcesDownload.localCaptureYUVFilePath(mContext);
-            mReadFileData.readYUVData(yuvFile, (buffer, pts) ->
-                    mInteractLiveManager.inputStreamVideoData(buffer, 720, 1280, 720, 1280 * 720 * 3 / 2, pts, 0)
-            );
-            File pcmFile = new File(mContext.getFilesDir().getPath() + File.separator + "alivc_resource/441.pcm");
-            mReadFileData.readPCMData(pcmFile, (buffer, length, pts) -> mInteractLiveManager.inputStreamAudioData(buffer, length, 44100, 1, pts));
+        if (LivePushGlobalConfig.mAlivcLivePushConfig.isExternMainStream()) {
+            File yuvFile = ResourcesConst.localCaptureYUVFilePath(mContext);
+            mLocalStreamReader.readYUVData(yuvFile, (buffer, pts, videoWidth, videoHeight, videoStride, videoSize, videoRotation) -> {
+                mInteractLiveManager.inputStreamVideoData(buffer, videoWidth, videoHeight, videoStride, videoSize, pts, videoRotation);
+            });
+            File pcmFile = ResourcesConst.localCapturePCMFilePath(mContext);
+            mLocalStreamReader.readPCMData(pcmFile, (buffer, length, pts, audioSampleRate, audioChannel) -> {
+                mInteractLiveManager.inputStreamAudioData(buffer, length, audioSampleRate, audioChannel, pts);
+            });
         }
     }
 
     /**
      * 开始连麦
      *
-     * @param viewerId 要连麦的观众 id
+     * @param viewerInfo 要连麦的观众信息
+     * @param isUrl      如果 isUrl 是 false，viewerInfo 表示观众的Id，否则 viewerInfo 表示观众端拉流的 URL
      */
-    public void startConnect(String viewerId) {
-        setViewerId(viewerId);
-        mInteractLiveManager.setPullView(mViewerRenderView, false);
-        mInteractLiveManager.startPull(mPullUrl);
-        mInteractLiveManager.setLiveMixTranscodingConfig(mAnchorId, viewerId);
+    public void startConnect(String viewerInfo, boolean isUrl) {
+        if (isUrl) {
+            mInteractLiveManager.setPullView(mViewerRenderView, false);
+            mInteractLiveManager.startPull(viewerInfo);
+        } else {
+            setViewerId(viewerInfo);
+            mInteractLiveManager.setPullView(mViewerRenderView, false);
+            mInteractLiveManager.startPull(mPullUrl);
+            mInteractLiveManager.setLiveMixTranscodingConfig(mAnchorId, viewerInfo);
+        }
     }
 
     /**
@@ -123,8 +151,8 @@ public class AnchorController {
 
     public void release() {
         mInteractLiveManager.release();
-        mReadFileData.stopYUV();
-        mReadFileData.stopPcm();
+        mLocalStreamReader.stopYUV();
+        mLocalStreamReader.stopPcm();
     }
 
     /**
@@ -146,5 +174,9 @@ public class AnchorController {
     public void changeSpeakerPhone() {
         mEnableSpeakerPhone = !mEnableSpeakerPhone;
         mInteractLiveManager.enableSpeakerPhone(mEnableSpeakerPhone);
+    }
+
+    public void muteLocalCamera(boolean muteLocalCamera) {
+        mInteractLiveManager.muteLocalCamera(muteLocalCamera);
     }
 }

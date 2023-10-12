@@ -1,5 +1,6 @@
 package com.alivc.player.videolist.auivideostandradlist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
@@ -13,10 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListView;
+import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewType;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListDiffCallback;
-import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
+import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
 import com.alivc.player.videolist.auivideostandradlist.adapter.AUIVideoStandardListAdapter;
 import com.alivc.player.videolist.auivideostandradlist.adapter.AUIVideoStandardListLayoutManager;
@@ -44,6 +46,11 @@ public class AUIVideoStandardListView extends AUIVideoListView {
     public AUIVideoStandardListView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+    }
+
+    @Override
+    protected AUIVideoListViewType getViewType() {
+        return AUIVideoListViewType.STANDARD_LIST;
     }
 
     private void init(Context context) {
@@ -152,6 +159,15 @@ public class AUIVideoStandardListView extends AUIVideoListView {
     @Override
     public void onItemClick(int position) {
         mController.onPlayStateChange();
+    }
+
+    @Override
+    public void onBackPress() {
+        if (mContext instanceof Activity) {
+            if (!((Activity) mContext).isFinishing()) {
+                ((Activity) mContext).finish();
+            }
+        }
     }
 
     @Override

@@ -13,10 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alivc.live.baselive_push.Common;
+import com.alivc.live.baselive_common.Common;
+import com.alivc.live.baselive_common.bean.MusicInfo;
 import com.alivc.live.baselive_push.R;
 import com.alivc.live.baselive_push.adapter.MusicSelectAdapter;
-import com.alivc.live.baselive_push.bean.MusicInfo;
 import com.aliyun.aio.avbaseui.avdialog.AVBaseBottomSheetDialog;
 
 public class PushMusicBottomSheet extends AVBaseBottomSheetDialog implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener ,MusicSelectAdapter.OnItemClick{

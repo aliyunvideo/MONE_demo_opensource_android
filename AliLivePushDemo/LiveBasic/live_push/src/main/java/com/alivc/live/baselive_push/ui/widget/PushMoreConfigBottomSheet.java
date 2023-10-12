@@ -12,12 +12,14 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.alivc.live.baselive_push.Common;
+import com.alivc.live.baselive_common.Common;
+import com.alivc.live.baselive_common.LivePushResolutionView;
 import com.alivc.live.baselive_push.R;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.pusher.AlivcPreviewDisplayMode;
 import com.alivc.live.pusher.AlivcQualityModeEnum;
 import com.alivc.live.commonutils.DensityUtil;
+import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.aliyun.aio.avbaseui.avdialog.AVBaseBottomSheetDialog;
 
 public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implements View.OnClickListener ,CompoundButton.OnCheckedChangeListener{
@@ -37,6 +39,7 @@ public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implement
     private View mDisplayModeFit;
     private View mDisplayModeCut;
     private View mOrientationBack;
+    private LivePushResolutionView mLivePushResolutionView;
 
     public PushMoreConfigBottomSheet(Context context) {
         super(context);
@@ -112,6 +115,13 @@ public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implement
             onClick(mDisplayModeCut);
         }
 
+        mLivePushResolutionView = mRootView.findViewById(R.id.live_push_resolution);
+        mLivePushResolutionView.setOnResolutionChangedListener(resolutionEnum -> {
+            if (mOnMoreConfigListener != null) {
+                mOnMoreConfigListener.onResolutionChanged(resolutionEnum);
+            }
+        });
+
         return mRootView;
     }
 
@@ -186,7 +196,6 @@ public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implement
 
         }
 
-
     }
 
     public void setOnMoreConfigListener(OnMoreConfigListener onMoreConfigListener) {
@@ -219,6 +228,14 @@ public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implement
 
     }
 
+    public int getResolutionWidth() {
+        return mLivePushResolutionView.getSelfDefineWidth();
+    }
+
+    public int getResolutionHeight() {
+        return mLivePushResolutionView.getSelfDefineHeight();
+    }
+
     public interface OnMoreConfigListener {
         void onDisplayModeChanged(AlivcPreviewDisplayMode mode);
 
@@ -231,5 +248,7 @@ public class PushMoreConfigBottomSheet extends AVBaseBottomSheetDialog implement
         void onAddDynamic();
 
         void onRemoveDynamic();
+
+        void onResolutionChanged(AlivcResolutionEnum resolutionEnum);
     }
 }

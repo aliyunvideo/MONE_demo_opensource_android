@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
-
+apply from: '../../common.gradle'
 android {
     compileSdkVersion androidCompileSdkVersion
 
@@ -38,7 +38,7 @@ dependencies {
     api project(':AUIFoundation:AVBaseUI')
     api project(':AUIFoundation:AVTheme')
     implementation project(':AliyunVideoCommon')
-    implementation externalSvideopro
+    api project.ext.ugc_sdk
     kapt externalGlideAnnotation
     kapt externalGlideProcessor
     api (externalGlide){

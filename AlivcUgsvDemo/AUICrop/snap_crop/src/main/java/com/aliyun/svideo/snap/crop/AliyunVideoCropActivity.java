@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aliyun.common.global.Version;
+import com.aliyun.svideo.base.AliyunSnapVideoParam;
 import com.aliyun.ugsv.common.utils.DensityUtil;
 import com.aliyun.ugsv.common.utils.FileUtils;
 import com.aliyun.ugsv.common.utils.ToastUtil;
@@ -56,7 +57,6 @@ import com.aliyun.svideosdk.common.struct.common.CropKey;
 import com.aliyun.svideosdk.common.struct.common.VideoDisplayMode;
 import com.aliyun.svideosdk.common.struct.common.VideoQuality;
 import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
-import com.aliyun.svideosdk.common.struct.common.AliyunSnapVideoParam;
 import com.aliyun.svideosdk.common.AliyunIThumbnailFetcher;
 import com.aliyun.ugsv.common.utils.DateTimeUtils;
 import com.aliyun.ugsv.common.utils.NotchScreenUtil;

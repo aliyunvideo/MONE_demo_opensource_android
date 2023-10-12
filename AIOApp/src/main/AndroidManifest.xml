@@ -52,6 +52,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.aliyun.auiplayerapp.PlayerMainActivity"
+            android:exported="true"
+            tools:remove="alwaysRetainTaskState, clearTaskOnLaunch, windowSoftInputMode, configChanges">
+            <intent-filter tools:node="removeAll">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <provider
             tools:replace="authorities,exported,grantUriPermissions"
             android:name="androidx.core.content.FileProvider"

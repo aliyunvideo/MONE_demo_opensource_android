@@ -17,23 +17,32 @@ import okhttp3.Response;
 
 public class ResourcesDownload {
 
-    private static final String OSS_YUV_URL = "https://alivc-demo-cms.alicdn.com/versionProduct/resources/livePush/capture0.yuv";
+    private static final String TAG = "ResourcesDownload";
+
+    private static final String BASIC_YUV_OSS_URL = "https://alivc-demo-cms.alicdn.com/versionProduct/resources/livePush/capture0.yuv";
+    private static final String GLOBAL_YUV_OSS_URL = "https://alivc-demo-cms.alicdn.com/versionProduct/resources/livePush/capture0_SG.yuv";
+    private static final String FINAL_OSS_YUV_URL = BASIC_YUV_OSS_URL;
 
     private static final Handler mHandler = new Handler(Looper.getMainLooper());
 
+    private ResourcesDownload() {
+    }
+
     public static long downloadCaptureYUV(Context context, OnDownloadListener listener) {
         Downloader downloader = new Downloader(context.getApplicationContext());
-        File file = localCaptureYUVFilePath(context);
-        Log.d("AliLivePusher", "downloadYUV file : " + file.getAbsolutePath());
+        File file = ResourcesConst.localCaptureYUVFilePath(context);
+        Log.d(TAG, "downloadYUV file : " + file.getAbsolutePath());
 
         downloader.setDownloadListener(new OnDownloadListener() {
             @Override
             public void onDownloadSuccess(long downloadId) {
+                Log.d(TAG, "onDownloadSuccess : " + downloadId);
                 verifyFile(downloader, file, listener);
             }
 
             @Override
             public void onDownloadProgress(long downloadId, double percent) {
+                Log.i(TAG, "onDownloadProgress : " + downloadId + ", " + percent);
                 if (listener != null) {
                     mHandler.post(() -> listener.onDownloadProgress(downloadId, percent));
                 }
@@ -41,6 +50,7 @@ public class ResourcesDownload {
 
             @Override
             public void onDownloadError(long downloadId, int errorCode, String errorMsg) {
+                Log.e(TAG, "onDownloadError : " + downloadId + ", " + errorCode + ", " + errorMsg);
                 if (listener != null) {
                     mHandler.post(() -> listener.onDownloadError(downloadId, errorCode, errorMsg));
                 }
@@ -53,15 +63,8 @@ public class ResourcesDownload {
             verifyFile(downloader, file, listener);
             return -1;
         } else {
-            return downloader.startDownload(OSS_YUV_URL, file);
+            return downloader.startDownload(FINAL_OSS_YUV_URL, file);
         }
-    }
-
-    /**
-     *  capture0.yuv 文件本地保存路径
-     */
-    public static File localCaptureYUVFilePath(Context context) {
-        return new File(context.getApplicationContext().getExternalFilesDir(null), "capture0.yuv");
     }
 
     /**
@@ -78,28 +81,44 @@ public class ResourcesDownload {
      * 通过 Response 中 etag 字段获取 OSS 文件的 MD5
      */
     private static void verifyFile(Downloader downloader, File file, OnDownloadListener listener) {
-        HttpUtils.get(OSS_YUV_URL, new OnNetWorkListener() {
+        HttpUtils.get(FINAL_OSS_YUV_URL, new OnNetWorkListener() {
             @Override
             public void onSuccess(Object obj) {
                 Response response = (Response) obj;
-                String serverMD5 = response.header("etag");
-                if (serverMD5 != null && !TextUtils.isEmpty(serverMD5)) {
-                    String responseMD5 = serverMD5.replace("\"", "").trim();
+
+                // 1、通过oss url获取etag，和本地文件的md5进行比对，是否一致
+                String responseMD5 = "";
+                try {
+                    responseMD5 = response.header("etag").replace("\"", "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (!TextUtils.isEmpty(responseMD5)) {
                     String fileMD5 = FileUtil.getFileMD5(file).trim();
-                    if (fileMD5.equalsIgnoreCase(responseMD5)) {
-                        //文件已存在，且完整
+                    if (responseMD5.equalsIgnoreCase(fileMD5)) {
                         if (listener != null) {
                             mHandler.post(() -> listener.onDownloadSuccess(-1));
                         }
-                    } else {
-                        //文件不完整，重新下载
-                        deleteFile(file);
-                        downloader.startDownload(OSS_YUV_URL, file);
+                        return;
                     }
-                } else {
-                    deleteFile(file);
-                    downloader.startDownload(OSS_YUV_URL, file);
                 }
+
+                // 2、有时候etag是个非法值，并不代表文件的实际md5（坑），那么直接对比文件的大小是否一致
+                long serverFileSize = -1;
+                try {
+                    serverFileSize = Long.parseLong(response.header("Content-Length").trim());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (file != null && serverFileSize == file.length()) {
+                    if (listener != null) {
+                        mHandler.post(() -> listener.onDownloadSuccess(-1));
+                    }
+                    return;
+                }
+
+                deleteFile(file);
+                downloader.startDownload(FINAL_OSS_YUV_URL, file);
             }
 
             @Override

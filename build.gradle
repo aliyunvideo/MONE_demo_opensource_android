@@ -80,7 +80,7 @@ buildscript {
             allowInsecureProtocol = true
             url "http://maven.aliyun.com/repository/central"
         }
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://www.jitpack.io' }
     }
     apply from: 'AndroidThirdParty/config.gradle'
     apply from: 'sdk_type_config.gradle'

@@ -138,49 +138,57 @@
             <RelativeLayout
                 android:id="@+id/rl_interaction"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/model_title"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="10dp"
-                    android:text="@string/interaction_mode"
+                    android:text="@string/live_push_mode"
                     android:textColor="@color/text_strong"
                     android:textSize="@dimen/font_size_28px" />
 
-                <Switch
-                    android:id="@+id/interaction_control"
-                    android:layout_width="wrap_content"
+                <RadioGroup
+                    android:id="@+id/live_push_mode"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="16dp"
-                    android:checked="false"
-                    android:textOff=""
-                    android:textOn=""
-                    android:thumb="@drawable/thumb"
-                    android:track="@drawable/track"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    android:layout_below="@id/model_title"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/push_mode_normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/live_push_mode_normal" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/push_mode_interaction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/live_push_mode_interaction" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/push_mode_raw_stream"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/live_push_mode_raw_stream" />
+
+                </RadioGroup>
 
             </RelativeLayout>
 
-            <include
-                android:id="@+id/push_args_setting"
-                layout="@layout/push_args_setting_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <include
-                android:id="@+id/push_function_setting"
-                layout="@layout/push_function_setting_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+            <com.alivc.live.baselive_common.LivePushSettingView
+                android:id="@+id/push_setting_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/beginPublish"

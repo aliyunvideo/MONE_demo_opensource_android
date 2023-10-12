@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <FrameLayout
+        android:id="@+id/fl_un_connect"
+        android:layout_width="95dp"
+        android:layout_height="160dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/border_infrared">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_interact_live_un_connect_bg" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_connect"
+        android:layout_width="94dp"
+        android:layout_height="30dp"
+        android:background="@drawable/shape_pysh_btn_bg"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/interact_start_connect"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+</merge>

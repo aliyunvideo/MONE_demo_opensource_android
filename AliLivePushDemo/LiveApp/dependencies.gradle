@@ -12,6 +12,7 @@ dependencies {
     implementation project(':LiveBasic:live_screencap')
     implementation project(':LiveInteractive:live_pk')
     implementation project(':LiveInteractive:live_interactive')
+    implementation project(':LiveInteractive:barestream_interactive')
     implementation externalARouter
     annotationProcessor externalARouterCompiler
 }

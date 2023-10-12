@@ -1,7 +1,9 @@
 package com.alivc.player.videolist.auivideofunctionlist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,10 +15,11 @@ import com.alivc.player.videolist.auivideofunctionlist.domain.GestureGuidanceUse
 import com.alivc.player.videolist.auivideofunctionlist.player.AliPlayerPool;
 import com.alivc.player.videolist.auivideofunctionlist.utils.GlobalSettings;
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListView;
+import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewType;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListDiffCallback;
-import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
+import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.player.bean.ErrorInfo;
@@ -52,6 +55,11 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
         init(context);
     }
 
+    @Override
+    protected AUIVideoListViewType getViewType() {
+        return AUIVideoListViewType.FUNCTION_LIST;
+    }
+
     private void init(Context context) {
         this.mContext = context;
         AliPlayerPool.init(mContext);
@@ -82,6 +90,7 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
             }
         });
     }
+
     @Override
     protected AUIVideoListAdapter initAUIVideoListAdapter(Context context) {
         mAUIVideoListAdapter = new AUIVideoFunctionListAdapter(new AUIVideoListDiffCallback());
@@ -163,6 +172,15 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
     }
 
     @Override
+    public void onBackPress() {
+        if (mContext instanceof Activity) {
+            if (!((Activity) mContext).isFinishing()) {
+                ((Activity) mContext).finish();
+            }
+        }
+    }
+
+    @Override
     public void onInitComplete() {
 
     }
@@ -224,7 +242,7 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
     }
 
     @Override
-    public void onRenderingStart(int position,long duration) {
+    public void onRenderingStart(int position, long duration) {
         onVideoFrameShow(duration);
     }
 
@@ -239,7 +257,7 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
     public void onSeek(int position, long seekPosition) {
         AUIVideoListViewHolder viewHolder = getViewHolderByPosition(position);
         if (viewHolder != null) {
-            mController.seekTo(seekPosition,viewHolder);
+            mController.seekTo(seekPosition, viewHolder);
         }
     }
 

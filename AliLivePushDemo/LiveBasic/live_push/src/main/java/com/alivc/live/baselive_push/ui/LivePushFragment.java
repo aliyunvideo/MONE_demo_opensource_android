@@ -31,6 +31,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alivc.component.custom.AlivcLivePushCustomFilter;
 import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.annotations.AlivcLiveNetworkQuality;
 import com.alivc.live.annotations.AlivcLivePushKickedOutType;
 import com.alivc.live.baselive_common.CommonDialog;
 import com.alivc.live.baselive_common.LivePusherSEIView;
@@ -59,21 +60,16 @@ import com.alivc.live.pusher.AlivcLivePushNetworkListener;
 import com.alivc.live.pusher.AlivcLivePushStatsInfo;
 import com.alivc.live.pusher.AlivcLivePusher;
 import com.alivc.live.pusher.AlivcPreviewDisplayMode;
+import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.alivc.live.pusher.AlivcSnapshotListener;
 import com.alivc.live.pusher.WaterMarkInfo;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyunsdk.queen.menu.BeautyMenuPanel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -83,8 +79,6 @@ import java.util.Date;
 import java.util.Vector;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class LivePushFragment extends Fragment {
     public static final String TAG = "LivePushFragment";
@@ -138,7 +132,6 @@ public class LivePushFragment extends Fragment {
     private int mQualityMode = 0;
 
     ScheduledExecutorService mExecutorService = new ScheduledThreadPoolExecutor(5);
-    private boolean audioThreadOn = false;
     private boolean mIsStartAsnycPushing = false;
 
     private PushMusicBottomSheet mMusicDialog = null;
@@ -172,6 +165,9 @@ public class LivePushFragment extends Fragment {
 
     private LivePushViewModel mLivePushViewModel;
     private LivePusherSEIView mSeiView;
+    private AlivcResolutionEnum mCurrentResolution;
+
+    private boolean mIsBGMPlaying = false;
 
     public static LivePushFragment newInstance(AlivcLivePushConfig livePushConfig, String url, boolean async, boolean mAudio, boolean mVideoOnly, int cameraId,
                                                boolean isFlash, int mode, String authTime, String privacyKey, boolean mixExtern,
@@ -294,16 +290,9 @@ public class LivePushFragment extends Fragment {
         mSoundEffectView = view.findViewById(R.id.sound_effect_view);
 
         mSeiView = view.findViewById(R.id.sei_view);
-
         mSeiView.setSendSeiViewListener(text -> {
             AlivcLivePusher livePusher = mPushController.getLivePusher();
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("LivePushSEI", text);
-                livePusher.sendMessage(jsonObject.toString(), 1, 2000, true);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+            livePusher.sendMessage(text, 0, 0, true);
         });
 
         mSoundEffectView.setOnSoundEffectChangedListener(new OnSoundEffectChangedListener() {
@@ -443,7 +432,7 @@ public class LivePushFragment extends Fragment {
                              * 全局MNN相关的库，统一留一份即可；
                              * 具体请查看官网文档或API文档，或者您可以咨询技术同学协助解决问题；
                              *
-                             * @see <a href="https://help.aliyun.com/document_detail/97659.html">推流SDK（新版）官网文档</a>
+                             * @see <a href="https://help.aliyun.com/zh/live/developer-reference/push-sdk/">推流SDK（新版）官网文档</a>
                              */
                             @Override
                             public void onAudioIntelligentNoise(boolean state) {
@@ -469,6 +458,10 @@ public class LivePushFragment extends Fragment {
                             public void onBgResource(String path) {
                                 if (!TextUtils.isEmpty(path)) {
                                     pusher.startBGMAsync(path);
+                                    if (mAlivcLivePushConfig.getLivePushMode() == AlivcLiveMode.AlivcLiveInteractiveMode) {
+                                        //互动模式，开启 bgm 后，需要设置音量，否则没有声音
+                                        pusher.setBGMVolume(50);
+                                    }
                                 } else {
                                     try {
                                         pusher.stopBGMAsync();
@@ -579,7 +572,6 @@ public class LivePushFragment extends Fragment {
                                 }
                             } else {
                                 pusher.stopPush();
-                                stopPcm();
                                 mOperaButton.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -653,6 +645,7 @@ public class LivePushFragment extends Fragment {
                                 public void run() {
                                     PushMoreConfigBottomSheet pushMoreDialog = new PushMoreConfigBottomSheet(getActivity(), R.style.AIO_BottomSheetDialog);
                                     pushMoreDialog.setOnMoreConfigListener(new PushMoreConfigBottomSheet.OnMoreConfigListener() {
+
                                         @Override
                                         public void onDisplayModeChanged(AlivcPreviewDisplayMode mode) {
                                             pusher.setPreviewMode(mode);
@@ -696,6 +689,20 @@ public class LivePushFragment extends Fragment {
                                                 pusher.removeDynamicsAddons(id);
                                                 mDynamicals.remove(index);
                                             }
+                                        }
+
+                                        @Override
+                                        public void onResolutionChanged(AlivcResolutionEnum resolutionEnum) {
+                                            mCurrentResolution = resolutionEnum;
+                                            if (resolutionEnum != AlivcResolutionEnum.RESOLUTION_SELF_DEFINE) {
+                                                pusher.changeResolution(resolutionEnum);
+                                            }
+                                        }
+                                    });
+                                    pushMoreDialog.setOnDismissListener(dialogInterface -> {
+                                        if (mCurrentResolution == AlivcResolutionEnum.RESOLUTION_SELF_DEFINE) {
+                                            AlivcResolutionEnum.RESOLUTION_SELF_DEFINE.setSelfDefineResolution(pushMoreDialog.getResolutionWidth(),pushMoreDialog.getResolutionHeight());
+                                            pusher.changeResolution(AlivcResolutionEnum.RESOLUTION_SELF_DEFINE);
                                         }
                                     });
                                     pushMoreDialog.setQualityMode(mQualityMode);
@@ -886,6 +893,17 @@ public class LivePushFragment extends Fragment {
         public void onKickedOutByServer(AlivcLivePusher pusher, AlivcLivePushKickedOutType kickedOutType) {
             Log.d(TAG, "onKickedOutByServer: " + kickedOutType);
         }
+
+        @Override
+        public void onMicrophoneVolumeUpdate(AlivcLivePusher pusher, int volume) {
+            // 麦克风音量回调（仅互动模式下生效）
+            // Log.d(TAG, "onMicrophoneVolumeUpdate: " + volume);
+        }
+
+        @Override
+        public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId) {
+
+        }
     };
 
     AlivcLivePushErrorListener mPushErrorListener = new AlivcLivePushErrorListener() {
@@ -946,6 +964,11 @@ public class LivePushFragment extends Fragment {
         }
 
         @Override
+        public void onNetworkQualityChanged(AlivcLiveNetworkQuality upQuality, AlivcLiveNetworkQuality downQuality) {
+
+        }
+
+        @Override
         public void onConnectionLost(AlivcLivePusher pusher) {
             mIsStartAsnycPushing = false;
             showToast("推流已断开");
@@ -982,21 +1005,25 @@ public class LivePushFragment extends Fragment {
         @Override
         public void onStarted() {
             Log.d(TAG, "onStarted: ");
+            mIsBGMPlaying = true;
         }
 
         @Override
         public void onStopped() {
             Log.d(TAG, "onStopped: ");
+            mIsBGMPlaying = false;
         }
 
         @Override
         public void onPaused() {
             Log.d(TAG, "onPaused: ");
+            mIsBGMPlaying = false;
         }
 
         @Override
         public void onResumed() {
             Log.d(TAG, "onResumed: ");
+            mIsBGMPlaying = true;
         }
 
         @Override
@@ -1014,17 +1041,20 @@ public class LivePushFragment extends Fragment {
         @Override
         public void onCompleted() {
             Log.d(TAG, "onCompleted: ");
+            mIsBGMPlaying = false;
         }
 
         @Override
         public void onDownloadTimeout() {
             Log.d(TAG, "onDownloadTimeout: ");
+            mIsBGMPlaying = false;
         }
 
         @Override
         public void onOpenFailed() {
             Log.d(TAG, "onOpenFailed: ");
             showDialog(getSafeString(R.string.bgm_open_failed));
+            mIsBGMPlaying = false;
         }
     };
 
@@ -1213,75 +1243,9 @@ public class LivePushFragment extends Fragment {
         return mTempUrl;
     }
 
-    private void startPCM(final Context context) {
-        AlivcLivePusher pusher = mPushController.getLivePusher();
-        new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
-            private AtomicInteger atoInteger = new AtomicInteger(0);
-
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread t = new Thread(r);
-                t.setName("LivePushActivity-readPCM-Thread" + atoInteger.getAndIncrement());
-                return t;
-            }
-        }).execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                audioThreadOn = true;
-                byte[] pcm;
-                int allSended = 0;
-                int sizePerSecond = 44100 * 2;
-                InputStream myInput = null;
-                OutputStream myOutput = null;
-                boolean reUse = false;
-                long startPts = System.nanoTime() / 1000;
-                try {
-                    File f = new File(getActivity().getFilesDir().getPath() + File.separator + "alivc_resource/441.pcm");
-                    myInput = new FileInputStream(f);
-                    // File f = new File("/sdcard/alivc_resource/441.pcm");
-                    byte[] buffer = new byte[2048];
-                    int length = myInput.read(buffer, 0, 2048);
-                    while (length > 0 && audioThreadOn) {
-                        long pts = System.nanoTime() / 1000;
-                        pusher.inputStreamAudioData(buffer, length, 44100, 1, pts);
-                        allSended += length;
-                        if ((allSended * 1000000L / sizePerSecond - 50000) > (pts - startPts)) {
-                            try {
-                                Thread.sleep(45);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        length = myInput.read(buffer);
-                        if (length < 2048) {
-                            myInput.close();
-                            myInput = new FileInputStream(f);
-                            length = myInput.read(buffer);
-                        }
-                        try {
-                            Thread.sleep(3);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    myInput.close();
-                    audioThreadOn = false;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public boolean isBGMPlaying() {
+        return mIsBGMPlaying;
     }
-
-    private void stopPcm() {
-        audioThreadOn = false;
-    }
-
 
     private void initBeautyManager() {
         if (mBeautyManager == null) {

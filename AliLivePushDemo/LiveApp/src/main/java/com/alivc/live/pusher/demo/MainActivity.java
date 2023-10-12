@@ -22,19 +22,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.alivc.live.baselive_push.ui.PushConfigActivity;
 import com.alivc.live.annotations.AlivcLiveMode;
+import com.alivc.live.barestream_interactive.InteractiveInputURLActivity;
+import com.alivc.live.baselive_pull.ui.PlayerActivity;
+import com.alivc.live.baselive_push.ui.PushConfigActivity;
+import com.alivc.live.baselive_recording.ui.VideoRecordConfigActivity;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.commonbiz.test.PushDemoTestConstants;
-import com.alivc.live.pusher.AlivcLiveBase;
-import com.alivc.live.baselive_pull.ui.PlayerActivity;
-import com.alivc.live.baselive_recording.ui.VideoRecordConfigActivity;
+import com.alivc.live.commonutils.ContextUtils;
+import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.interactive_common.InteractAppInfoActivity;
 import com.alivc.live.interactive_live.InteractLiveInputActivity;
 import com.alivc.live.interactive_pk.PKLiveInputActivity;
-import com.alivc.live.commonutils.ContextUtils;
-import com.alivc.live.commonutils.FastClickUtil;
+import com.alivc.live.pusher.AlivcLiveBase;
 
+/**
+ * 直播Demo·直播推流导航页
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout mLivePushLayout;
     private LinearLayout mLivePullCommonPullLayout;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mVersion;//推流sdk版本号
     private String mPushUrl;
     private TextView mAliyunSDKPrivacy;
+    private LinearLayout mInteractiveUrlLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPushUrl = intent.getStringExtra("pushUrl");
     }
 
-    private void check(){
+    private void check() {
         if (!this.isTaskRoot()) { // 当前类不是该Task的根部，那么之前启动
             Intent intent = getIntent();
             if (intent != null) {
@@ -86,9 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLivePullRtcLayout = (LinearLayout) findViewById(R.id.pull_enter_layout);
         mLivePullRtcLayout.setOnClickListener(this);
         mLiveInteractLayout = (LinearLayout) findViewById(R.id.pull_interact_layout);
+        mInteractiveUrlLayout = (LinearLayout) findViewById(R.id.interactive_url_layout);
         mPKLiveInteractLayout = (LinearLayout) findViewById(R.id.pull_pk_layout);
         mLiveInteractLayout.setOnClickListener(this);
         mPKLiveInteractLayout.setOnClickListener(this);
+        mInteractiveUrlLayout.setOnClickListener(this);
         mVersion = (TextView) findViewById(R.id.push_version);
         mVersion.setText(getString(R.string.version_desc) + AlivcLiveBase.getSDKVersion());
         mAliyunSDKPrivacy = findViewById(R.id.aliyun_sdk_privacy);
@@ -96,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mLiveInteractLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
         mPKLiveInteractLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
-
+        // 推拉裸流为定制功能，仅针对于有定制需求的客户开放使用；为避免客户理解错乱，故对外演示demo隐藏此入口。
+        mInteractiveUrlLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
+        mInteractiveUrlLayout.setVisibility(View.GONE);
     }
 
     private int mNoPermissionIndex = 0;
@@ -142,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }
     }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -164,18 +174,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.pull_enter_layout) {
             intent = new Intent(MainActivity.this, PlayerActivity.class);
             startActivity(intent);
-        } else if(id == R.id.pull_interact_layout){
+        } else if (id == R.id.pull_interact_layout) {
             if (checkInteractiveAPPInfoIfNeed()) {
                 intent = new Intent(MainActivity.this, InteractAppInfoActivity.class);
-            }else{
+            } else {
                 intent = new Intent(MainActivity.this, InteractLiveInputActivity.class);
             }
             startActivity(intent);
-        } else if(id == R.id.pull_pk_layout){
+        } else if (id == R.id.interactive_url_layout) {
+            intent = new Intent(MainActivity.this, InteractiveInputURLActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.pull_pk_layout) {
             if (checkInteractiveAPPInfoIfNeed()) {
                 intent = new Intent(MainActivity.this, InteractAppInfoActivity.class);
-                intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK,true);
-            }else{
+                intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK, true);
+            } else {
                 intent = new Intent(MainActivity.this, PKLiveInputActivity.class);
             }
             startActivity(intent);

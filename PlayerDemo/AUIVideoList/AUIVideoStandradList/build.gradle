@@ -36,6 +36,7 @@ dependencies {
     implementation project(':AUIFoundation:AVTheme')
     implementation project(':AUIFoundation:AVBaseUI')
     implementation project(':AUIVideoList:AUIVideoListCommon')
+    implementation project(':AUIVideoCommon:AliyunPlayerBase')
 
     implementation externalAndroidXAppcompat
     implementation externalAndroidXConstraintlayout
