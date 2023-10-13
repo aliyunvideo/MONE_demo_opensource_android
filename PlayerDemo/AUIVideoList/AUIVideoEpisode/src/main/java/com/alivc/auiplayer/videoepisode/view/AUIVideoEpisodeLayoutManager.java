@@ -83,12 +83,12 @@ public class AUIVideoEpisodeLayoutManager extends AUIVideoListLayoutManager impl
                             return;
                         }
                         int positionIdle = getPosition(viewIdle);
-                        Log.i("CheckFunc", "onScrollStateChanged " + " positionIdle " + positionIdle + " mCurrentPosition " + mCurrentPosition);
-
+                        mCurrentPosition = mOnViewPagerListener.onSelectedPosition();
+                        Log.i("CheckFunc", "onScrollStateChanged " + " positionIdle " + positionIdle + " mCurrentPosition " + mCurrentPosition + " mdy: " + mdy);
                         if (mOnViewPagerListener != null && mCurrentPosition != positionIdle) {
                             mOnViewPagerListener.onPageSelected(positionIdle);
+                            mCurrentPosition = positionIdle;
                         }
-                        mCurrentPosition = positionIdle;
                         break;
                     default:
                         break;
@@ -109,7 +109,9 @@ public class AUIVideoEpisodeLayoutManager extends AUIVideoListLayoutManager impl
 
                 // 可根据firstVisibleItemIndex和lastVisibleItemIndex来判断当前可视的ViewHolder索引范围
                 if (measuredHeight > 0 && mOnViewPagerListener != null && scrollToPosition != mCurrentPosition) {
-                    // Log.i("CheckFunc", "onPageScrollTo: " + measuredHeight + ", " + mCurrentPosition + "->" + scrollToPosition);
+//                     Log.i("CheckFunc", "onPageScrollTo: " + measuredHeight + ", " + mCurrentPosition + "->" + scrollToPosition);
+                   // Log.i("CheckFunc", "onScrolled " + " mdy: " + mdy);
+
                     if (dy > 0 && mOnViewPagerListener != null) {
                         mOnViewPagerListener.onPageScrollTo(scrollToPosition);
                     }
