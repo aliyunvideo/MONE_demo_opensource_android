@@ -25,7 +25,6 @@ public class AUIVideoEpisodeController {
     private final AliListPlayer aliListPlayer;
     private int mOldPosition = 0;
     private int mCurrentPlayerState;
-    private int mCurrentPlayerStateCallBack;
     private final SparseArray<String> mIndexWithUUID = new SparseArray<>();
     private PlayerListener mPlayerListener;
     private IPlayer preRenderPlayer;
@@ -77,8 +76,6 @@ public class AUIVideoEpisodeController {
         });
 
         aliListPlayer.setOnStateChangedListener(i -> {
-            mCurrentPlayerStateCallBack = i;
-            mPlayerListener.onPlayStateChanged(-1, mCurrentPlayerStateCallBack == IPlayer.paused);
         });
 
         aliListPlayer.setOnErrorListener((ErrorInfo errorInfo) -> {
@@ -116,7 +113,7 @@ public class AUIVideoEpisodeController {
 
     //用于剧集的跳转
     public void onPageSelected(int position) {
-        Log.i("CheckFunc", "onPageSelected (int) position " + position);
+        Log.i("CheckFunc", "onPageSelected (int)" + " position " + position);
 
         aliListPlayer.moveTo(mIndexWithUUID.get(position));
         this.mOldPosition = position;
@@ -150,8 +147,6 @@ public class AUIVideoEpisodeController {
                                 }
                         );
                         preRenderPlayer.setOnStateChangedListener(i -> {
-                            mCurrentPlayerStateCallBack = i;
-                            mPlayerListener.onPlayStateChanged(-1, mCurrentPlayerStateCallBack == IPlayer.paused);
                         });
 
                         preRenderPlayer.setOnPreparedListener(() -> {
@@ -213,10 +208,7 @@ public class AUIVideoEpisodeController {
     }
 
     public void onPlayStateChange() {
-        Log.i("CheckFunc", "onPlayStateChange" + " mCurrentPlayerState " + mCurrentPlayerState + " moldPosition " + mOldPosition + " mCurrentPlayerStateCallBack " + mCurrentPlayerStateCallBack);
-        if (mCurrentPlayerStateCallBack < IPlayer.prepared){
-            return;
-        }
+        Log.i("CheckFunc", "onPlayStateChange" + " mCurrentPlayerState " + mCurrentPlayerState + " moldPosition " + mOldPosition);
         if (mCurrentPlayerState == IPlayer.paused) {
             aliListPlayer.start();
             mCurrentPlayerState = IPlayer.started;
@@ -224,20 +216,12 @@ public class AUIVideoEpisodeController {
             aliListPlayer.pause();
             mCurrentPlayerState = IPlayer.paused;
         }
+
+        mPlayerListener.onPlayStateChanged(-1, mCurrentPlayerState == IPlayer.paused);
     }
 
     public void seek(long seekPosition) {
-        if(seekPosition >= aliListPlayer.getDuration()){
-            // 避免直接跳转到视频尾部，与自动跳转到下一集出现逻辑上的冲突，出现黑屏的的情况。
-            seekPosition -= 10;
-        }
-        if(seekPosition < 0 || seekPosition > aliListPlayer.getDuration()){
-            Log.w("CheckFunc", "seek, seekTo not valid: " + seekPosition);
-            return;
-        }
         aliListPlayer.seekTo(seekPosition);
-        Log.i("CheckFunc", "seek, seekTo " + seekPosition);
-
     }
 
     public void pausePlay() {
@@ -246,10 +230,6 @@ public class AUIVideoEpisodeController {
 
     public void resumePlay() {
         aliListPlayer.start();
-    }
-
-    public boolean isCurrentPlayerStateCallBackPaused(){
-        return mCurrentPlayerStateCallBack == IPlayer.paused;
     }
 
     //backUp: in case of preRenderPlayer onRenderingStart being called back ，aliListPlayer cannot get onRenderingStart called back.

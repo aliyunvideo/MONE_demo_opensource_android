@@ -194,11 +194,6 @@ public class AUIVideoStandardListView extends AUIVideoListView {
     }
 
     @Override
-    public int onSelectedPosition() {
-        return 0;
-    }
-
-    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mController.destroy();

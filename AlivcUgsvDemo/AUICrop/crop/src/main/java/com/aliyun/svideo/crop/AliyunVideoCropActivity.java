@@ -34,8 +34,6 @@ import androidx.annotation.Nullable;
 import com.aliyun.aio.avbaseui.widget.AVCircleProgressView;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.common.global.Version;
-import com.aliyun.svideosdk.common.struct.common.MediaType;
-import com.aliyun.svideosdk.common.struct.encoder.VideoCodecs;
 import com.aliyun.ugsv.common.utils.FileUtils;
 import com.aliyun.ugsv.common.utils.ToastUtil;
 import com.aliyun.svideo.base.Constants;
@@ -656,41 +654,25 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
             //TODO
         }
 
-//        CropParam cropParam = new CropParam();
-//        cropParam.setOutputPath(mOutputPath);
-//        cropParam.setInputPath(mInputVideoPath);
-//        cropParam.setOutputWidth(outputWidth);
-//        cropParam.setOutputHeight(outputHeight);
-//        Rect cropRect = new Rect(posX, posY, posX + cropWidth, posY + cropHeight);
-//        cropParam.setCropRect(cropRect);
-//        cropParam.setStartTime(mCropStartTime, TimeUnit.MILLISECONDS);
-//        cropParam.setEndTime(mCropEndTime, TimeUnit.MILLISECONDS);
-//        cropParam.setScaleMode(CropConfig.Companion.getInstance().getVideoDisplayMode());
-//        cropParam.setFrameRate(CropConfig.Companion.getInstance().getFps());
-//        cropParam.setGop(CropConfig.Companion.getInstance().getGop());
-//        cropParam.setQuality(CropConfig.Companion.getInstance().getVideoQuality());
-//        cropParam.setVideoCodec(CropConfig.Companion.getInstance().getCodec());
-//        cropParam.setFillColor(Color.BLACK);
-//        cropParam.setCrf(0);
-
         CropParam cropParam = new CropParam();
-
-//设置裁剪模式，Scale：等比缩放裁剪， Fill：填充模式
-        cropParam.setScaleMode(VideoDisplayMode.FILL);
-//输出文件路径
         cropParam.setOutputPath(mOutputPath);
-//视频源文件路径
         cropParam.setInputPath(mInputVideoPath);
-//裁剪媒体类型，包括图片、视频、音频
-        cropParam.setMediaType(MediaType.ANY_VIDEO_TYPE);
-//视频编码方式
-        cropParam.setVideoCodec(VideoCodecs.H264_HARDWARE);
-        cropParam.setVideoBitrate(3000);
-        cropParam.setOutputHeight(720);
-        cropParam.setOutputWidth(720);
-        cropParam.setFrameRate(30);
+        cropParam.setOutputWidth(outputWidth);
+        cropParam.setOutputHeight(outputHeight);
+        Rect cropRect = new Rect(posX, posY, posX + cropWidth, posY + cropHeight);
+        cropParam.setCropRect(cropRect);
+        cropParam.setStartTime(mCropStartTime, TimeUnit.MILLISECONDS);
+        cropParam.setEndTime(mCropEndTime, TimeUnit.MILLISECONDS);
+        cropParam.setScaleMode(CropConfig.Companion.getInstance().getVideoDisplayMode());
+        cropParam.setFrameRate(CropConfig.Companion.getInstance().getFps());
+        cropParam.setGop(CropConfig.Companion.getInstance().getGop());
+        cropParam.setQuality(CropConfig.Companion.getInstance().getVideoQuality());
+        cropParam.setVideoCodec(CropConfig.Companion.getInstance().getCodec());
+        cropParam.setFillColor(Color.BLACK);
+        cropParam.setCrf(0);
 
         mCropProgress.setVisibility(View.VISIBLE);
+        cropParam.setUseGPU(false);
         mCroptor.setCropParam(cropParam);
 
         int ret = mCroptor.startCrop();

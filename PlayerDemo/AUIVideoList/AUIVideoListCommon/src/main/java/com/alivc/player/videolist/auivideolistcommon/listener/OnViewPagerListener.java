@@ -14,5 +14,4 @@ public interface OnViewPagerListener {
 
     void onPageScrollTo(int position);
 
-    int onSelectedPosition();
 }

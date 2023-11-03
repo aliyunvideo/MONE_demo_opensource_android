@@ -17,7 +17,7 @@ public class AUICropHelper {
         if(paths.isEmpty() || TextUtils.isEmpty(paths.get(0))){
             return;
         }
-        CropConfig.Companion.getInstance().setInputPath("/sdcard/DCIM/45f16b1a-18acc5b36bf.mp4");
+        CropConfig.Companion.getInstance().setInputPath(paths.get(0));
         Intent intent = new Intent(context, AliyunVideoCropActivity.class);
         context.startActivityForResult(intent, requestCode);
     }

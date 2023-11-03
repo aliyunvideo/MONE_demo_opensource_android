@@ -2,7 +2,6 @@ package com.alivc.player.videolist.auivideolistcommon;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -204,7 +203,7 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
     }
 
     @Override
-    public void onError(ErrorInfo errorInfo) {
+    public void onError(ErrorInfo errorInfo){
 
     }
 
@@ -338,28 +337,24 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
     }
 
     public void MoveToPosition(int position) {
-        mRecyclerView.scrollToPosition(position);
-        // 也可以参考抖音的交互逻辑，可以发现，点击剧集跳转时，有一个平滑的过程
-        // 大概是这样的，比如从第1集到第5集，平滑的过程不是1->2->3->4->5，而是1->4->5
-        // 所以实现逻辑应该是：先直接从1跳转到4，再完成4->5的平滑切换
-        // 但是若实现平滑过渡，可能会导致连续点击选集列表时，出现跳转不准确的情况
-
-//        int gap = Math.abs(mSelectedPosition - position);
-//        if (gap == 0) {
-//            // 如果跳的是当前剧集，不响应事件
-//            return;
-//        } else if (gap == 1) {
-//            // 如果是上下集的关系，直接平滑切换
-//            mRecyclerView.smoothScrollToPosition(position);
-//        } else {
-//            int targetPosition = mSelectedPosition > position ? position + 1 : position - 1;
-//            mRecyclerView.scrollToPosition(targetPosition);
-//            mRecyclerView.smoothScrollToPosition(position);
-//        }
-
+        int gap = Math.abs(mSelectedPosition - position);
+        if (gap == 0) {
+            // 如果跳的是当前剧集，不响应事件
+            return;
+        } else if (gap == 1) {
+            // 如果是上下集的关系，直接平滑切换
+            mRecyclerView.smoothScrollToPosition(position);
+        } else {
+            int targetPosition = mSelectedPosition > position ? position + 1 : position - 1;
+            // 参考了抖音的交互逻辑，可以发现，点击剧集跳转时，有一个平滑的过程
+            // 大概是这样的，比如从第1集到第5集，平滑的过程不是1->2->3->4->5，而是1->4->5
+            // 所以实现逻辑应该是：先直接从1跳转到4，再完成4->5的平滑切换
+            mRecyclerView.scrollToPosition(targetPosition);
+            mRecyclerView.smoothScrollToPosition(position);
+        }
     }
 
-    public void SetInited(boolean isInited) {
+    public void SetInited(boolean isInited){
         mInited = isInited;
     }
 
@@ -384,14 +379,8 @@ public abstract class AUIVideoListView extends FrameLayout implements LifecycleO
         return mAUIVideoListLayoutManager.findLastVisibleItemPosition();
     }
 
-    public void setRefreshing(boolean isRefresh) {
+    public void setRefreshing(boolean isRefresh){
         mRefreshLayout.setRefreshing(isRefresh);
-    }
-
-    public void setRefreshLayoutEnable(boolean enable) {
-        if (mRefreshLayout != null) {
-            mRefreshLayout.setEnabled(enable);
-        }
     }
 
     /*

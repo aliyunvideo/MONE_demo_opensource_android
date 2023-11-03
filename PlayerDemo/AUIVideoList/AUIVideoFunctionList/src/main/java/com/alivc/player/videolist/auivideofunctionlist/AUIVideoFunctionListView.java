@@ -210,11 +210,6 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
         }
     }
 
-    @Override
-    public int onSelectedPosition() {
-        return 0;
-    }
-
     /**
      * Player Listener onPrepared
      */

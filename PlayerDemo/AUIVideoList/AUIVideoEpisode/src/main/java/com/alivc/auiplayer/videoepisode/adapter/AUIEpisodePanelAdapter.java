@@ -26,7 +26,6 @@ import java.util.List;
 public class AUIEpisodePanelAdapter extends RecyclerView.Adapter<AUIEpisodePanelAdapter.PanelViewHolder> {
 
     private List<AUIEpisodeVideoInfo> mEpisodeVideoInfos = null;
-    private int mSelectedPosition = -1;
 
     private OnPanelEventListener mOnPanelEventListener = null;
 
@@ -46,8 +45,6 @@ public class AUIEpisodePanelAdapter extends RecyclerView.Adapter<AUIEpisodePanel
         AUIEpisodeVideoInfo episodeVideoInfo = mEpisodeVideoInfos.get(position);
         episodeVideoInfo.setPosition(position);
         holder.bind(episodeVideoInfo);
-        //Log.i("CheckFunc", "setSelected: " + position + ", " + mSelectedPosition);
-        holder.setSelected(position == mSelectedPosition);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,9 +64,8 @@ public class AUIEpisodePanelAdapter extends RecyclerView.Adapter<AUIEpisodePanel
         mOnPanelEventListener = listener;
     }
 
-    public void initData(List<AUIEpisodeVideoInfo> episodeVideoInfos, int selectedPosition) {
+    public void initData(List<AUIEpisodeVideoInfo> episodeVideoInfos) {
         mEpisodeVideoInfos = episodeVideoInfos;
-        mSelectedPosition = selectedPosition;
     }
 
     public static class PanelViewHolder extends RecyclerView.ViewHolder {
@@ -93,11 +89,8 @@ public class AUIEpisodePanelAdapter extends RecyclerView.Adapter<AUIEpisodePanel
             mDescriptionTextView.setText(episodeVideoInfo.getTitle());
             mVideoDurationTextView.setText(AUIEpisodeVideoInfo.formatTimeDuration(episodeVideoInfo.videoDuration));
             mPlayCountTextView.setText(AUIEpisodeVideoInfo.formatNumber(episodeVideoInfo.videoPlayCount));
-        }
-
-        private void setSelected(boolean selected) {
-            mSoundImageView.setVisibility(selected ? View.VISIBLE : View.GONE);
-            mContainerView.setBackgroundColor(itemView.getContext().getResources().getColor(selected ? R.color.fill_medium : R.color.bg_weak));
+            mSoundImageView.setVisibility(episodeVideoInfo.isSelected ? View.VISIBLE : View.GONE);
+            mContainerView.setBackgroundColor(itemView.getContext().getResources().getColor(episodeVideoInfo.isSelected ? R.color.fill_medium : R.color.bg_weak));
         }
     }
 }

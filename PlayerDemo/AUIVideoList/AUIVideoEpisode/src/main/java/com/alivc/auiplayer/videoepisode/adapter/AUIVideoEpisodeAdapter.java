@@ -89,9 +89,6 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
 
         private static final long VIEW_ANIMATION_DURATION_MS = 330L;
 
-        private AUIEpisodeVideoInfo mEpisodeVideoInfo;
-        private int mPosition;
-
         private AUIVideoInteractiveComponent mInteractiveComponent;
         private AUIVideoDetailComponent mDetailComponent;
 
@@ -106,10 +103,11 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
         private OnInteractiveEventListener mOnInteractiveEventListener = null;
         private OnPanelEventListener mOnPanelEventListener = null;
 
-        private AUIVideoEpisodeViewHolder(View itemView) {
+        public AUIVideoEpisodeViewHolder(View itemView) {
             super(itemView);
             initViews();
             initCallback();
+            initData();
         }
 
         public Surface getSurface() {
@@ -174,6 +172,11 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
             });
         }
 
+        private void initData() {
+            mBarComponent.initData(mEpisodeData);
+            mPanelComponent.initData(mEpisodeData);
+        }
+
         public void initSurfaceListener(OnSurfaceListener listener) {
             mOnSurfaceListener = listener;
         }
@@ -198,13 +201,11 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
 
         @Override
         public void onBind(VideoInfo videoInfo) {
-            mPosition = videoInfo.getPosition();
-            mEpisodeVideoInfo = mEpisodeData.list.get(mPosition);
-            mBarComponent.initData(mEpisodeData);
-            mPanelComponent.initData(mEpisodeData, mPosition);
-            mPanelComponent.updateView(mEpisodeVideoInfo, mPosition);
-            mDetailComponent.initData(mEpisodeVideoInfo);
-            mInteractiveComponent.initData(mEpisodeVideoInfo);
+            int position = videoInfo.getPosition();
+            AUIEpisodeVideoInfo episodeVideoInfo = mEpisodeData.list.get(position);
+
+            mDetailComponent.initData(episodeVideoInfo);
+            mInteractiveComponent.initData(episodeVideoInfo);
         }
 
         @Override
@@ -225,7 +226,6 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
         }
 
         private void showPanel() {
-            mPanelComponent.updateView(mEpisodeVideoInfo, mPosition);
             mBarComponent.setVisibility(View.GONE);
             setVisibilityWithAnimation(mPanelComponent, true);
         }

@@ -34,6 +34,11 @@ public class AUIEpisodeVideoInfo extends VideoInfo {
      */
     public int videoPlayCount;
 
+    /**
+     * 当前是否选中播放
+     */
+    public boolean isSelected;
+
     /// --------视频互动信息--------
 
     /**

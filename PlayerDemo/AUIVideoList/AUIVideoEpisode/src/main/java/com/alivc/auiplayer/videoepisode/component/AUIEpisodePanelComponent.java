@@ -16,9 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alivc.auiplayer.videoepisode.R;
 import com.alivc.auiplayer.videoepisode.adapter.AUIEpisodePanelAdapter;
 import com.alivc.auiplayer.videoepisode.data.AUIEpisodeData;
-import com.alivc.auiplayer.videoepisode.data.AUIEpisodeVideoInfo;
+import com.alivc.auiplayer.videoepisode.data.AUIEpisodeDataEvent;
 import com.alivc.auiplayer.videoepisode.listener.OnPanelEventListener;
 import com.alivc.player.videolist.auivideolistcommon.view.CenterLayoutManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * @author keria
@@ -70,7 +74,6 @@ public class AUIEpisodePanelComponent extends FrameLayout {
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemViewCacheSize(0);
-        mRecyclerView.setDrawingCacheEnabled(false);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.initListener(mOnPanelEventListener);
     }
@@ -80,20 +83,37 @@ public class AUIEpisodePanelComponent extends FrameLayout {
         mAdapter.initListener(mOnPanelEventListener);
     }
 
-    public void initData(AUIEpisodeData episodeData, int index) {
+    public void initData(AUIEpisodeData episodeData) {
         if (episodeData == null || episodeData.list == null || episodeData.list.isEmpty()) {
             return;
         }
-        mAdapter.initData(episodeData.list, index);
-        mAdapter.notifyDataSetChanged();
+        mAdapter.initData(episodeData.list);
     }
 
-    public void updateView(AUIEpisodeVideoInfo episodeVideoInfo, int index) {
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(AUIEpisodeDataEvent event) {
+        if (event == null) {
+            return;
+        }
         if (mRecyclerView != null) {
-            mRecyclerView.scrollToPosition(index);
+            mRecyclerView.scrollToPosition(event.curIndex);
         }
         if (mTitleTextView != null) {
-            mTitleTextView.setText(episodeVideoInfo != null ? episodeVideoInfo.getTitle() : null);
+            mTitleTextView.setText(event.episodeVideoInfo != null ? event.episodeVideoInfo.getTitle() : null);
         }
+        mAdapter.notifyItemChanged(event.preIndex);
+        mAdapter.notifyItemChanged(event.curIndex);
     }
 }

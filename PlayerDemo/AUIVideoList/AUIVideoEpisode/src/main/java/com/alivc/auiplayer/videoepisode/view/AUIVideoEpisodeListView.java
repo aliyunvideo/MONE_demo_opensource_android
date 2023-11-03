@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alivc.auiplayer.videoepisode.AUIVideoEpisodeController;
 import com.alivc.auiplayer.videoepisode.adapter.AUIVideoEpisodeAdapter;
 import com.alivc.auiplayer.videoepisode.data.AUIEpisodeData;
+import com.alivc.auiplayer.videoepisode.data.AUIEpisodeDataEvent;
 import com.alivc.auiplayer.videoepisode.data.AUIEpisodeVideoInfo;
 import com.alivc.auiplayer.videoepisode.listener.OnInteractiveEventListener;
 import com.alivc.auiplayer.videoepisode.listener.OnPanelEventListener;
@@ -29,6 +30,8 @@ import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 import com.aliyun.player.bean.InfoCode;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,8 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     private AUIVideoEpisodeController mController;
 
     private boolean mAutoPlayNext;
+
+    private int mCurrentIndex = -1;
 
     private AUIEpisodeData mEpisodeData = null;
 
@@ -62,7 +67,6 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     private void init(Context context) {
         this.mContext = context;
         initTextureView();
-        setRefreshLayoutEnable(false);
         mController = new AUIVideoEpisodeController(mContext);
         mController.setPlayerListener(this);
         openLoopPlay(true);
@@ -80,7 +84,6 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
                     mController.setSurface(((AUIVideoEpisodeAdapter.AUIVideoEpisodeViewHolder) viewHolderByPosition).getSurface());
                 }
             }
-            Log.i("CheckFunc", "addTextureView" + " mSelectedPosition: " + mSelectedPosition);
         });
     }
 
@@ -99,11 +102,12 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
                 if (viewHolderByPosition instanceof AUIVideoEpisodeAdapter.AUIVideoEpisodeViewHolder) {
                     ((AUIVideoEpisodeAdapter.AUIVideoEpisodeViewHolder) viewHolderByPosition).hidePanelIfNeed();
                 }
+
                 int position = episodeVideoInfo.getPosition();
                 MoveToPosition(position);
+                updateSelectedPosition(position);
                 addTextureView(position);
                 mController.onPageSelected(position);
-                mSelectedPosition = position;
             }
 
             @Override
@@ -117,7 +121,7 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
             public void onSurfaceCreate(int index, Surface surface) {
                 // TODO: 当前版本，PreRender Player仅支持预渲染列表下一个视频的画面；指定预渲染上一个视频的画面，有待后续版本支持。
                 // 只对后面的 viewHolder 进行预加载
-                if (index > mSelectedPosition) {
+                if (index > mCurrentIndex) {
                     mController.setSurfaceToPreRenderPlayer(surface);
                 }
             }
@@ -221,7 +225,6 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     @Override
     public void onPlayStateChanged(int position, boolean isPaused) {
         super.onPlayStateChanged(position, isPaused);
-        Log.i("CheckFunc", " onPlayStateChanged " + " mSelectedPosition: " + mSelectedPosition + " isPaused: " + isPaused);
         AUIVideoListViewHolder viewHolderByPosition = getViewHolderByPosition(mSelectedPosition);
         if (viewHolderByPosition != null) {
             viewHolderByPosition.showPlayIcon(isPaused);
@@ -258,10 +261,11 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     @Override
     public void onInitComplete() {
         Log.i("CheckFunc", "onInitComplete" + " mSelectedPosition: " + mSelectedPosition);
-        if (IsInited()) {
+        if(IsInited()){
             return;
         }
         this.mSelectedPosition = 0;
+        updateSelectedPosition(mSelectedPosition);
         addTextureView(mSelectedPosition);
         mController.onPageSelected(mSelectedPosition);
         setPreRenderViewHolder(mSelectedPosition + 1);
@@ -274,10 +278,11 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
         Log.i("CheckFunc", "onPageSelected " + " position " + position);
         super.onPageSelected(position);//校验，并不做实际上的跳转
 
+        updateSelectedPosition(position);
+
         mRecyclerView.post(() -> {
             AUIVideoListViewHolder playerViewHolder = getViewHolderByPosition(position);
             if (playerViewHolder == null) {
-                Log.w("CheckFunc", "onPageSelected , playerViewHolder is null !" + " position:  " + position);
                 return;
             }
             mController.onPageSelected(position, ((AUIVideoEpisodeAdapter.AUIVideoEpisodeViewHolder) playerViewHolder).getSurface());
@@ -304,11 +309,6 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     }
 
     @Override
-    public int onSelectedPosition() {
-        return mSelectedPosition;
-    }
-
-    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mController.destroy();
@@ -332,24 +332,21 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
             if (viewHolderByPosition != null) {
                 viewHolderByPosition.getSeekBar().setProgress(progress);//从listener获取到的信息，不断回调获取
             }
-            if (progress >= duration && !mController.isCurrentPlayerStateCallBackPaused()) {
-                //Log.i("CheckFunc", "onInfo  " + "progress: " + progress + " duration:  " + duration);
+            //Log.i("CheckFunc", "onInfo  " + "progress: " + progress + " duration:  " + duration);
+            if (progress >= duration) {
                 onCompletion(duration);
             }
         }
     }
 
     @Override
-    public void onCompletion(int duration) {
-        super.onCompletion(duration);
-        if (duration == -1) {
+    public void onCompletion(int position) {
+        super.onCompletion(position);
+        if (position == -1) {
             return;
         }
         if (mAutoPlayNext && mSelectedPosition + 1 < mAUIVideoListAdapter.getItemCount()) {
-            Log.i("CheckFunc", "onCompletion  " + "moveToNextPosition: " + (mSelectedPosition + 1) + " duration:  " + duration + " getItemCount: " + mAUIVideoListAdapter.getItemCount());
-
-            // 直接跳转，可以避免获取不到viewHolder
-//          mRecyclerView.scrollToPosition(mSelectedPosition + 1);
+            Log.i("CheckFunc", "onCompletion  " + "movetoNextPosition: " + (mSelectedPosition + 1) + " duration:  " + position + "getItemCount: " + mAUIVideoListAdapter.getItemCount());
             mRecyclerView.smoothScrollToPosition(mSelectedPosition + 1);
             onPageSelected(mSelectedPosition + 1);
         }
@@ -359,6 +356,26 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     public void onError(ErrorInfo errorInfo) {
         super.onError(errorInfo);
         AVToast.show(mContext, true, "error: " + errorInfo.getCode() + " -- " + errorInfo.getMsg());
+    }
+
+    private void updateSelectedPosition(int index) {
+        if (mCurrentIndex == index) {
+            return;
+        }
+        if (mEpisodeData == null || mEpisodeData.list == null) {
+            return;
+        }
+        for (int i = 0; i < mEpisodeData.list.size(); ++i) {
+            AUIEpisodeVideoInfo episodeVideoInfo = mEpisodeData.list.get(i);
+            if (i == mCurrentIndex) {
+                episodeVideoInfo.isSelected = false;
+            } else if (i == index) {
+                episodeVideoInfo.isSelected = true;
+                AUIEpisodeDataEvent event = new AUIEpisodeDataEvent(mCurrentIndex, index, episodeVideoInfo);
+                EventBus.getDefault().post(event);
+            }
+        }
+        mCurrentIndex = index;
     }
 
     private void setPreRenderViewHolder(int preRenderPosition) {
