@@ -5,7 +5,17 @@ import com.alivc.live.pusher.WaterMarkInfo;
 
 import java.util.ArrayList;
 
+/**
+ * 直播连麦公共配置
+ *
+ * @note 用于传递配置页的一些公共参数到直播连麦页面
+ */
 public class LivePushGlobalConfig {
+
+    /**
+     * 推流配置
+     */
+    public static AlivcLivePushConfig mAlivcLivePushConfig = new AlivcLivePushConfig();
 
     /**
      * 多人互动模式/PK
@@ -16,8 +26,6 @@ public class LivePushGlobalConfig {
      * H5兼容模式（可与web连麦互通）
      */
     public static boolean IS_H5_COMPATIBLE = false;
-
-    public static AlivcLivePushConfig mAlivcLivePushConfig = new AlivcLivePushConfig();
 
     /**
      * 美颜
@@ -37,5 +45,4 @@ public class LivePushGlobalConfig {
      * 水印
      */
     public static ArrayList<WaterMarkInfo> mWaterMarkInfos = new ArrayList<>();
-
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_hovered="false" android:state_selected="false" android:drawable="@mipmap/aliyun_svideo_icon_record_normal"/>
+    <item android:state_hovered="false" android:state_selected="true" android:drawable="@mipmap/aliyun_svideo_icon_record_press"/>
+    <item android:state_hovered="true" android:state_selected="false" android:drawable="@mipmap/aliyun_svideo_icon_record_pause"/>
+</selector>

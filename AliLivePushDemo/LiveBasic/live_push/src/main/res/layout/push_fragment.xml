@@ -254,7 +254,7 @@
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
 
-    <com.aliyunsdk.queen.menu.BeautyMenuPanel
+    <com.aliyunsdk.queen.menu.QueenBeautyMenu
         android:id="@+id/beauty_beauty_menuPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -270,11 +270,21 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="116dp" />
 
-    <com.alivc.live.baselive_common.LivePusherSEIView
-        android:id="@+id/sei_view"
-        android:layout_marginBottom="20dp"
+    <com.alivc.live.baselive_common.LivePushLocalRecordView
+        android:id="@+id/local_record_v"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_scroll"
         android:layout_marginStart="20dp"
-        android:layout_above="@id/bottom_scroll" />
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp" />
+
+    <com.alivc.live.baselive_common.LivePusherSEIView
+        android:id="@+id/sei_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/local_record_v"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp" />
+
 </RelativeLayout>

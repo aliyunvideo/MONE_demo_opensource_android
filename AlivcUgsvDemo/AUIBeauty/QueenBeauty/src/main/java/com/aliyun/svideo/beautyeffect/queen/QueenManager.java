@@ -11,7 +11,8 @@ import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import com.aliyun.android.libqueen.Algorithm;
+import com.aliyun.android.libqueen.aio.QueenImageFormat;
+import com.aliyun.android.libqueen.aio.QueenConfig;
 import com.aliyun.svideo.base.BaseChooser;
 import com.aliyun.ugsv.auibeauty.BeautyInterface;
 import com.aliyun.ugsv.auibeauty.IAliyunBeautyInitCallback;
@@ -19,21 +20,19 @@ import com.aliyun.ugsv.auibeauty.OnBeautyLayoutChangeListener;
 import com.aliyun.ugsv.auibeauty.OnDefaultBeautyLevelChangeListener;
 import com.aliyun.ugsv.auibeauty.api.constant.BeautyConstant;
 import com.aliyun.ugsv.auibeauty.api.constant.BeautySDKType;
+
+import com.aliyun.android.libqueen.aio.IBeautyParamsHolder;
+import com.aliyun.android.libqueen.aio.QueenBeautyWrapper;
+import com.aliyun.android.libqueen.aio.QueenBeautyInterface;
+import com.aliyun.android.libqueen.aio.QueenFlip;
 import com.aliyunsdk.queen.param.QueenParamHolder;
 
-import com.aliyun.android.libqueen.ImageFormat;
-import com.aliyun.android.libqueen.QueenEngine;
-import com.aliyun.android.libqueen.Texture2D;
-import com.aliyun.android.libqueen.exception.InitializationException;
-import com.aliyun.android.libqueen.models.Flip;
-import com.aliyunsdk.queen.param.QueenRuntime;
 
 import java.lang.ref.WeakReference;
 
 @Keep
 public class QueenManager implements BeautyInterface {
     private static final String TAG = "QueenManager";
-    private QueenEngine mQueenEngine;
     private SimpleBytesBufPool mBytesBufPool;
     private int mDeviceOrientation;
     private int mDisplayOrientation;
@@ -45,7 +44,7 @@ public class QueenManager implements BeautyInterface {
      */
     private byte[] frameBytes;
 
-    private Texture2D mTexture2D;
+    private QueenBeautyInterface mBeautyImpl;
 
     public QueenManager() {
     }
@@ -62,28 +61,20 @@ public class QueenManager implements BeautyInterface {
     /**
      * SDK初始化,
      */
-    public Texture2D initEngine(boolean toScreen, int textureId, int textureWidth, int textureHeight, boolean isEOS) {
-        Texture2D texture2D = null;
-        try {
-           Context context  = getContext();
-            if (context == null){
-                Log.e(TAG, "initEngine: context is null" );
-                return null;
-            }
-            if (mQueenEngine == null) {
-                mQueenEngine = new QueenEngine(context, toScreen);
-                mQueenEngine.setPowerSaving(true);
-                mQueenEngine.setInputTexture(textureId, textureHeight, textureWidth, isEOS);
-                texture2D = updateOutTexture(textureHeight, textureWidth);
-                mQueenEngine.setScreenViewport(0, 0, textureHeight, textureWidth);
-
-                mQueenEngine.setSegmentInfoFlipY(true);
-            }
-        } catch (InitializationException e) {
-            e.printStackTrace();
+    public void initEngine() {
+        if (mBeautyImpl == null) {
+            mBeautyImpl = new QueenBeautyWrapper();
+            QueenConfig queenConfig = new QueenConfig();
+//            queenConfig.enableDebugLog = true;
+            mBeautyImpl.init(getContext(), queenConfig);
+//            mBeautyImpl.init(getContext());
+            mBeautyImpl.setBeautyParams(new IBeautyParamsHolder() {
+                @Override
+                public void onWriteParamsToBeauty(Object o) {
+                    QueenParamHolder.writeParamToEngine(o);
+                }
+            });
         }
-
-        return texture2D;
     }
 
     @Nullable
@@ -94,25 +85,25 @@ public class QueenManager implements BeautyInterface {
     @Override
     public void initParams() {
         // 开启显示手势点位、美体点位
-        QueenRuntime.sHandDetectDebug = true;
-        QueenRuntime.sBodyDetectDebug = true;
+//        QueenRuntime.sHandDetectDebug = true;
+//        QueenRuntime.sBodyDetectDebug = true;
         // 开启手势识别的回调
-        QueenParamHolder.getQueenParam().gestureRecord.setAlgListener(new Algorithm.OnAlgDetectListener() {
-            @Override
-            public int onAlgDetectFinish(int algId, Object algResult) {
-                final StringBuilder builder = new StringBuilder();
-                if (algResult instanceof com.aliyun.android.libqueen.algorithm.GestureData) {
-                    com.aliyun.android.libqueen.algorithm.GestureData gestureData = (com.aliyun.android.libqueen.algorithm.GestureData) algResult;
-                    for (int i = 0; i < gestureData.getGestures().length; i++) {
-                        int type = gestureData.getGestures()[i];
-                        String name = com.aliyun.android.libqueen.models.HandGestureType.getName(type);
-                        builder.append(name).append("-");
-                    }
-                    android.util.Log.d("Queen_DEBUG", "===gesture=" + builder.toString());
-                }
-                return 0;
-            }
-        });
+//        QueenParamHolder.getQueenParam().gestureRecord.setAlgListener(new Algorithm.OnAlgDetectListener() {
+//            @Override
+//            public int onAlgDetectFinish(int algId, Object algResult) {
+//                final StringBuilder builder = new StringBuilder();
+//                if (algResult instanceof com.aliyun.android.libqueen.algorithm.GestureData) {
+//                    com.aliyun.android.libqueen.algorithm.GestureData gestureData = (com.aliyun.android.libqueen.algorithm.GestureData) algResult;
+//                    for (int i = 0; i < gestureData.getGestures().length; i++) {
+//                        int type = gestureData.getGestures()[i];
+//                        String name = com.aliyun.android.libqueen.models.HandGestureType.getName(type);
+//                        builder.append(name).append("-");
+//                    }
+//                    android.util.Log.d("Queen_DEBUG", "===gesture=" + builder.toString());
+//                }
+//                return 0;
+//            }
+//        });
     }
 
     @Override
@@ -124,9 +115,13 @@ public class QueenManager implements BeautyInterface {
 
 
     @Override
-    public int onTextureIdBack(int textureId, int textureWidth, int textureHeight, float[] matrix,int currentCameraType) {
-        if(mTexture2D == null){
-            mTexture2D = initEngine(false, textureId, textureWidth, textureHeight, true);
+    public int onTextureIdBack(int textureId, int textureWidth, int textureHeight, float[] matrix, int currentCameraType) {
+        int resultTextureId = textureId;
+        initEngine();
+
+        if (mBeautyImpl == null) {
+            Log.e("QueenBeautyImpl", "mMediaChainEngine == null || !isBeautyEnable");
+            return resultTextureId;
         }
 
         byte[] lastBuffer = null;
@@ -135,37 +130,17 @@ public class QueenManager implements BeautyInterface {
             lastBuffer = mBytesBufPool.getLastBuffer();
         }
         if (lastBuffer != null) {
-            mQueenEngine.updateInputDataAndRunAlg(lastBuffer, ImageFormat.NV21,textureWidth,textureHeight,0,getInputAngle(mCameraInfo),getOutputAngle(mCameraInfo),
-                   getFlipAxis(mCameraInfo));
+            int inputAngle = getInputAngle(mCameraInfo);
+            int outputAngle = getOutputAngle(mCameraInfo);
+            int flip = getFlipAxis(mCameraInfo);
+            boolean isOesTexture = true;
+            resultTextureId = mBeautyImpl.onProcessTextureAndBuffer(textureId, isOesTexture, matrix, textureWidth, textureHeight,
+                    inputAngle, outputAngle, flip, lastBuffer, QueenImageFormat.NV21);
+
             mBytesBufPool.releaseBuffer(lastBuffer);
         }
-        QueenParamHolder.writeParamToEngine(mQueenEngine, false);
 
-        GLES20.glClearColor(0, 0, 0, 0);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        int retCode = mQueenEngine.renderTexture(matrix);
-        Log.d(TAG, "onTextureIdBack: retCode:" + retCode);
-        // QUEEN_INVALID_LICENSE(-9)，表示证书校验失败
-       // QUEEN_NO_EFFECT(-10)，表示全部特效功能关闭
-        if (retCode != -9 && retCode != -10) {
-            if (mTexture2D != null) {
-                textureId = mTexture2D.getTextureId();
-            }
-        }
-
-        return textureId;
-    }
-
-    private Texture2D updateOutTexture(int textureWidth, int textureHeight) {
-        Texture2D texture2D = null;
-        // 非必要步骤：获得美颜输出纹理，可以在用于其他扩展业务
-        if (mQueenEngine != null) {
-            texture2D = mQueenEngine.autoGenOutTexture(true);
-            if (texture2D != null) {
-                mQueenEngine.updateOutTexture(texture2D.getTextureId(), textureWidth, textureHeight, true);
-            }
-        }
-        return texture2D;
+        return resultTextureId;
     }
 
     private void updateBytesBufPool(int width, int height, byte[] bytes) {
@@ -253,26 +228,25 @@ public class QueenManager implements BeautyInterface {
     private int getFlipAxis(Camera.CameraInfo cameraInfo) {
         int mFlipAxis;
         if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-            mFlipAxis = Flip.kNone;
+            mFlipAxis = QueenFlip.kNone;
         } else {
-            mFlipAxis = Flip.kFlipY;
+            mFlipAxis = QueenFlip.kFlipY;
         }
         return mFlipAxis;
     }
 
     @Override
     public void setDebug(boolean isDebug) {
-        if (mQueenEngine != null) {
-            mQueenEngine.enableDebugLog();
+        if (mBeautyImpl != null) {
+            mBeautyImpl.enableDebugMode();
         }
     }
 
     @Override
     public void release() {
-        if (mQueenEngine != null) {
-            mQueenEngine.release();
-            mQueenEngine = null;
-            mTexture2D = null;
+        if (mBeautyImpl != null) {
+            mBeautyImpl.release();
+            mBeautyImpl = null;
         }
         // 还原所有美颜相关参数
         QueenParamHolder.relaseQueenParams();

@@ -17,11 +17,10 @@ import androidx.annotation.NonNull;
 
 import com.alivc.live.beauty.BeautyInterface;
 import com.alivc.live.beauty.constant.BeautyImageFormat;
-import com.aliyun.android.libqueen.QueenConfig;
-import com.aliyun.android.libqueen.QueenEngine;
-import com.aliyun.android.libqueen.Texture2D;
-import com.aliyun.android.libqueen.exception.InitializationException;
-import com.aliyun.android.libqueen.models.Flip;
+import com.aliyun.android.libqueen.aio.IBeautyParamsHolder;
+import com.aliyun.android.libqueen.aio.QueenBeautyInterface;
+import com.aliyun.android.libqueen.aio.QueenBeautyWrapper;
+import com.aliyun.android.libqueen.aio.QueenFlip;
 import com.aliyunsdk.queen.param.QueenParamHolder;
 
 import java.nio.IntBuffer;
@@ -40,12 +39,12 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
 
     private final Context mContext;
 
-    private QueenEngine mMediaChainEngine;
-
-    private Texture2D mOutTexture2D = null;
+    private QueenBeautyInterface mBeautyImpl;
     private int lastTextureWidth = 0;
     private int lastTextureHeight = 0;
-    private Boolean lastTextureIsOes = null;
+    private boolean mLastTextureIsOes = false;
+    private int mLastTextureId = -1;
+    private float[] mLastMatrix = null;
 
     private int mDeviceOrientation = 0;
     private OrientationEventListener mOrientationListener;
@@ -70,46 +69,27 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
     }
 
     private void destroyQueenEngine() {
-        if (mOutTexture2D != null) {
-            mOutTexture2D.release();
-            mOutTexture2D = null;
-        }
-
-        if (mMediaChainEngine != null) {
-            mMediaChainEngine.release();
-            mMediaChainEngine = null;
+        if (mBeautyImpl != null) {
+            mBeautyImpl.release();
+            mBeautyImpl = null;
         }
     }
 
     private void initQueenEngine(long glContext) {
-        if (mMediaChainEngine == null) {
-            // 美颜库需要在texture线程中运行，如果未创建美颜引擎, 创建美颜引擎
-            if (glContext != 0L || glContext != -1L) {
-                try {
-                    QueenConfig queenConfig = new QueenConfig();
-                    queenConfig.shareGlContext = glContext;
-                    queenConfig.withContext = true;
-                    queenConfig.withNewGlThread = true;
-                    mMediaChainEngine = new QueenEngine(mContext, queenConfig);
-                } catch (InitializationException e) {
-                    e.printStackTrace();
+        if (mBeautyImpl == null) {
+            mBeautyImpl = new QueenBeautyWrapper();
+            mBeautyImpl.init(mContext, glContext);
+            mBeautyImpl.setBeautyParams(new IBeautyParamsHolder() {
+                @Override
+                public void onWriteParamsToBeauty(Object o) {
+                    QueenParamHolder.writeParamToEngine(o);
                 }
-                Log.d(TAG, "init with gl context: " + glContext);
-            } else {
-                try {
-                    mMediaChainEngine = new QueenEngine(mContext, false);
-                } catch (InitializationException e) {
-                    e.printStackTrace();
-                }
-                Log.d(TAG, "init without gl context");
-            }
-
-            isBeautyEnable = true;
+            });
         }
 
         // 是否开启美颜SDK的debug日志
-        if (mMediaChainEngine != null && FLAG_ENABLE_DEBUG_LOG) {
-            mMediaChainEngine.enableDebugLog();
+        if (mBeautyImpl != null && FLAG_ENABLE_DEBUG_LOG) {
+            mBeautyImpl.enableDebugMode();
         }
     }
 
@@ -182,107 +162,58 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
 
     @Override
     public int onTextureInput(int inputTexture, int textureWidth, int textureHeight) {
-        return 0;
+        return inputTexture;
     }
 
     @Override
     public int onTextureInput(int inputTexture, int textureWidth, int textureHeight, float[] matrix, boolean isOES) {
-        if (lastTextureIsOes == null) {
-            lastTextureIsOes = isOES;
-        } else if (lastTextureIsOes != isOES) {
-            resetQueenEngine();
-            lastTextureIsOes = isOES;
-        }
+        mLastTextureId = inputTexture;
+        mLastMatrix = matrix;
+        mLastTextureIsOes = isOES;
 
         Log.i(TAG, "onTextureInput [inputTexture: " + inputTexture + ", isOES: " + isOES);
 
-        if (mMediaChainEngine == null || !isBeautyEnable) {
-            Log.e("QueenBeautyImpl", "mMediaChainEngine == null || !isBeautyEnable");
+        if (mBeautyImpl == null || !isBeautyEnable) {
+            Log.w(TAG, "mMediaChainEngine == null || !isBeautyEnable");
             return inputTexture;
         }
-
-        int[] oldFboId = new int[1];
-        GLES20.glGetIntegerv(GLES20.GL_FRAMEBUFFER_BINDING, IntBuffer.wrap(oldFboId));
 
         int width = textureWidth;
         int height = textureHeight;
-        mMediaChainEngine.setInputTexture(inputTexture, width, height, isOES);
-
-        //如果画面旋转的话，就需要重新创建设置大小
-        if (lastTextureWidth != width || lastTextureHeight != height) {
-            if (mOutTexture2D != null) {
-                mOutTexture2D.release();
-                mOutTexture2D = null;
-            }
-            lastTextureWidth = width;
-            lastTextureHeight = height;
-        }
-
-        if (mOutTexture2D == null) {
-            mOutTexture2D = mMediaChainEngine.autoGenOutTexture(isOES);
-        }
-
-        if (mOutTexture2D == null) {
-            Log.e(TAG, "mOutTexture2D == null");
-            return inputTexture;
-        }
-
-        QueenParamHolder.writeParamToEngine(mMediaChainEngine, true);
-//        mMediaChainEngine.enableFacePointDebug(true);
         // 刷新当前镜头角度
         refreshCameraAngles();
-        mMediaChainEngine.updateInputMatrix(matrix);
 
         long now = SystemClock.uptimeMillis();
-        boolean hasRunAlg = false;
-        if (isFrameSync) {
-            if (isOES) {
-                mMediaChainEngine.updateInputTextureBufferAndRunAlg(inputAngle, outAngle, flipAxis, false);
-                mMediaChainEngine.setSegmentInfoFlipY(true);
-            } else {
-                if (outAngle == 90 || outAngle == 270) {// 右 out = 90 / 左 out = 270
-                    // 推流的输入纹理经过处理，非原始摄像头采集纹理，这里单独针对角度适配: 右 out = 90 / 左 out = 270
-                    mMediaChainEngine.setRenderAndFaceFlip(Flip.kFlipY, Flip.kNone);
-                    // 此处的inputAngle实际为inputAngle += (outAngle-inputAngle),所以直接用outAngle代替
-                    mMediaChainEngine.updateInputTextureBufferAndRunAlg(outAngle, (outAngle + 180) % 360, Flip.kFlipY, false);
-                } else { // 正 out = 180 / 倒立 out = 0
-                    // 解决抠图和美发头像上下翻转的问题
-                    // 推流的输入纹理经过处理，非原始摄像头采集纹理，这里单独针对角度适配: 正 out = 180 : 倒立 out = 0
-                    mMediaChainEngine.setRenderAndFaceFlip(Flip.kFlipY, Flip.kNone);
-                    mMediaChainEngine.updateInputTextureBufferAndRunAlg(outAngle, 180 - outAngle, Flip.kFlipY, false);
-                    mMediaChainEngine.setSegmentInfoFlipY(true);
-                }
+        if (!isOES) {
+            if (outAngle == 90 || outAngle == 270) {// 右 out = 90 / 左 out = 270
+                // 推流的输入纹理经过处理，非原始摄像头采集纹理，这里单独针对角度适配: 右 out = 90 / 左 out = 270
+                inputAngle = outAngle;
+                outAngle = (outAngle + 180) % 360;
+                flipAxis = QueenFlip.kFlipY;
+            } else { // 正 out = 180 / 倒立 out = 0
+                inputAngle = outAngle;
+                outAngle = 180-outAngle;
+                flipAxis = QueenFlip.kFlipY;
             }
-            hasRunAlg = true;
-        } else if (mAlgNativeBufferPtr != 0) {
-            mMediaChainEngine.updateInputNativeBufferAndRunAlg(mAlgNativeBufferPtr, mAlgDataFormat, mAlgDataWidth, mAlgDataHeight, nAlgDataStride, inputAngle, outAngle, flipAxis);
-            hasRunAlg = true;
         }
-        int retCode = mMediaChainEngine.render();
+
         isAlgDataRendered = true;
 
+        int result = mBeautyImpl.onProcessTexture(inputTexture, isOES, matrix,width, height, inputAngle, outAngle, flipAxis);
+
         if (FLAG_ENABLE_DEBUG_LOG) {
-            Log.i(TAG, Thread.currentThread().getId() + " - " + "render : " + (SystemClock.uptimeMillis() - now) + "ms, hasRunAlg: " + hasRunAlg +
+            Log.i(TAG, Thread.currentThread().getId() + " - " + "render : " + (SystemClock.uptimeMillis() - now) + "ms" +
                     ", textureW: " + width + ", textureH: " + height +
-                    ", outTextureId: " + mOutTexture2D.getTextureId() + ", outTextureW: " + mOutTexture2D.getSize().x + ", outTexturH: " + mOutTexture2D.getSize().y +
                     ", inputAngle: " + inputAngle + ", outAngle: " + outAngle +
                     ", cameraId: " + mCurCameraId);
         }
 
-        if (retCode == -9 || retCode == -10) {
-            Log.w(TAG, "queen error code:" + retCode + ", please ensure license valid");
-            GLES20.glBindFramebuffer(GL_FRAMEBUFFER, oldFboId[0]);
-            return inputTexture;
-        }
-
-        GLES20.glBindFramebuffer(GL_FRAMEBUFFER, oldFboId[0]);
-
-        return mOutTexture2D.getTextureId();
+        return result;
     }
 
     @Override
     public void onDrawFrame(byte[] image, int format, int width, int height, int stride) {
-        if (mMediaChainEngine != null && isBeautyEnable) {
+        if (mBeautyImpl != null && isBeautyEnable) {
             // @keria, reference: https://www.atatech.org/articles/123323
             // inputAngle, outputAngle, flipAxis，太TM绕了...(〒︿〒)
             int displayOrientation = getDisplayOrientation();
@@ -298,57 +229,59 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
                 outputAngle = (180 + displayOrientation - mDeviceOrientation + 360) % 360;
             }
 
-            Log.d(TAG, "inputAngle=" + inputAngle + ", outputAngle=" + outputAngle);
-            mMediaChainEngine.updateInputDataAndRunAlg(image, format, width, height, stride, inputAngle, outputAngle, 0);
+            Log.d(TAG, "inputAngle" + inputAngle + ",outputAngle" + outputAngle);
+//            mMediaChainEngine.updateInputDataAndRunAlg(image, format, width, height, stride, inputAngle, outputAngle, 0);
+
+            mBeautyImpl.onProcessTextureAndBuffer(mLastTextureId, mLastTextureIsOes, mLastMatrix, width, height, inputAngle, outputAngle, 0, image, format);
         }
     }
 
     @Override
     public void onDrawFrame(long imageNativeBufferPtr, int format, int width, int height, int stride, int cameraId) {
-        if (mMediaChainEngine != null) {
-
-            if (cameraId != mCurCameraId) {
-                Camera.getCameraInfo(cameraId, mCameraInfo);
-                mCurCameraId = cameraId;
-            }
-
-            boolean isCameraFront = cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT;
-            if (isCameraFront) {
-                setCameraAngles4Front();
-            } else {
-                setCameraAngles4Back();
-            }
-
-            Log.d(TAG, "inputAngle=" + inputAngle + " ,outputAngle=" + outAngle + ", flipAxis=" + flipAxis + ", cameraId=" + cameraId);
-
-            if (isAlgDataRendered && !isFrameSync) {
-                long now = SystemClock.uptimeMillis();
-                // 1、测试发现，onDrawFrame接口和onTextureInput接口虽然是不同的线程回调，但会顺序执行;
-                //    onDrawFrame回调频率高于onTextureInput，所以保证算法结果被用于渲染之后，才会再次执行，否则会有一次冗余的算法过程，也会导致卡顿
-                // 2、新版本的queen不支持在非渲染线程执行，所以先在native侧将buffer拷贝存储起来，在渲染线程执行算法
-                long bufferSize = 0;
-                switch (format) {
-                    case BeautyImageFormat.kNV21:
-                        bufferSize = (long) (width * height * 1.5);
-                        break;
-                    case BeautyImageFormat.kRGB:
-                        bufferSize = width * height * 3;
-                        break;
-                    case BeautyImageFormat.kRGBA:
-                        bufferSize = width * height * 4;
-                        break;
-                    default:
-                        break;
-                }
-                if (bufferSize > 0) {
-                    mAlgNativeBufferPtr = mMediaChainEngine.copyNativeBuffer(imageNativeBufferPtr, bufferSize);
-                    mAlgDataFormat = format;
-                    mAlgDataWidth = width;
-                    mAlgDataHeight = height;
-                    nAlgDataStride = stride;
-                }
-            }
-        }
+//        if (mMediaChainEngine != null) {
+//
+//            if (cameraId != mCurCameraId) {
+//                Camera.getCameraInfo(cameraId, mCameraInfo);
+//                mCurCameraId = cameraId;
+//            }
+//
+//            boolean isCameraFront = cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT;
+//            if (isCameraFront) {
+//                setCameraAngles4Front();
+//            } else {
+//                setCameraAngles4Back();
+//            }
+//
+            Log.d(TAG, "onDrawFrame()-imgNativeBuffer，inputAngle=" + inputAngle + " ,outputAngle=" + outAngle + ", flipAxis=" + flipAxis + ", cameraId=" + cameraId);
+//
+//            if (isAlgDataRendered && !isFrameSync) {
+//                long now = SystemClock.uptimeMillis();
+//                // 1、测试发现，onDrawFrame接口和onTextureInput接口虽然是不同的线程回调，但会顺序执行;
+//                //    onDrawFrame回调频率高于onTextureInput，所以保证算法结果被用于渲染之后，才会再次执行，否则会有一次冗余的算法过程，也会导致卡顿
+//                // 2、新版本的queen不支持在非渲染线程执行，所以先在native侧将buffer拷贝存储起来，在渲染线程执行算法
+//                long bufferSize = 0;
+//                switch (format) {
+//                    case BeautyImageFormat.kNV21:
+//                        bufferSize = (long) (width * height * 1.5);
+//                        break;
+//                    case BeautyImageFormat.kRGB:
+//                        bufferSize = width * height * 3;
+//                        break;
+//                    case BeautyImageFormat.kRGBA:
+//                        bufferSize = width * height * 4;
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                if (bufferSize > 0) {
+//                    mAlgNativeBufferPtr = mMediaChainEngine.copyNativeBuffer(imageNativeBufferPtr, bufferSize);
+//                    mAlgDataFormat = format;
+//                    mAlgDataWidth = width;
+//                    mAlgDataHeight = height;
+//                    nAlgDataStride = stride;
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -376,8 +309,8 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
     private int inputAngle;
     private int outAngle;
     private int flipAxis;
-    private long mAlgNativeBufferPtr;
-    private int mAlgDataFormat, mAlgDataWidth, mAlgDataHeight, nAlgDataStride;
+//    private long mAlgNativeBufferPtr;
+//    private int mAlgDataFormat, mAlgDataWidth, mAlgDataHeight, nAlgDataStride;
 
     private void refreshCameraAngles() {
         switchCameraId(mCurCameraId);
@@ -395,7 +328,7 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
                 outAngle = (180 + mDeviceOrientation) % 360;
             }
         }
-        flipAxis = Flip.kFlipY;
+        flipAxis = QueenFlip.kFlipY;
     }
 
     private void setCameraAngles4Front() {
@@ -414,7 +347,7 @@ public class InteractQueenBeautyImpl implements BeautyInterface {
             outAngle = (180 + displayOrientation - mDeviceOrientation + 360) % 360;
         }
 
-        flipAxis = Flip.kFlipY;
+        flipAxis = QueenFlip.kFlipY;
     }
 
 

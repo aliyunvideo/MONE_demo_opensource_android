@@ -615,7 +615,12 @@ public class AliyunVideoCropActivity extends Activity implements TextureView.Sur
         finish();
     }
     private void startCrop() {
-        if (!PermissionUtils.checkPermissionsGroup(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE})) {
+        String[] per = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ?
+                new String[] {Manifest.permission.READ_EXTERNAL_STORAGE} :
+                new String[] {Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                        Manifest.permission.READ_MEDIA_AUDIO};
+        if (!PermissionUtils.checkPermissionsGroup(this, per)) {
             ToastUtils.show(this, PermissionUtils.NO_PERMISSION_TIP[4]);
             return;
         }

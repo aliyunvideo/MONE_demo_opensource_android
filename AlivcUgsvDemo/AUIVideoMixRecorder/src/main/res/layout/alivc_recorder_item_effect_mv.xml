@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/resource_image"
+        android:layout_width="@dimen/alivc_common_size_group_72"
+        android:layout_gravity="center"
+        android:layout_height="@dimen/alivc_common_size_group_72">
+        <com.aliyun.svideo.base.widget.CircularImageView
+            android:id="@+id/resource_image_view"
+            android:layout_width="@dimen/alivc_common_size_icon_48"
+            android:layout_height="@dimen/alivc_common_size_icon_48"
+            android:layout_centerInParent="true"
+            android:padding="1dp"
+            android:background="@drawable/aliyun_svideo_record_shape_effect_selector"
+            android:scaleType="centerInside" />
+        <ImageView
+            android:id="@+id/iv_download_icon"
+            android:layout_width="@dimen/alivc_common_size_icon_24"
+            android:layout_height="@dimen/alivc_common_size_icon_24"
+            android:padding="@dimen/alivc_common_padding_2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/alivc_svideo_icon_download" />
+        <com.aliyun.svideo.base.widget.CircleProgressBar
+            android:id="@+id/download_progress"
+            android:layout_width="@dimen/alivc_common_size_icon_48"
+            android:layout_height="@dimen/alivc_common_size_icon_48"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            app:progressColor="@color/alivc_common_bg_black_alpha_50"
+            app:backgroundColor="@color/alivc_common_bg_transparent"
+            app:backgroundWidth="@dimen/alivc_common_size_icon_48"
+            app:backgroundHeight="@dimen/alivc_common_size_icon_48"
+            app:progressWidth="@dimen/alivc_common_size_icon_48"/>
+    </RelativeLayout>
+
+
+</FrameLayout>

@@ -63,6 +63,10 @@
 
     <string name="bite_error">码率参数设置错误！</string>
 
+    <string name="backdoor_title">Live Push Demo配置页面</string>
+    <string name="backdoor_tip">用于手动配置demo相应功能</string>
+    <string name="backdoor_bare_stream">推拉裸流</string>
+
     //老 demo 资源
 
     <string name="screen_tool">录屏工具</string>

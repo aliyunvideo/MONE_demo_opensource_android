@@ -175,6 +175,10 @@
     <string name="voice">Voice</string>
     <string name="internet_music">Internet music</string>
 
+    <string name="backdoor_title">Live Push Demo Configuration Page</string>
+    <string name="backdoor_tip">Used to manually configure demo corresponding functions</string>
+    <string name="backdoor_bare_stream">BareStream</string>
+
     //老 demo 资源
 
     <string name="screen_tool">Screen tool</string>

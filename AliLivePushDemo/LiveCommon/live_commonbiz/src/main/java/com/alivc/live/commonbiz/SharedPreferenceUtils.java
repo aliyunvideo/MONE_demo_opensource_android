@@ -24,6 +24,8 @@ public class SharedPreferenceUtils {
     private static final String APP_KEY = "app_key";
     private static final String PLAY_DOMAIN = "play_domain";
 
+    private static final String BARE_STREAM = "bare_stream";
+
     public static void setPreviewMirror(@NonNull Context context, boolean previewMirror) {
         SharedPrefUtils.saveData(context, PREVIEW_MIRROR, previewMirror);
     }
@@ -132,6 +134,14 @@ public class SharedPreferenceUtils {
 
     public static String getPlayDomain(@NonNull Context context) {
         return SharedPrefUtils.getStringData(context, PLAY_DOMAIN, "");
+    }
+
+    public static void setBareStream(@NonNull Context context, boolean value) {
+        SharedPrefUtils.saveData(context, BARE_STREAM, value);
+    }
+
+    public static boolean getBareStream(@NonNull Context context) {
+        return SharedPrefUtils.getBooleanData(context, BARE_STREAM, false);
     }
 
     public static void clear(@NonNull Context context) {

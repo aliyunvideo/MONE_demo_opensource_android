@@ -110,6 +110,7 @@ dependencies {
     implementation externalAndroidMultiDex
 
     implementation project(':templateSample')
+    implementation project(':AUIVideoMixRecorder')
 }
 apply from: './dependencies.gradle'
 

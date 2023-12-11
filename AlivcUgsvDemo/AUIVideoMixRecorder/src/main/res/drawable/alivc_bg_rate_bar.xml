@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/alivc_record_bg_rate_bar"/>
+    <corners android:radius="@dimen/alivc_common_radius_2_5"/>
+
+</shape>

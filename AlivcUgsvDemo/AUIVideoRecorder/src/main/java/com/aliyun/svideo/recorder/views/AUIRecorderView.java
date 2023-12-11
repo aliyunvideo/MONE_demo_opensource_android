@@ -633,6 +633,21 @@ public class AUIRecorderView extends FrameLayout
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    String[] permission33 = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.READ_MEDIA_AUDIO,
+    };
+
+    public String[] getPermissions() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return permission;
+        }
+        return permission33;
+    }
+
 
     private void setRecordState(AUIRecordState newSate) {
         mCurRecordSTate = newSate;
@@ -652,7 +667,7 @@ public class AUIRecorderView extends FrameLayout
     }
 
     private boolean checkIsDisableRecord() {
-        if (!PermissionUtils.checkPermissionsGroup(getContext(), permission)) {
+        if (!PermissionUtils.checkPermissionsGroup(getContext(), getPermissions())) {
             Log.w(TAG, "未开启权限，无法录制");
             return true;
         }

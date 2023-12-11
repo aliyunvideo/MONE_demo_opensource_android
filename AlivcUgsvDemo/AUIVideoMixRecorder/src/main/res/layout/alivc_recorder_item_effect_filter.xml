@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:paddingLeft="@dimen/alivc_common_padding_5"
+    android:paddingRight="@dimen/alivc_common_padding_5"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/resource_image"
+        android:layout_width="@dimen/alivc_common_size_group_50"
+        android:layout_height="@dimen/alivc_common_size_group_50">
+        <com.aliyun.svideo.base.widget.CircularImageView
+            android:id="@+id/resource_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/alivc_common_padding_1"
+            android:background="@drawable/aliyun_svideo_record_shape_effect_selector"
+            android:scaleType="centerInside" />
+    </FrameLayout>
+    <TextView
+        android:id="@+id/resource_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/alivc_common_font_12"
+        android:layout_marginTop="@dimen/alivc_common_padding_8"
+        android:textColor="#C3C5C6"
+        tools:text="@string/alivc_base_beauty"/>
+</LinearLayout>

@@ -22,12 +22,12 @@ public class MultiPKLiveRecyclerViewAdapter extends RecyclerView.Adapter<MultiPK
     private List<Boolean> mData;
     private OnPKItemViewChangedListener mOnPKItemViewChangedListener;
 
-    public boolean reSetFrameLayout(int position,int frameLayoutHashCode) {
-        if(mFLayoutWithPositionMap.containsKey(position)){
-            if(frameLayoutHashCode == mFLayoutWithPositionMap.get(position)){
+    public boolean reSetFrameLayout(int position, int frameLayoutHashCode) {
+        if (mFLayoutWithPositionMap.containsKey(position)) {
+            if (frameLayoutHashCode == mFLayoutWithPositionMap.get(position)) {
                 return false;
-            }else{
-                mFLayoutWithPositionMap.put(position,frameLayoutHashCode);
+            } else {
+                mFLayoutWithPositionMap.put(position, frameLayoutHashCode);
                 return true;
             }
         }
@@ -120,8 +120,9 @@ public class MultiPKLiveRecyclerViewAdapter extends RecyclerView.Adapter<MultiPK
             });
         }
 
-        public void initUserInfo(String channelId, String userId) {
+        public void updateUserInfo(String channelId, String userId) {
             mUserInfoView.setUserInfo(channelId, userId);
+            mUserInfoView.setVisibility(View.VISIBLE);
         }
 
         public FrameLayout getRenderFrameLayout() {

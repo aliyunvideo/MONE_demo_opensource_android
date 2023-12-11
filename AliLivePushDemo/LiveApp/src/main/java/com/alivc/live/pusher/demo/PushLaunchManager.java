@@ -109,7 +109,8 @@ public class PushLaunchManager {
      * @see <a href="https://help.aliyun.com/document_detail/211046.html">美颜特效SDK文档</a>
      */
     private static void launch4QueenBeauty(@NonNull Context context) {
-        BeautyMenuMaterial.getInstance().prepare(context);
+        // 新版本menu-sdk不用再prepare，内部会自动进行prepare处理
+//        BeautyMenuMaterial.getInstance().prepare(context);
     }
 
     private static String getLogFilePath(@NonNull Context context, String dir) {

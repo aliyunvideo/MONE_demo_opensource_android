@@ -111,4 +111,9 @@
     <string name="ok">确定</string>
     <string name="push_args">推流参数</string>
     <string name="stream_pusher_tip">推流功能</string>
+
+    <string name="start_local_record">开启本地录制</string>
+    <string name="stop_local_record">停止本地录制</string>
+    <string name="local_record_bottom_tip">本地录制提供多种丰富的配置，当前仅展示MP4音视频录制。</string>
+
 </resources>

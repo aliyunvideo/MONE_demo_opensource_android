@@ -31,6 +31,10 @@ android {
         } else {
             implementation externalAllInOne
         }
+        if (!"true".equalsIgnoreCase(allInOne)) {
+            // 不含一体化，独立接入Queen时，需带上该framework
+            implementation externalAliyunQueenFramwork
+        } 
         implementation (externalAliyunQueenUI) {
             exclude group: 'com.aliyun.maliang.android', module: 'queen'
         }

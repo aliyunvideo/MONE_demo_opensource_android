@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.barestream_interactive.InteractiveInputURLActivity;
 import com.alivc.live.baselive_pull.ui.PlayerActivity;
@@ -35,10 +34,9 @@ import com.alivc.live.interactive_common.InteractAppInfoActivity;
 import com.alivc.live.interactive_live.InteractLiveInputActivity;
 import com.alivc.live.interactive_pk.PKLiveInputActivity;
 import com.alivc.live.pusher.AlivcLiveBase;
+import com.alivc.live.pusher.demo.backdoor.BackDoorActivity;
+import com.alivc.live.pusher.demo.backdoor.BackDoorInstance;
 
-/**
- * 直播Demo·直播推流导航页
- */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout mLivePushLayout;
     private LinearLayout mLivePullCommonPullLayout;
@@ -57,11 +55,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.push_activity_main);
-        ARouter.init(getApplication());
         initView();
         if (!permissionCheck()) {
             if (Build.VERSION.SDK_INT >= 23) {
-                ActivityCompat.requestPermissions(this, permissionManifest, PERMISSION_REQUEST_CODE);
+                ActivityCompat.requestPermissions(this, getPermissions(), PERMISSION_REQUEST_CODE);
             } else {
                 showNoPermissionTip(getString(noPermissionTip[mNoPermissionIndex]));
                 finish();
@@ -98,14 +95,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mInteractiveUrlLayout.setOnClickListener(this);
         mVersion = (TextView) findViewById(R.id.push_version);
         mVersion.setText(getString(R.string.version_desc) + AlivcLiveBase.getSDKVersion());
+        mVersion.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                startActivity(new Intent(MainActivity.this, BackDoorActivity.class));
+                return false;
+            }
+        });
         mAliyunSDKPrivacy = findViewById(R.id.aliyun_sdk_privacy);
         mAliyunSDKPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
 
         mLiveInteractLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
         mPKLiveInteractLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
         // 推拉裸流为定制功能，仅针对于有定制需求的客户开放使用；为避免客户理解错乱，故对外演示demo隐藏此入口。
-        mInteractiveUrlLayout.setVisibility(AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) ? View.VISIBLE : View.GONE);
-        mInteractiveUrlLayout.setVisibility(View.GONE);
+        boolean isShowBareStream = AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode) && BackDoorInstance.getInstance().isShowBareStream();
+        mInteractiveUrlLayout.setVisibility(isShowBareStream ? View.VISIBLE : View.GONE);
     }
 
     private int mNoPermissionIndex = 0;
@@ -122,6 +126,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Manifest.permission.BLUETOOTH_CONNECT,
     };
 
+    private final String[] permissionManifest33 = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.READ_MEDIA_AUDIO,
+            Manifest.permission.INTERNET,
+            Manifest.permission.BLUETOOTH_CONNECT,
+    };
+
+    public String[] getPermissions() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return permissionManifest;
+        }
+        return permissionManifest33;
+    }
+
+
     private final int[] noPermissionTip = {
             R.string.no_camera_permission,
             R.string.no_record_bluetooth_permission,
@@ -137,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean permissionCheck() {
         int permissionCheck = PackageManager.PERMISSION_GRANTED;
         String permission;
-        for (int i = 0; i < permissionManifest.length; i++) {
-            permission = permissionManifest[i];
+        for (int i = 0; i < getPermissions().length; i++) {
+            permission = getPermissions()[i];
             mNoPermissionIndex = i;
             if (PermissionChecker.checkSelfPermission(this, permission)
                     != PackageManager.PERMISSION_GRANTED) {

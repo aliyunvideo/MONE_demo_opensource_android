@@ -8,6 +8,7 @@
     <string name="solution_svideo">短视频</string>
     <string name="solution_upload">视频上传</string>
     <string name="solution_recorder">视频拍摄</string>
+    <string name="solution_mix_recorder">视频合拍</string>
     <string name="solution_camera">魔法相机</string>
     <string name="solution_crop">视频裁剪</string>
     <string name="solution_edit">视频编辑</string>

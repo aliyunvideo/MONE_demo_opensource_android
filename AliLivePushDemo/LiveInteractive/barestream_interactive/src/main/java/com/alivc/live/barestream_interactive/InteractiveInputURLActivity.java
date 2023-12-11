@@ -18,14 +18,17 @@ import com.alivc.live.interactive_common.InteractiveSettingActivity;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.interactive_common.widget.InteractiveQrEditView;
 
+import java.util.HashMap;
+
 public class InteractiveInputURLActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_PERMISSION = 0x1111;
     private static final int REQ_CODE_PUSH_URL = 0x2222;
     private static final int REQ_CODE_PULL_URL = 0x3333;
     private static final int REQ_CODE_PULL_URL_1 = 0x4444;
-    private static final int REQ_CODE_PULL_URL_2= 0x5555;
+    private static final int REQ_CODE_PULL_URL_2 = 0x5555;
     private static final int REQ_CODE_PULL_URL_3 = 0x6666;
+
     private TextView mConfirmTextView;
     private TextView mSettingTextView;
     private ImageView mBackImageView;
@@ -81,20 +84,31 @@ public class InteractiveInputURLActivity extends AppCompatActivity {
         mBackImageView.setOnClickListener(view -> finish());
 
         mConfirmTextView.setOnClickListener(view -> {
+            HashMap<String, String> extras = new HashMap<>();
+
             String pushUrl = mInteractivePushView.getEditText();
             String pullUrl = mInteractivePullView.getEditText();
-            Intent intent = new Intent(InteractiveInputURLActivity.this, InteractiveBareActivity.class);
+            extras.put(InteractiveBareActivity.DATA_INTERACTIVE_PUSH_URL, pushUrl);
+            extras.put(InteractiveBareActivity.DATA_INTERACTIVE_PULL_URL, pullUrl);
+
+            Intent intent;
             if (LivePushGlobalConfig.IS_MULTI_INTERACT) {
-                intent  = new Intent(InteractiveInputURLActivity.this, InteractiveMultiBareActivity.class);
+                intent = new Intent(InteractiveInputURLActivity.this, InteractiveMultiBareActivity.class);
+
                 String pullUrl1 = mInteractivePullView1.getEditText();
                 String pullUrl2 = mInteractivePullView2.getEditText();
                 String pullUrl3 = mInteractivePullView3.getEditText();
-                intent.putExtra(InteractiveMultiBareActivity.DATA_INTERACTIVE_PULL_URL_1, pullUrl1);
-                intent.putExtra(InteractiveMultiBareActivity.DATA_INTERACTIVE_PULL_URL_2, pullUrl2);
-                intent.putExtra(InteractiveMultiBareActivity.DATA_INTERACTIVE_PULL_URL_3, pullUrl3);
+                extras.put(InteractiveMultiBareActivity.DATA_INTERACTIVE_PULL_URL_1, pullUrl1);
+                extras.put(InteractiveMultiBareActivity.DATA_INTERACTIVE_PULL_URL_2, pullUrl2);
+                extras.put(InteractiveMultiBareActivity.DATA_INTERACTIVE_PULL_URL_3, pullUrl3);
+            } else {
+                intent = new Intent(InteractiveInputURLActivity.this, InteractiveBareActivity.class);
             }
-            intent.putExtra(InteractiveBareActivity.DATA_INTERACTIVE_PUSH_URL, pushUrl);
-            intent.putExtra(InteractiveBareActivity.DATA_INTERACTIVE_PULL_URL, pullUrl);
+
+            for (HashMap.Entry<String, String> entry : extras.entrySet()) {
+                intent.putExtra(entry.getKey(), entry.getValue());
+            }
+
             startActivity(intent);
         });
 
@@ -129,7 +143,7 @@ public class InteractiveInputURLActivity extends AppCompatActivity {
                             if (mInteractivePullView != null) {
                                 mInteractivePullView.setEditText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                             }
-                         } else if (requestCode == REQ_CODE_PULL_URL_1) {
+                        } else if (requestCode == REQ_CODE_PULL_URL_1) {
                             if (mInteractivePullView1 != null) {
                                 mInteractivePullView1.setEditText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                             }

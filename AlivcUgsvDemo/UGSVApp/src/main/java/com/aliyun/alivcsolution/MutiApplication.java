@@ -72,7 +72,7 @@ public class MutiApplication extends AVBaseThemeApplication {
 
     private void initDownLoader() {
         DownloaderManager.init(this);
-        BeautyMenuMaterial.getInstance().prepare(this);
+//        BeautyMenuMaterial.getInstance().prepare(this);
     }
 
     private void setSdkDebugParams() {

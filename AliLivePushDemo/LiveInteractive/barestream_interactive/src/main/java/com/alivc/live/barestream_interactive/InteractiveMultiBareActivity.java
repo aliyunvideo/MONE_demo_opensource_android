@@ -25,12 +25,13 @@ import com.alivc.live.barestream_interactive.adapter.InteractiveMultiBareRecycle
 import com.alivc.live.barestream_interactive.bean.BareStreamBean;
 import com.alivc.live.commonutils.StatusBarUtil;
 import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
+import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
-import com.alivc.live.interactive_common.widget.InteractLiveTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveCommonInputView;
 import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 
@@ -59,13 +60,15 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
     //小窗口
     private ConnectionLostTipsView mConnectionLostTipsView;
     private boolean mIsMute = false;
+
     //输入 URL 方式连麦
-    private String mInteractivePushURL;
-    private String mInteractivePullURL;
-    private String mInteractivePullURL1;
-    private String mInteractivePullURL2;
-    private String mInteractivePullURL3;
-    private InteractLiveTipsView interactLiveTipsView;
+    private InteractiveUserData mPushUserData;
+    private InteractiveUserData mPullUserData;
+    private InteractiveUserData mPullUserData1;
+    private InteractiveUserData mPullUserData2;
+    private InteractiveUserData mPullUserData3;
+
+    private InteractiveCommonInputView commonInputView;
     private InteractiveSettingView mInteractiveSettingView;
     private MultiBareStreamController mBareStreamController;
     private EditText mInteractivePushUrlEditText;
@@ -84,11 +87,25 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
         StatusBarUtil.translucent(this, Color.TRANSPARENT);
         setContentView(R.layout.activity_interactive_multi_bare);
 
-        mInteractivePushURL = getIntent().getStringExtra(DATA_INTERACTIVE_PUSH_URL);
-        mInteractivePullURL = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL);
-        mInteractivePullURL1 = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL_1);
-        mInteractivePullURL2 = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL_2);
-        mInteractivePullURL3 = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL_3);
+        InteractiveUserData pushUserData = new InteractiveUserData();
+        pushUserData.url = getIntent().getStringExtra(DATA_INTERACTIVE_PUSH_URL);
+        mPushUserData = pushUserData;
+
+        InteractiveUserData pullUserData = new InteractiveUserData();
+        pullUserData.url = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL);
+        mPullUserData = pullUserData;
+
+        InteractiveUserData pullUserData1 = new InteractiveUserData();
+        pullUserData1.url = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL_1);
+        mPullUserData1 = pullUserData1;
+
+        InteractiveUserData pullUserData2 = new InteractiveUserData();
+        pullUserData2.url = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL_2);
+        mPullUserData2 = pullUserData2;
+
+        InteractiveUserData pullUserData3 = new InteractiveUserData();
+        pullUserData3.url = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL_3);
+        mPullUserData3 = pullUserData3;
 
         mBareStreamController = new MultiBareStreamController(this);
 
@@ -98,7 +115,7 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mInteractivePushUrlEditText.setText(mInteractivePushURL);
+        mInteractivePushUrlEditText.setText(mPushUserData != null ? mPushUserData.url : "");
 
         mBareStreamController.setAnchorRenderView(mBigFrameLayout);
 
@@ -106,16 +123,16 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
             BareStreamBean bareStreamBean = new BareStreamBean();
             switch (i) {
                 case 0:
-                    bareStreamBean.setUrl(mInteractivePullURL);
+                    bareStreamBean.setUserData(mPullUserData);
                     break;
                 case 1:
-                    bareStreamBean.setUrl(mInteractivePullURL1);
+                    bareStreamBean.setUserData(mPullUserData1);
                     break;
                 case 2:
-                    bareStreamBean.setUrl(mInteractivePullURL2);
+                    bareStreamBean.setUserData(mPullUserData2);
                     break;
                 case 3:
-                    bareStreamBean.setUrl(mInteractivePullURL3);
+                    bareStreamBean.setUserData(mPullUserData3);
                     break;
             }
             mFakeList.add(bareStreamBean);
@@ -163,7 +180,7 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
                 } else {
                     FrameLayout renderViewByPosition = getRenderViewByPosition(position);
                     if (renderViewByPosition != null) {
-                        mBareStreamController.startConnect(String.valueOf(position), mCurrentBareStreamBean.getUrl(), renderViewByPosition);
+                        mBareStreamController.startConnect(mCurrentBareStreamBean.getUserData(), renderViewByPosition);
                     }
                 }
             }
@@ -174,14 +191,16 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
                 mBareStreamController.stopPush();
                 changePushState(false);
             } else {
-                mBareStreamController.setPushUrl(mInteractivePushUrlEditText.getText().toString());
+                InteractiveUserData userData = new InteractiveUserData();
+                userData.url = mInteractivePushUrlEditText.getText().toString().trim();
+                mBareStreamController.setPushData(userData);
                 mBareStreamController.startPush();
             }
         });
 
         mConnectionLostTipsView.setConnectionLostListener(() -> runOnUiThread(() -> finish()));
 
-        mBareStreamController.setMultiInteractLivePushPullListener(new MultiInteractLivePushPullListener() {
+        mBareStreamController.setMultiInteractLivePushPullListener(new InteractLivePushPullListener() {
 
             @Override
             public void onPushSuccess() {
@@ -196,32 +215,31 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPullSuccess(String userKey) {
-                BareStreamBean bean = mFakeList.get(Integer.parseInt(userKey));
-                if (bean !=  null) {
+            public void onPullSuccess(InteractiveUserData userData) {
+                BareStreamBean bean = mFakeList.get(Integer.parseInt(userData.getKey()));
+                if (bean != null) {
                     bean.setConnected(true);
                 }
                 mAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onPullError(String userKey, AlivcLivePlayError errorType, String errorMsg) {
-                super.onPullError(userKey, errorType, errorMsg);
+            public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                super.onPullError(userData, errorType, errorMsg);
                 runOnUiThread(() -> {
-                    BareStreamBean bean = mFakeList.get(Integer.parseInt(userKey));
-                    if (bean !=  null) {
+                    BareStreamBean bean = mFakeList.get(Integer.parseInt(userData.getKey()));
+                    if (bean != null) {
                         bean.setConnected(false);
                     }
                     mAdapter.notifyDataSetChanged();
-                    mBareStreamController.stopConnect(userKey);
-                    updateConnectTextView( false);
+                    mBareStreamController.stopConnect(userData);
+                    updateConnectTextView(false);
                     ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
                 });
             }
 
             @Override
-            public void onPullStop(String userKey) {
-                super.onPullStop(userKey);
+            public void onPullStop(InteractiveUserData userData) {
                 runOnUiThread(() -> {
                     updateConnectTextView(false);
                 });
@@ -255,6 +273,16 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
             public void onSpeakerPhoneClick() {
                 mBareStreamController.changeSpeakerPhone();
             }
+
+            @Override
+            public void onEnableAudioClick(boolean enable) {
+
+            }
+
+            @Override
+            public void onEnableVideoClick(boolean enable) {
+
+            }
         });
     }
 
@@ -263,14 +291,13 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
     }
 
     private void showInteractLiveDialog(String content, boolean showInputView) {
-        interactLiveTipsView = new InteractLiveTipsView(InteractiveMultiBareActivity.this);
-        interactLiveTipsView.showQrIcon(showInputView);
-        interactLiveTipsView.showInputView(showInputView);
-        interactLiveTipsView.setContent(content);
-        mAUILiveDialog.setContentView(interactLiveTipsView);
+        commonInputView = new InteractiveCommonInputView(InteractiveMultiBareActivity.this);
+        commonInputView.setViewType(InteractiveCommonInputView.ViewType.BARE_STREAM);
+        commonInputView.showInputView(content, showInputView);
+        mAUILiveDialog.setContentView(commonInputView);
         mAUILiveDialog.show();
 
-        interactLiveTipsView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
+        commonInputView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
             @Override
             public void onCancel() {
                 if (mAUILiveDialog.isShowing()) {
@@ -283,7 +310,7 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
                 if (mCurrentIntent == InteractLiveIntent.INTENT_STOP_PULL) {
                     //主播结束连麦
                     mAUILiveDialog.dismiss();
-                    mBareStreamController.stopConnect(String.valueOf(mCurrentCheckedPosition));
+                    mBareStreamController.stopConnect(mCurrentBareStreamBean.getUserData());
                     updateConnectTextView(false);
                     mCurrentBareStreamBean.setConnected(false);
                     mAdapter.notifyDataSetChanged();
@@ -293,17 +320,17 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onInputConfirm(String content) {
-                hideInputSoftFromWindowMethod(InteractiveMultiBareActivity.this, interactLiveTipsView);
-                if (TextUtils.isEmpty(content)) {
+            public void onInputConfirm(InteractiveUserData userData) {
+                hideInputSoftFromWindowMethod(InteractiveMultiBareActivity.this, commonInputView);
+                if (userData == null || TextUtils.isEmpty(userData.url)) {
                     ToastUtils.show(getResources().getString(R.string.interact_live_connect_input_error_tips));
-                } else {
-                    mAUILiveDialog.dismiss();
-                    //主播端，输入观众 id 后，开始连麦
-                    mCurrentBareStreamBean.setUrl(content);
-                    FrameLayout renderViewByPosition = getRenderViewByPosition(mCurrentCheckedPosition);
-                    mBareStreamController.startConnect(String.valueOf(mCurrentCheckedPosition), mCurrentBareStreamBean.getUrl(), renderViewByPosition);
+                    return;
                 }
+                mAUILiveDialog.dismiss();
+                //主播端，输入观众 id 后，开始连麦
+                mCurrentBareStreamBean.setUserData(userData);
+                FrameLayout renderViewByPosition = getRenderViewByPosition(mCurrentCheckedPosition);
+                mBareStreamController.startConnect(mCurrentBareStreamBean.getUserData(), renderViewByPosition);
             }
 
             @Override
@@ -351,8 +378,8 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
                                 mInteractivePushUrlEditText.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                             }
                         } else {
-                            if (interactLiveTipsView != null) {
-                                interactLiveTipsView.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
+                            if (commonInputView != null) {
+                                commonInputView.setQrResult(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                             }
                         }
 
@@ -395,7 +422,6 @@ public class InteractiveMultiBareActivity extends AppCompatActivity {
             return null;
         }
     }
-
 
     private int getAdapterPositionFromByKey(String key) {
         for (int i = 0; i < mFakeList.size(); i++) {

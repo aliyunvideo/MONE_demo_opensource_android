@@ -153,7 +153,11 @@ public class MusicChooseView extends LinearLayout implements View.OnClickListene
         mPlayHandler.removeCallbacks(mMusciRunnable);
         mMediaPlayer.stop();
         mMediaPlayer.release();
-        mmr.release();
+        try{
+            mmr.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

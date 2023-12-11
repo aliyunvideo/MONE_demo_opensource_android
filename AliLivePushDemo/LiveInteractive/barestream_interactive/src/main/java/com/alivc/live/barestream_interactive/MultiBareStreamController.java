@@ -1,12 +1,13 @@
 package com.alivc.live.barestream_interactive;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.FrameLayout;
 
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
+import com.alivc.live.interactive_common.InteractiveMode;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
+import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.pusher.AlivcResolutionEnum;
 
@@ -20,7 +21,7 @@ class MultiBareStreamController {
     //主播预览 View
     private FrameLayout mAnchorRenderView;
     //主播推流地址
-    private String mPushUrl;
+    private InteractiveUserData mPushUserData;
     //观众连麦拉流地址
     private boolean mEnableSpeakerPhone = false;
 
@@ -40,23 +41,11 @@ class MultiBareStreamController {
                 .setAudioBufferSize(2048)
                 .build();
         mInteractLiveManager = new InteractiveBareStreamManager();
-        mInteractLiveManager.init(context, true);
+        mInteractLiveManager.init(context, InteractiveMode.MULTI_BARE_STREAM);
     }
 
-    public void setPushUrl(String url) {
-        this.mPushUrl = url;
-    }
-
-    public void pauseVideoPlaying(String key) {
-        mInteractLiveManager.pause(key);
-    }
-
-    public void resumeVideoPlaying(String key) {
-        mInteractLiveManager.resume(key);
-    }
-
-    public void setPullView(String key, FrameLayout frameLayout) {
-        mInteractLiveManager.setPullView(key, frameLayout, true);
+    public void setPushData(InteractiveUserData userData) {
+        mPushUserData = userData;
     }
 
     /**
@@ -76,10 +65,8 @@ class MultiBareStreamController {
      * 开始直播
      */
     public void startPush() {
-        if (!TextUtils.isEmpty(mPushUrl)) {
-            externAV();
-            mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl, true);
-        }
+        externAV();
+        mInteractLiveManager.startPreviewAndPush(mPushUserData, mAnchorRenderView, true);
     }
 
     private void externAV() {
@@ -98,17 +85,16 @@ class MultiBareStreamController {
     /**
      * 开始连麦
      */
-    public void startConnect(String key, String url, FrameLayout mRenderView) {
-        mInteractLiveManager.createAlivcLivePlayer(key);
-        mInteractLiveManager.setPullView(key, mRenderView, false);
-        mInteractLiveManager.startPull(key, url);
+    public void startConnect(InteractiveUserData userData, FrameLayout mRenderView) {
+        mInteractLiveManager.setPullView(userData, mRenderView, false);
+        mInteractLiveManager.startPullRTCStream(userData);
     }
 
     /**
      * 结束连麦
      */
-    public void stopConnect(String key) {
-        mInteractLiveManager.stopPull(key);
+    public void stopConnect(InteractiveUserData userData) {
+        mInteractLiveManager.stopPullRTCStream(userData);
     }
 
     public void switchCamera() {
@@ -121,8 +107,8 @@ class MultiBareStreamController {
         mLocalStreamReader.stopPcm();
     }
 
-    public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {
-        mInteractLiveManager.setMultiInteractLivePushPullListener(listener);
+    public void setMultiInteractLivePushPullListener(InteractLivePushPullListener listener) {
+        mInteractLiveManager.setInteractLivePushPullListener(listener);
     }
 
     public void setMute(boolean b) {

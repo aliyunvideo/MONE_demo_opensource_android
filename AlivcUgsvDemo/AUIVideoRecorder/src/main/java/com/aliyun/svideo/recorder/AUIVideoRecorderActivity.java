@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.system.Os;
 import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -60,6 +61,21 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
+    String[] permission33 = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.READ_MEDIA_AUDIO,
+    };
+
+    public String[] getPermissions() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return permission;
+        }
+        return permission33;
+    }
     private Toast phoningToast;
     private PhoneStateManger phoneStateManger;
 
@@ -71,9 +87,9 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.ugsv_recorder_activity_layout);
         mVideoRecordView = findViewById(R.id.ugsv_recorder_recordview);
-        boolean checkResult = PermissionUtils.checkPermissionsGroup(this, permission);
+        boolean checkResult = PermissionUtils.checkPermissionsGroup(this, getPermissions());
         if (!checkResult) {
-            PermissionUtils.requestPermissions(this, permission, PERMISSION_REQUEST_CODE);
+            PermissionUtils.requestPermissions(this, getPermissions(), PERMISSION_REQUEST_CODE);
         } else {
             initRecord();
         }
@@ -101,7 +117,7 @@ public class AUIVideoRecorderActivity extends AVBaseThemeActivity {
         alivcRecorder.setMediaInfo(outputInfo);
         alivcRecorder.setIsAutoClearClipVideos(RecorderConfig.Companion.getInstance().isClearCache());
         mVideoRecordView.init(alivcRecorder);
-        if (PermissionUtils.checkPermissionsGroup(this, PermissionUtils.PERMISSION_STORAGE)) {
+        if (PermissionUtils.checkPermissionsGroup(this, getPermissions())) {
             //有存储权限的时候才去copy资源
             copyAssets();
         }

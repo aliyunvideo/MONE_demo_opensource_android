@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="312dp"
     android:layout_height="128dp"
     android:background="@drawable/shape_interact_live_dialog_bg">
@@ -22,31 +23,33 @@
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="0dp"
         android:background="@drawable/shape_interact_live_edit_bg"
         android:gravity="start|center_vertical"
         android:hint="@string/interact_live_connect_tips"
         android:maxLines="1"
-        android:visibility="gone"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
         android:textColor="@color/text_medium"
         android:textColorHint="@color/text_ultraweak"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/view_horizontal_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/iv_clear"
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_close"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/et_input"
         app:layout_constraintBottom_toBottomOf="@id/et_input"
         app:layout_constraintEnd_toEndOf="@id/et_input"
-        android:src="@drawable/ic_close"/>
+        app:layout_constraintTop_toTopOf="@id/et_input"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/view_horizontal_line"

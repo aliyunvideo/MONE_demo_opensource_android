@@ -15,19 +15,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.alivc.live.interactive_common.widget.InteractLiveTipsView;
+import com.alivc.live.commonutils.StatusBarUtil;
+import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
+import com.alivc.live.interactive_common.listener.ConnectionLostListener;
+import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
+import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
+import com.alivc.live.interactive_common.utils.InteractLiveIntent;
+import com.alivc.live.interactive_common.widget.AUILiveDialog;
+import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveCommonInputView;
 import com.alivc.live.interactive_common.widget.InteractiveConnectView;
 import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.interactive_live.widget.MultiAlivcLiveView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
-import com.alivc.live.interactive_common.listener.ConnectionLostListener;
-import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
-import com.alivc.live.interactive_common.utils.InteractLiveIntent;
-import com.alivc.live.interactive_common.widget.AUILiveDialog;
-import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
-import com.alivc.live.commonutils.StatusBarUtil;
-import com.alivc.live.commonutils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -142,6 +143,16 @@ public class MultiInteractLiveActivity extends AppCompatActivity {
             public void onSpeakerPhoneClick() {
                 mMultiAnchorController.changeSpeakerPhone();
             }
+
+            @Override
+            public void onEnableAudioClick(boolean enable) {
+
+            }
+
+            @Override
+            public void onEnableVideoClick(boolean enable) {
+
+            }
         });
 
         mConnectionLostTipsView.setConnectionLostListener(new ConnectionLostListener() {
@@ -155,22 +166,31 @@ public class MultiInteractLiveActivity extends AppCompatActivity {
                 });
             }
         });
-        mMultiAnchorController.setMultiInteractLivePushPullListener(new MultiInteractLivePushPullListener() {
+        mMultiAnchorController.setMultiInteractLivePushPullListener(new InteractLivePushPullListener() {
             @Override
-            public void onPullSuccess(String audienceId) {
-                MultiAlivcLiveView multiAlivcLiveView = mIdViewCombMap.get(audienceId);
+            public void onPullSuccess(InteractiveUserData userData) {
+                super.onPullSuccess(userData);
+                if (userData == null) {
+                    return;
+                }
+                String viewKey = userData.getKey();
+                MultiAlivcLiveView multiAlivcLiveView = mIdViewCombMap.get(viewKey);
                 if (multiAlivcLiveView != null) {
-                    multiAlivcLiveView.getSmallFrameLayout().setVisibility(View.VISIBLE);
-                    multiAlivcLiveView.getUnConnectFrameLayout().setVisibility(View.INVISIBLE);
+                    changeSmallSurfaceViewVisible(true, multiAlivcLiveView);
                     updateConnectTextView(true, multiAlivcLiveView.getConnectTextView());
                 }
             }
 
             @Override
-            public void onPullError(String audienceId, AlivcLivePlayError errorType, String errorMsg) {
+            public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                super.onPullError(userData, errorType, errorMsg);
                 runOnUiThread(() -> {
-                    mMultiAnchorController.stopConnect(audienceId);
-                    MultiAlivcLiveView multiAlivcLiveView = mIdViewCombMap.get(audienceId);
+                    if (userData == null) {
+                        return;
+                    }
+                    String viewKey = userData.getKey();
+                    mMultiAnchorController.stopConnect(viewKey);
+                    MultiAlivcLiveView multiAlivcLiveView = mIdViewCombMap.get(viewKey);
                     if (multiAlivcLiveView != null) {
                         changeSmallSurfaceViewVisible(false, multiAlivcLiveView);
                         updateConnectTextView(false, multiAlivcLiveView.getConnectTextView());
@@ -240,13 +260,13 @@ public class MultiInteractLiveActivity extends AppCompatActivity {
     }
 
     private void showInteractLiveDialog(TextView textView, String content, boolean showInputView) {
-        InteractLiveTipsView interactLiveTipsView = new InteractLiveTipsView(MultiInteractLiveActivity.this);
-        interactLiveTipsView.showInputView(showInputView);
-        interactLiveTipsView.setContent(content);
-        mAUILiveDialog.setContentView(interactLiveTipsView);
+        InteractiveCommonInputView commonInputView = new InteractiveCommonInputView(MultiInteractLiveActivity.this);
+        commonInputView.setViewType(InteractiveCommonInputView.ViewType.INTERACTIVE);
+        commonInputView.showInputView(content, showInputView);
+        mAUILiveDialog.setContentView(commonInputView);
         mAUILiveDialog.show();
 
-        interactLiveTipsView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
+        commonInputView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
             @Override
             public void onCancel() {
                 if (mAUILiveDialog.isShowing()) {
@@ -271,24 +291,22 @@ public class MultiInteractLiveActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onInputConfirm(String content) {
-                hideInputSoftFromWindowMethod(MultiInteractLiveActivity.this, interactLiveTipsView);
-                if (TextUtils.isEmpty(content)) {
+            public void onInputConfirm(InteractiveUserData userData) {
+                hideInputSoftFromWindowMethod(MultiInteractLiveActivity.this, commonInputView);
+                if (userData == null || TextUtils.isEmpty(userData.userId)) {
                     ToastUtils.show(getResources().getString(R.string.interact_live_connect_input_error_tips));
-                } else {
-                    mAUILiveDialog.dismiss();
-                    //每个观众对应一个 AlvcLivePlayer
-                    boolean createSuccess = mMultiAnchorController.createAlivcLivePlayer(content);
-                    if (!createSuccess) {
-                        return;
-                    }
-                    if (textView != null) {
-                        textView.setTag(content);
-                    }
-                    mIdViewCombMap.put(content, mViewCombMap.get(textView));
-                    //主播端，输入观众 id 后，开始连麦
-                    mMultiAnchorController.startConnect(content, Objects.requireNonNull(mViewCombMap.get(textView)).getSmallFrameLayout());
+                    return;
                 }
+                userData.channelId = mRoomId;
+                mAUILiveDialog.dismiss();
+                //每个观众对应一个 AlvcLivePlayer
+                String viewKey = userData.getKey();
+                if (textView != null) {
+                    textView.setTag(viewKey);
+                }
+                mIdViewCombMap.put(viewKey, mViewCombMap.get(textView));
+                //主播端，输入观众 id 后，开始连麦
+                mMultiAnchorController.startConnect(userData, Objects.requireNonNull(mViewCombMap.get(textView)).getSmallFrameLayout());
             }
         });
     }

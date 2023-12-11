@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        consumerProguardFiles 'lib-proguard-rules.pro'
+    }
+    lintOptions {
+        warning 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    implementation project(':AUIUgsvBase')
+    implementation project(":AUIMusic")
+    implementation project(':AUIFileDownloader')
+    implementation externalGSON
+    implementation project(':AliyunVideoCommon')
+    implementation externalAndroidXAppcompat
+    implementation externalAndroidXRecyclerView
+    implementation externalAndroidXConstraintlayout
+    implementation externalAndroidXCardview
+    implementation externalAndroidDesign
+    implementation project(':QueenBeauty')
+    implementation project(':FaceunityBeauty')
+    implementation project(':AUIBeauty')
+    implementation project(':AUIMedia')
+    implementation project(':AUIFoundation:AVBaseUI')
+}

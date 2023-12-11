@@ -1,16 +1,22 @@
 package com.alivc.live.barestream_interactive.bean;
 
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
+
 public class BareStreamBean {
 
-    private String url;
+    private InteractiveUserData userData;
     private boolean isConnected;
 
-    public String getUrl() {
-        return url;
+    public InteractiveUserData getUserData() {
+        return userData;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUserData(InteractiveUserData userData) {
+        this.userData = userData;
+    }
+
+    public String getUrl() {
+        return userData != null ? userData.url : null;
     }
 
     public boolean isConnected() {

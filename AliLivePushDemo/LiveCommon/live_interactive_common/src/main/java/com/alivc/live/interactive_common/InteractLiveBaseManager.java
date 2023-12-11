@@ -6,33 +6,34 @@ import static com.alivc.live.interactive_common.utils.LivePushGlobalConfig.mWate
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.FrameLayout;
 
-import com.alibaba.android.arouter.utils.TextUtils;
 import com.alivc.component.custom.AlivcLivePushCustomFilter;
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.annotations.AlivcLiveNetworkQuality;
 import com.alivc.live.annotations.AlivcLivePushKickedOutType;
+import com.alivc.live.annotations.AlivcLiveRecordMediaEvent;
 import com.alivc.live.beauty.BeautyFactory;
 import com.alivc.live.beauty.BeautyInterface;
 import com.alivc.live.beauty.constant.BeautySDKType;
 import com.alivc.live.commonbiz.test.URLUtils;
 import com.alivc.live.commonutils.ToastUtils;
-import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
+import com.alivc.live.interactive_common.bean.InteractiveLivePlayer;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.manager.TimestampWatermarkManager;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.player.AlivcLivePlayConfig;
-import com.alivc.live.player.AlivcLivePlayInfoListener;
 import com.alivc.live.player.AlivcLivePlayer;
-import com.alivc.live.player.AlivcLivePlayerStatsInfo;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
+import com.alivc.live.player.annotations.AlivcLivePlayVideoStreamType;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
 import com.alivc.live.pusher.AlivcImageFormat;
 import com.alivc.live.pusher.AlivcLiveBase;
+import com.alivc.live.pusher.AlivcLiveLocalRecordConfig;
 import com.alivc.live.pusher.AlivcLiveMixStream;
 import com.alivc.live.pusher.AlivcLivePushError;
 import com.alivc.live.pusher.AlivcLivePushErrorListener;
@@ -49,56 +50,63 @@ import com.aliyun.player.IPlayer;
 import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InteractLiveBaseManager {
 
-    protected static final String TAG = "InteractLiveManager";
+    protected static final String TAG = InteractLiveBaseManager.class.getSimpleName();
+
+    protected InteractiveMode mInteractiveMode;
+
+    // 这个TM用来做混流的
     protected FrameLayout mAudienceFrameLayout;
+
     //多人连麦混流
     protected final ArrayList<AlivcLiveMixStream> mMultiInteractLiveMixStreamsArray = new ArrayList<>();
     //多人连麦 Config
     protected final AlivcLiveTranscodingConfig mMixInteractLiveTranscodingConfig = new AlivcLiveTranscodingConfig();
 
     private Context mContext;
-    private boolean mIsPlaying = false;
-    protected AliPlayer mAliPlayer;
+
     protected AlivcLivePusher mAlivcLivePusher;
-    protected MultiAlivcLivePlayer mAlivcLivePlayer;
-    protected final Map<String, MultiAlivcLivePlayer> mAlivcLivePlayerMap = new HashMap<>();
+    private InteractiveUserData mPushUserData;
+
+    protected AliPlayer mAliPlayer;
+
+    protected final Map<String, InteractiveLivePlayer> mInteractiveLivePlayerMap = new HashMap<>();
+    protected final Map<String, InteractiveUserData> mInteractiveUserDataMap = new HashMap<>();
+
     protected static InteractLivePushPullListener mInteractLivePushPullListener;
-    protected static MultiInteractLivePushPullListener mMultiInteractLivePushPullListener;
-    private String mPushUrl;
-    private String mPullUrl;
-    private boolean mHasPulled = false;
-    private boolean mHasPushed = false;
+
+    // 美颜处理类，需对接Queen美颜SDK，且拥有License拥有美颜能力
     private BeautyInterface mBeautyManager;
-    //CameraId，美颜需要使用
+    // CameraId，美颜需要使用
     private int mCameraId;
 
+    // 互动模式下的水印处理类
     private TimestampWatermarkManager mTimestampWatermarkManager;
 
-    public void init(Context context) {
-        init(context, false);
-    }
-
-    public void init(Context context, boolean isInteractiveURL) {
+    public void init(Context context, InteractiveMode interactiveMode) {
+        mInteractiveMode = interactiveMode;
         mContext = context.getApplicationContext();
-        initLivePusherSDK(isInteractiveURL);
-        initPlayer();
+        initLivePusher(interactiveMode);
+        initCDNPlayer();
         initWatermarks();
     }
 
-    private void initLivePusherSDK(boolean isInteractiveURL) {
+    private void initLivePusher(InteractiveMode interactiveMode) {
         AlivcLiveBase.registerSDK();
         // 初始化推流配置类
         mAlivcLivePushConfig.setLivePushMode(AlivcLiveMode.AlivcLiveInteractiveMode);
         // 同一进程下，只能设置一次；如需修改，需要杀进程再设置；建议接入方改成固定配置，而非可配置；demo中可配置是为了测试^_^
         mAlivcLivePushConfig.setH5CompatibleMode(LivePushGlobalConfig.IS_H5_COMPATIBLE);
-        mAlivcLivePushConfig.setEnableRTSForInteractiveMode(isInteractiveURL);
+
+        // 互动模式下开启RTS推拉裸流(直推&直拉，不同于直播连麦)
+        if (InteractiveMode.isBareStream(interactiveMode)) {
+            mAlivcLivePushConfig.setEnableRTSForInteractiveMode(true);
+        }
 
         if (mAlivcLivePushConfig.isExternMainStream()) {
             mAlivcLivePushConfig.setExternMainStream(true, AlivcImageFormat.IMAGE_FORMAT_YUVNV12, AlivcSoundFormat.SOUND_FORMAT_S16);
@@ -116,23 +124,17 @@ public class InteractLiveBaseManager {
         mAlivcLivePusher.setLivePushErrorListener(new AlivcLivePushErrorListener() {
             @Override
             public void onSystemError(AlivcLivePusher alivcLivePusher, AlivcLivePushError alivcLivePushError) {
-                Log.d(TAG, "onSystemError: ");
+                Log.e(TAG, "onSystemError: " + alivcLivePushError);
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onPushError();
-                }
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPushError();
                 }
             }
 
             @Override
             public void onSDKError(AlivcLivePusher alivcLivePusher, AlivcLivePushError alivcLivePushError) {
-                Log.d(TAG, "onSDKError: ");
+                Log.e(TAG, "onSDKError: " + alivcLivePushError);
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onPushError();
-                }
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPushError();
                 }
             }
         });
@@ -154,13 +156,9 @@ public class InteractLiveBaseManager {
             @Override
             public void onPushStarted(AlivcLivePusher alivcLivePusher) {
                 Log.d(TAG, "onPushStarted: ");
-                mHasPushed = false;
-                stopCDNPull();
+                stopPullCDNStream();
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onPushSuccess();
-                }
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPushSuccess();
                 }
             }
 
@@ -178,7 +176,6 @@ public class InteractLiveBaseManager {
             public void onPushStopped(AlivcLivePusher pusher) {
                 Log.d(TAG, "onPushStopped: ");
                 pusher.stopPreview();
-                mHasPushed = false;
             }
 
             @Override
@@ -213,7 +210,7 @@ public class InteractLiveBaseManager {
 
             @Override
             public void onPushStatistics(AlivcLivePusher alivcLivePusher, AlivcLivePushStatsInfo alivcLivePushStatsInfo) {
-                Log.i(TAG, "onPushStatistics: " + alivcLivePushStatsInfo);
+                // Log.i(TAG, "onPushStatistics: " + alivcLivePushStatsInfo);
             }
 
             @Override
@@ -224,12 +221,8 @@ public class InteractLiveBaseManager {
             @Override
             public void onKickedOutByServer(AlivcLivePusher pusher, AlivcLivePushKickedOutType kickedOutType) {
                 Log.d(TAG, "onKickedOutByServer: " + kickedOutType);
-                // TODO 韩宇 1、这块逻辑貌似没有生效；2、回调嵌套太多层了，不够清晰；3、两个回调可以合并掉？？
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onPushError();
-                }
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPushError();
                 }
             }
 
@@ -240,9 +233,28 @@ public class InteractLiveBaseManager {
             }
 
             @Override
-            public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId) {
-                // 用户加入房间回调
-                ToastUtils.show("用户" + userId + "加入房间");
+            public void onLocalRecordEvent(AlivcLiveRecordMediaEvent mediaEvent, String storagePath) {
+                ToastUtils.show(mediaEvent + ", " + storagePath);
+            }
+
+            @Override
+            public void onScreenFramePushState(AlivcLivePusher pusher, boolean isPushing) {
+                ToastUtils.show("onScreenFramePushState: " + isPushing);
+            }
+
+            @Override
+            public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId, boolean isOnline) {
+                ToastUtils.show("onRemoteUserEnterRoom: " + userId + ", isOnline" + isOnline);
+            }
+
+            @Override
+            public void onRemoteUserAudioStream(AlivcLivePusher pusher, String userId, boolean isPushing) {
+                ToastUtils.show("onRemoteUserAudioStream: " + userId + ", isPushing: " + isPushing);
+            }
+
+            @Override
+            public void onRemoteUserVideoStream(AlivcLivePusher pusher, String userId, AlivcLivePlayVideoStreamType videoStreamType, boolean isPushing) {
+                ToastUtils.show("onRemoteUserVideoStream: " + userId + ", videoStreamType: " + videoStreamType + ", isPushing: " + isPushing);
             }
         });
 
@@ -267,9 +279,6 @@ public class InteractLiveBaseManager {
                 Log.d(TAG, "onConnectionLost: ");
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onConnectionLost();
-                }
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onConnectionLost();
                 }
             }
 
@@ -325,6 +334,7 @@ public class InteractLiveBaseManager {
             }
         });
 
+        // 【美颜】注册视频前处理回调
         mAlivcLivePusher.setCustomFilter(new AlivcLivePushCustomFilter() {
             @Override
             public void customFilterCreate() {
@@ -347,7 +357,17 @@ public class InteractLiveBaseManager {
         });
     }
 
-    private void initPlayer() {
+    private void destroyLivePusher() {
+        if (mAlivcLivePusher != null) {
+            mAlivcLivePusher.destroy();
+        }
+    }
+
+    public boolean isPushing() {
+        return mAlivcLivePusher != null && mAlivcLivePusher.isPushing();
+    }
+
+    private void initCDNPlayer() {
         mAliPlayer = AliPlayerFactory.createAliPlayer(mContext);
 
         PlayerConfig playerConfig = mAliPlayer.getConfig();
@@ -370,72 +390,30 @@ public class InteractLiveBaseManager {
         mAliPlayer.setOnSeiDataListener(new IPlayer.OnSeiDataListener() {
             @Override
             public void onSeiData(int i, byte[] bytes) {
-                Log.d(TAG, "onSeiData: " + i + ", " + new String(bytes, StandardCharsets.UTF_8));
+                // Log.d(TAG, "onSeiData: " + i + ", " + new String(bytes, StandardCharsets.UTF_8));
                 if (mInteractLivePushPullListener != null) {
                     mInteractLivePushPullListener.onPlayerSei(i, bytes);
                 }
             }
         });
+    }
 
-        mAlivcLivePlayer = new MultiAlivcLivePlayer(mContext, AlivcLiveMode.AlivcLiveInteractiveMode);
-        mAlivcLivePlayer.setPlayInfoListener(new AlivcLivePlayInfoListener() {
-            @Override
-            public void onPlayStarted() {
-                Log.d(TAG, "onPlayStarted: ");
-                mIsPlaying = true;
-                if (mInteractLivePushPullListener != null) {
-                    mInteractLivePushPullListener.onPullSuccess();
-                }
-            }
+    private void releaseCDNPlayer() {
+        if (mAliPlayer != null) {
+            mAliPlayer.release();
+            mAliPlayer = null;
+        }
+    }
 
-            @Override
-            public void onPlayStopped() {
-                Log.d(TAG, "onPlayStopped: ");
-                mIsPlaying = false;
-                if (mInteractLivePushPullListener != null) {
-                    mInteractLivePushPullListener.onPullStop();
-                }
-            }
-
-            @Override
-            public void onFirstVideoFrameDrawn() {
-                Log.d(TAG, "onPlaying: ");
-                mHasPulled = true;
-            }
-
-            @Override
-            public void onNetworkQualityChanged(AlivcLiveNetworkQuality upQuality, AlivcLiveNetworkQuality downQuality) {
-                Log.w(TAG, "onNetworkQualityChanged: " + upQuality);
-            }
-
-            @Override
-            public void onReceiveSEIMessage(int payload, byte[] data) {
-                Log.d(TAG, "onReceiveSEIMessage: " + payload + ", " + new String(data, StandardCharsets.UTF_8));
-                if (mInteractLivePushPullListener != null) {
-                    mInteractLivePushPullListener.onReceiveSEIMessage(payload, data);
-                }
-            }
-
-            @Override
-            public void onPlayoutVolumeUpdate(int volume, boolean isSpeaking) {
-                // 音频音量(仅互动模式下生效，需设置AlivcLivePusher#enableAudioVolumeIndication接口)
-                // Log.d(TAG, "onPlayoutVolumeUpdate: " + volume + ", " + isSpeaking);
-            }
-
-            @Override
-            public void onError(AlivcLivePlayError alivcLivePlayError, String s) {
-                Log.d(TAG, "onError: ");
-                mIsPlaying = false;
-                if (mInteractLivePushPullListener != null) {
-                    mInteractLivePushPullListener.onPullError(alivcLivePlayError, s);
-                }
-            }
-
-            @Override
-            public void onPlayerStatistics(AlivcLivePlayerStatsInfo statsInfo) {
-                Log.i(TAG, "onPlayerStatistics: " + statsInfo);
-            }
-        });
+    public boolean isPulling(InteractiveUserData userData) {
+        if (userData == null) {
+            return false;
+        }
+        InteractiveLivePlayer interactiveLivePlayer = mInteractiveLivePlayerMap.get(userData.getKey());
+        if (interactiveLivePlayer != null) {
+            return interactiveLivePlayer.isPulling();
+        }
+        return false;
     }
 
     private void initWatermarks() {
@@ -466,77 +444,93 @@ public class InteractLiveBaseManager {
         });
     }
 
-    /**
-     * 创建 AlivcLivePlayer，用于多人连麦互动
-     *
-     * @param audienceId 区分 AlivcLivePlayer 的 key
-     */
-    public boolean createAlivcLivePlayer(String audienceId) {
-        if (mAlivcLivePlayerMap.containsKey(audienceId)) {
+    private void destroyWatermarks() {
+        if (mTimestampWatermarkManager != null) {
+            mTimestampWatermarkManager.destroy();
+            mTimestampWatermarkManager = null;
+        }
+    }
+
+    public void setInteractLivePushPullListener(InteractLivePushPullListener listener) {
+        mInteractLivePushPullListener = listener;
+    }
+
+    private boolean createAlivcLivePlayer(InteractiveUserData userData) {
+        if (userData == null) {
             return false;
         }
-        MultiAlivcLivePlayer alivcLivePlayer = new MultiAlivcLivePlayer(mContext, AlivcLiveMode.AlivcLiveInteractiveMode);
-        alivcLivePlayer.setAudienceId(audienceId);
-        alivcLivePlayer.setMultiInteractPlayInfoListener(new MultiInteractLivePushPullListener() {
+
+        String userDataKey = userData.getKey();
+        if (mInteractiveLivePlayerMap.containsKey(userDataKey)) {
+            Log.i(TAG, "createAlivcLivePlayer already created " + userDataKey);
+            return false;
+        }
+
+        Log.d(TAG, "createAlivcLivePlayer: " + userDataKey);
+        InteractiveLivePlayer alivcLivePlayer = new InteractiveLivePlayer(mContext, AlivcLiveMode.AlivcLiveInteractiveMode);
+        alivcLivePlayer.setPullUserData(userData);
+        alivcLivePlayer.setMultiInteractPlayInfoListener(new InteractLivePushPullListener() {
             @Override
-            public void onPullSuccess(String audienceId) {
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPullSuccess(audienceId);
+            public void onPullSuccess(InteractiveUserData userData) {
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onPullSuccess(userData);
                 }
             }
 
             @Override
-            public void onPullError(String audienceId, AlivcLivePlayError errorType, String errorMsg) {
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPullError(audienceId, errorType, errorMsg);
+            public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onPullError(userData, errorType, errorMsg);
                 }
             }
 
             @Override
-            public void onPullStop(String audienceId) {
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPullStop(audienceId);
+            public void onPullStop(InteractiveUserData userData) {
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onPullStop(userData);
                 }
             }
 
             @Override
             public void onPushSuccess() {
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPushSuccess();
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onPushSuccess();
                 }
             }
 
             @Override
             public void onPushError() {
-                if (mMultiInteractLivePushPullListener != null) {
-                    mMultiInteractLivePushPullListener.onPushError();
+                if (mInteractLivePushPullListener != null) {
+                    mInteractLivePushPullListener.onPushError();
                 }
             }
         });
-        mAlivcLivePlayerMap.put(audienceId, alivcLivePlayer);
+        mInteractiveLivePlayerMap.put(userDataKey, alivcLivePlayer);
+        mInteractiveUserDataMap.put(userDataKey, userData);
         return true;
     }
 
-    public boolean isPushing() {
-        return mAlivcLivePusher.isPushing();
-    }
-
-    public boolean isPulling() {
-        return mIsPlaying;
-    }
-
-    public boolean isPulling(String key) {
-        MultiAlivcLivePlayer multiAlivcLivePlayer = mAlivcLivePlayerMap.get(key);
-        if (multiAlivcLivePlayer != null) {
-            return multiAlivcLivePlayer.isPulling();
+    public void startPreviewAndPush(InteractiveUserData userData, FrameLayout frameLayout, boolean isAnchor) {
+        if (userData == null) {
+            Log.e(TAG, "startPreviewAndPush, userData invalid!");
+            return;
         }
-        return false;
-    }
 
-    public void startPreviewAndPush(FrameLayout frameLayout, String url, boolean isAnchor) {
-        this.mPushUrl = url;
+        mPushUserData = userData;
         mAlivcLivePusher.startPreview(mContext, frameLayout, isAnchor);
-        mAlivcLivePusher.startPushAsync(mPushUrl);
+
+        String pushUrl = userData.url;
+        if (InteractiveMode.isInteractive(mInteractiveMode)) {
+            pushUrl = URLUtils.generateInteractivePushUrl(userData.channelId, userData.userId);
+        }
+
+        if (TextUtils.isEmpty(pushUrl)) {
+            Log.e(TAG, "startPreviewAndPush, pushUrl invalid!");
+            return;
+        }
+
+        Log.d(TAG, "startPreviewAndPush: " + isAnchor + ", " + pushUrl);
+        mAlivcLivePusher.startPushAsync(pushUrl);
     }
 
     public void stopPreview() {
@@ -544,7 +538,7 @@ public class InteractLiveBaseManager {
     }
 
     public void stopPush() {
-        if (mAlivcLivePusher.isPushing()) {
+        if (isPushing()) {
             mAlivcLivePusher.stopPush();
         }
     }
@@ -553,97 +547,158 @@ public class InteractLiveBaseManager {
         mAlivcLivePusher.stopCamera();
     }
 
-    public void setPullView(FrameLayout frameLayout, boolean isAnchor) {
+    public void setPullView(InteractiveUserData userData, FrameLayout frameLayout, boolean isAnchor) {
+        if (userData == null || frameLayout == null) {
+            return;
+        }
+
         this.mAudienceFrameLayout = frameLayout;
+
+        createAlivcLivePlayer(userData);
+
+        AlivcLivePlayer livePlayer = mInteractiveLivePlayerMap.get(userData.getKey());
+        if (livePlayer == null) {
+            Log.e(TAG, "setPullView error: livePlayer is empty");
+            return;
+        }
+
         AlivcLivePlayConfig config = new AlivcLivePlayConfig();
         config.isFullScreen = isAnchor;
-        mAlivcLivePlayer.setupWithConfig(config);
-        mAlivcLivePlayer.setPlayView(frameLayout);
+        config.videoStreamType = userData.videoStreamType;
+        livePlayer.setupWithConfig(config);
+        livePlayer.setPlayView(frameLayout);
+        Log.i(TAG, "setPullView: " + userData);
     }
 
-    public void setPullView(String key, FrameLayout frameLayout, boolean isAnchor) {
-        AlivcLivePlayConfig config = new AlivcLivePlayConfig();
-        config.isFullScreen = isAnchor;
-        AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
+    public void startPullCDNStream(String pullUrl) {
+        if (TextUtils.isEmpty(pullUrl)) {
+            return;
+        }
+        if (mAliPlayer == null) {
+            return;
+        }
+        UrlSource urlSource = new UrlSource();
+        urlSource.setUri(pullUrl);
+        mAliPlayer.setDataSource(urlSource);
+        mAliPlayer.prepare();
+    }
+
+    public void stopPullCDNStream() {
+        if (mAliPlayer == null) {
+            return;
+        }
+        mAliPlayer.stop();
+    }
+
+    public void startPullRTCStream(InteractiveUserData userData) {
+        if (userData == null || TextUtils.isEmpty(userData.url)) {
+            Log.e(TAG, "startPull error: url is empty");
+            return;
+        }
+
+        createAlivcLivePlayer(userData);
+
+        AlivcLivePlayer alivcLivePlayer = mInteractiveLivePlayerMap.get(userData.getKey());
+        Log.d(TAG, "startPullRTCStream: " + userData.getKey() + ", " + userData.url + ", " + alivcLivePlayer);
         if (alivcLivePlayer != null) {
-            alivcLivePlayer.setupWithConfig(config);
-            alivcLivePlayer.setPlayView(frameLayout);
+            alivcLivePlayer.startPlay(userData.url);
         }
     }
 
-    public void startPull(String url) {
-        if (TextUtils.isEmpty(url)) {
-            Log.e(TAG, "startPull error: url is empty");
+    public void stopPullRTCStream(InteractiveUserData userData) {
+        if (userData == null) {
             return;
         }
-        this.mPullUrl = url;
-        if (url.startsWith(URLUtils.ARTC)) {
-            mAlivcLivePlayer.startPlay(url);
-        } else {
-            UrlSource urlSource = new UrlSource();
-            urlSource.setUri(url);
-            mAliPlayer.setDataSource(urlSource);
-            mAliPlayer.prepare();
-        }
-    }
-
-    public void startPull(String key, String url) {
-        if (TextUtils.isEmpty(url)) {
-            Log.e(TAG, "startPull error: url is empty");
-            return;
-        }
-        this.mPullUrl = url;
-        if (url.startsWith(URLUtils.ARTC)) {
-            AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
-            if (alivcLivePlayer != null) {
-                alivcLivePlayer.startPlay(url);
-            }
-        } else {
-            UrlSource urlSource = new UrlSource();
-            urlSource.setUri(url);
-            mAliPlayer.setDataSource(urlSource);
-            mAliPlayer.prepare();
-        }
-    }
-
-    public void stopPull() {
-        mAlivcLivePlayer.stopPlay();
-        mHasPulled = false;
-    }
-
-    public void stopPull(String key) {
-        AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
+        String userKey = userData.getKey();
+        AlivcLivePlayer alivcLivePlayer = mInteractiveLivePlayerMap.get(userKey);
+        Log.d(TAG, "stopPullRTCStream: " + userData.getKey() + ", " + userData.url + ", " + alivcLivePlayer);
         if (alivcLivePlayer != null) {
             alivcLivePlayer.stopPlay();
         }
-        mAlivcLivePlayerMap.remove(key);
+        mInteractiveLivePlayerMap.remove(userKey);
+        mInteractiveUserDataMap.remove(userKey);
     }
 
-    public void pause() {
+    // 暂停推流
+    public void pausePush() {
         if (isPushing()) {
             mAlivcLivePusher.pause();
-            mHasPushed = true;
-        }
-        if (isPulling()) {
-            mAlivcLivePlayer.stopPlay();
-            mHasPulled = true;
         }
     }
 
-    public void pause(String key) {
+    // 恢复推流
+    public void resumePush() {
+        if (isPushing()) {
+            mAlivcLivePusher.resume();
+        }
     }
 
-    //发送 SEI
+    // 停止播放RTC流
+    public void pausePlayRTCStream(InteractiveUserData userData) {
+        Log.d(TAG, "pausePlayRTCStream: " + userData);
+        if (userData == null) {
+            return;
+        }
+
+        String userKey = userData.getKey();
+        InteractiveLivePlayer alivcLivePlayer = mInteractiveLivePlayerMap.get(userKey);
+        if (alivcLivePlayer == null) {
+            return;
+        }
+
+        alivcLivePlayer.pauseVideoPlaying();
+    }
+
+    // 恢复播放RTC流
+    public void resumePlayRTCStream(InteractiveUserData userData) {
+        Log.d(TAG, "resumePlayRTCStream: " + userData);
+        if (userData == null) {
+            return;
+        }
+
+        String userKey = userData.getKey();
+        InteractiveLivePlayer alivcLivePlayer = mInteractiveLivePlayerMap.get(userKey);
+        if (alivcLivePlayer == null) {
+            return;
+        }
+
+        alivcLivePlayer.resumeVideoPlaying();
+    }
+
+    // 停止播放所有RTC流
+    public void pausePlayRTCStream() {
+        for (InteractiveUserData userData : mInteractiveUserDataMap.values()) {
+            pausePlayRTCStream(userData);
+        }
+    }
+
+    // 恢复播放所有RTC流
+    public void resumePlayRTCStream() {
+        for (InteractiveUserData userData : mInteractiveUserDataMap.values()) {
+            resumePlayRTCStream(userData);
+        }
+    }
+
+    // 发送SEI
     public void sendSEI(String text) {
         mAlivcLivePusher.sendMessage(text, 0, 0, false);
     }
 
-    public void resume() {
-        if (mHasPushed) {
-            mAlivcLivePusher.resumeAsync();
+    // 开始本地录制
+    public void startLocalRecord(AlivcLiveLocalRecordConfig recordConfig) {
+        boolean flag = false;
+        if (mAlivcLivePusher != null) {
+            flag = mAlivcLivePusher.startLocalRecord(recordConfig);
         }
-        if (mHasPulled) {
-            startPull(mPullUrl);
+        if (!flag) {
+            ToastUtils.show("start local record failed!");
+        }
+    }
+
+    // 结束本地录制
+    public void stopLocalRecord() {
+        if (mAlivcLivePusher != null) {
+            mAlivcLivePusher.stopLocalRecord();
         }
     }
 
@@ -655,15 +710,8 @@ public class InteractLiveBaseManager {
         mAlivcLivePusher.inputStreamAudioData(data, size, sampleRate, channels, pts);
     }
 
-    public void resume(String key) {
-    }
-
-    public void stopCDNPull() {
-        mAliPlayer.stop();
-    }
-
     public void switchCamera() {
-        if (mAlivcLivePusher.isPushing()) {
+        if (isPushing()) {
             mAlivcLivePusher.switchCamera();
             if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
                 mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
@@ -681,52 +729,81 @@ public class InteractLiveBaseManager {
         mAlivcLivePusher.enableSpeakerphone(enableSpeakerPhone);
     }
 
+    public void enableAudioCapture(boolean enable) {
+        if (enable) {
+            mAlivcLivePusher.startAudioCapture(true);
+        } else {
+            mAlivcLivePusher.stopAudioCapture();
+        }
+    }
+
+    public void enableLocalCamera(boolean enable) {
+        mAlivcLivePusher.enableLocalCamera(enable);
+    }
+
     public void release() {
-        stopPull();
+        destroyWatermarks();
+        clearLiveMixTranscodingConfig();
+
         stopPush();
+        destroyLivePusher();
+
+        stopPullCDNStream();
+        releaseCDNPlayer();
 
         mMultiInteractLiveMixStreamsArray.clear();
         mMixInteractLiveTranscodingConfig.setMixStreams(mMultiInteractLiveMixStreamsArray);
-        if (mAlivcLivePusher != null) {
-            mAlivcLivePusher.setLiveMixTranscodingConfig(mMixInteractLiveTranscodingConfig);
-            mAlivcLivePusher.destroy();
-        }
 
-        if (mAliPlayer != null) {
-            mAliPlayer.release();
-        }
-        mAlivcLivePlayer.destroy();
-
-        for (AlivcLivePlayer alivcLivePlayer : mAlivcLivePlayerMap.values()) {
+        for (AlivcLivePlayer alivcLivePlayer : mInteractiveLivePlayerMap.values()) {
             alivcLivePlayer.stopPlay();
             alivcLivePlayer.destroy();
         }
-        mAlivcLivePlayerMap.clear();
+
+        mInteractiveLivePlayerMap.clear();
+        mInteractiveUserDataMap.clear();
 
         mInteractLivePushPullListener = null;
-        mMultiInteractLivePushPullListener = null;
+    }
 
-        if (mTimestampWatermarkManager != null) {
-            mTimestampWatermarkManager.destroy();
-            mTimestampWatermarkManager = null;
+    // 单切混的逻辑在各自场景的manager里面，因为PK和连麦的混流布局不太一样。
+    // 更新混流、混切单
+    public void clearLiveMixTranscodingConfig() {
+        if (mAlivcLivePusher != null) {
+            mAlivcLivePusher.setLiveMixTranscodingConfig(null);
         }
     }
 
-    public void clearLiveMixTranscodingConfig() {
-        mAlivcLivePusher.setLiveMixTranscodingConfig(null);
+    // 遍历当前混流子布局信息
+    public AlivcLiveMixStream findMixStreamByUserData(InteractiveUserData userData) {
+        if (userData == null || TextUtils.isEmpty(userData.userId)) {
+            return null;
+        }
+
+        for (AlivcLiveMixStream alivcLiveMixStream : mMultiInteractLiveMixStreamsArray) {
+            if (userData.userId.equals(alivcLiveMixStream.getUserId())
+                    && alivcLiveMixStream.getMixSourceType() == InteractiveBaseUtil.covertVideoStreamType2MixSourceType(userData.videoStreamType)) {
+                return alivcLiveMixStream;
+            }
+        }
+
+        return null;
     }
 
-    public void setInteractLivePushPullListener(InteractLivePushPullListener listener) {
-        mInteractLivePushPullListener = listener;
+    public InteractiveUserData getUserDataByKey(String key) {
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+
+        for (String userKey : mInteractiveUserDataMap.keySet()) {
+            if (TextUtils.equals(userKey, key)) {
+                return mInteractiveUserDataMap.get(userKey);
+            }
+        }
+
+        return null;
     }
 
-    public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {
-        mMultiInteractLivePushPullListener = listener;
-    }
-
-    /**
-     * 初始化美颜相关资源
-     */
+    // 初始化美颜相关资源
     private void initBeautyManager() {
         if (mBeautyManager == null && LivePushGlobalConfig.ENABLE_BEAUTY) {
             // v4.4.4版本-v6.1.0版本，互动模式下的美颜，处理逻辑参考BeautySDKType.INTERACT_QUEEN，即：InteractQueenBeautyImpl；
@@ -739,9 +816,7 @@ public class InteractLiveBaseManager {
         }
     }
 
-    /**
-     * 美颜相关资源销毁
-     */
+    // 销毁美颜相关资源
     private void destroyBeautyManager() {
         if (mBeautyManager != null) {
             mBeautyManager.release();

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_selected="true">
+        <shape android:shape="oval">
+            <solid android:color="#33ffffff"/>
+            <stroke
+                android:width="@dimen/alivc_common_line_1dp"
+                android:color="#00C1DE" />
+            <size
+                android:width="@dimen/alivc_common_size_icon_24"
+                android:height="@dimen/alivc_common_size_icon_24"/>
+        </shape>
+    </item>
+</selector>

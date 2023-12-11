@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="alivc_record_bg_timeview_selected">#3F51B5</color>
+    <color name="alivc_record_bg_timeview_duraton">#fd4646</color>
+    <color name="alivc_record_bg_timeview">#33FFFFFF</color>
+    <color name="aliyun_record_bg_seek_bar">#F05487</color>
+    <color name="alivc_record_bg_tools_bar">#881B2133</color>
+    <color name="alivc_record_bg_rate_bar">#CC1C1F21</color>
+    <color name="alivc_record_bg_rate_selected">#F8F8F8</color>
+    <color name="alivc_record_color_filter">#50C0C0C0</color>
+</resources>

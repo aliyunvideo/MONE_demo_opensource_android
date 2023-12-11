@@ -2,27 +2,56 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alivc.live.pusher.demo">
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--  Used for network features  -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.REORDER_TASKS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <!--  To check the network connection state of the device, you'll need to add the ACCESS_NETWORK_STATE permission.  -->
+    <!--  This permission does not require user consent at runtime, but needs to be declared in the app's AndroidManifest.xml.  -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!--  If the app needs to record audio, you need to declare the RECORD_AUDIO permission and request this permission at runtime  -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!--  The application needs to access the device's camera  -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <!-- Needed only if your app communicates with already-paired Bluetooth devices. -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <!-- Only used by Demo for accessing storage files  -->
+    <!--  Storage permissions  -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <!-- Access image files -->
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
+        android:minSdkVersion="33" />
+    <!-- Write audio files -->
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_AUDIO"
+        android:minSdkVersion="33" />
+    <!-- Write video files -->
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_VIDEO"
+        android:minSdkVersion="33" />
+
+    <!-- Only used by Demo for screen recording and streaming  -->
+    <!-- Used for creating background tasks, not required by SDK -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Requesting permission to create system overlay windows -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Only used by Demo for muting  -->
+    <!-- If this permission is not declared, the feature of automatically muting the stream during a phone call will not work -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".LiveApplication"
@@ -53,8 +82,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".backdoor.BackDoorActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AVAppTheme" />
+
         <!--   请在此处填写申请到的license相关信息     -->
-        <!--   推流SDK License文档: https://help.aliyun.com/document_detail/431730.html     -->
+        <!--   Demo License仅供测试和体验使用，随时可能过期，请勿直接使用     -->
+        <!--   推流SDK License集成指南：https://help.aliyun.com/zh/live/developer-reference/integrate-a-push-sdk-license     -->
         <meta-data
             android:name="com.aliyun.alivc_license.licensekey"
             android:value=""/>  <!-- TODO:请设置您的 LicenseKey-->

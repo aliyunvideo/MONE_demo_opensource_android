@@ -119,17 +119,44 @@ dependencies {
     }
 }
 
-import java.security.MessageDigest
-def digest = MessageDigest.getInstance('MD5')
-
-afterEvaluate {
-    File localFile = new File(getRootDir().absolutePath + "/local.properties")
-    if(localFile.exists()){
-        Properties localProperties = new Properties()
-        localProperties.load(localFile.newDataInputStream())
-        def sourceDebug = localProperties.getProperty('source.debug')
-        if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
-            return
-        }
-    }
-}
+////FIX:AGP 4.X，will update AGP 7.x soon
+//afterEvaluate {
+//    def android = project.extensions.getByName("android")
+//    String sdkDirectory = android ? android.getSdkDirectory() : null
+//    println("sdkDirectory = " + sdkDirectory + " sys = " + System.properties['os.name'])
+//    if(sdkDirectory != null && !sdkDirectory.isEmpty()){
+//        String android_tool_path = new StringBuilder().append(sdkDirectory).append(File.separator)
+//                .append("build-tools").append(File.separator)
+//                .append(androidBuildToolsVersion).toString()
+//        println("android_tool_path = " + android_tool_path)
+//        def isWindows = System.properties['os.name'].toString().toLowerCase().contains("windows")
+//        def d8_file_path = new StringBuilder().append(android_tool_path).append(File.separator).append(isWindows ? "d8.bat" : "d8").toString()
+//        def dx_file_path = new StringBuilder().append(android_tool_path).append(File.separator).append(isWindows ? "dx.bat" : "dx").toString()
+//        if (new File("${d8_file_path}").exists() && ! new File("${dx_file_path}").exists()) {
+//            if (isWindows) {
+//                copy {
+//                    from "${d8_file_path}"
+//                    into "${dx_file_path}"
+//                }
+//            } else {
+//                exec {
+//                    commandLine 'ln','-s',"${d8_file_path}","${dx_file_path}"
+//                }
+//            }
+//        }
+//        def d8_jar_file_path = new StringBuilder().append(android_tool_path).append(File.separator).append("lib").append(File.separator).append("d8.jar").toString()
+//        def dx_jar_file_path = new StringBuilder().append(android_tool_path).append(File.separator).append("lib").append(File.separator).append("dx.jar").toString()
+//        if (new File("${d8_jar_file_path}").exists() &&! new File("${dx_jar_file_path}").exists()) {
+//            if (isWindows) {
+//                copy {
+//                    from "${d8_jar_file_path}"
+//                    into "${dx_jar_file_path}"
+//                }
+//            } else {
+//                exec {
+//                    commandLine 'ln', '-s', "${d8_jar_file_path}", "${dx_jar_file_path}"
+//                }
+//            }
+//        }
+//    }
+//}

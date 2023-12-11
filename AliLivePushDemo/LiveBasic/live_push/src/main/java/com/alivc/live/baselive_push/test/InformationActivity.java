@@ -10,11 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alivc.live.baselive_push.R;
-import com.alivc.live.commonutils.BuildConfig;
-import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.commonutils.AppUtil;
 import com.alivc.live.commonutils.FileUtil;
 import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.pusher.AlivcLiveBase;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -67,22 +66,22 @@ public class InformationActivity extends AppCompatActivity {
 
     private static String getDemoBuildInfo() {
         return String.format("%s%n%s%n%s%n%s",
-                "Demo Build Type: " + BuildConfig.BUILD_TYPE,
-                "Demo Build AIO: " + BuildConfig.MTL_BUILD_FOR_AIO,
-                "Demo Build ID: " + BuildConfig.MTL_BUILD_ID,
-                "Demo Build Timestamp: " + BuildConfig.MTL_BUILD_TIMESTAMP
+                "Demo Build Type: " + com.alivc.live.commonutils.BuildConfig.BUILD_TYPE,
+                "Demo Build AIO: " + com.alivc.live.commonutils.BuildConfig.MTL_BUILD_FOR_AIO,
+                "Demo Build ID: " + com.alivc.live.commonutils.BuildConfig.MTL_BUILD_ID,
+                "Demo Build Timestamp: " + com.alivc.live.commonutils.BuildConfig.MTL_BUILD_TIMESTAMP
         );
     }
 
     private static String getSdkBuildInfo() {
         return String.format("%s%n%s%n%s%n%s%n%s%n%s",
                 "SDK Version: " + AlivcLiveBase.getSDKVersion(),
-                "SDK Build Type: " + BuildConfig.BUILD_TYPE,
+                "SDK Build Type: " + com.alivc.live.pusher.BuildConfig.BUILD_TYPE,
                 "SDK Build Interactive: " + com.alivc.live.pusher.BuildConfig.BUILD_INTERACTIVE,
                 "SDK Pre Environment: " + com.alivc.live.pusher.BuildConfig.PUSH_SDK_PRE_ENV,
                 "SDK Head Commit ID: " + com.alivc.live.pusher.BuildConfig.HEAD_COMMIT_ID,
-                "SDK Build ID: " + BuildConfig.MTL_BUILD_ID,
-                "SDK Build Timestamp: " + BuildConfig.MTL_BUILD_TIMESTAMP
+                "SDK Build ID: " + com.alivc.live.pusher.BuildConfig.MTL_BUILD_ID,
+                "SDK Build Timestamp: " + com.alivc.live.pusher.BuildConfig.MTL_BUILD_TIMESTAMP
         );
     }
 

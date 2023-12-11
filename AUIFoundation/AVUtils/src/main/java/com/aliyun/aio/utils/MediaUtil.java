@@ -69,8 +69,10 @@ public class MediaUtil {
         } catch (Exception e) {
             return 0;
         } finally {
-            if (mmr != null) {
+            try{
                 mmr.release();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

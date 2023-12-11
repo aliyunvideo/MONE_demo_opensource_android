@@ -4,8 +4,10 @@
 
 package com.aliyun.alivcsolution.setting;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -187,9 +189,15 @@ public class AlivcCropSettingActivity extends AVBaseThemeActivity implements Vie
                 return;
             }
             // 视频裁剪
-            if (!PermissionUtils.checkPermissionsGroup(this, PermissionUtils.PERMISSION_STORAGE)) {
+            String[] per = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ?
+                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE} :
+                    new String[] {Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO};
+
+            if (!PermissionUtils.checkPermissionsGroup(this, per)) {
                 ToastUtils.show(this, PermissionUtils.NO_PERMISSION_TIP[4]);
-                PermissionUtils.requestPermissions(this, PermissionUtils.PERMISSION_STORAGE, CROP_PERMISSION_REQUEST_CODE);
+                PermissionUtils.requestPermissions(this, per, CROP_PERMISSION_REQUEST_CODE);
                 return;
             }
             AVMatisse.from(this)

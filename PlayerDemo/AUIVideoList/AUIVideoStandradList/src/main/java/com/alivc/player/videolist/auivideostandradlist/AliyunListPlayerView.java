@@ -339,6 +339,11 @@ public class AliyunListPlayerView extends FrameLayout {
                     startPlay(position);
                     mCurrentPosition = position;
                 }
+
+                @Override
+                public int onSelectedPosition(){
+                    return 0;
+                }
             });
         }
     }

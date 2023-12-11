@@ -26,4 +26,5 @@
     <string name="ugsv_editor_upload_failed">Uploading failed</string>
     <string name="ugsv_editor_upload_param_error">Parameter missing</string>
     <string name="ugsv_editor_upload_success">Uploaded successfully</string>
+    <string name="unsupport_video_format">unsupport video format</string>
 </resources>

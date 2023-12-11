@@ -18,6 +18,9 @@
     <string name="interact_setting">参数设置</string>
     <string name="interact_live_cancel">取消</string>
     <string name="interact_live_confirm">确认</string>
+    <string name="interact_live_stream_type">视频流类型</string>
+    <string name="interact_live_stream_type_camera">摄像头流</string>
+    <string name="interact_live_stream_type_screen">屏幕共享流</string>
     <string name="interact_live_next">下一步</string>
     <string name="interact_live_user_id">用户 ID</string>
     <string name="interact_live_room_id">房间号</string>

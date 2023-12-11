@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/content_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/bg_medium" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ugsv_recorder_filter_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_group_140" />
+</merge>

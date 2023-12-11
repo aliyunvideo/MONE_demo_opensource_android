@@ -20,23 +20,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.acker.simplezxing.activity.CaptureActivity;
 import com.alivc.live.baselive_common.AutoScrollMessagesView;
 import com.alivc.live.commonutils.FastClickUtil;
-import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
-import com.acker.simplezxing.activity.CaptureActivity;
-import com.alivc.live.interactive_common.widget.InteractLiveTipsView;
-import com.alivc.live.interactive_common.widget.InteractiveConnectView;
-import com.alivc.live.interactive_common.widget.InteractiveSettingView;
-import com.alivc.live.player.annotations.AlivcLivePlayError;
+import com.alivc.live.commonutils.StatusBarUtil;
+import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
+import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
-import com.alivc.live.commonutils.StatusBarUtil;
-import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveCommonInputView;
+import com.alivc.live.interactive_common.widget.InteractiveConnectView;
+import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
+import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.aliyunsdk.queen.menu.BeautyMenuPanel;
 
 public class InteractLiveActivity extends AppCompatActivity {
@@ -55,6 +56,7 @@ public class InteractLiveActivity extends AppCompatActivity {
     //Dialog 弹窗的意图
     private InteractLiveIntent mCurrentIntent;
     private String mRoomId;
+    private String mAnchorId;
     private String mUserId;
     private ImageView mCloseImageView;
     private TextView mShowConnectIdTextView;
@@ -70,9 +72,8 @@ public class InteractLiveActivity extends AppCompatActivity {
     private RoomAndUserInfoView mAudienceInfoView;
     private boolean mIsMute = false;
     //输入 URL 方式连麦
-    private boolean mIsInteractiveUrl;
     private String mInteractiveURL;
-    private InteractLiveTipsView interactLiveTipsView;
+    private InteractiveCommonInputView commonInputView;
     private InteractiveConnectView mInteractiveConnectView;
     private InteractiveSettingView mInteractiveSettingView;
     private ImageView mBeautyImageView;
@@ -95,13 +96,22 @@ public class InteractLiveActivity extends AppCompatActivity {
         mIsAnchor = getIntent().getBooleanExtra(DATA_IS_ANCHOR, true);
         mRoomId = getIntent().getStringExtra(DATA_HOME_ID);
         mUserId = getIntent().getStringExtra(DATA_USER_ID);
-        mIsInteractiveUrl = getIntent().getBooleanExtra(DATA_IS_URL,false);
+        if (mIsAnchor) {
+            mAnchorId = mUserId;
+        }
         mInteractiveURL = getIntent().getStringExtra(DATA_INTERACTIVE_URL);
 
         if (mIsAnchor) {
             mAnchorController = new AnchorController(this, mRoomId, mUserId);
         } else {
-            mViewerController = new ViewerController(this, mRoomId, mUserId);
+            InteractiveUserData userData = new InteractiveUserData();
+            userData.channelId = mRoomId;
+            userData.userId = mAnchorId;
+
+            InteractiveUserData viewerUserData = new InteractiveUserData();
+            viewerUserData.channelId = mRoomId;
+            viewerUserData.userId = mUserId;
+            mViewerController = new ViewerController(this, userData, viewerUserData);
         }
 
         initView();
@@ -149,8 +159,8 @@ public class InteractLiveActivity extends AppCompatActivity {
 
         mAudienceInfoView = findViewById(R.id.audience_info_view);
         mAnchorInfoView = findViewById(R.id.anchor_info_view);
-//        mAudienceInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
-//        mAnchorInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
+        mAudienceInfoView.setVisibility(View.VISIBLE);
+        mAnchorInfoView.setVisibility(View.VISIBLE);
     }
 
     private void initListener() {
@@ -201,14 +211,15 @@ public class InteractLiveActivity extends AppCompatActivity {
         if (mIsAnchor) {
             mAnchorController.setInteractLivePushPullListener(new InteractLivePushPullListener() {
                 @Override
-                public void onPullSuccess() {
+                public void onPullSuccess(InteractiveUserData userData) {
+                    super.onPullSuccess(userData);
                     changeSmallSurfaceViewVisible(true);
                     updateConnectTextView(true);
                 }
 
                 @Override
-                public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
-                    super.onPullError(errorType, errorMsg);
+                public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                    super.onPullError(userData, errorType, errorMsg);
                     runOnUiThread(() -> {
                         changeSmallSurfaceViewVisible(false);
                         mAnchorController.stopConnect();
@@ -218,8 +229,8 @@ public class InteractLiveActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onPullStop() {
-                    super.onPullStop();
+                public void onPullStop(InteractiveUserData userData) {
+                    super.onPullStop(userData);
                     runOnUiThread(() -> {
                         changeSmallSurfaceViewVisible(false);
                         updateConnectTextView(false);
@@ -227,7 +238,18 @@ public class InteractLiveActivity extends AppCompatActivity {
                 }
 
                 @Override
+                public void onPushSuccess() {
+                    super.onPushSuccess();
+                }
+
+                @Override
+                public void onPushError() {
+                    super.onPushError();
+                }
+
+                @Override
                 public void onConnectionLost() {
+                    super.onConnectionLost();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -237,15 +259,26 @@ public class InteractLiveActivity extends AppCompatActivity {
                 }
 
                 @Override
+                public void onReceiveSEIMessage(int payload, byte[] data) {
+                    super.onReceiveSEIMessage(payload, data);
+                }
+
+                @Override
                 public void onPlayerSei(int i, byte[] bytes) {
+                    super.onPlayerSei(i, bytes);
 //                    mSeiView.appendMessage(new String(bytes));
                 }
             });
         } else {
             mViewerController.setInteractLivePushPullListener(new InteractLivePushPullListener() {
+                @Override
+                public void onPullSuccess(InteractiveUserData userData) {
+                    super.onPullSuccess(userData);
+                }
 
                 @Override
-                public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
+                public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                    super.onPullError(userData, errorType, errorMsg);
                     runOnUiThread(() -> {
                         if (errorType == AlivcLivePlayError.AlivcLivePlayErrorStreamStopped) {
                             finish();
@@ -254,15 +287,29 @@ public class InteractLiveActivity extends AppCompatActivity {
                 }
 
                 @Override
+                public void onPullStop(InteractiveUserData userData) {
+                    super.onPullStop(userData);
+                }
+
+                @Override
                 public void onPushSuccess() {
                     super.onPushSuccess();
+                    if (mViewerController != null) {
+                        mViewerController.pullOtherStream();
+                    }
                     runOnUiThread(() -> {
                         updateConnectTextView(true);
                     });
                 }
 
                 @Override
+                public void onPushError() {
+                    super.onPushError();
+                }
+
+                @Override
                 public void onConnectionLost() {
+                    super.onConnectionLost();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -272,8 +319,13 @@ public class InteractLiveActivity extends AppCompatActivity {
                 }
 
                 @Override
+                public void onReceiveSEIMessage(int payload, byte[] data) {
+                    super.onReceiveSEIMessage(payload, data);
+                }
+
+                @Override
                 public void onPlayerSei(int i, byte[] bytes) {
-//                    mSeiView.appendMessage(new String(bytes));
+                    super.onPlayerSei(i, bytes);
                 }
             });
         }
@@ -326,7 +378,7 @@ public class InteractLiveActivity extends AppCompatActivity {
             public void onMuteClick() {
                 if (mIsAnchor) {
                     mAnchorController.setMute(!mIsMute);
-                }else{
+                } else {
                     mViewerController.setMute(!mIsMute);
                 }
                 mIsMute = !mIsMute;
@@ -340,6 +392,14 @@ public class InteractLiveActivity extends AppCompatActivity {
                 } else {
                     mViewerController.changeSpeakerPhone();
                 }
+            }
+
+            @Override
+            public void onEnableAudioClick(boolean enable) {
+            }
+
+            @Override
+            public void onEnableVideoClick(boolean enable) {
             }
         });
     }
@@ -360,14 +420,13 @@ public class InteractLiveActivity extends AppCompatActivity {
     }
 
     private void showInteractLiveDialog(String content, boolean showInputView, boolean showQR) {
-        interactLiveTipsView = new InteractLiveTipsView(InteractLiveActivity.this);
-        interactLiveTipsView.showQrIcon(showQR);
-        interactLiveTipsView.showInputView(showInputView);
-        interactLiveTipsView.setContent(content);
-        mAUILiveDialog.setContentView(interactLiveTipsView);
+        commonInputView = new InteractiveCommonInputView(InteractLiveActivity.this);
+        commonInputView.setViewType(InteractiveCommonInputView.ViewType.INTERACTIVE);
+        commonInputView.showInputView(content, showInputView);
+        mAUILiveDialog.setContentView(commonInputView);
         mAUILiveDialog.show();
 
-        interactLiveTipsView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
+        commonInputView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
             @Override
             public void onCancel() {
                 if (mAUILiveDialog.isShowing()) {
@@ -396,24 +455,22 @@ public class InteractLiveActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onInputConfirm(String content) {
-                hideInputSoftFromWindowMethod(InteractLiveActivity.this, interactLiveTipsView);
-                if (TextUtils.isEmpty(content)) {
+            public void onInputConfirm(InteractiveUserData userData) {
+                hideInputSoftFromWindowMethod(InteractLiveActivity.this, commonInputView);
+                if (TextUtils.isEmpty(userData.userId)) {
                     ToastUtils.show(getResources().getString(R.string.interact_live_connect_input_error_tips));
+                    return;
+                }
+                userData.channelId = mRoomId;
+                mAUILiveDialog.dismiss();
+                if (mIsAnchor) {
+                    //主播端，输入观众 id 后，开始连麦
+                    mAnchorController.startConnect(userData);
                 } else {
-                    mAUILiveDialog.dismiss();
-                    if (mIsAnchor) {
-                        //主播端，输入观众 id 后，开始连麦
-                        mAnchorController.startConnect(content,mIsInteractiveUrl);
-                        if (!mIsInteractiveUrl) {
-                            setInfoView(mRoomId, mUserId, content);
-                        }
-                    } else {
-                        //观众端，输入主播 id 后，观看直播
-                        mViewerController.watchLive(content);
-
-                        setInfoView(mRoomId, content, mUserId);
-                    }
+                    mAnchorId = userData.userId;
+                    //观众端，输入主播 id 后，观看直播
+                    mViewerController.watchLive(mAnchorId);
+                    setInfoView(mRoomId, mAnchorId, mUserId);
                 }
             }
 
@@ -425,7 +482,7 @@ public class InteractLiveActivity extends AppCompatActivity {
     }
 
     private void showInteractLiveDialog(String content, boolean showInputView) {
-        showInteractLiveDialog(content,showInputView,false);
+        showInteractLiveDialog(content, showInputView, false);
     }
 
     private void changeConnectRenderView(boolean connect) {
@@ -485,14 +542,14 @@ public class InteractLiveActivity extends AppCompatActivity {
             case CaptureActivity.REQ_CODE:
                 switch (resultCode) {
                     case RESULT_OK:
-                        if (interactLiveTipsView != null) {
-                            interactLiveTipsView.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
+                        if (commonInputView != null) {
+                            commonInputView.setQrResult(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                         }
                         break;
                     case RESULT_CANCELED:
-                        if (data != null && interactLiveTipsView != null) {
+                        if (data != null && commonInputView != null) {
                             // for some reason camera is not working correctly
-                            interactLiveTipsView.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
+                            commonInputView.setQrResult(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                         }
                         break;
                     default:

@@ -4,11 +4,13 @@
 
 package com.aliyun.alivcsolution.setting;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import androidx.annotation.NonNull;
@@ -229,10 +231,14 @@ public class AlivcEditorSettingActivity extends AVBaseThemeActivity implements V
             }
 
             EditorConfig.Companion.getInstance().setPublish(mPublish.isChecked());
-
-            if (!PermissionUtils.checkPermissionsGroup(this, PermissionUtils.PERMISSION_STORAGE)) {
+            String[] per = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ?
+                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE} :
+                    new String[] {Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO};
+            if (!PermissionUtils.checkPermissionsGroup(this, per)) {
                 ToastUtils.show(this, PermissionUtils.NO_PERMISSION_TIP[4]);
-                PermissionUtils.requestPermissions(this, PermissionUtils.PERMISSION_STORAGE, EDITOR_PERMISSION_REQUEST_CODE);
+                PermissionUtils.requestPermissions(this, per, EDITOR_PERMISSION_REQUEST_CODE);
                 return;
             }
             AVMatisse.from(this)

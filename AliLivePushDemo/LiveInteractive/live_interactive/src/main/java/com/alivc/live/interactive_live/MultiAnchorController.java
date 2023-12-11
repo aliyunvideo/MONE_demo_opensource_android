@@ -6,7 +6,9 @@ import android.widget.FrameLayout;
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
 import com.alivc.live.commonbiz.test.URLUtils;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
+import com.alivc.live.interactive_common.InteractiveMode;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
+import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.pusher.AlivcResolutionEnum;
 
@@ -22,10 +24,10 @@ public class MultiAnchorController {
     private final LocalStreamReader mLocalStreamReader;
     //主播预览 View
     private FrameLayout mAnchorRenderView;
+
     //主播推流地址
-    private final String mPushUrl;
-    //观众连麦拉流地址
-    private String mPullUrl;
+    private final InteractiveUserData mPushUserData;
+
     private final String mRoomId;
     private final String mAnchorId;
     private boolean mEnableSpeakerPhone = false;
@@ -47,18 +49,11 @@ public class MultiAnchorController {
                 .setAudioChannel(1)
                 .setAudioBufferSize(2048)
                 .build();
-        mPushUrl = URLUtils.generateInteractivePushUrl(roomId, anchorId);
+        mPushUserData = new InteractiveUserData();
+        mPushUserData.channelId = roomId;
+        mPushUserData.userId = anchorId;
         mInteractLiveManager = new InteractLiveManager();
-        mInteractLiveManager.init(context);
-    }
-
-    /**
-     * 设置观众 id
-     *
-     * @param viewerId 观众 id
-     */
-    public void setViewerId(String viewerId) {
-        mPullUrl = URLUtils.generateInteractivePullUrl(mRoomId, viewerId);
+        mInteractLiveManager.init(context, InteractiveMode.MULTI_INTERACTIVE);
     }
 
     /**
@@ -75,24 +70,23 @@ public class MultiAnchorController {
      */
     public void startPush() {
         externAV();
-        mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl, true);
-        mInteractLiveManager.addAnchorMixTranscodingConfig(mAnchorId);
+        mInteractLiveManager.startPreviewAndPush(mPushUserData, mAnchorRenderView, true);
+        mInteractLiveManager.addAnchorMixTranscodingConfig(mPushUserData);
     }
 
-    /**
-     * 开始连麦
-     *
-     * @param viewerId 要连麦的观众 id
-     */
-    public void startConnect(String viewerId, FrameLayout frameLayout) {
-        setViewerId(viewerId);
-        mInteractLiveManager.setPullView(viewerId, frameLayout, false);
-        mInteractLiveManager.startPull(viewerId, mPullUrl);
-        mInteractLiveManager.addAudienceMixTranscodingConfig(viewerId, frameLayout);
+    public void startConnect(InteractiveUserData userData, FrameLayout frameLayout) {
+        if (userData == null) {
+            return;
+        }
+        userData.url = URLUtils.generateInteractivePullUrl(mRoomId, userData.userId);
+
+        mInteractLiveManager.setPullView(userData, frameLayout, false);
+        mInteractLiveManager.startPullRTCStream(userData);
+        mInteractLiveManager.addAudienceMixTranscodingConfig(userData, frameLayout);
     }
 
     public boolean isOnConnected(String key) {
-        return mInteractLiveManager.isPulling(key);
+        return mInteractLiveManager.isPulling(mInteractLiveManager.getUserDataByKey(key));
     }
 
     private void externAV() {
@@ -112,8 +106,9 @@ public class MultiAnchorController {
      * 结束连麦
      */
     public void stopConnect(String key) {
-        mInteractLiveManager.stopPull(key);
-        mInteractLiveManager.removeAudienceLiveMixTranscodingConfig(key, mAnchorId);
+        InteractiveUserData userData = mInteractLiveManager.getUserDataByKey(key);
+        mInteractLiveManager.stopPullRTCStream(userData);
+        mInteractLiveManager.removeAudienceLiveMixTranscodingConfig(userData, mAnchorId);
     }
 
     /**
@@ -123,19 +118,14 @@ public class MultiAnchorController {
         mInteractLiveManager.switchCamera();
     }
 
-    /**
-     * 创建 AlivcLivePlayer
-     */
-    public boolean createAlivcLivePlayer(String audienceId) {
-        return mInteractLiveManager.createAlivcLivePlayer(audienceId);
-    }
-
     public void resume() {
-        mInteractLiveManager.resume();
+        mInteractLiveManager.resumePush();
+        mInteractLiveManager.resumePlayRTCStream();
     }
 
     public void pause() {
-        mInteractLiveManager.pause();
+        mInteractLiveManager.pausePush();
+        mInteractLiveManager.pausePlayRTCStream();
     }
 
     public void release() {
@@ -144,8 +134,8 @@ public class MultiAnchorController {
         mLocalStreamReader.stopPcm();
     }
 
-    public void setMultiInteractLivePushPullListener(MultiInteractLivePushPullListener listener) {
-        mInteractLiveManager.setMultiInteractLivePushPullListener(listener);
+    public void setMultiInteractLivePushPullListener(InteractLivePushPullListener listener) {
+        mInteractLiveManager.setInteractLivePushPullListener(listener);
     }
 
     public void setMute(boolean b) {

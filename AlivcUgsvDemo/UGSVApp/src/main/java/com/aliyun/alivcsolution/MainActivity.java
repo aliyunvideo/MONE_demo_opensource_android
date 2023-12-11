@@ -1,10 +1,12 @@
 package com.aliyun.alivcsolution;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
@@ -14,7 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.aliyun.aio.avbaseui.AVBaseListActivity;
 import com.aliyun.alivcsolution.setting.MoreSettingActivity;
 import com.aliyun.svideo.base.utils.FastClickUtil;
-import com.aliyun.svideo.editor.EditorConfig;
+import com.aliyun.svideo.mixrecorder.activity.AUIVideoMixRecordActivity;
 import com.aliyun.svideo.template.sample.ui.TemplateListActivity;
 import com.aliyun.ugsv.common.utils.PermissionUtils;
 import com.aliyun.ugsv.common.utils.ToastUtils;
@@ -23,10 +25,12 @@ import com.aliyun.svideo.editor.AUIVideoEditor;
 import com.aliyun.svideo.recorder.AUIVideoRecorderEntrance;
 import com.zhihu.matisse.AVMatisse;
 import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.SelectionCreator;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
@@ -35,14 +39,20 @@ public class MainActivity extends AVBaseListActivity {
 
     private static final int EDITOR_REQUEST_CODE_CHOOSE = 102;
     private static final int CROP_REQUEST_CODE_CHOOSE = 103;
+
+    private static final int MIX_RECORDER_REQUEST_CODE_CHOOSE = 104;
     private static final int EDITOR_PERMISSION_REQUEST_CODE = 1001;
     private static final int CROP_PERMISSION_REQUEST_CODE = 1002;
+
+    private static final int MIX_RECORDER_PERMISSION_REQUEST_CODE = 1003;
 
     private static final int INDEX_RECORDER = 0;
     private static final int INDEX_VIDEO_TRANSCODE = 1;
     private static final int INDEX_EDITOR = 2;
     private static final int INDEX_TEMPLATE = 3;
     private static final int INDEX_MORE = 4;
+
+    private static final int INDEX_MIX_RECORDER = 5;
 
     private boolean showMoreSetting() {
         return BuildConfig.APK_TYPE == 0;
@@ -62,6 +72,7 @@ public class MainActivity extends AVBaseListActivity {
     public List<ListModel> createListData() {
         List<ListModel> menu = new ArrayList<>();
         menu.add(new ListModel(INDEX_RECORDER, R.drawable.ic_ugsv_recorder, getResources().getString(R.string.solution_recorder), null));
+        menu.add(new ListModel(INDEX_MIX_RECORDER, R.drawable.ic_ugsv_mix_recorder, getResources().getString(R.string.solution_mix_recorder), null));
         menu.add(new ListModel(INDEX_VIDEO_TRANSCODE, R.drawable.ic_ugsv_videocrop, getResources().getString(R.string.solution_crop), null));
         menu.add(new ListModel(INDEX_EDITOR, R.drawable.ic_ugsv_editor, getResources().getString(R.string.solution_edit), null));
         menu.add(new ListModel(INDEX_TEMPLATE, R.drawable.ic_ugsv_videocrop, getResources().getString(R.string.solution_template), null));
@@ -71,6 +82,11 @@ public class MainActivity extends AVBaseListActivity {
         return menu;
     }
 
+    String[] per = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ?
+            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE} :
+            new String[] {Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.READ_MEDIA_AUDIO};
     @Override
     public void onListItemClick(ListModel model) {
         if (FastClickUtil.isFastClick()) {
@@ -83,9 +99,10 @@ public class MainActivity extends AVBaseListActivity {
             break;
         case INDEX_EDITOR:
             // 新视频编辑
-            if (!PermissionUtils.checkPermissionsGroup(this, PermissionUtils.PERMISSION_STORAGE)) {
+
+            if (!PermissionUtils.checkPermissionsGroup(this, per)) {
                 ToastUtils.show(this, PermissionUtils.NO_PERMISSION_TIP[4]);
-                PermissionUtils.requestPermissions(this, PermissionUtils.PERMISSION_STORAGE, EDITOR_PERMISSION_REQUEST_CODE);
+                PermissionUtils.requestPermissions(this, per, EDITOR_PERMISSION_REQUEST_CODE);
                 return;
             }
             AVMatisse.from(MainActivity.this)
@@ -100,9 +117,9 @@ public class MainActivity extends AVBaseListActivity {
             break;
         case INDEX_VIDEO_TRANSCODE:
             // 视频裁剪
-            if (!PermissionUtils.checkPermissionsGroup(this, PermissionUtils.PERMISSION_STORAGE)) {
+            if (!PermissionUtils.checkPermissionsGroup(this, per)) {
                 ToastUtils.show(this, PermissionUtils.NO_PERMISSION_TIP[4]);
-                PermissionUtils.requestPermissions(this, PermissionUtils.PERMISSION_STORAGE, CROP_PERMISSION_REQUEST_CODE);
+                PermissionUtils.requestPermissions(this, per, CROP_PERMISSION_REQUEST_CODE);
                 return;
             }
             AVMatisse.from(MainActivity.this)
@@ -124,6 +141,23 @@ public class MainActivity extends AVBaseListActivity {
                 Intent moreIntent = new Intent(MainActivity.this, MoreSettingActivity.class);
                 startActivity(moreIntent);
                 break;
+            case INDEX_MIX_RECORDER:
+                if (!PermissionUtils.checkPermissionsGroup(this, per)) {
+                    ToastUtils.show(this, PermissionUtils.NO_PERMISSION_TIP[4]);
+                    PermissionUtils.requestPermissions(this, per, MIX_RECORDER_PERMISSION_REQUEST_CODE);
+                    return;
+                }
+                AVMatisse.from(MainActivity.this)
+                    .choose(MimeType.ofVideo(), false)
+                    .showSingleMediaType(true)
+                    .countable(true)
+                    .maxSelectable(1)
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(new GlideEngine())
+                    .showPreview(false) // Default is `true`
+                    .forResult(MIX_RECORDER_REQUEST_CODE_CHOOSE);
+                break;
         default:
             break;
         }
@@ -133,7 +167,7 @@ public class MainActivity extends AVBaseListActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == EDITOR_PERMISSION_REQUEST_CODE || requestCode == CROP_PERMISSION_REQUEST_CODE) {
+        if (requestCode == EDITOR_PERMISSION_REQUEST_CODE || requestCode == CROP_PERMISSION_REQUEST_CODE || requestCode == MIX_RECORDER_PERMISSION_REQUEST_CODE) {
             boolean isAllGranted = true;
             // 判断是否所有的权限都已经授予了
             for (int grant : grantResults) {
@@ -144,16 +178,35 @@ public class MainActivity extends AVBaseListActivity {
             }
 
             if (isAllGranted) {
+                Set<MimeType> mimeType = null;
+                int resultCode = -1;
+                int maxSelect = 1;
+                if(requestCode == MIX_RECORDER_PERMISSION_REQUEST_CODE){
+                    mimeType = MimeType.ofVideo();
+                    resultCode = MIX_RECORDER_REQUEST_CODE_CHOOSE;
+                    maxSelect = 1;
+                }else if(requestCode ==  EDITOR_PERMISSION_REQUEST_CODE){
+                    mimeType = MimeType.ofAll();
+                    resultCode = EDITOR_REQUEST_CODE_CHOOSE;
+                    maxSelect = 20;
+                }else if(requestCode == CROP_PERMISSION_REQUEST_CODE){
+                    mimeType = MimeType.ofVideo();
+                    resultCode = CROP_REQUEST_CODE_CHOOSE;
+                    maxSelect = 1;
+                }
                 // 如果所有的权限都授予了
-                AVMatisse.from(MainActivity.this)
-                        .choose(requestCode == EDITOR_PERMISSION_REQUEST_CODE ? MimeType.ofAll() : MimeType.ofVideo(), false)
+                SelectionCreator creator = AVMatisse.from(MainActivity.this)
+                        .choose(mimeType, false)
                         .countable(true)
-                        .maxSelectable(requestCode == EDITOR_PERMISSION_REQUEST_CODE ? 20 : 1)
+                        .maxSelectable(maxSelect)
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                         .thumbnailScale(0.85f)
                         .imageEngine(new GlideEngine())
-                        .showPreview(false)
-                        .forResult(requestCode == EDITOR_PERMISSION_REQUEST_CODE ? EDITOR_REQUEST_CODE_CHOOSE : CROP_REQUEST_CODE_CHOOSE);
+                        .showPreview(false);
+                if(requestCode == MIX_RECORDER_PERMISSION_REQUEST_CODE){
+                    creator.showSingleMediaType(true);
+                }
+                creator.forResult(resultCode);
             } else {
                 // 弹出对话框告诉用户需要权限的原因, 并引导用户去应用权限管理中手动打开权限按钮
                 showPermissionDialog();
@@ -168,6 +221,8 @@ public class MainActivity extends AVBaseListActivity {
             AUIVideoEditor.startEditor(this,AVMatisse.obtainPathResult(data));
         } else if (CROP_REQUEST_CODE_CHOOSE == requestCode && resultCode == RESULT_OK) {
             AUICropHelper.startVideoCrop(this,AVMatisse.obtainPathResult(data));
+        } else if(MIX_RECORDER_REQUEST_CODE_CHOOSE == requestCode && resultCode == RESULT_OK){
+            AUIVideoMixRecordActivity.startMixRecord(this, AVMatisse.obtainPathResult(data));
         }
     }
 

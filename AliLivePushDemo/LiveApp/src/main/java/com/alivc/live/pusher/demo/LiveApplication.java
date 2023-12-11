@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.alivc.live.baselive_common.Common;
 import com.alivc.live.baselive_push.ui.LivePushActivity;
 import com.alivc.live.commonutils.ContextUtils;
@@ -18,9 +19,10 @@ public class LiveApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ContextUtils.setContext(this);
+        ARouter.init(this);
         Common.copyAsset(this);
         Common.copyAll(this);
-        ContextUtils.setContext(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(new LivePushActivity.ConnectivityChangedReceiver(), filter);

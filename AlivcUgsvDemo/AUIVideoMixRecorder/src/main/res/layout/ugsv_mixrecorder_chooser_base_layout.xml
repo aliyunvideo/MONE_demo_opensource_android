@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_blank"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_45"
+        android:background="@color/bg_weak">
+
+        <com.aliyun.svideo.base.widget.PagerSlidingTabStrip
+            android:id="@+id/alivc_dialog_indicator"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:textColor="@color/text_strong"
+            android:textSize="14sp"
+            app:pstsDividerColor="@color/alivc_common_bg_transparent"
+            app:pstsIndicatorColor="@color/alivc_common_bg_cyan_light"
+            app:pstsIndicatorHeight="2dp"
+            app:pstsShouldExpand="true"
+            app:pstsTabBackground="@color/alivc_common_bg_transparent"
+            app:pstsUnderlineColor="@color/alivc_common_bg_transparent" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_1"
+        android:background="@color/border_infrared" />
+
+    <com.aliyun.svideo.mixrecorder.view.WrapContentHeightViewPager
+        android:id="@+id/alivc_dialog_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_medium" />
+
+</LinearLayout>

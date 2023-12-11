@@ -6,142 +6,128 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.FrameLayout;
 
-import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
+import com.alivc.live.interactive_common.InteractLiveBaseManager;
+import com.alivc.live.interactive_common.InteractiveBaseUtil;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.player.AlivcLivePlayer;
 import com.alivc.live.pusher.AlivcLiveMixStream;
 import com.alivc.live.pusher.AlivcLiveMixStreamType;
 import com.alivc.live.pusher.AlivcLiveTranscodingConfig;
-import com.alivc.live.interactive_common.InteractLiveBaseManager;
 
 import java.util.ArrayList;
 
 public class PKLiveManager extends InteractLiveBaseManager {
 
-    public void resumeVideoPlaying(String key) {
-        AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
-        if (alivcLivePlayer != null) {
-            alivcLivePlayer.resumeVideoPlaying();
-        }
-    }
-
-    public void pauseVideoPlaying(String key) {
-        AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
-        if (alivcLivePlayer != null) {
-            alivcLivePlayer.pauseVideoPlaying();
-        }
-    }
-
     public void resumeAudioPlaying(String key) {
-        AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
+        AlivcLivePlayer alivcLivePlayer = mInteractiveLivePlayerMap.get(key);
         if (alivcLivePlayer != null) {
             alivcLivePlayer.resumeAudioPlaying();
         }
     }
 
     public void pauseAudioPlaying(String key) {
-        AlivcLivePlayer alivcLivePlayer = mAlivcLivePlayerMap.get(key);
+        AlivcLivePlayer alivcLivePlayer = mInteractiveLivePlayerMap.get(key);
         if (alivcLivePlayer != null) {
             alivcLivePlayer.pauseAudioPlaying();
         }
     }
 
-    public MultiAlivcLivePlayer getCurrentInteractLivePlayer() {
-        return mAlivcLivePlayer;
-    }
-
-    /**
-     * 设置混流
-     *
-     * @param anchorId     主播 id
-     * @param pkAnchor     观众 id
-     * @param pkAnchorMute 静音混流中，对端PK主播的一路流，（一般用于PK惩罚环节的业务场景）
-     */
-    public void setLiveMixTranscodingConfig(String anchorId, String pkAnchor, boolean pkAnchorMute) {
-        if (TextUtils.isEmpty(anchorId) || TextUtils.isEmpty(pkAnchor)) {
-            if (mAlivcLivePusher != null) {
-                mAlivcLivePusher.setLiveMixTranscodingConfig(null);
-            }
+    // PK场景下设置混流
+    public void setLiveMixTranscodingConfig(InteractiveUserData anchorUserData, InteractiveUserData otherUserData, boolean pkMute) {
+        if (anchorUserData == null || TextUtils.isEmpty(anchorUserData.channelId) || TextUtils.isEmpty(anchorUserData.userId)) {
+            clearLiveMixTranscodingConfig();
             return;
         }
-        AlivcLiveTranscodingConfig transcodingConfig = new AlivcLiveTranscodingConfig();
-        AlivcLiveMixStream anchorMixStream = new AlivcLiveMixStream();
-        if (mAlivcLivePushConfig != null) {
-            anchorMixStream.setUserId(anchorId);
-            anchorMixStream.setX(0);
-            anchorMixStream.setY(0);
-            anchorMixStream.setWidth(mAlivcLivePushConfig.getWidth() / 2);
-            anchorMixStream.setHeight(mAlivcLivePushConfig.getHeight() / 2);
-            anchorMixStream.setZOrder(1);
-            Log.d(TAG, "AlivcRTC anchorMixStream --- " + anchorMixStream.getUserId() + ", " + anchorMixStream.getWidth() + ", " + anchorMixStream.getHeight()
-                    + ", " + anchorMixStream.getX() + ", " + anchorMixStream.getY() + ", " + anchorMixStream.getZOrder());
+
+        if (otherUserData == null || TextUtils.isEmpty(otherUserData.channelId) || TextUtils.isEmpty(otherUserData.userId)) {
+            clearLiveMixTranscodingConfig();
+            return;
         }
-        AlivcLiveMixStream pkAnchorMixStream = new AlivcLiveMixStream();
-        if (mAudienceFrameLayout != null) {
-            pkAnchorMixStream.setUserId(pkAnchor);
-            pkAnchorMixStream.setX(mAlivcLivePushConfig.getWidth() / 2);
-            pkAnchorMixStream.setY(0);
-            pkAnchorMixStream.setWidth(mAlivcLivePushConfig.getWidth() / 2);
-            pkAnchorMixStream.setHeight(mAlivcLivePushConfig.getHeight() / 2);
-            pkAnchorMixStream.setZOrder(2);
-            pkAnchorMixStream.setMixStreamType(pkAnchorMute ? AlivcLiveMixStreamType.PURE_VIDEO : AlivcLiveMixStreamType.AUDIO_VIDEO);
-            Log.d(TAG, "AlivcRTC pkAnchorMixStream --- " + pkAnchorMixStream.getUserId() + ", " + pkAnchorMixStream.getWidth() + ", " + pkAnchorMixStream.getHeight()
-                    + ", " + pkAnchorMixStream.getX() + ", " + pkAnchorMixStream.getY() + ", " + pkAnchorMixStream.getZOrder());
+
+        if (mAlivcLivePushConfig == null) {
+            return;
         }
+
+        if (mAlivcLivePusher == null) {
+            return;
+        }
+
         ArrayList<AlivcLiveMixStream> mixStreams = new ArrayList<>();
+
+        AlivcLiveMixStream anchorMixStream = new AlivcLiveMixStream();
+        anchorMixStream.setUserId(anchorUserData.userId);
+        anchorMixStream.setX(0);
+        anchorMixStream.setY(0);
+        anchorMixStream.setWidth(mAlivcLivePushConfig.getWidth() / 2);
+        anchorMixStream.setHeight(mAlivcLivePushConfig.getHeight() / 2);
+        anchorMixStream.setZOrder(1);
+
         mixStreams.add(anchorMixStream);
-        mixStreams.add(pkAnchorMixStream);
-        transcodingConfig.setMixStreams(mixStreams);
-        if (mAlivcLivePusher != null) {
-            mAlivcLivePusher.setLiveMixTranscodingConfig(transcodingConfig);
+        Log.d(TAG, "anchorMixStream: " + anchorMixStream.getUserId() + ", " + anchorMixStream.getWidth() + ", " + anchorMixStream.getHeight()
+                + ", " + anchorMixStream.getX() + ", " + anchorMixStream.getY() + ", " + anchorMixStream.getZOrder());
+
+        if (mAudienceFrameLayout != null) {
+            AlivcLiveMixStream otherMixStream = new AlivcLiveMixStream();
+            otherMixStream.setUserId(otherUserData.userId);
+            otherMixStream.setX(mAlivcLivePushConfig.getWidth() / 2);
+            otherMixStream.setY(0);
+            otherMixStream.setWidth(mAlivcLivePushConfig.getWidth() / 2);
+            otherMixStream.setHeight(mAlivcLivePushConfig.getHeight() / 2);
+            otherMixStream.setZOrder(2);
+            otherMixStream.setMixStreamType(pkMute ? AlivcLiveMixStreamType.PURE_VIDEO : AlivcLiveMixStreamType.AUDIO_VIDEO);
+            otherMixStream.setMixSourceType(InteractiveBaseUtil.covertVideoStreamType2MixSourceType(otherUserData.videoStreamType));
+
+            mixStreams.add(otherMixStream);
+            Log.d(TAG, "otherMixStream: " + otherMixStream.getUserId() + ", " + otherMixStream.getWidth() + ", " + otherMixStream.getHeight()
+                    + ", " + otherMixStream.getX() + ", " + otherMixStream.getY() + ", " + otherMixStream.getZOrder());
         }
+
+        AlivcLiveTranscodingConfig transcodingConfig = new AlivcLiveTranscodingConfig();
+        transcodingConfig.setMixStreams(mixStreams);
+        mAlivcLivePusher.setLiveMixTranscodingConfig(transcodingConfig);
     }
 
-    /**
-     * 添加混流
-     *
-     * @param anchorId 主播 id
-     */
-    public void addAnchorMixTranscodingConfig(String anchorId) {
-        if (TextUtils.isEmpty(anchorId)) {
-            if (mAlivcLivePusher != null) {
-                mAlivcLivePusher.setLiveMixTranscodingConfig(null);
-            }
+    // 多人PK场景下添加混流
+    public void addAnchorMixTranscodingConfig(InteractiveUserData anchorUserData) {
+        if (anchorUserData == null || TextUtils.isEmpty(anchorUserData.channelId) || TextUtils.isEmpty(anchorUserData.userId)) {
+            return;
+        }
+
+        if (mAlivcLivePushConfig == null) {
+            return;
+        }
+
+        if (mAlivcLivePusher == null) {
             return;
         }
 
         AlivcLiveMixStream anchorMixStream = new AlivcLiveMixStream();
-        if (mAlivcLivePushConfig != null) {
-            anchorMixStream.setUserId(anchorId);
-            anchorMixStream.setX(0);
-            anchorMixStream.setY(0);
-            anchorMixStream.setWidth(mAlivcLivePushConfig.getWidth());
-            anchorMixStream.setHeight(mAlivcLivePushConfig.getHeight());
-            anchorMixStream.setZOrder(1);
-        }
+        anchorMixStream.setUserId(anchorUserData.userId);
+        anchorMixStream.setX(0);
+        anchorMixStream.setY(0);
+        anchorMixStream.setWidth(mAlivcLivePushConfig.getWidth());
+        anchorMixStream.setHeight(mAlivcLivePushConfig.getHeight());
+        anchorMixStream.setZOrder(1);
+        anchorMixStream.setMixSourceType(InteractiveBaseUtil.covertVideoStreamType2MixSourceType(anchorUserData.videoStreamType));
 
         mMultiInteractLiveMixStreamsArray.add(anchorMixStream);
         mMixInteractLiveTranscodingConfig.setMixStreams(mMultiInteractLiveMixStreamsArray);
 
-        if (mAlivcLivePusher != null) {
-            mAlivcLivePusher.setLiveMixTranscodingConfig(mMixInteractLiveTranscodingConfig);
-        }
+        mAlivcLivePusher.setLiveMixTranscodingConfig(mMixInteractLiveTranscodingConfig);
     }
 
-    public void muteAnchorMultiStream(String audience, boolean mute) {
-        if (TextUtils.isEmpty(audience)) {
+    // 多人连麦混流静音
+    public void muteAnchorMultiStream(InteractiveUserData audienceUserData, boolean mute) {
+        if (audienceUserData == null || TextUtils.isEmpty(audienceUserData.channelId) || TextUtils.isEmpty(audienceUserData.userId)) {
             return;
         }
-        AlivcLiveMixStream anchorMixStream = null;
-        for (AlivcLiveMixStream mixStream : mMultiInteractLiveMixStreamsArray) {
-            if (TextUtils.equals(mixStream.getUserId(), audience)) {
-                anchorMixStream = mixStream;
-                break;
-            }
-        }
-        if (anchorMixStream == null) {
+
+        AlivcLiveMixStream mixStream = findMixStreamByUserData(audienceUserData);
+        if (mixStream == null) {
             return;
         }
-        anchorMixStream.setMixStreamType(mute ? AlivcLiveMixStreamType.PURE_VIDEO : AlivcLiveMixStreamType.AUDIO_VIDEO);
+
+        mixStream.setMixStreamType(mute ? AlivcLiveMixStreamType.PURE_VIDEO : AlivcLiveMixStreamType.AUDIO_VIDEO);
         if (mAlivcLivePusher != null) {
             mAlivcLivePusher.setLiveMixTranscodingConfig(mMixInteractLiveTranscodingConfig);
         }
@@ -150,42 +136,50 @@ public class PKLiveManager extends InteractLiveBaseManager {
     /**
      * 添加混流配置
      *
-     * @param audience    观众 id
-     * @param frameLayout 观众 frameLayout(渲染 View 的 ViewGroup，用于计算混流位置)
+     * @param audienceUserData 观众信息
+     * @param frameLayout      观众 frameLayout(渲染 View 的 ViewGroup，用于计算混流位置)
      */
-    public void addAudienceMixTranscodingConfig(String audience, FrameLayout frameLayout) {
-        if (TextUtils.isEmpty(audience)) {
+    public void addAudienceMixTranscodingConfig(InteractiveUserData audienceUserData, FrameLayout frameLayout) {
+        if (audienceUserData == null || TextUtils.isEmpty(audienceUserData.channelId) || TextUtils.isEmpty(audienceUserData.userId)) {
             return;
         }
+
+        if (mAlivcLivePushConfig == null) {
+            return;
+        }
+
+        if (mAlivcLivePusher == null) {
+            return;
+        }
+
         AlivcLiveMixStream audienceMixStream = new AlivcLiveMixStream();
-        audienceMixStream.setUserId(audience);
+        audienceMixStream.setUserId(audienceUserData.userId);
         int size = mMultiInteractLiveMixStreamsArray.size() - 1;
         audienceMixStream.setX(size % 3 * frameLayout.getWidth() / 3);
         audienceMixStream.setY(size / 3 * frameLayout.getHeight() / 3);
         audienceMixStream.setWidth(frameLayout.getWidth() / 3);
         audienceMixStream.setHeight(frameLayout.getHeight() / 3);
         audienceMixStream.setZOrder(2);
+        audienceMixStream.setMixSourceType(InteractiveBaseUtil.covertVideoStreamType2MixSourceType(audienceUserData.videoStreamType));
+
         mMultiInteractLiveMixStreamsArray.add(audienceMixStream);
         mMixInteractLiveTranscodingConfig.setMixStreams(mMultiInteractLiveMixStreamsArray);
-        if (mAlivcLivePusher != null) {
-            mAlivcLivePusher.setLiveMixTranscodingConfig(mMixInteractLiveTranscodingConfig);
-        }
+
+        mAlivcLivePusher.setLiveMixTranscodingConfig(mMixInteractLiveTranscodingConfig);
     }
 
-    /**
-     * 移除混流
-     */
-    public void removeLiveMixTranscodingConfig(String userId) {
-        if (TextUtils.isEmpty(userId)) {
+    // 移除混流
+    public void removeLiveMixTranscodingConfig(InteractiveUserData userData) {
+        if (userData == null || TextUtils.isEmpty(userData.channelId) || TextUtils.isEmpty(userData.userId)) {
             return;
         }
 
-        for (AlivcLiveMixStream alivcLiveMixStream : mMultiInteractLiveMixStreamsArray) {
-            if (userId.equals(alivcLiveMixStream.getUserId())) {
-                mMultiInteractLiveMixStreamsArray.remove(alivcLiveMixStream);
-                break;
-            }
+        AlivcLiveMixStream mixStream = findMixStreamByUserData(userData);
+        if (mixStream == null) {
+            return;
         }
+
+        mMultiInteractLiveMixStreamsArray.remove(mixStream);
 
         //多人 PK 混流，结束 PK 后，重新排版混流界面，防止出现覆盖现象
         int size = mMultiInteractLiveMixStreamsArray.size() - 1;
@@ -198,10 +192,8 @@ public class PKLiveManager extends InteractLiveBaseManager {
         }
 
         //Array 中只剩主播 id，说明无人连麦
-        if (mMultiInteractLiveMixStreamsArray.size() == 1 && mMultiInteractLiveMixStreamsArray.get(0).getUserId().equals(userId)) {
-            if (mAlivcLivePusher != null) {
-                mAlivcLivePusher.setLiveMixTranscodingConfig(null);
-            }
+        if (mMultiInteractLiveMixStreamsArray.size() == 1 && mMultiInteractLiveMixStreamsArray.get(0).getUserId().equals(userData.userId)) {
+            clearLiveMixTranscodingConfig();
         } else {
             mMixInteractLiveTranscodingConfig.setMixStreams(mMultiInteractLiveMixStreamsArray);
             if (mAlivcLivePusher != null) {

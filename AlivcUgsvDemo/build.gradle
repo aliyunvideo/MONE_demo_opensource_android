@@ -2,9 +2,21 @@
 buildscript {
 
     repositories {
-        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
-        maven { url "http://maven.aliyun.com/nexus/content/repositories/google" }
-        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/jcenter" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/google" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/releases" 
+        }
+            maven { 
+                allowInsecureProtocol = true
+                url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
 
         maven { url 'https://repo1.maven.org/maven2/' }
     }
@@ -24,11 +36,26 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
-        maven { url "http://maven.aliyun.com/nexus/content/repositories/google" }
-        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/jcenter" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/google" 
+        }
+        maven { 
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/repositories/releases" 
+        }
+            maven { 
+                allowInsecureProtocol = true
+                url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
         maven { url 'https://repo1.maven.org/maven2/' }
-        maven { url 'http://4thline.org/m2' }
+        maven { 
+            allowInsecureProtocol = true
+            url 'http://4thline.org/m2' 
+        }
         maven { url 'https://repo1.maven.org/maven2/' }
         flatDir { dirs 'src/main/libs' }
     }

@@ -1,11 +1,13 @@
 package com.alivc.live.barestream_interactive;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.FrameLayout;
 
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
+import com.alivc.live.interactive_common.InteractLiveBaseManager;
+import com.alivc.live.interactive_common.InteractiveMode;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.pusher.AlivcResolutionEnum;
@@ -14,17 +16,19 @@ import java.io.File;
 
 class BareStreamController {
 
-    private final InteractiveBareStreamManager mInteractLiveManager;
+    private final InteractLiveBaseManager mInteractLiveManager;
     private final Context mContext;
     private final LocalStreamReader mLocalStreamReader;
     //主播预览 View
     private FrameLayout mAnchorRenderView;
     //观众连麦预览 View
     private FrameLayout mViewerRenderView;
-    //主播推流地址
-    private String mPushUrl;
-    //观众连麦拉流地址
-    private String mPullUrl;
+
+    // 主播连麦推流信息
+    private InteractiveUserData mPushUserData;
+    // 观众连麦拉流信息
+    private InteractiveUserData mPullUserData;
+
     private boolean mEnableSpeakerPhone = false;
 
     public BareStreamController(Context context) {
@@ -42,16 +46,8 @@ class BareStreamController {
                 .setAudioChannel(1)
                 .setAudioBufferSize(2048)
                 .build();
-        mInteractLiveManager = new InteractiveBareStreamManager();
-        mInteractLiveManager.init(context, true);
-    }
-
-    public void setPushUrl(String url) {
-        this.mPushUrl = url;
-    }
-
-    public void setPullUrl(String url) {
-        this.mPullUrl = url;
+        mInteractLiveManager = new InteractLiveBaseManager();
+        mInteractLiveManager.init(context, InteractiveMode.BARE_STREAM);
     }
 
     /**
@@ -75,11 +71,10 @@ class BareStreamController {
     /**
      * 开始直播
      */
-    public void startPush() {
-        if (!TextUtils.isEmpty(mPushUrl)) {
-            externAV();
-            mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl, true);
-        }
+    public void startPush(InteractiveUserData userData) {
+        mPushUserData = userData;
+        externAV();
+        mInteractLiveManager.startPreviewAndPush(mPushUserData, mAnchorRenderView, true);
     }
 
     public void stopPreview() {
@@ -87,6 +82,7 @@ class BareStreamController {
     }
 
     public void stopPush() {
+        mPushUserData = null;
         mInteractLiveManager.stopPush();
     }
 
@@ -107,12 +103,17 @@ class BareStreamController {
         }
     }
 
-    /**
-     * 开始连麦
-     */
-    public void startConnect() {
-        mInteractLiveManager.setPullView(mViewerRenderView, false);
-        mInteractLiveManager.startPull(mPullUrl);
+    // 开始拉流
+    public void startPull(InteractiveUserData userData) {
+        mPullUserData = userData;
+        mInteractLiveManager.setPullView(mPullUserData, mViewerRenderView, false);
+        mInteractLiveManager.startPullRTCStream(mPullUserData);
+    }
+
+    // 结束拉流
+    public void stopPull() {
+        mInteractLiveManager.stopPullRTCStream(mPullUserData);
+        mPullUserData = null;
     }
 
     /**
@@ -120,33 +121,18 @@ class BareStreamController {
      *
      * @return true:正在连麦  false:没有连麦
      */
-    public boolean isOnConnected() {
-        return mInteractLiveManager.isPulling();
+    public boolean isPulling() {
+        return mInteractLiveManager.isPulling(mPullUserData);
     }
 
     public void switchCamera() {
         mInteractLiveManager.switchCamera();
     }
 
-    public void resume() {
-        mInteractLiveManager.resume();
-    }
-
-    public void pause() {
-        mInteractLiveManager.pause();
-    }
-
     public void release() {
         mInteractLiveManager.release();
         mLocalStreamReader.stopYUV();
         mLocalStreamReader.stopPcm();
-    }
-
-    /**
-     * 结束连麦
-     */
-    public void stopConnect() {
-        mInteractLiveManager.stopPull();
     }
 
     public void setInteractLivePushPullListener(InteractLivePushPullListener listener) {

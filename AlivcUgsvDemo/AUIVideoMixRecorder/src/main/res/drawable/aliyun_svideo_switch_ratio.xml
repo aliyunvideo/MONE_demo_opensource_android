@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true" android:state_activated="false" android:state_selected="false" android:drawable="@mipmap/aliyun_svideo_icon_4_3"/>
+    <item android:state_enabled="true" android:state_activated="true" android:state_selected="false" android:drawable="@mipmap/aliyun_svideo_icon_1_1"/>
+    <item android:state_enabled="true" android:state_activated="true" android:state_selected="true" android:drawable="@mipmap/aliyun_svideo_icon_full"/>
+    <item android:state_enabled="false" android:drawable="@mipmap/aliyun_svideo_icon_ratio_dis"/>
+</selector>

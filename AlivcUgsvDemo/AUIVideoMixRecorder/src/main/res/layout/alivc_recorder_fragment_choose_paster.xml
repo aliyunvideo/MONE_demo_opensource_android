@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="210dp"
+    tools:context="com.aliyun.svideo.recorder.view.effects.mv.AlivcMVChooseView">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_mv_chooser"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_group_210"/>
+
+</FrameLayout>

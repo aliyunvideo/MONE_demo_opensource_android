@@ -117,15 +117,5 @@ public class NetWorkUtils {
         }
         return netType;
     }
-    /**
-     * 判断GPS是否打开
-     * ACCESS_FINE_LOCATION权限
-     * @param context
-     * @return
-     */
-    public static boolean isGPSEnabled(Context context) {
-        LocationManager locationManager = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
 }
 

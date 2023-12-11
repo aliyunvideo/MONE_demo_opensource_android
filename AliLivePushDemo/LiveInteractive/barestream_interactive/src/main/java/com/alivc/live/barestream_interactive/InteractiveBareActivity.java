@@ -1,9 +1,5 @@
 package com.alivc.live.barestream_interactive;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -18,15 +14,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.acker.simplezxing.activity.CaptureActivity;
 import com.alivc.live.commonutils.StatusBarUtil;
 import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
-import com.alivc.live.interactive_common.widget.InteractLiveTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveCommonInputView;
 import com.alivc.live.interactive_common.widget.InteractiveConnectView;
 import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
@@ -51,10 +52,12 @@ public class InteractiveBareActivity extends AppCompatActivity {
     private FrameLayout mSmallFrameLayout;
     private ConnectionLostTipsView mConnectionLostTipsView;
     private boolean mIsMute = false;
+
     //输入 URL 方式连麦
-    private String mInteractivePushURL;
-    private String mInteractivePullURL;
-    private InteractLiveTipsView interactLiveTipsView;
+    private InteractiveUserData mPushUserData;
+    private InteractiveUserData mPullUserData;
+
+    private InteractiveCommonInputView commonInputView;
     private InteractiveConnectView mInteractiveConnectView;
     private InteractiveSettingView mInteractiveSettingView;
     private BareStreamController mBareStreamController;
@@ -69,8 +72,13 @@ public class InteractiveBareActivity extends AppCompatActivity {
         StatusBarUtil.translucent(this, Color.TRANSPARENT);
         setContentView(R.layout.activity_interactive_bare);
 
-        mInteractivePushURL = getIntent().getStringExtra(DATA_INTERACTIVE_PUSH_URL);
-        mInteractivePullURL = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL);
+        InteractiveUserData pushUserData = new InteractiveUserData();
+        pushUserData.url = getIntent().getStringExtra(DATA_INTERACTIVE_PUSH_URL);
+        mPushUserData = pushUserData;
+
+        InteractiveUserData pullUserData = new InteractiveUserData();
+        pullUserData.url = getIntent().getStringExtra(DATA_INTERACTIVE_PULL_URL);
+        mPullUserData = pullUserData;
 
         mBareStreamController = new BareStreamController(this);
 
@@ -80,11 +88,10 @@ public class InteractiveBareActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mInteractivePushUrlEditText.setText(mInteractivePushURL);
+        mInteractivePushUrlEditText.setText(mPushUserData != null ? mPushUserData.url : "");
 
         mBareStreamController.setAnchorRenderView(mBigFrameLayout);
         mBareStreamController.setViewerRenderView(mSmallFrameLayout);
-
     }
 
     private void initView() {
@@ -116,14 +123,40 @@ public class InteractiveBareActivity extends AppCompatActivity {
                 mBareStreamController.stopPush();
                 changePushState(false);
             } else {
-                mBareStreamController.setPushUrl(mInteractivePushUrlEditText.getText().toString());
-                mBareStreamController.startPush();
+                mPushUserData.url = mInteractivePushUrlEditText.getText().toString();
+                mBareStreamController.startPush(mPushUserData);
             }
         });
 
         mConnectionLostTipsView.setConnectionLostListener(() -> runOnUiThread(() -> finish()));
 
         mBareStreamController.setInteractLivePushPullListener(new InteractLivePushPullListener() {
+            @Override
+            public void onPullSuccess(InteractiveUserData userData) {
+                super.onPullSuccess(userData);
+                changeSmallSurfaceViewVisible(true);
+                updateConnectTextView(true);
+            }
+
+            @Override
+            public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                super.onPullError(userData, errorType, errorMsg);
+                runOnUiThread(() -> {
+                    changeSmallSurfaceViewVisible(false);
+                    mBareStreamController.stopPull();
+                    updateConnectTextView(false);
+                    ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
+                });
+            }
+
+            @Override
+            public void onPullStop(InteractiveUserData userData) {
+                super.onPullStop(userData);
+                runOnUiThread(() -> {
+                    changeSmallSurfaceViewVisible(false);
+                    updateConnectTextView(false);
+                });
+            }
 
             @Override
             public void onPushSuccess() {
@@ -138,52 +171,35 @@ public class InteractiveBareActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPullSuccess() {
-                changeSmallSurfaceViewVisible(true);
-                updateConnectTextView(true);
-            }
-
-            @Override
-            public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
-                super.onPullError(errorType, errorMsg);
-                runOnUiThread(() -> {
-                    changeSmallSurfaceViewVisible(false);
-                    mBareStreamController.stopConnect();
-                    updateConnectTextView(false);
-                    ToastUtils.show(getResources().getString(R.string.interact_live_viewer_left));
-                });
-            }
-
-            @Override
-            public void onPullStop() {
-                super.onPullStop();
-                runOnUiThread(() -> {
-                    changeSmallSurfaceViewVisible(false);
-                    updateConnectTextView(false);
-                });
-            }
-
-            @Override
             public void onConnectionLost() {
+                super.onConnectionLost();
                 runOnUiThread(() -> mConnectionLostTipsView.show());
+            }
+
+            @Override
+            public void onReceiveSEIMessage(int payload, byte[] data) {
+                super.onReceiveSEIMessage(payload, data);
+            }
+
+            @Override
+            public void onPlayerSei(int i, byte[] bytes) {
+                super.onPlayerSei(i, bytes);
             }
         });
 
         //开始连麦
         mInteractiveConnectView.setConnectClickListener(() -> {
-            if (mBareStreamController.isOnConnected()) {
+            if (mBareStreamController.isPulling()) {
                 //主播端停止连麦
                 mCurrentIntent = InteractLiveIntent.INTENT_STOP_PULL;
                 showInteractLiveDialog(getResources().getString(R.string.interact_live_connect_finish_tips), false);
             } else {
                 //主播端开始连麦，输入用户 id
-                if (TextUtils.isEmpty(mInteractivePullURL)) {
+                if (mPullUserData == null || TextUtils.isEmpty(mPullUserData.url)) {
                     showInteractLiveDialog(getResources().getString(R.string.interact_live_url_connect_tips), true);
-                } else {
-                    mBareStreamController.setPullUrl(mInteractivePullURL);
-                    mBareStreamController.startConnect();
+                    return;
                 }
-
+                mBareStreamController.startPull(mPullUserData);
             }
         });
 
@@ -209,6 +225,16 @@ public class InteractiveBareActivity extends AppCompatActivity {
             public void onSpeakerPhoneClick() {
                 mBareStreamController.changeSpeakerPhone();
             }
+
+            @Override
+            public void onEnableAudioClick(boolean enable) {
+
+            }
+
+            @Override
+            public void onEnableVideoClick(boolean enable) {
+
+            }
         });
     }
 
@@ -228,14 +254,13 @@ public class InteractiveBareActivity extends AppCompatActivity {
     }
 
     private void showInteractLiveDialog(String content, boolean showInputView) {
-        interactLiveTipsView = new InteractLiveTipsView(InteractiveBareActivity.this);
-        interactLiveTipsView.showQrIcon(showInputView);
-        interactLiveTipsView.showInputView(showInputView);
-        interactLiveTipsView.setContent(content);
-        mAUILiveDialog.setContentView(interactLiveTipsView);
+        commonInputView = new InteractiveCommonInputView(InteractiveBareActivity.this);
+        commonInputView.setViewType(InteractiveCommonInputView.ViewType.BARE_STREAM);
+        commonInputView.showInputView(content, showInputView);
+        mAUILiveDialog.setContentView(commonInputView);
         mAUILiveDialog.show();
 
-        interactLiveTipsView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
+        commonInputView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
             @Override
             public void onCancel() {
                 if (mAUILiveDialog.isShowing()) {
@@ -248,7 +273,7 @@ public class InteractiveBareActivity extends AppCompatActivity {
                 if (mCurrentIntent == InteractLiveIntent.INTENT_STOP_PULL) {
                     //主播结束连麦
                     mAUILiveDialog.dismiss();
-                    mBareStreamController.stopConnect();
+                    mBareStreamController.stopPull();
                     updateConnectTextView(false);
                     changeSmallSurfaceViewVisible(false);
                 } else if (mCurrentIntent == InteractLiveIntent.INTENT_FINISH) {
@@ -257,17 +282,16 @@ public class InteractiveBareActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onInputConfirm(String content) {
-                hideInputSoftFromWindowMethod(InteractiveBareActivity.this, interactLiveTipsView);
-                if (TextUtils.isEmpty(content)) {
+            public void onInputConfirm(InteractiveUserData userData) {
+                hideInputSoftFromWindowMethod(InteractiveBareActivity.this, commonInputView);
+                if (userData == null || TextUtils.isEmpty(userData.url)) {
                     ToastUtils.show(getResources().getString(R.string.interact_live_connect_input_error_tips));
-                } else {
-                    mAUILiveDialog.dismiss();
-                    //主播端，输入观众 id 后，开始连麦
-                    mInteractivePullURL = content;
-                    mBareStreamController.setPullUrl(mInteractivePullURL);
-                    mBareStreamController.startConnect();
+                    return;
                 }
+                mAUILiveDialog.dismiss();
+                // 主播端，输入观众 id 后，开始连麦
+                mPullUserData = userData;
+                mBareStreamController.startPull(userData);
             }
 
             @Override
@@ -315,8 +339,8 @@ public class InteractiveBareActivity extends AppCompatActivity {
                                 mInteractivePushUrlEditText.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                             }
                         } else {
-                            if (interactLiveTipsView != null) {
-                                interactLiveTipsView.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
+                            if (commonInputView != null) {
+                                commonInputView.setQrResult(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                             }
                         }
 

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -16,6 +17,7 @@ import com.alivc.player.videolist.auivideostandradlist.AUIVideoStandardListActiv
 import com.aliyun.aio.avbaseui.AVBaseListActivity;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.auifullscreen.AUIFullScreenActivity;
+import com.aliyun.auiplayerapp.utils.PermissionUtils;
 import com.aliyun.video.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +57,7 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
         menu.add(new ListModel(INDEX_VIDEO_LIST_FUNCTION, R.drawable.ic_player_chenjin, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_function_msg)));
         menu.add(new ListModel(INDEX_VIDEO_LIST_STANDARD, R.drawable.ic_player_quanping, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_standard_msg)));
         menu.add(new ListModel(INDEX_FULL_SCREEN, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_full_screen), getResources().getString(R.string.player_video_full_screen_msg)));
-        //menu.add(new ListModel(INDEX_VIDEO_LIST_Episode, R.drawable.ic_player_quanping, getResources().getString(R.string.player_episode), getResources().getString(R.string.player_video_episode_msg)));
+        menu.add(new ListModel(INDEX_VIDEO_LIST_Episode, R.drawable.ic_player_quanping, getResources().getString(R.string.player_episode), getResources().getString(R.string.player_video_episode_msg)));
 //        menu.add(new ListModel(INDEX_CUSTOM, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_custom), null));
         return menu;
     }
@@ -63,9 +65,13 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
     @Override
     public void onListItemClick(ListModel model) {
         mListModel = model;
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
+        String[] per = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ?
+                new String[] {Manifest.permission.READ_EXTERNAL_STORAGE} :
+                new String[] {Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                        Manifest.permission.READ_MEDIA_AUDIO};
+        if (PermissionUtils.checkPermissionsGroup(this, per)) {
+            ActivityCompat.requestPermissions((Activity) this, per, REQUEST_PERMISSION_STORAGE);
         } else {
             onModelItemClick(model);
         }

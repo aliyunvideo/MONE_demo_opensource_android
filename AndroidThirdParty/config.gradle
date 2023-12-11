@@ -2,7 +2,7 @@ ext {
     //==Android Third party,include Application Layer,SDK Layer==
 
     //Build Gradle Plugin
-    externalAndroidBuildGradlePlugin = 'com.android.tools.build:gradle:4.1.2'
+    externalAndroidBuildGradlePlugin = 'com.android.tools.build:gradle:7.1.2'
     externalAndroidKotlinPlugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
 
     //kotlin std lib
@@ -79,19 +79,11 @@ ext {
     externalWupPlugin = 'digital.wup:android-maven-publish:3.6.2'
     externalAliyunVodUpload = 'com.aliyun.video.android:upload:1.6.6'
     externalAliyunOSS = 'com.aliyun.dpa:oss-android-sdk:2.9.11'
-    externalAliyunQueen = 'com.aliyun.maliang.android:queen:2.5.0-official-full'
-    externalAliyunQueenUI = 'com.aliyun.maliang.android:queen_menu:6.2.0-official-pro'
+    externalAliyunQueen = 'com.aliyun.maliang.android:queen:6.7.0-official-pro'
+    externalAliyunQueenUI = 'com.aliyun.maliang.android:queen_menu:6.7.0-official-pro-tiny'
+    externalAliyunQueenFramwork = 'com.aliyun.maliang.android:queen_aio_framework:6.7.0-official'
     externalAnimoji = 'com.aliyun.animoji:animoji:1.2@aar'
-    externalRtsSDK = 'com.aliyun.rts.android:RtsSDK:2.5.0'
-
-
-    def debug = null   //内部调试代码，发布删除 -- 注释勿动
-    File localFile = new File(getRootDir().absolutePath + "/local.properties")  //内部调试代码，发布删除 -- 注释勿动
-    if(localFile.exists()){    //内部调试代码，发布删除 -- 注释勿动
-        Properties localProperties = new Properties()   //内部调试代码，发布删除 -- 注释勿动
-        localProperties.load(localFile.newDataInputStream())   //内部调试代码，发布删除 -- 注释勿动
-        debug = localProperties.getProperty('source.debug')    //内部调试代码，发布删除 -- 注释勿动
-    }   //内部调试代码，发布删除 -- 注释勿动
+    externalRtsSDK = 'com.aliyun.rts.android:RtsSDK:2.6.0'
 
     if(project.hasProperty("svideoIndependent") && "true".equalsIgnoreCase(svideoIndependent)){
         externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.6.0-part-SNAPSHOT'
@@ -99,20 +91,21 @@ ext {
         externalAlivcFFmpeg =  'com.aliyun.video.android:AlivcFFmpeg:4.3.6'
     }
 
-    externalSvideopro = 'com.aliyun.video.android:svideopro:3.36.0'
-    externalSvideostandard = 'com.aliyun.video.android:svideostandard:3.36.0'
-    externalSvideosnap = 'com.aliyun.video.android:svideosnap:3.36.0'
-    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:6.4.0-full'
-    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:6.4.0-part'
-    externalARTC = 'com.aliyun.sdk.android:AlivcArtc:6.4.0'
+    externalSvideopro = 'com.aliyun.video.android:svideopro:6.7.0'
+    externalSvideostandard = 'com.aliyun.video.android:svideostandard:6.7.0'
+    externalSvideosnap = 'com.aliyun.video.android:svideosnap:6.7.0'
+    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:6.5.0-full'
+    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:6.5.0-part'
+    externalARTC = 'com.aliyun.sdk.android:AlivcArtc:6.5.0'
     externalAlivcConan = 'com.alivc.conan:AlivcConan:1.0.5'
     externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
-    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:6.4.0"
-    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:6.4.0"
-    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Premium:6.4.0'
+    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:6.7.0"
+    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:6.7.0"
+    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Standard:6.7.0'
 
     //内部调试代码，发布删除 -- 注释勿动
-    if(debug != null && "true".equalsIgnoreCase(debug)){    //内部调试代码，发布删除 -- 注释勿动
+    apply from: 'https://code.alibaba-inc.com/apsara-media-box/imp-android-gradle-config/raw/v6.7.0/aio/media_box_debug_config.gradle' //内部调试代码，发布删除 -- 注释勿动
+    if(this.ext.has('is_source_debug') && this.ext.is_source_debug) {  //内部调试代码，发布删除 -- 注释勿动
         externalAllInOne = project(':all-in-one')      //内部调试代码，发布删除 -- 注释勿动
     }    //内部调试代码，发布删除 -- 注释勿动
 
@@ -133,9 +126,9 @@ ext {
 
 
     androidMinSdkVersion = 21
-    androidTargetSdkVersion = 31
-    androidCompileSdkVersion = 31
-    androidBuildToolsVersion = "30.0.3"
+    androidTargetSdkVersion = 33
+    androidCompileSdkVersion = 33
+    androidBuildToolsVersion = "33.0.2"
 
     //Android SDK/Tools Version
     externalCompileSdkVersion = androidCompileSdkVersion

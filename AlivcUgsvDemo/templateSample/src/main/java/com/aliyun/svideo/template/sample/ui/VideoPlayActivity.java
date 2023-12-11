@@ -6,15 +6,21 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.aliyun.ugsv.common.utils.PermissionUtils;
+import com.aliyun.ugsv.common.utils.ThreadUtils;
+import com.aliyun.ugsv.common.utils.UriUtils;
 import com.google.android.exoplayer2.DefaultControlDispatcher;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -38,25 +44,50 @@ public class VideoPlayActivity extends AppCompatActivity {
         starter.putExtra("path", path);
         context.startActivity(starter);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
     }
+
     @Override
     protected void onStop() {
         player.pause();
         super.onStop();
     }
+
     @Override
     protected void onDestroy() {
         player.release();
         player = null;
         super.onDestroy();
     }
+
+    private String[] permissions = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    private String[] permissions33 = new String[]{
+            Manifest.permission.READ_MEDIA_AUDIO,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.READ_MEDIA_IMAGES
+    };
+
+    public String[] getPermissions(){
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            return permissions;
+        }
+        return permissions33;
+    }
+
+    private View mSaveBtn;
+
     @Override
     protected void onResume() {
         super.onResume();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +106,13 @@ public class VideoPlayActivity extends AppCompatActivity {
         player.prepare();
         player.play();
 
-        findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
+        mSaveBtn = findViewById(R.id.btn_save);
+
+        mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(VideoPlayActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(VideoPlayActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 11);
+                if (!PermissionUtils.checkPermissionsGroup(VideoPlayActivity.this, getPermissions())) {
+                    PermissionUtils.requestPermissions(VideoPlayActivity.this, getPermissions(), 11);
                     return;
                 }
                 saveToAlbum();
@@ -88,30 +121,24 @@ public class VideoPlayActivity extends AppCompatActivity {
     }
 
     private void saveToAlbum() {
-        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DCIM + File.separator + "SXTemplateDemo");
-        if (!folder.exists()) {
-            boolean ret = folder.mkdirs();
-            if (!ret) {
-                Toast.makeText(this, "创建文件夹失败", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            //适配android Q
+            ThreadUtils.runOnSubThread(new Runnable() {
+                @Override
+                public void run() {
+                    UriUtils.saveVideoToMediaStore(VideoPlayActivity.this.getApplicationContext(), mVideoPath);
+                }
+            });
+        } else {
+            scanFile();
         }
+        Toast.makeText(this, R.string.save_success, Toast.LENGTH_SHORT).show();
+        mSaveBtn.setEnabled(false);
+    }
 
-        File src = new File(mVideoPath);
-        File dest = new File(folder, System.currentTimeMillis() + ".mp4");
-        copyFile(src, dest);
-
-        MediaScannerConnection.scanFile(this, new String[]{dest.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-            @Override
-            public void onScanCompleted(String path, Uri uri) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(VideoPlayActivity.this, "已保存到相册", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+    private void scanFile() {
+        MediaScannerConnection.scanFile(getApplicationContext(),
+                new String[] {mVideoPath}, new String[] {"video/mp4"}, null);
     }
 
     public static void copyFile(File src, File dest) {
@@ -140,12 +167,21 @@ public class VideoPlayActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 11) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            boolean isAllGranted = true;
+
+            // 判断是否所有的权限都已经授予了
+            for (int grant : grantResults) {
+                if (grant != PackageManager.PERMISSION_GRANTED) {
+                    isAllGranted = false;
+                    break;
+                }
+            }
+            if (isAllGranted) {
                 saveToAlbum();
             } else {
                 Toast.makeText(this, "保存失败，没有权限", Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }

@@ -41,6 +41,7 @@ import androidx.core.content.ContextCompat;
 import com.acker.simplezxing.activity.CaptureActivity;
 import com.alivc.live.annotations.AlivcLiveNetworkQuality;
 import com.alivc.live.annotations.AlivcLivePushKickedOutType;
+import com.alivc.live.annotations.AlivcLiveRecordMediaEvent;
 import com.alivc.live.baselive_common.PushConfigBottomSheet;
 import com.alivc.live.baselive_common.PushConfigDialogImpl;
 import com.alivc.live.baselive_recording.R;
@@ -49,6 +50,8 @@ import com.alivc.live.baselive_recording.floatwindowpermission.FloatWindowManage
 import com.alivc.live.baselive_recording.service.ForegroundService;
 import com.alivc.live.commonbiz.test.PushDemoTestConstants;
 import com.alivc.live.commonutils.StatusBarUtil;
+import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.player.annotations.AlivcLivePlayVideoStreamType;
 import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLivePushConfig;
 import com.alivc.live.pusher.AlivcLivePushError;
@@ -644,7 +647,7 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
 
             @Override
             public void onPushStatistics(AlivcLivePusher pusher, AlivcLivePushStatsInfo statistics) {
-                Log.i(TAG, "onPushStatistics: ");
+//                Log.i(TAG, "onPushStatistics: ");
             }
 
             @Override
@@ -664,8 +667,28 @@ public class VideoRecordConfigActivity extends AVBaseThemeActivity {
             }
 
             @Override
-            public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId) {
+            public void onLocalRecordEvent(AlivcLiveRecordMediaEvent mediaEvent, String storagePath) {
 
+            }
+
+            @Override
+            public void onScreenFramePushState(AlivcLivePusher pusher, boolean isPushing) {
+                ToastUtils.show("onScreenFramePushState: " + isPushing);
+            }
+
+            @Override
+            public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId, boolean isOnline) {
+                ToastUtils.show("onRemoteUserEnterRoom: " + userId + ", isOnline" + isOnline);
+            }
+
+            @Override
+            public void onRemoteUserAudioStream(AlivcLivePusher pusher, String userId, boolean isPushing) {
+                ToastUtils.show("onRemoteUserAudioStream: " + userId + ", isPushing: " + isPushing);
+            }
+
+            @Override
+            public void onRemoteUserVideoStream(AlivcLivePusher pusher, String userId, AlivcLivePlayVideoStreamType videoStreamType, boolean isPushing) {
+                ToastUtils.show("onRemoteUserVideoStream: " + userId + ", videoStreamType: " + videoStreamType + ", isPushing: " + isPushing);
             }
         });
 

@@ -13,13 +13,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alivc.live.commonutils.TextFormatUtil;
 import com.alivc.live.interactive_common.InteractAppInfoActivity;
 import com.alivc.live.interactive_common.InteractLiveAppInfoFragment;
 import com.alivc.live.interactive_common.InteractiveSettingActivity;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.interactive_live.widget.InteractLiveRadioButton;
-import com.alivc.live.commonutils.TextFormatUtil;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Route(path = "/interactiveLive/liveInput")
@@ -63,15 +64,30 @@ public class InteractLiveInputActivity extends AppCompatActivity {
 
     private void initListener() {
         InteractLiveAppInfoFragment interactLiveAppInfoFragment = (InteractLiveAppInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_app_info);
-        if(interactLiveAppInfoFragment != null){
-            interactLiveAppInfoFragment.setOnEditClickListener(() -> {
-                Intent intent = new Intent(InteractLiveInputActivity.this, InteractAppInfoActivity.class);
-                intent.putExtra(InteractAppInfoActivity.FROM_EDITOR,true);
-                intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK,false);
-                startActivity(intent);
+        if (interactLiveAppInfoFragment != null) {
+            interactLiveAppInfoFragment.setOnEditClickListener(new InteractLiveAppInfoFragment.OnEditClickListener() {
+                @Override
+                public void onLongClickAppInfoForDebug() {
+                    Random random = new Random();
+                    if (TextUtils.isEmpty(mUserIdEditText.getText())) {
+                        int randomNumber = random.nextInt(90) + 10;
+                        mUserIdEditText.setText(String.valueOf(randomNumber));
+                    }
+                    if (TextUtils.isEmpty(mRoomIdEditText.getText())) {
+                        int randomNumber = random.nextInt(90) + 10;
+                        mRoomIdEditText.setText(String.valueOf(randomNumber));
+                    }
+                }
+
+                @Override
+                public void onEditClickListener() {
+                    Intent intent = new Intent(InteractLiveInputActivity.this, InteractAppInfoActivity.class);
+                    intent.putExtra(InteractAppInfoActivity.FROM_EDITOR, true);
+                    intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK, false);
+                    startActivity(intent);
+                }
             });
         }
-
 
         mBackImageView.setOnClickListener(view -> finish());
 

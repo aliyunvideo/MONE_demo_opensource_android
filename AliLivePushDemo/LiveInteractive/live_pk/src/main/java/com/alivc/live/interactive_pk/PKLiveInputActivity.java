@@ -12,12 +12,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alivc.live.commonutils.TextFormatUtil;
 import com.alivc.live.interactive_common.InteractAppInfoActivity;
 import com.alivc.live.interactive_common.InteractLiveAppInfoFragment;
 import com.alivc.live.interactive_common.InteractiveSettingActivity;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
-import com.alivc.live.commonutils.TextFormatUtil;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
@@ -46,7 +47,7 @@ public class PKLiveInputActivity extends AppCompatActivity {
         initListener();
     }
 
-    private void initView(){
+    private void initView() {
         mUserIdEditText = findViewById(R.id.et_user_id);
         mRoomIdEditText = findViewById(R.id.et_room_id);
         mBackImageView = findViewById(R.id.iv_back);
@@ -56,14 +57,29 @@ public class PKLiveInputActivity extends AppCompatActivity {
         mRoomIdClearImageView = findViewById(R.id.iv_room_id_clear);
     }
 
-    private void initListener(){
+    private void initListener() {
         InteractLiveAppInfoFragment interactLiveAppInfoFragment = (InteractLiveAppInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_app_info);
-        if(interactLiveAppInfoFragment != null){
-            interactLiveAppInfoFragment.setOnEditClickListener(() -> {
-                Intent intent = new Intent(PKLiveInputActivity.this, InteractAppInfoActivity.class);
-                intent.putExtra(InteractAppInfoActivity.FROM_EDITOR,true);
-                intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK,true);
-                startActivity(intent);
+        if (interactLiveAppInfoFragment != null) {
+            interactLiveAppInfoFragment.setOnEditClickListener(new InteractLiveAppInfoFragment.OnEditClickListener() {
+                @Override
+                public void onLongClickAppInfoForDebug() {
+                    Random random = new Random();
+                    int randomNumber = random.nextInt(900) + 100;
+                    if (TextUtils.isEmpty(mUserIdEditText.getText())) {
+                        mUserIdEditText.setText(String.valueOf(randomNumber));
+                    }
+                    if (TextUtils.isEmpty(mRoomIdEditText.getText())) {
+                        mRoomIdEditText.setText(String.valueOf(randomNumber));
+                    }
+                }
+
+                @Override
+                public void onEditClickListener() {
+                    Intent intent = new Intent(PKLiveInputActivity.this, InteractAppInfoActivity.class);
+                    intent.putExtra(InteractAppInfoActivity.FROM_EDITOR, true);
+                    intent.putExtra(InteractAppInfoActivity.INTENT_FROM_PK, true);
+                    startActivity(intent);
+                }
             });
         }
 
@@ -79,10 +95,12 @@ public class PKLiveInputActivity extends AppCompatActivity {
 
         mUserIdEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -92,10 +110,12 @@ public class PKLiveInputActivity extends AppCompatActivity {
 
         mRoomIdEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -104,7 +124,7 @@ public class PKLiveInputActivity extends AppCompatActivity {
         });
 
         mConfirmTextView.setOnClickListener(view -> {
-            if(checkEnable()){
+            if (checkEnable()) {
                 Intent intent;
                 if (LivePushGlobalConfig.IS_MULTI_INTERACT) {
                     intent = new Intent(PKLiveInputActivity.this, MultiPKLiveActivity.class);
@@ -112,22 +132,22 @@ public class PKLiveInputActivity extends AppCompatActivity {
                     intent = new Intent(PKLiveInputActivity.this, PKLiveActivity.class);
                 }
 
-                intent.putExtra(DATA_HOME_ID,mRoomIdEditText.getText().toString());
-                intent.putExtra(DATA_USER_ID,mUserIdEditText.getText().toString());
+                intent.putExtra(DATA_HOME_ID, mRoomIdEditText.getText().toString());
+                intent.putExtra(DATA_USER_ID, mUserIdEditText.getText().toString());
                 startActivity(intent);
             }
         });
     }
 
-    private void changeConfirmTextView(boolean enable){
-        if(enable){
+    private void changeConfirmTextView(boolean enable) {
+        if (enable) {
             mConfirmTextView.setBackground(getResources().getDrawable(R.drawable.shape_pysh_btn_bg));
-        }else{
+        } else {
             mConfirmTextView.setBackground(getResources().getDrawable(R.drawable.shape_rect_blue));
         }
     }
 
-    private boolean checkEnable(){
+    private boolean checkEnable() {
         String userId = mUserIdEditText.getText().toString();
         String roomId = mRoomIdEditText.getText().toString();
         return !TextUtils.isEmpty(userId) && !TextUtils.isEmpty(roomId) && Pattern.matches(TextFormatUtil.REGULAR, userId) && Pattern.matches(TextFormatUtil.REGULAR, roomId);

@@ -57,4 +57,5 @@
     <string name="ugsv_template_exporting">Exporting…</string>
     <string name="ugsv_template_export_tips">Please keep the screen on</string>
     <string name="crop">Crop</string>
+    <string name="save_success">Save Success</string>
 </resources>

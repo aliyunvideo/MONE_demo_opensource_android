@@ -36,4 +36,5 @@ dependencies {
 //    implementation externalLeakcanary
     implementation externalAndroidMultiDex
     implementation project(':templateSample')
+    implementation project(':AUIVideoMixRecorder')
 }

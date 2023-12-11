@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/ugsv_recorder_chooser_paster_item_container"
+        android:layout_width="@dimen/ugsv_recorder_chooser_paster_item_size"
+        android:layout_height="@dimen/ugsv_recorder_chooser_paster_item_size"
+        android:layout_gravity="center"
+        android:background="@color/fill_weak">
+
+        <ImageView
+            android:id="@+id/ugsv_recorder_chooser_paster_item_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ugsv_recorder_paster_item_selector"
+            android:padding="5dp" />
+
+        <View
+            android:id="@+id/ugsv_recorder_chooser_paster_item_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/tsp_fill_weak"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/ugsv_recorder_chooser_paster_item_download"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_ugsv_recorder_chooser_download" />
+
+        <com.aliyun.aio.avbaseui.widget.AVCircleProgressView
+            android:id="@+id/ugsv_recorder_chooser_paster_item_progress"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            app:isShowText="no"
+            app:progress="0"
+            app:progressType="stroke"
+            app:ringBgColor="@color/fill_ultraweak"
+            app:ringFgColor="@color/colourful_fill_strong"
+            app:ringWidth="2dp" />
+    </RelativeLayout>
+
+</FrameLayout>

@@ -23,25 +23,21 @@ public class PermissionUtils {
 
     private static final String TAG = PermissionUtils.class.getName();
 
-    public static final String[] PERMISSION_MANIFEST = {
-        Manifest.permission.CAMERA,
-        Manifest.permission.BLUETOOTH,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    };
 
     public static final String[] PERMISSION_STORAGE = {
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
 
+    public static final String[] PERMISSION_STORAGE33 = {
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.READ_MEDIA_AUDIO,
+    };
+
     public static final String[] PERMISSION_CAMERA = {
         Manifest.permission.CAMERA,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
+        Manifest.permission.RECORD_AUDIO
     };
 
     /**

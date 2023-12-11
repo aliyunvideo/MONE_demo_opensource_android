@@ -14,11 +14,12 @@ import androidx.fragment.app.FragmentManager;
 
 import com.aliyun.svideo.base.BaseChooser;
 import com.aliyun.svideo.beauty.queen.R;
-import com.aliyunsdk.queen.menu.BeautyMenuPanel;
+import com.aliyunsdk.queen.menu.QueenMenuPanel;
 
 public class QueenBeautyMenu extends BaseChooser {
     private LinearLayout llBlank;
-    private BeautyMenuPanel mBeautyMenuPanel;
+    private QueenMenuPanel mBeautyMenuPanel;
+
     private FrameLayout.LayoutParams mMenuParams;
 
     @Override
@@ -78,8 +79,9 @@ public class QueenBeautyMenu extends BaseChooser {
 
     private void showMenuPanel(ViewGroup container) {
         if (mBeautyMenuPanel == null) {
-            mBeautyMenuPanel = new BeautyMenuPanel(this.getContext());
+            mBeautyMenuPanel = com.aliyunsdk.queen.menu.QueenBeautyMenu.getPanel(this.getContext());
             mBeautyMenuPanel.onHideCopyright();
+//            mBeautyMenuPanel.onHideValidFeatures();
             mBeautyMenuPanel.onSetMenuBackgroundColor(getResources().getColor(R.color.bg_medium));
             mMenuParams = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,

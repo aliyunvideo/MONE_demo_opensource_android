@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--滚动选择器通用属性-->
+    <declare-styleable name="BaseScrollPickerView">
+        <!-- 中间item的背景-->
+        <attr name="spv_center_item_background" format="reference|color"/>
+        <!-- 可见的item数量，默认为3个-->
+        <attr name="spv_visible_item_count" format="integer"/>
+        <!-- 中间item的位置,默认为 mVisibleItemCount / 2-->
+        <attr name="spv_center_item_position" format="integer"/>
+        <!-- 是否循环滚动，默认为true，开启-->
+        <attr name="spv_is_circulation" format="boolean"/>
+        <!-- 不允许父组件拦截触摸事件，设置为true为不允许拦截，此时该设置才生效 -->
+        <attr name="spv_disallow_intercept_touch" format="boolean"/>
+        <!-- 滚动的方向-->
+        <attr name="spv_orientation" format="string">
+            <enum name="horizontal" value="1"/>
+            <enum name="vertical" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <!--文字选择器-->
+    <declare-styleable name="StringScrollPicker">
+        <!--文字渐变大小-->
+        <attr name="spv_min_text_size" format="dimension"/>
+        <attr name="spv_max_text_size" format="dimension"/>
+        <!--文字渐变颜色-->
+        <attr name="spv_start_color" format="color"/>
+        <attr name="spv_end_color" format="color"/>
+        <!--文字最大行宽-->
+        <attr name="spv_max_line_width" format="dimension"/>
+        <!--文字对齐方式-->
+        <attr name="spv_alignment" format="enum">
+            <enum name="center" value="1"/>
+            <enum name="left" value="2"/>
+            <enum name="right" value="3"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="AlivcRecordUIStyle">
+        <attr name="recordMusicImage" format="reference"/>
+        <attr name="lightImageOpen" format="reference"/>
+        <attr name="lightImageAuto" format="reference"/>
+        <attr name="lightImageClose" format="reference"/>
+        <attr name="lightImageUnable" format="reference"/>
+        <attr name="countdownImage" format="reference"/>
+        <attr name="switchCameraImage" format="reference"/>
+        <attr name="finishImageUnable" format="reference"/>
+        <attr name="finishImageAble" format="reference"/>
+        <attr name="faceImage" format="reference"/>
+        <attr name="magicImage" format="reference"/>
+        <attr name="videoShootImageNormal" format="reference"/>
+        <attr name="videoShootImageShooting" format="reference"/>
+        <attr name="videoShootImageLongPressing" format="reference"/>
+        <attr name="deleteImage" format="reference"/>
+        <attr name="dotImage" format="reference"/>
+        <attr name="triangleImage" format="reference"/>
+    </declare-styleable>
+
+
+</resources>

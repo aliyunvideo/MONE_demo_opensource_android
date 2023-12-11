@@ -17,7 +17,12 @@ public class InteractiveSettingView extends LinearLayout {
     private ImageView mCameraImageView;
     private ImageView mMuteImageView;
     private ImageView mSpeakerPhoneImageView;
+    private ImageView mEnableAudioImageView;
+    private ImageView mEnableVideoImageView;
     private OnInteractiveSettingListener mOnInteractiveSettingListener;
+
+    private boolean mEnableAudioCapture = true;
+    private boolean mEnableVideoCapture = true;
 
     public InteractiveSettingView(Context context) {
         super(context);
@@ -40,6 +45,8 @@ public class InteractiveSettingView extends LinearLayout {
         mCameraImageView = inflate.findViewById(R.id.iv_camera);
         mMuteImageView = inflate.findViewById(R.id.iv_mute);
         mSpeakerPhoneImageView = inflate.findViewById(R.id.iv_speaker_phone);
+        mEnableAudioImageView = inflate.findViewById(R.id.iv_enable_audio);
+        mEnableVideoImageView = inflate.findViewById(R.id.iv_enable_video);
 
         initListener();
     }
@@ -77,6 +84,28 @@ public class InteractiveSettingView extends LinearLayout {
                 }
             }
         });
+
+        mEnableAudioImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FastClickUtil.isFastClick()) {
+                    return;
+                }
+                mEnableAudioCapture = !mEnableAudioCapture;
+                mOnInteractiveSettingListener.onEnableAudioClick(mEnableAudioCapture);
+            }
+        });
+
+        mEnableVideoImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FastClickUtil.isFastClick()) {
+                    return;
+                }
+                mEnableVideoCapture = !mEnableVideoCapture;
+                mOnInteractiveSettingListener.onEnableVideoClick(mEnableVideoCapture);
+            }
+        });
     }
 
     public void changeMute(boolean isMute) {
@@ -93,5 +122,9 @@ public class InteractiveSettingView extends LinearLayout {
         void onMuteClick();
 
         void onSpeakerPhoneClick();
+
+        void onEnableAudioClick(boolean enable);
+
+        void onEnableVideoClick(boolean enable);
     }
 }

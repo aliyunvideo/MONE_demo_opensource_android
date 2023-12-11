@@ -43,10 +43,14 @@ dependencies {
         exclude group: 'com.aliyun.maliang.android', module: 'queen'
     }
 
-    if (!hasQueen()) {
-        implementation externalAliyunQueen
+    // 此处引用外部独立版本高级功能Queen
+    implementation externalAliyunQueen
+    if (!"true".equalsIgnoreCase(allInOne)) {
+        // 不含一体化，独立接入Queen时，需带上该framework
+        implementation externalAliyunQueenFramwork
     } else {
         implementation externalAllInOne
     }
+
 
 }

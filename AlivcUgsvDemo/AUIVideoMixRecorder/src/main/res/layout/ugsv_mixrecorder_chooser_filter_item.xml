@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <com.aliyun.svideo.recorder.widget.RoundedLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:cornerRadius="2dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ugsv_recorder_filter_icon"
+                style="@style/ugsv_recorder_chooser_item_icon" />
+
+            <ImageView
+                android:id="@+id/ugsv_recorder_filter_mask"
+                style="@style/ugsv_recorder_chooser_item_icon"
+                android:background="@color/tsp_fill_weak"
+                android:padding="13dp"
+                android:src="@drawable/ic_ugsv_recorder_chooser_seleted"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/ugsv_recorder_filter_name"
+            style="@style/ugsv_recorder_chooser_item_text" />
+
+    </com.aliyun.svideo.recorder.widget.RoundedLinearLayout>
+
+</LinearLayout>

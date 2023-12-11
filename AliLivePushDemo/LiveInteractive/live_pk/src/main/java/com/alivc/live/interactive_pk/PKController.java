@@ -6,10 +6,11 @@ import android.widget.FrameLayout;
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
 import com.alivc.live.commonbiz.test.URLUtils;
-import com.alivc.live.interactive_common.bean.MultiAlivcLivePlayer;
+import com.alivc.live.interactive_common.InteractiveMode;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
+import com.alivc.live.pusher.AlivcLiveLocalRecordConfig;
 import com.alivc.live.pusher.AlivcResolutionEnum;
 
 import org.json.JSONException;
@@ -22,22 +23,17 @@ public class PKController {
     private final PKLiveManager mPKLiveManager;
     private final Context mContext;
     private final LocalStreamReader mLocalStreamReader;
-    //主播房间号和 ID
-    private String mOwnerRoomId;
-    private String mOwnerUserId;
-    //PK对方主播的房间号和 ID
-    private String mOtherRoomId;
-    private String mOtherUserId;
-    //主播推流 URL
-    private final String mOwnerPushUrl;
-    private String mOtherPullUrl;
+
+    // 主播信息
+    public InteractiveUserData mOwnerUserData;
+    // PK主播信息
+    public InteractiveUserData mOtherUserData;
+
     private boolean mEnableSpeakerPhone = false;
 
     public PKController(Context context, String roomId, String userId) {
         mPKLiveManager = new PKLiveManager();
-        mPKLiveManager.init(context.getApplicationContext());
-        this.mOwnerRoomId = roomId;
-        this.mOwnerUserId = userId;
+        mPKLiveManager.init(context.getApplicationContext(), InteractiveMode.PK);
         AlivcResolutionEnum resolution = LivePushGlobalConfig.mAlivcLivePushConfig.getResolution();
         int width = AlivcResolutionEnum.getResolutionWidth(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
         int height = AlivcResolutionEnum.getResolutionHeight(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
@@ -52,19 +48,23 @@ public class PKController {
                 .setAudioBufferSize(2048)
                 .build();
         this.mContext = context;
-        mOwnerPushUrl = URLUtils.generateInteractivePushUrl(roomId, userId);
+
+        InteractiveUserData userData = new InteractiveUserData();
+        userData.channelId = roomId;
+        userData.userId = userId;
+        userData.url = URLUtils.generateInteractivePushUrl(roomId, userId);
+        mOwnerUserData = userData;
     }
 
     /**
      * 设置 PK 主播的信息
-     *
-     * @param userId 对方主播的 userId
-     * @param roomId 对方主播的 roomId
      */
-    public void setPKOtherInfo(String userId, String roomId) {
-        mOtherPullUrl = URLUtils.generateInteractivePullUrl(roomId, userId);
-        this.mOtherUserId = userId;
-        this.mOtherRoomId = roomId;
+    public void setPKOtherInfo(InteractiveUserData userData) {
+        if (userData == null) {
+            return;
+        }
+        mOtherUserData = userData;
+        mOtherUserData.url = URLUtils.generateInteractivePullUrl(userData.channelId, userData.userId);
     }
 
     /**
@@ -74,7 +74,7 @@ public class PKController {
      */
     public void startPush(FrameLayout frameLayout) {
         externAV();
-        mPKLiveManager.startPreviewAndPush(frameLayout, mOwnerPushUrl, true);
+        mPKLiveManager.startPreviewAndPush(mOwnerUserData, frameLayout, true);
     }
 
     private void externAV() {
@@ -93,23 +93,23 @@ public class PKController {
     /**
      * 开始 PK (拉流)
      */
-    public void startPK(FrameLayout frameLayout) {
-        mPKLiveManager.setPullView(frameLayout, true);
-        mPKLiveManager.startPull(mOtherPullUrl);
+    public void startPK(InteractiveUserData userData, FrameLayout frameLayout) {
+        mPKLiveManager.setPullView(userData, frameLayout, true);
+        mPKLiveManager.startPullRTCStream(mOtherUserData);
     }
 
     /**
      * 停止 PK (拉流)
      */
     public void stopPK() {
-        mPKLiveManager.stopPull();
+        mPKLiveManager.stopPullRTCStream(mOtherUserData);
     }
 
     public void setPKLiveMixTranscoding(boolean needMix) {
         if (needMix) {
-            mPKLiveManager.setLiveMixTranscodingConfig(mOwnerUserId, mOtherUserId, false);
+            mPKLiveManager.setLiveMixTranscodingConfig(mOwnerUserData, mOtherUserData, false);
         } else {
-            mPKLiveManager.setLiveMixTranscodingConfig(null, null, false);
+            mPKLiveManager.clearLiveMixTranscodingConfig();
         }
     }
 
@@ -124,17 +124,14 @@ public class PKController {
         }
 
         // 是否静音连麦实时流
-        MultiAlivcLivePlayer player = mPKLiveManager.getCurrentInteractLivePlayer();
-        if (player != null) {
-            if (mute) {
-                player.pauseAudioPlaying();
-            } else {
-                player.resumeAudioPlaying();
-            }
+        if (mute) {
+            mPKLiveManager.pauseAudioPlaying(mOtherUserData.getKey());
+        } else {
+            mPKLiveManager.resumeAudioPlaying(mOtherUserData.getKey());
         }
 
         // 更新混流静音
-        mPKLiveManager.setLiveMixTranscodingConfig(mOwnerUserId, mOtherUserId, mute);
+        mPKLiveManager.setLiveMixTranscodingConfig(mOwnerUserData, mOtherUserData, mute);
     }
 
     /**
@@ -145,29 +142,29 @@ public class PKController {
     }
 
     public boolean isPKing() {
-        return mPKLiveManager.isPulling();
+        return mPKLiveManager.isPulling(mOtherUserData);
     }
 
     /**
      * 开始 PK (多人 PK 场景)
      */
-    public void startMultiPK(String userId, String roomId, FrameLayout frameLayout) {
-        String userKey = generateUserKey(userId, roomId);
-        mPKLiveManager.setPullView(userKey, frameLayout, true);
-        mPKLiveManager.startPull(userKey, mOtherPullUrl);
+    public void startMultiPK(InteractiveUserData userData, FrameLayout frameLayout) {
+        if (userData == null) {
+            return;
+        }
+        mPKLiveManager.setPullView(userData, frameLayout, true);
+        mPKLiveManager.startPullRTCStream(userData);
     }
 
-    public void setPullView(String userId, String roomId, FrameLayout frameLayout) {
-        String userKey = generateUserKey(userId, roomId);
-        mPKLiveManager.setPullView(userKey, frameLayout, true);
+    public void setPullView(InteractiveUserData userData, FrameLayout frameLayout) {
+        mPKLiveManager.setPullView(userData, frameLayout, true);
     }
 
     /**
      * 停止 PK (多人 PK 场景)
      */
-    public void stopMultiPK(String userId, String roomId) {
-        String userKey = generateUserKey(userId, roomId);
-        mPKLiveManager.stopPull(userKey);
+    public void stopMultiPK(InteractiveUserData userData) {
+        mPKLiveManager.stopPullRTCStream(userData);
     }
 
     /**
@@ -176,7 +173,7 @@ public class PKController {
      * @param userKey userKey
      */
     public void resumeVideoPlaying(String userKey) {
-        mPKLiveManager.resumeVideoPlaying(userKey);
+        mPKLiveManager.resumePlayRTCStream(mPKLiveManager.getUserDataByKey(userKey));
     }
 
     /**
@@ -185,40 +182,33 @@ public class PKController {
      * @param userKey userKey
      */
     public void pauseVideoPlaying(String userKey) {
-        mPKLiveManager.pauseVideoPlaying(userKey);
+        mPKLiveManager.pausePlayRTCStream(mPKLiveManager.getUserDataByKey(userKey));
     }
 
     /**
      * 设置 PK 主播的信息(多人PK场景)
-     *
-     * @param userId 对方主播的 userId
-     * @param roomId 对方主播的 roomId
      */
-    public void setMultiPKOtherInfo(String userId, String roomId) {
-        setPKOtherInfo(userId, roomId);
-        String userKey = generateUserKey(userId, roomId);
-        mPKLiveManager.createAlivcLivePlayer(userKey);
+    public void setMultiPKOtherInfo(InteractiveUserData userData) {
+        setPKOtherInfo(userData);
     }
 
-    public boolean isPKing(String userId, String roomId) {
-        String userKey = generateUserKey(userId, roomId);
-        return mPKLiveManager.isPulling(userKey);
+    public boolean isPKing(InteractiveUserData userData) {
+        return mPKLiveManager.isPulling(userData);
     }
 
     /**
      * 设置混流 (多人 PK 场景)
      *
      * @param isOwnerUserId 是否是主播自己的 id
-     * @param userId        主播 id (如果 isOwnerUserId 为 true，则 userId 表示主播自己的 id，否则表示 pk 方的主播 id)
+     * @param userData      主播 userData (如果 isOwnerUserId 为 true，则 userId 表示主播自己的 id，否则表示 pk 方的主播 id)
      * @param frameLayout   当 isOwnerUserId 为 false 时，需要设置 pk 方主播的混流，需要传递 frameLayout 计算混流位置
      */
-    public void addMultiPKLiveMixTranscoding(boolean isOwnerUserId, String userId, FrameLayout frameLayout) {
+    public void addMultiPKLiveMixTranscoding(boolean isOwnerUserId, InteractiveUserData userData, FrameLayout frameLayout) {
         if (isOwnerUserId) {
-            mPKLiveManager.addAnchorMixTranscodingConfig(userId);
+            mPKLiveManager.addAnchorMixTranscodingConfig(userData);
         } else {
-            mPKLiveManager.addAudienceMixTranscodingConfig(userId, frameLayout);
+            mPKLiveManager.addAudienceMixTranscodingConfig(userData, frameLayout);
         }
-
     }
 
     /**
@@ -226,13 +216,13 @@ public class PKController {
      * 当 isOwnerUserId 为 true 时，表示主播自己退出 PK，则删除所有混流设置。否则只删除 PK 方的混流。
      *
      * @param isOwnerUserId 是否是主播自己的 id
-     * @param userId        主播 id (如果 isOwnerUserId 为 true，则 userId 表示主播自己的 id，否则表示 pk 方的主播 id)
+     * @param userData      主播 userData (如果 isOwnerUserId 为 true，则 userId 表示主播自己的 id，否则表示 pk 方的主播 id)
      */
-    public void removeMultiPKLiveMixTranscoding(boolean isOwnerUserId, String userId) {
+    public void removeMultiPKLiveMixTranscoding(boolean isOwnerUserId, InteractiveUserData userData) {
         if (isOwnerUserId) {
             mPKLiveManager.clearLiveMixTranscodingConfig();
         } else {
-            mPKLiveManager.removeLiveMixTranscodingConfig(userId);
+            mPKLiveManager.removeLiveMixTranscodingConfig(userData);
         }
     }
 
@@ -245,25 +235,15 @@ public class PKController {
         }
 
         // 更新混流静音
-        mPKLiveManager.muteAnchorMultiStream(userKey.split("=")[0], mute);
-    }
-
-    /**
-     * 用于多人 PK 场景，根据 RoomId 和 UserId 生成 UserKey
-     *
-     * @param roomId 房间 ID
-     * @param userId 用户 ID
-     */
-    private String generateUserKey(String userId, String roomId) {
-        return userId + "=" + roomId;
+        mPKLiveManager.muteAnchorMultiStream(mPKLiveManager.getUserDataByKey(userKey), mute);
     }
 
     public void setPKLivePushPullListener(InteractLivePushPullListener listener) {
         mPKLiveManager.setInteractLivePushPullListener(listener);
     }
 
-    public void setMultiPKLivePushPullListener(MultiInteractLivePushPullListener listener) {
-        mPKLiveManager.setMultiInteractLivePushPullListener(listener);
+    public void setMultiPKLivePushPullListener(InteractLivePushPullListener listener) {
+        mPKLiveManager.setInteractLivePushPullListener(listener);
     }
 
     public void release() {
@@ -281,6 +261,14 @@ public class PKController {
         mPKLiveManager.enableSpeakerPhone(mEnableSpeakerPhone);
     }
 
+    public void enableAudioCapture(boolean enable) {
+        mPKLiveManager.enableAudioCapture(enable);
+    }
+
+    public void enableLocalCamera(boolean enable) {
+        mPKLiveManager.enableLocalCamera(enable);
+    }
+
     public void sendSEI(String text) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -288,6 +276,18 @@ public class PKController {
             mPKLiveManager.sendSEI(jsonObject.toString());
         } catch (JSONException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void startLocalRecord(AlivcLiveLocalRecordConfig recordConfig) {
+        if (mPKLiveManager != null) {
+            mPKLiveManager.startLocalRecord(recordConfig);
+        }
+    }
+
+    public void stopLocalRecord() {
+        if (mPKLiveManager != null) {
+            mPKLiveManager.stopLocalRecord();
         }
     }
 }

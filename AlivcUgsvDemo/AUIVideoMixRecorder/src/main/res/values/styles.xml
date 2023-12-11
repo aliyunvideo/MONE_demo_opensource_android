@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="aliyun_video_bottom_dialog_animation">
+        <item name="android:windowEnterAnimation">@anim/aliyun_video_anim_trans_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/aliyun_video_anim_layout_bottom_out</item>
+    </style>
+
+    <style name="QUDemoDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+    <style name="QUDemoFullStyle" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="QUDemoFullFitStyle" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="record_bottom_dialog_animation">
+        <item name="android:windowEnterAnimation">@anim/aliyun_video_anim_trans_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/aliyun_video_anim_layout_bottom_out</item>
+    </style>
+
+
+    <style name="CustomTheme_Dialog" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/notAnimation</item>
+    </style>
+    <style name="notAnimation">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+        <item name="android:taskOpenEnterAnimation">@null</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+    </style>
+
+    <!--录制模块的UI配置（专业版）-->
+    <style name="AlivcRecordUIStyle" parent="Theme.AppCompat.NoActionBar">
+        <!--音乐按钮图片-->
+        <item name="recordMusicImage">@mipmap/alivc_svideo_icon_magic_music</item>
+        <!--闪光灯按钮图片 - 开启-->
+        <item name="lightImageOpen">@mipmap/aliyun_svideo_icon_magic_light</item>
+        <!--闪光灯按钮图片 - 自动-->
+        <item name="lightImageAuto">@mipmap/aliyun_svideo_icon_magic_light_auto</item>
+        <!--倒计时图片-->
+        <item name="countdownImage">@mipmap/alivc_svideo_icon_magic</item>
+        <!--完成的按钮图片 - 不可用-->
+        <item name="finishImageUnable">@mipmap/alivc_svideo_icon_next_not_ready</item>
+        <!--完成的按钮图片 - 可用-->
+        <item name="finishImageAble">@mipmap/alivc_svideo_icon_next_complete</item>
+        <!--底部滤镜，美颜，美肌对应的按钮图片-->
+        <item name="faceImage">@mipmap/alivc_svideo_icon_beauty_face</item>
+        <!--底部动图mv对应的按钮图片-->
+        <item name="magicImage">@mipmap/alivc_svideo_icon_gif_effect</item>
+        <!--拍摄按钮图片 - 未开始拍摄-->
+        <item name="videoShootImageNormal">@mipmap/alivc_svideo_bg_record_storp</item>
+        <!--拍摄按钮图片 - 拍摄中-->
+        <item name="videoShootImageShooting">@mipmap/alivc_svideo_bg_record_pause</item>
+        <!--拍摄按钮图片 - 长按中-->
+        <item name="videoShootImageLongPressing">@mipmap/alivc_svideo_bg_record_start</item>
+        <!--回删对应的图片-->
+        <item name="deleteImage">@mipmap/alivc_svideo_icon_delete</item>
+        <!--拍摄中红点对应的图片-->
+        <item name="dotImage">@mipmap/alivc_svideo_record_time_tip</item>
+        <!--向上的三角形对应的图片-->
+        <item name="triangleImage">@mipmap/alivc_svideo_icon_selected_indicator</item>
+
+    </style>
+
+    <style name="NoBackgroundDlgStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!-- 顶部栏 -->
+    <style name="ugsv_mix_recorder_top_bar_back">
+        <item name="android:layout_width">66dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="ugsv_mix_recorder_top_bar_icon">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <!-- 侧边栏 -->
+    <style name="ugsv_mix_recorder_side_bar_item">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="ugsv_mix_recorder_side_bar_icon">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="ugsv_mix_recorder_font_shadow">
+        <item name="android:shadowColor">@color/text_medium</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">0.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <style name="ugsv_mix_recorder_side_bar_text" parent="ugsv_mix_recorder_font_shadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textColor">@color/text_strong</item>
+    </style>
+
+    <style name="ugsv_mix_recorder_rate_bar_btn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/ugsv_recorder_rate_bar_btn_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/ugsv_recorder_rate_bar_btn_bg</item>
+    </style>
+
+    <declare-styleable name="RoundedView">
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="topLeftCornerRadius" format="dimension" />
+        <attr name="topRightCornerRadius" format="dimension" />
+        <attr name="bottomLeftCornerRadius" format="dimension" />
+        <attr name="bottomRightCornerRadius" format="dimension" />
+    </declare-styleable>
+</resources>

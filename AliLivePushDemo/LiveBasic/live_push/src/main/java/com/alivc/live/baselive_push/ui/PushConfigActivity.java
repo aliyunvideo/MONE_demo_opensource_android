@@ -578,28 +578,29 @@ public class PushConfigActivity extends AVBaseThemeActivity {
     }
 
     private void checkModelAndRun(final Runnable runnable) {
-        BeautyMenuMaterial.getInstance().checkModelReady(this, new OnDownloadUICallback() {
-            @Override
-            public void onDownloadStart(@StringRes int tipsResId) {
-                showProgressDialog(tipsResId);
-            }
-
-            @Override
-            public void onDownloadProgress(final float v) {
-            }
-
-            @Override
-            public void onDownloadSuccess() {
-                hideProgressDialog();
-                runnable.run();
-            }
-
-            @Override
-            public void onDownloadError(@StringRes int tipsResId) {
-                hideProgressDialog();
-                showErrorTips(tipsResId);
-            }
-        });
+        runnable.run();
+//        BeautyMenuMaterial.getInstance().checkModelReady(this, new OnDownloadUICallback() {
+//            @Override
+//            public void onDownloadStart(@StringRes int tipsResId) {
+//                showProgressDialog(tipsResId);
+//            }
+//
+//            @Override
+//            public void onDownloadProgress(final float v) {
+//            }
+//
+//            @Override
+//            public void onDownloadSuccess() {
+//                hideProgressDialog();
+//                runnable.run();
+//            }
+//
+//            @Override
+//            public void onDownloadError(@StringRes int tipsResId) {
+//                hideProgressDialog();
+//                showErrorTips(tipsResId);
+//            }
+//        });
     }
 
     private void showProgressDialog(@StringRes int tipsResId) {

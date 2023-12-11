@@ -33,7 +33,12 @@ import com.alivc.component.custom.AlivcLivePushCustomFilter;
 import com.alivc.live.annotations.AlivcLiveMode;
 import com.alivc.live.annotations.AlivcLiveNetworkQuality;
 import com.alivc.live.annotations.AlivcLivePushKickedOutType;
+import com.alivc.live.annotations.AlivcLiveRecordAudioQuality;
+import com.alivc.live.annotations.AlivcLiveRecordMediaEvent;
+import com.alivc.live.annotations.AlivcLiveRecordMediaFormat;
+import com.alivc.live.annotations.AlivcLiveRecordStreamType;
 import com.alivc.live.baselive_common.CommonDialog;
+import com.alivc.live.baselive_common.LivePushLocalRecordView;
 import com.alivc.live.baselive_common.LivePusherSEIView;
 import com.alivc.live.baselive_push.R;
 import com.alivc.live.baselive_push.adapter.IPushController;
@@ -47,8 +52,11 @@ import com.alivc.live.beauty.BeautyInterface;
 import com.alivc.live.beauty.constant.BeautySDKType;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.commonutils.FastClickUtil;
+import com.alivc.live.commonutils.FileUtil;
 import com.alivc.live.commonutils.TextFormatUtil;
 import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.player.annotations.AlivcLivePlayVideoStreamType;
+import com.alivc.live.pusher.AlivcLiveLocalRecordConfig;
 import com.alivc.live.pusher.AlivcLivePushAudioEffectReverbMode;
 import com.alivc.live.pusher.AlivcLivePushAudioEffectVoiceChangeMode;
 import com.alivc.live.pusher.AlivcLivePushBGMListener;
@@ -64,7 +72,9 @@ import com.alivc.live.pusher.AlivcResolutionEnum;
 import com.alivc.live.pusher.AlivcSnapshotListener;
 import com.alivc.live.pusher.WaterMarkInfo;
 import com.aliyun.aio.avbaseui.widget.AVToast;
-import com.aliyunsdk.queen.menu.BeautyMenuPanel;
+import com.aliyun.aio.utils.ThreadUtils;
+import com.aliyunsdk.queen.menu.QueenBeautyMenu;
+import com.aliyunsdk.queen.menu.QueenMenuPanel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -157,7 +167,9 @@ public class LivePushFragment extends Fragment {
     private AlivcLivePushStatsInfo mPushStatsInfo;
     private boolean isConnectResult = false;//是否正在链接中
     private TextView mTotalLivePushStatsInfoTV;//数据指标
-    private BeautyMenuPanel mBeautyBeautyContainerView;
+    private QueenBeautyMenu mBeautyBeautyContainerView;
+
+    private QueenMenuPanel mQueenMenuPanel;
     private IPushController mPushController = null;
     private ArrayList<WaterMarkInfo> waterMarkInfos = null;
     //音效
@@ -165,6 +177,7 @@ public class LivePushFragment extends Fragment {
 
     private LivePushViewModel mLivePushViewModel;
     private LivePusherSEIView mSeiView;
+    private LivePushLocalRecordView mLocalRecordView;
     private AlivcResolutionEnum mCurrentResolution;
 
     private boolean mIsBGMPlaying = false;
@@ -286,13 +299,38 @@ public class LivePushFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBeautyBeautyContainerView = view.findViewById(R.id.beauty_beauty_menuPanel);
-        mBeautyBeautyContainerView.onHideMenu();
+        mQueenMenuPanel = QueenBeautyMenu.getPanel(this.getContext());
+        mQueenMenuPanel.onHideMenu();
+        mQueenMenuPanel.onHideValidFeatures();
+        mBeautyBeautyContainerView.addView(mQueenMenuPanel);
+//        mBeautyBeautyContainerView.onHideMenu();
         mSoundEffectView = view.findViewById(R.id.sound_effect_view);
 
         mSeiView = view.findViewById(R.id.sei_view);
         mSeiView.setSendSeiViewListener(text -> {
             AlivcLivePusher livePusher = mPushController.getLivePusher();
             livePusher.sendMessage(text, 0, 0, true);
+        });
+        mLocalRecordView = view.findViewById(R.id.local_record_v);
+        mLocalRecordView.initLocalRecordEventListener(new LivePushLocalRecordView.LocalRecordEventListener() {
+            @Override
+            public void onStartLocalRecord() {
+                AlivcLiveLocalRecordConfig recordConfig = new AlivcLiveLocalRecordConfig();
+                String dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+                recordConfig.storagePath = FileUtil.getExternalCacheFolder(getContext()) + "/" + dateFormat + ".mp4";
+                recordConfig.streamType = AlivcLiveRecordStreamType.AUDIO_VIDEO;
+                recordConfig.audioQuality = AlivcLiveRecordAudioQuality.MEDIUM;
+                recordConfig.mediaFormat = AlivcLiveRecordMediaFormat.MP4;
+
+                AlivcLivePusher livePusher = mPushController.getLivePusher();
+                livePusher.startLocalRecord(recordConfig);
+            }
+
+            @Override
+            public void onStopLocalRecord() {
+                AlivcLivePusher livePusher = mPushController.getLivePusher();
+                livePusher.stopLocalRecord();
+            }
         });
 
         mSoundEffectView.setOnSoundEffectChangedListener(new OnSoundEffectChangedListener() {
@@ -701,7 +739,7 @@ public class LivePushFragment extends Fragment {
                                     });
                                     pushMoreDialog.setOnDismissListener(dialogInterface -> {
                                         if (mCurrentResolution == AlivcResolutionEnum.RESOLUTION_SELF_DEFINE) {
-                                            AlivcResolutionEnum.RESOLUTION_SELF_DEFINE.setSelfDefineResolution(pushMoreDialog.getResolutionWidth(),pushMoreDialog.getResolutionHeight());
+                                            AlivcResolutionEnum.RESOLUTION_SELF_DEFINE.setSelfDefineResolution(pushMoreDialog.getResolutionWidth(), pushMoreDialog.getResolutionHeight());
                                             pusher.changeResolution(AlivcResolutionEnum.RESOLUTION_SELF_DEFINE);
                                         }
                                     });
@@ -901,8 +939,28 @@ public class LivePushFragment extends Fragment {
         }
 
         @Override
-        public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId) {
+        public void onLocalRecordEvent(AlivcLiveRecordMediaEvent mediaEvent, String storagePath) {
+            ToastUtils.show(mediaEvent + ", " + storagePath);
+        }
 
+        @Override
+        public void onScreenFramePushState(AlivcLivePusher pusher, boolean isPushing) {
+            ToastUtils.show("onScreenFramePushState: " + isPushing);
+        }
+
+        @Override
+        public void onRemoteUserEnterRoom(AlivcLivePusher pusher, String userId, boolean isOnline) {
+            ToastUtils.show("onRemoteUserEnterRoom: " + userId + ", isOnline" + isOnline);
+        }
+
+        @Override
+        public void onRemoteUserAudioStream(AlivcLivePusher pusher, String userId, boolean isPushing) {
+            ToastUtils.show("onRemoteUserAudioStream: " + userId + ", isPushing: " + isPushing);
+        }
+
+        @Override
+        public void onRemoteUserVideoStream(AlivcLivePusher pusher, String userId, AlivcLivePlayVideoStreamType videoStreamType, boolean isPushing) {
+            ToastUtils.show("onRemoteUserVideoStream: " + userId + ", videoStreamType: " + videoStreamType + ", isPushing: " + isPushing);
         }
     };
 
@@ -971,6 +1029,13 @@ public class LivePushFragment extends Fragment {
         @Override
         public void onConnectionLost(AlivcLivePusher pusher) {
             mIsStartAsnycPushing = false;
+
+            // 断网后停止本地录制
+            AlivcLivePusher livePusher = mPushController.getLivePusher();
+            if (livePusher != null) {
+                livePusher.stopLocalRecord();
+            }
+
             showToast("推流已断开");
         }
 
@@ -1271,11 +1336,11 @@ public class LivePushFragment extends Fragment {
     private void changeBeautyContainerVisibility() {
         if (mBeautyBeautyContainerView.getVisibility() == View.VISIBLE) {
             mActionBar.setVisibility(View.VISIBLE);
-            mBeautyBeautyContainerView.onHideMenu();
+            mQueenMenuPanel.onHideMenu();
             mBeautyBeautyContainerView.setVisibility(View.GONE);
         } else {
             mActionBar.setVisibility(View.GONE);
-            mBeautyBeautyContainerView.onShowMenu();
+            mQueenMenuPanel.onShowMenu();
             mBeautyBeautyContainerView.setVisibility(View.VISIBLE);
         }
     }
@@ -1290,12 +1355,19 @@ public class LivePushFragment extends Fragment {
         }
     }
 
-    public void updateOperaButtonState(boolean bool) {
-        mOperaButton.post(() -> {
-            mOperaButton.setText(bool ? getSafeString(R.string.pause_button) : getSafeString(R.string.resume_button));
-            mOperaButton.setSelected(!bool);
-            mPreviewButton.setText(bool ? getSafeString(R.string.stop_preview_button) : getSafeString(R.string.start_preview_button));
-            mPreviewButton.setSelected(bool);
+    public void updateOperaButtonState(boolean value) {
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mOperaButton != null) {
+                    mOperaButton.setText(value ? getSafeString(R.string.pause_button) : getSafeString(R.string.resume_button));
+                    mOperaButton.setSelected(!value);
+                }
+                if (mPreviewButton != null) {
+                    mPreviewButton.setText(value ? getSafeString(R.string.stop_preview_button) : getSafeString(R.string.start_preview_button));
+                    mPreviewButton.setSelected(value);
+                }
+            }
         });
     }
 }

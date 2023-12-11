@@ -12,6 +12,7 @@ import com.aliyun.svideosdk.common.struct.common.AliyunVideoParam;
 import com.aliyun.svideosdk.importer.AliyunIImport;
 import com.aliyun.svideosdk.importer.impl.AliyunImportCreator;
 import com.aliyun.svideosdk.transcode.NativeParser;
+import com.aliyun.ugsv.common.utils.ToastUtil;
 import com.zhihu.matisse.MimeType;
 
 import java.util.List;
@@ -51,6 +52,10 @@ public class AUIVideoEditor {
             if(EditorConfig.Companion.getInstance().getRatio() == 0 && i == 0){
                 int originWidth = Integer.parseInt(nativeParser.getValue(NativeParser.VIDEO_WIDTH));
                 int originHeight = Integer.parseInt(nativeParser.getValue(NativeParser.VIDEO_HEIGHT));
+                if(originWidth == 0 || originHeight == 0){
+                    ToastUtil.showToast(context, R.string.unsupport_video_format);
+                    return;
+                }
                 int rotation = Integer.parseInt(nativeParser.getValue(NativeParser.VIDEO_ROTATION));
                 int width = originWidth;
                 int height = originHeight;

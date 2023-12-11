@@ -39,6 +39,13 @@
 -keep class com.cicada.** { *; }
 #2023-01-03最新混淆规则（直播SDK版本>=4.4.9，一体化SDK版本>=1.7.0）
 
+-keep public class com.alibaba.android.arouter.routes.**{*;}
+-keep public class com.alibaba.android.arouter.facade.**{*;}
+-keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
+
+# 如果使用了 byType 的方式获取 Service，需添加下面规则，保护接口
+-keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
+
 -keep class android.** { *;}
 
 # For native methods, see http:#proguard.sourceforge.net/manual/examples.html#native

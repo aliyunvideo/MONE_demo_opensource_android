@@ -13,15 +13,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alivc.live.interactive_common.widget.InteractiveSettingView;
-import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.commonutils.ToastUtils;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
+import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
-import com.alivc.live.interactive_common.listener.MultiInteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveCommonInputView;
+import com.alivc.live.interactive_common.widget.InteractiveSettingView;
+import com.alivc.live.player.annotations.AlivcLivePlayError;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,13 +49,14 @@ public class MultiPKLiveActivity extends AppCompatActivity {
     private MultiPKLiveRecyclerViewAdapter mMultiPKLiveRecyclerViewAdapter;
     private List<Boolean> mDataList = new ArrayList<>();
     private Map<String, Integer> mKeyPositionMap = new HashMap<>();
+    private Map<String, InteractiveUserData> mUserDataMap = new HashMap<>();
     //当 item 划出屏幕时，防止 stop 事件调用导致 mKeyPositionMap 移除对应的 userKey，从而无法 resumeVideo
     private List<String> mDetachedUserKeyList = new ArrayList<>();
     //已经添加混流的 userId
     private List<String> mHasAddMixStreamUserId = new ArrayList<>();
 
     //停止 PK 时需要的 roomId 和 userId
-    private String[] mStopPKSplit;
+    private InteractiveUserData mStopPKUserData;
     private ConnectionLostTipsView mConnectionLostTipsView;
     private boolean mIsMute = false;
     private InteractiveSettingView mInteractiveSettingView;
@@ -85,7 +89,7 @@ public class MultiPKLiveActivity extends AppCompatActivity {
         mConnectionLostTipsView = new ConnectionLostTipsView(this);
 
         mPKController.startPush(mOwnerFrameLayout);
-        mPKController.addMultiPKLiveMixTranscoding(true, mUserId, null);
+        mPKController.addMultiPKLiveMixTranscoding(true, mPKController.mOwnerUserData, null);
 
         mInteractiveSettingView = findViewById(R.id.interactive_setting_view);
     }
@@ -123,6 +127,16 @@ public class MultiPKLiveActivity extends AppCompatActivity {
             public void onSpeakerPhoneClick() {
                 mPKController.changeSpeakerPhone();
             }
+
+            @Override
+            public void onEnableAudioClick(boolean enable) {
+                mPKController.enableAudioCapture(enable);
+            }
+
+            @Override
+            public void onEnableVideoClick(boolean enable) {
+                mPKController.enableLocalCamera(enable);
+            }
         });
 
         mConnectionLostTipsView.setConnectionLostListener(new ConnectionLostListener() {
@@ -145,68 +159,81 @@ public class MultiPKLiveActivity extends AppCompatActivity {
             @Override
             public void onItemViewAttachedToWindow(int position) {
                 String userKey = getUserKeyByPosition(position);
-                if (!TextUtils.isEmpty(userKey)) {
-                    mDetachedUserKeyList.remove(userKey);
-                    MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder viewHolder = (MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-                    if (viewHolder != null) {
-                        boolean reCreated = mMultiPKLiveRecyclerViewAdapter.reSetFrameLayout(position, viewHolder.getRenderFrameLayout().hashCode());
-                        if (reCreated) {
-                            String[] split = userKey.split("=");
-                            mPKController.setPullView(split[0], split[1], viewHolder.getRenderFrameLayout());
-                        }
-                    }
-                    Log.d(TAG, "onItemViewAttachedToWindow: userKey = " + userKey + " --- position = " + position);
-                    mPKController.resumeVideoPlaying(userKey);
+                if (TextUtils.isEmpty(userKey)) {
+                    return;
                 }
+                mDetachedUserKeyList.remove(userKey);
+                InteractiveUserData userData = mUserDataMap.get(userKey);
+                if (userData == null) {
+                    return;
+                }
+                MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder viewHolder = (MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+                if (viewHolder != null) {
+                    boolean reCreated = mMultiPKLiveRecyclerViewAdapter.reSetFrameLayout(position, viewHolder.getRenderFrameLayout().hashCode());
+                    if (reCreated) {
+                        mPKController.setPullView(userData, viewHolder.getRenderFrameLayout());
+                    }
+                }
+                Log.d(TAG, "onItemViewAttachedToWindow: userKey = " + userKey + " --- position = " + position);
+                mPKController.resumeVideoPlaying(userKey);
             }
 
             @Override
             public void onItemViewDetachedToWindow(int position) {
                 String userKey = getUserKeyByPosition(position);
-                if (!TextUtils.isEmpty(userKey)) {
-                    mDetachedUserKeyList.add(userKey);
-                    Log.d(TAG, "onItemViewDetachedToWindow: userKey = " + userKey + " --- position = " + position);
-                    mPKController.pauseVideoPlaying(userKey);
+                if (TextUtils.isEmpty(userKey)) {
+                    return;
                 }
-
+                mDetachedUserKeyList.add(userKey);
+                Log.d(TAG, "onItemViewDetachedToWindow: userKey = " + userKey + " --- position = " + position);
+                mPKController.pauseVideoPlaying(userKey);
             }
         });
 
-        mPKController.setMultiPKLivePushPullListener(new MultiInteractLivePushPullListener() {
+        mPKController.setMultiPKLivePushPullListener(new InteractLivePushPullListener() {
             @Override
-            public void onPullSuccess(String userKey) {
-                super.onPullSuccess(userKey);
+            public void onPullSuccess(InteractiveUserData userData) {
+                super.onPullSuccess(userData);
+                if (userData == null) {
+                    return;
+                }
+                String userKey = userData.getKey();
                 //开始 PK 成功
                 if (mKeyPositionMap.containsKey(userKey)) {
-                    if (!TextUtils.isEmpty(userKey) && userKey.contains("=")) {
-                        MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder viewHolder = (MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder) mRecyclerView.findViewHolderForAdapterPosition(mKeyPositionMap.get(userKey));
-                        String userId = userKey.split("=")[0];
-                        if (viewHolder != null && !mHasAddMixStreamUserId.contains(userId)) {
-                            mHasAddMixStreamUserId.add(userId);
-                            //添加混流
-                            mPKController.addMultiPKLiveMixTranscoding(false, userId, viewHolder.getRenderFrameLayout());
-                        }
+                    MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder viewHolder = (MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder) mRecyclerView.findViewHolderForAdapterPosition(mKeyPositionMap.get(userKey));
+                    if (viewHolder != null && !mHasAddMixStreamUserId.contains(userData.userId)) {
+                        viewHolder.updateUserInfo(userData.channelId, userData.userId);
+                        mHasAddMixStreamUserId.add(userData.userId);
+                        //添加混流
+                        mPKController.addMultiPKLiveMixTranscoding(false, userData, viewHolder.getRenderFrameLayout());
                     }
                     changeFrameLayoutViewVisible(true, mKeyPositionMap.get(userKey));
                 }
             }
 
             @Override
-            public void onPullError(String userKey, AlivcLivePlayError errorType, String errorMsg) {
-                super.onPullError(userKey, errorType, errorMsg);
+            public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                super.onPullError(userData, errorType, errorMsg);
+                if (userData == null) {
+                    return;
+                }
                 if (errorType == AlivcLivePlayError.AlivcLivePlayErrorStreamStopped) {
-                    ToastUtils.show("用户号:" + userKey.split("=")[0] + " 房间号:" + userKey.split("=")[1] + " 主播离开");
+                    ToastUtils.show("用户号:" + userData.userId + " 房间号:" + userData.channelId + " 主播离开");
                 }
             }
 
             @Override
-            public void onPullStop(String userKey) {
-                super.onPullStop(userKey);
+            public void onPullStop(InteractiveUserData userData) {
+                super.onPullStop(userData);
+                if (userData == null) {
+                    return;
+                }
+                String userKey = userData.getKey();
                 //停止 PK
-                if (!TextUtils.isEmpty(userKey) && userKey.contains("=") && mHasAddMixStreamUserId.contains(userKey.split("=")[0])) {
+                if (mHasAddMixStreamUserId.contains(userData.userId)) {
                     //删除对应的混流
-                    mHasAddMixStreamUserId.remove(userKey.split("=")[0]);
-                    mPKController.removeMultiPKLiveMixTranscoding(false, userKey.split("=")[0]);
+                    mHasAddMixStreamUserId.remove(userData.userId);
+                    mPKController.removeMultiPKLiveMixTranscoding(false, userData);
 
                     if (mKeyPositionMap.containsKey(userKey) && mKeyPositionMap.get(userKey) != null) {
                         Integer position = mKeyPositionMap.get(userKey);
@@ -248,11 +275,8 @@ public class MultiPKLiveActivity extends AppCompatActivity {
             @Override
             public void onPKConnectClick(int position) {
                 String content = getUserKeyByPosition(position);
-                mStopPKSplit = new String[]{};
-                if (!TextUtils.isEmpty(content) && content.contains("=")) {
-                    mStopPKSplit = content.split("=");
-                }
-                if (mStopPKSplit.length > 0 && mPKController.isPKing(mStopPKSplit[0], mStopPKSplit[1])) {
+                mStopPKUserData = mUserDataMap.get(content);
+                if (mStopPKUserData != null && mPKController.isPKing(mStopPKUserData)) {
                     mCurrentIntent = InteractLiveIntent.INTENT_STOP_PULL;
                     showInteractLiveDialog(position, getResources().getString(R.string.pk_live_connect_finish_tips), false);
                 } else {
@@ -269,13 +293,13 @@ public class MultiPKLiveActivity extends AppCompatActivity {
     }
 
     private void showInteractLiveDialog(int position, String content, boolean showInputView) {
-        PKLiveTipsView pkLiveTipsView = new PKLiveTipsView(MultiPKLiveActivity.this);
-        pkLiveTipsView.showInputView(showInputView);
-        pkLiveTipsView.setContent(content);
-        mAUILiveDialog.setContentView(pkLiveTipsView);
+        InteractiveCommonInputView commonInputView = new InteractiveCommonInputView(MultiPKLiveActivity.this);
+        commonInputView.setViewType(InteractiveCommonInputView.ViewType.PK);
+        commonInputView.showInputView(content, showInputView);
+        mAUILiveDialog.setContentView(commonInputView);
         mAUILiveDialog.show();
 
-        pkLiveTipsView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
+        commonInputView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
             @Override
             public void onCancel() {
                 if (mAUILiveDialog.isShowing()) {
@@ -290,38 +314,40 @@ public class MultiPKLiveActivity extends AppCompatActivity {
                     finish();
                 } else if (mCurrentIntent == InteractLiveIntent.INTENT_STOP_PULL) {
                     mAUILiveDialog.dismiss();
-                    if (mStopPKSplit != null && mStopPKSplit.length > 0) {
-                        mPKController.stopMultiPK(mStopPKSplit[0], mStopPKSplit[1]);
+                    if (mStopPKUserData != null) {
+                        mPKController.stopMultiPK(mStopPKUserData);
                     }
                     changeFrameLayoutViewVisible(false, position);
                 }
             }
 
             @Override
-            public void onInputConfirm(String content) {
+            public void onInputConfirm(InteractiveUserData userData) {
                 mAUILiveDialog.dismiss();
-                if (mKeyPositionMap.containsKey(content)) {
+                if (userData == null || TextUtils.isEmpty(userData.channelId) || TextUtils.isEmpty(userData.userId)) {
                     return;
                 }
-                if (content.contains("=")) {
-                    String[] split = content.split("=");
-                    //同一个用户 id 不能重复 PK。
-                    if (isInPK(split[0])) {
-                        return;
-                    }
-                    RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-                    if (layoutManager != null) {
-                        layoutManager.scrollToPosition(position);
-                    }
-                    mRecyclerView.post(() -> {
-                        MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder viewHolder = (MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-                        if (viewHolder != null) {
-                            mKeyPositionMap.put(content, position);
-                            mPKController.setMultiPKOtherInfo(split[0], split[1]);
-                            mPKController.startMultiPK(split[0], split[1], viewHolder.getRenderFrameLayout());
-                        }
-                    });
+                String userDataKey = userData.getKey();
+                if (mKeyPositionMap.containsKey(userDataKey)) {
+                    return;
                 }
+                //同一个用户 id 不能重复 PK。
+                if (isInPK(userData.userId)) {
+                    return;
+                }
+                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+                if (layoutManager != null) {
+                    layoutManager.scrollToPosition(position);
+                }
+                mRecyclerView.post(() -> {
+                    MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder viewHolder = (MultiPKLiveRecyclerViewAdapter.MultiPKLiveViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+                    if (viewHolder != null) {
+                        mKeyPositionMap.put(userDataKey, position);
+                        mUserDataMap.put(userDataKey, userData);
+                        mPKController.setMultiPKOtherInfo(userData);
+                        mPKController.startMultiPK(userData, viewHolder.getRenderFrameLayout());
+                    }
+                });
             }
         });
     }
@@ -338,6 +364,7 @@ public class MultiPKLiveActivity extends AppCompatActivity {
 
     /**
      * 判断该用户 id 是否在 PK 中
+     *
      * @param userId 用户 ID
      */
     private boolean isInPK(String userId) {

@@ -1,6 +1,7 @@
 package com.alivc.live.interactive_pk;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -9,19 +10,30 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alivc.live.annotations.AlivcLiveRecordAudioQuality;
+import com.alivc.live.annotations.AlivcLiveRecordMediaFormat;
+import com.alivc.live.annotations.AlivcLiveRecordStreamType;
 import com.alivc.live.baselive_common.AutoScrollMessagesView;
+import com.alivc.live.baselive_common.LivePushLocalRecordView;
 import com.alivc.live.baselive_common.LivePusherSEIView;
-import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
-import com.alivc.live.interactive_common.widget.InteractiveSettingView;
-import com.alivc.live.player.annotations.AlivcLivePlayError;
+import com.alivc.live.commonutils.FileUtil;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.listener.InteractLiveTipsViewListener;
 import com.alivc.live.interactive_common.utils.InteractLiveIntent;
+import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.interactive_common.widget.AUILiveDialog;
 import com.alivc.live.interactive_common.widget.ConnectionLostTipsView;
+import com.alivc.live.interactive_common.widget.InteractiveCommonInputView;
+import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
+import com.alivc.live.player.annotations.AlivcLivePlayError;
+import com.alivc.live.pusher.AlivcLiveLocalRecordConfig;
 import com.aliyunsdk.queen.menu.BeautyMenuPanel;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * PK 互动界面
@@ -48,6 +60,7 @@ public class PKLiveActivity extends AppCompatActivity {
     private AutoScrollMessagesView mSeiMessageView;
     private ImageView mBeautyImageView;
     private BeautyMenuPanel mBeautyMenuPanel;
+    private LivePushLocalRecordView mLivePushLocalRecordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +90,15 @@ public class PKLiveActivity extends AppCompatActivity {
         mBeautyImageView = findViewById(R.id.iv_beauty);
         mBeautyMenuPanel = findViewById(R.id.beauty_beauty_menuPanel);
 
+        mLivePushLocalRecordView = findViewById(R.id.local_record_v);
+
         TextView mHomeIdTextView = findViewById(R.id.tv_home_id);
         mHomeIdTextView.setText(mRoomId);
 
         mOwnerInfoView = findViewById(R.id.owner_info_view);
         mOtherInfoView = findViewById(R.id.other_info_view);
+        mOwnerInfoView.setVisibility(View.VISIBLE);
+        mOtherInfoView.setVisibility(View.VISIBLE);
         mOtherInfoView.enableMute(true);
         mOtherInfoView.initListener(new RoomAndUserInfoView.OnClickEventListener() {
             @Override
@@ -90,8 +107,6 @@ public class PKLiveActivity extends AppCompatActivity {
             }
         });
         mInteractiveSettingView = findViewById(R.id.interactive_setting_view);
-//        mOwnerInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
-//        mOtherInfoView.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
 
         mConnectionLostTipsView = new ConnectionLostTipsView(this);
 
@@ -144,6 +159,16 @@ public class PKLiveActivity extends AppCompatActivity {
             public void onSpeakerPhoneClick() {
                 mPKController.changeSpeakerPhone();
             }
+
+            @Override
+            public void onEnableAudioClick(boolean enable) {
+                mPKController.enableAudioCapture(enable);
+            }
+
+            @Override
+            public void onEnableVideoClick(boolean enable) {
+                mPKController.enableLocalCamera(enable);
+            }
         });
 
         mCloseImageView.setOnClickListener(view -> {
@@ -161,27 +186,67 @@ public class PKLiveActivity extends AppCompatActivity {
             }
         });
 
+        mLivePushLocalRecordView.initLocalRecordEventListener(new LivePushLocalRecordView.LocalRecordEventListener() {
+            @Override
+            public void onStartLocalRecord() {
+                if (mPKController != null) {
+                    AlivcLiveLocalRecordConfig recordConfig = new AlivcLiveLocalRecordConfig();
+                    String dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+                    recordConfig.storagePath = FileUtil.getExternalCacheFolder(getBaseContext()) + "/" + dateFormat + ".mp4";
+                    recordConfig.streamType = AlivcLiveRecordStreamType.AUDIO_VIDEO;
+                    recordConfig.audioQuality = AlivcLiveRecordAudioQuality.MEDIUM;
+                    recordConfig.mediaFormat = AlivcLiveRecordMediaFormat.MP4;
+                    mPKController.startLocalRecord(recordConfig);
+                }
+            }
+
+            @Override
+            public void onStopLocalRecord() {
+                if (mPKController != null) {
+                    mPKController.stopLocalRecord();
+                }
+            }
+        });
+
         mPKController.setPKLivePushPullListener(new InteractLivePushPullListener() {
             @Override
-            public void onPullSuccess() {
+            public void onPullSuccess(InteractiveUserData userData) {
+                super.onPullSuccess(userData);
                 mPKController.setPKLiveMixTranscoding(true);
                 changeFrameLayoutViewVisible(true);
                 updateConnectTextView(true);
             }
 
             @Override
-            public void onPullError(AlivcLivePlayError errorType, String errorMsg) {
+            public void onPullError(InteractiveUserData userData, AlivcLivePlayError errorType, String errorMsg) {
+                super.onPullError(userData, errorType, errorMsg);
             }
 
             @Override
-            public void onPullStop() {
+            public void onPullStop(InteractiveUserData userData) {
+                super.onPullStop(userData);
                 mPKController.setPKLiveMixTranscoding(false);
                 changeFrameLayoutViewVisible(false);
                 updateConnectTextView(false);
             }
 
             @Override
+            public void onPushSuccess() {
+                super.onPushSuccess();
+            }
+
+            @Override
+            public void onPushError() {
+                super.onPushError();
+            }
+
+            @Override
             public void onConnectionLost() {
+                super.onConnectionLost();
+
+                // 断网后停止本地录制
+                mPKController.stopLocalRecord();
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -192,27 +257,25 @@ public class PKLiveActivity extends AppCompatActivity {
 
             @Override
             public void onReceiveSEIMessage(int payload, byte[] data) {
+                super.onReceiveSEIMessage(payload, data);
                 mSeiMessageView.appendMessage(new String(data));
             }
 
             @Override
-            public void onPushSuccess() {
-            }
-
-            @Override
-            public void onPushError() {
+            public void onPlayerSei(int i, byte[] bytes) {
+                super.onPlayerSei(i, bytes);
             }
         });
     }
 
     private void showInteractLiveDialog(String content, boolean showInputView) {
-        PKLiveTipsView pkLiveTipsView = new PKLiveTipsView(PKLiveActivity.this);
-        pkLiveTipsView.showInputView(showInputView);
-        pkLiveTipsView.setContent(content);
-        mAUILiveDialog.setContentView(pkLiveTipsView);
+        InteractiveCommonInputView interactiveCommonInputView = new InteractiveCommonInputView(PKLiveActivity.this);
+        interactiveCommonInputView.setViewType(InteractiveCommonInputView.ViewType.PK);
+        interactiveCommonInputView.showInputView(content, showInputView);
+        mAUILiveDialog.setContentView(interactiveCommonInputView);
         mAUILiveDialog.show();
 
-        pkLiveTipsView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
+        interactiveCommonInputView.setOnInteractLiveTipsViewListener(new InteractLiveTipsViewListener() {
             @Override
             public void onCancel() {
                 if (mAUILiveDialog.isShowing()) {
@@ -234,14 +297,12 @@ public class PKLiveActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onInputConfirm(String content) {
+            public void onInputConfirm(InteractiveUserData userData) {
                 mAUILiveDialog.dismiss();
-                if (content.contains("=")) {
-                    String[] split = content.split("=");
-                    mPKController.setPKOtherInfo(split[0], split[1]);
-                    mPKController.startPK(mOtherFrameLayout);
-
-                    setInfoView(mRoomId, split[0], mUserId, split[1]);
+                if (userData != null && !TextUtils.isEmpty(userData.userId) && !TextUtils.isEmpty(userData.channelId)) {
+                    mPKController.setPKOtherInfo(userData);
+                    mPKController.startPK(userData, mOtherFrameLayout);
+                    setInfoView(mRoomId, userData.userId, mUserId, userData.channelId);
                 }
             }
         });

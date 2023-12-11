@@ -36,6 +36,11 @@ public class Constants {
         public final static String COMPOSE_SUFFIX = "-compose.mp4";
 
         /**
+         * 模板文件后缀
+         */
+        public final static String TEMPLATE_SUFFIX = "-template.mp4";
+
+        /**
          * 裁剪 & 录制 & 转码输出文件的目录
          * android Q 版本默认路径
          * /storage/emulated/0/Android/data/包名/files/Media/

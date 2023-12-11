@@ -7,6 +7,12 @@ include ':AUIFoundation:AVMatisse'
 include ':AUIFoundation:AVUtils'
 include ':AIOApp'
 
+apply from: 'https://code.alibaba-inc.com/apsara-media-box/imp-android-gradle-config/raw/v6.7.0/aio/media_box_debug_config.gradle' //内部调试代码，发布删除 -- 注释勿动
+if(this.ext.is_source_debug) {
+    apply from: "${this.ext.source_path}/settings.gradle"
+}
+
+
 //-------------------------------播放器DEMO Start-------------------------------------
 if (hasPlayer()) {
     include ':AUIPlayerApp'
@@ -119,18 +125,10 @@ if (hasUGC()) {
     project(':QueenBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty/QueenBeauty")
     include ':templateSample'
     project(':templateSample').projectDir = new File("AlivcUgsvDemo/templateSample")
-
-    File localFile = new File(getRootDir().absolutePath + "/local.properties")
-    if(localFile.exists()){
-        Properties localProperties = new Properties()
-        localProperties.load(localFile.newDataInputStream())
-        def sourceDebug = localProperties.getProperty('source.debug')
-        def setting_gradle = localProperties.getProperty('setting.gradle')
-        if(sourceDebug != null && setting_gradle != null && "true".equalsIgnoreCase(sourceDebug)){
-            apply from: file(setting_gradle)
-            project(':all-in-one').projectDir = new File(localProperties.getProperty('project.all_in_one.dir'))
-        }
-    }
+    include ':FaceunityBeauty'
+    project(':FaceunityBeauty').projectDir = new File("AlivcUgsvDemo/AUIBeauty/FaceunityBeauty")
+    include ':AUIVideoMixRecorder'
+    project(':AUIVideoMixRecorder').projectDir = new File("AlivcUgsvDemo/AUIVideoMixRecorder")
 }
 //-------------------------------短视频DEMO End-------------------------------------
 

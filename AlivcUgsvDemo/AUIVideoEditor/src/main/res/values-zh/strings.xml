@@ -30,4 +30,6 @@
 
     <string name="ugsv_editor_clip_radius">圆角</string>
     <string name="ugsv_editor_clip_border_size">边框</string>
+
+    <string name="unsupport_video_format">不支持的视频格式</string>
 </resources>

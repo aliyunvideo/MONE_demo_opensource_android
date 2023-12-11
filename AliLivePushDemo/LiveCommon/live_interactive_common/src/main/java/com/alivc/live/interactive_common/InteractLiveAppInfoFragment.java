@@ -20,6 +20,7 @@ import com.alivc.live.commonbiz.SharedPreferenceUtils;
  */
 public class InteractLiveAppInfoFragment extends Fragment {
 
+    private TextView mAppInfoTv;
     private ImageView mArrowImageView;
     private ConstraintLayout mAppInfoConstraintLayout;
     private ImageView mEditImageView;
@@ -37,6 +38,7 @@ public class InteractLiveAppInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mAppInfoTv = view.findViewById(R.id.tv_app_info);
         mArrowImageView = view.findViewById(R.id.iv_arrow);
         mEditImageView = view.findViewById(R.id.iv_edit);
         mAppInfoConstraintLayout = view.findViewById(R.id.cl_app_info);
@@ -58,7 +60,18 @@ public class InteractLiveAppInfoFragment extends Fragment {
         mPlayDomainTextView.setText(SharedPreferenceUtils.getPlayDomain(getContext().getApplicationContext()));
     }
 
-    private void initListener(){
+    private void initListener() {
+        // 测试用，长按应用信息四个字，自动填写用户ID和房间号
+        mAppInfoTv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mOnEditClickListener != null) {
+                    mOnEditClickListener.onLongClickAppInfoForDebug();
+                }
+                return false;
+            }
+        });
+
         mArrowImageView.setOnClickListener((view) -> {
             float mArrowImageViewRotation;
             if (mAppInfoConstraintLayout.isShown()) {
@@ -72,17 +85,19 @@ public class InteractLiveAppInfoFragment extends Fragment {
         });
 
         mEditImageView.setOnClickListener((view) -> {
-            if(mOnEditClickListener != null){
+            if (mOnEditClickListener != null) {
                 mOnEditClickListener.onEditClickListener();
             }
         });
     }
 
-    public interface OnEditClickListener{
+    public interface OnEditClickListener {
+        void onLongClickAppInfoForDebug();
+
         void onEditClickListener();
     }
-    
-    public void setOnEditClickListener(OnEditClickListener listener){
+
+    public void setOnEditClickListener(OnEditClickListener listener) {
         this.mOnEditClickListener = listener;
     }
 }

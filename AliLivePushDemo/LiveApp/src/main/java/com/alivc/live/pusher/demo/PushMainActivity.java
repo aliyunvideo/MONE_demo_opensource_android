@@ -30,9 +30,6 @@ import com.aliyun.aio.avbaseui.AVBaseListActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 一体化Demo·直播推流导航页
- */
 @Route(path = "/live/MainActivity")
 public class PushMainActivity extends AVBaseListActivity {
     private static final int INDEX_CAMERA_PUSH = 0;
@@ -145,7 +142,16 @@ public class PushMainActivity extends AVBaseListActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.BLUETOOTH_CONNECT,
+    };
 
+    private final String[] permissionManifest33 = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.READ_MEDIA_AUDIO,
+            Manifest.permission.BLUETOOTH_CONNECT,
     };
 
     private final int[] noPermissionTip = {
@@ -158,7 +164,9 @@ public class PushMainActivity extends AVBaseListActivity {
     };
 
     private boolean permissionCheck() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionManifest = permissionManifest33;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissionManifest = permissionManifest31;
         } else {
             permissionManifest = permissionManifest23;

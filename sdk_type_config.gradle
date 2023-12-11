@@ -1,16 +1,12 @@
 
 class AIOSdkType {
     public static final def AliVCSDK_Standard = "AliVCSDK_Standard"
-    public static final def AliVCSDK_Premium = "AliVCSDK_Premium"
     public static final def AliVCSDK_UGC = "AliVCSDK_UGC"
-    public static final def AliVCSDK_UGCPro = "AliVCSDK_UGCPro"
     public static final def AliVCSDK_BasicLive = "AliVCSDK_BasicLive"
     public static final def AliVCSDK_InteractiveLive = "AliVCSDK_InteractiveLive"
-    public static final def AliVCSDK_StandardLive = "AliVCSDK_StandardLive"
-    public static final def AliVCSDK_PremiumLive = "AliVCSDK_PremiumLive"
 }
 
-def AIO_SDK_TYPE = "AliVCSDK_Premium"
+def AIO_SDK_TYPE = "AliVCSDK_Standard"
 if (hasProperty("SDK_TYPE")) {
     AIO_SDK_TYPE = SDK_TYPE
 }
@@ -21,29 +17,24 @@ if (hasProperty("allInOne")) {
 }
 
 def hasLive() {
-    def sdkType = "AliVCSDK_Premium"
+    def sdkType = "AliVCSDK_Standard"
     if (hasProperty("SDK_TYPE")) {
         sdkType = SDK_TYPE
     }
     println("hasLive sdkType = " + sdkType)
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+    return AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
             AIOSdkType.AliVCSDK_BasicLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_StandardLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
+            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType)
 }
 
 def hasUGC() {
-    def sdkType = "AliVCSDK_Premium"
+    def sdkType = "AliVCSDK_Standard"
     if (hasProperty("SDK_TYPE")) {
         sdkType = SDK_TYPE
     }
     println("hasUGC sdkType = " + sdkType)
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_UGC.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_UGCPro.equalsIgnoreCase(sdkType)
+    return  AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_UGC.equalsIgnoreCase(sdkType)
 }
 
 def hasPlayer() {
@@ -56,32 +47,14 @@ def hasRTS() {
         sdkType = SDK_TYPE
     }
     println("hasLive sdkType = " + sdkType)
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+    return AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
             AIOSdkType.AliVCSDK_BasicLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_StandardLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
+            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType)
 }
 
 
 def hasQueen() {
-    def sdkType = "AliVCSDK_Premium"
-    if (hasProperty("SDK_TYPE")) {
-        sdkType = SDK_TYPE
-    }
-    println("hasQueen sdkType = " + sdkType)
-    def isAio = true
-    if (hasProperty("allInOne")) {
-        isAio = allInOne
-    }
-    if (!isAio) {
-        return false
-    }
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_UGCPro.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_StandardLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
+    return false
 }
 
 def hasInteractiveLive() {
@@ -90,14 +63,12 @@ def hasInteractiveLive() {
         sdkType = SDK_TYPE
     }
     println("hasInteractiveLive sdkType = " + sdkType)
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType) ||
-            AIOSdkType.AliVCSDK_PremiumLive.equalsIgnoreCase(sdkType)
+    return AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType) ||
+            AIOSdkType.AliVCSDK_InteractiveLive.equalsIgnoreCase(sdkType)
 }
 
 def hasEnhanceFeature() {
-    return AIOSdkType.AliVCSDK_Premium.equalsIgnoreCase(sdkType)
+    return AIOSdkType.AliVCSDK_Standard.equalsIgnoreCase(sdkType)
 }
 
 ext {

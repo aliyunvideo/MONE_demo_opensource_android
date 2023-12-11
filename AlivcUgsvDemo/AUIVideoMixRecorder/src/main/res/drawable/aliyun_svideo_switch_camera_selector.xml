@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" >
+        <bitmap android:src="@mipmap/aliyun_svideo_icon_camera_switch" android:alpha="0.6"/>
+    </item>
+    <item android:drawable="@mipmap/aliyun_svideo_icon_camera_switch"/>
+</selector>

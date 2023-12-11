@@ -1,11 +1,14 @@
 package com.alivc.live.interactive_live;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
 
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
 import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.interactive_common.InteractiveMode;
+import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.pusher.AlivcResolutionEnum;
@@ -20,21 +23,24 @@ public class AnchorController {
     private final InteractLiveManager mInteractLiveManager;
     private final Context mContext;
     private final LocalStreamReader mLocalStreamReader;
+
     //主播预览 View
     private FrameLayout mAnchorRenderView;
     //观众连麦预览 View
     private FrameLayout mViewerRenderView;
-    //主播推流地址
-    private final String mPushUrl;
-    //观众连麦拉流地址
-    private String mPullUrl;
-    private String mRoomId;
-    private String mAnchorId;
+
+    private final InteractiveUserData mAnchorUserData;
+    private InteractiveUserData mAudienceUserData;
+
     private boolean mEnableSpeakerPhone = false;
 
     public AnchorController(Context context, String roomId, String anchorId) {
-        this.mRoomId = roomId;
-        this.mAnchorId = anchorId;
+        InteractiveUserData anchorUserData = new InteractiveUserData();
+        anchorUserData.userId = anchorId;
+        anchorUserData.channelId = roomId;
+        anchorUserData.url = URLUtils.generateInteractivePushUrl(roomId, anchorId);
+        mAnchorUserData = anchorUserData;
+
         this.mContext = context;
         AlivcResolutionEnum resolution = LivePushGlobalConfig.mAlivcLivePushConfig.getResolution();
         int width = AlivcResolutionEnum.getResolutionWidth(resolution, LivePushGlobalConfig.mAlivcLivePushConfig.getLivePushMode());
@@ -49,26 +55,8 @@ public class AnchorController {
                 .setAudioChannel(1)
                 .setAudioBufferSize(2048)
                 .build();
-        mPushUrl = URLUtils.generateInteractivePushUrl(roomId, anchorId);
         mInteractLiveManager = new InteractLiveManager();
-        mInteractLiveManager.init(context);
-    }
-
-    public AnchorController(Context context, String interactiveURL) {
-        this.mContext = context;
-        mLocalStreamReader = new LocalStreamReader();
-        mPushUrl = interactiveURL;
-        mInteractLiveManager = new InteractLiveManager();
-        mInteractLiveManager.init(context, true);
-    }
-
-    /**
-     * 设置观众 id
-     *
-     * @param viewerId 观众 id
-     */
-    public void setViewerId(String viewerId) {
-        mPullUrl = URLUtils.generateInteractivePullUrl(mRoomId, viewerId);
+        mInteractLiveManager.init(context, InteractiveMode.INTERACTIVE);
     }
 
     /**
@@ -94,7 +82,7 @@ public class AnchorController {
      */
     public void startPush() {
         externAV();
-        mInteractLiveManager.startPreviewAndPush(mAnchorRenderView, mPushUrl, true);
+        mInteractLiveManager.startPreviewAndPush(mAnchorUserData, mAnchorRenderView, true);
     }
 
     private void externAV() {
@@ -113,19 +101,25 @@ public class AnchorController {
     /**
      * 开始连麦
      *
-     * @param viewerInfo 要连麦的观众信息
-     * @param isUrl      如果 isUrl 是 false，viewerInfo 表示观众的Id，否则 viewerInfo 表示观众端拉流的 URL
+     * @param userData 要连麦的观众信息
      */
-    public void startConnect(String viewerInfo, boolean isUrl) {
-        if (isUrl) {
-            mInteractLiveManager.setPullView(mViewerRenderView, false);
-            mInteractLiveManager.startPull(viewerInfo);
-        } else {
-            setViewerId(viewerInfo);
-            mInteractLiveManager.setPullView(mViewerRenderView, false);
-            mInteractLiveManager.startPull(mPullUrl);
-            mInteractLiveManager.setLiveMixTranscodingConfig(mAnchorId, viewerInfo);
+    public void startConnect(InteractiveUserData userData) {
+        if (userData == null || TextUtils.isEmpty(userData.channelId) || TextUtils.isEmpty(userData.userId)) {
+            return;
         }
+        userData.url = URLUtils.generateInteractivePullUrl(userData.channelId, userData.userId);
+        mAudienceUserData = userData;
+        mInteractLiveManager.setPullView(userData, mViewerRenderView, false);
+        mInteractLiveManager.startPullRTCStream(userData);
+        mInteractLiveManager.setLiveMixTranscodingConfig(mAnchorUserData, userData);
+    }
+
+    /**
+     * 结束连麦
+     */
+    public void stopConnect() {
+        mInteractLiveManager.stopPullRTCStream(mAudienceUserData);
+        mInteractLiveManager.clearLiveMixTranscodingConfig();
     }
 
     /**
@@ -134,7 +128,7 @@ public class AnchorController {
      * @return true:正在连麦  false:没有连麦
      */
     public boolean isOnConnected() {
-        return mInteractLiveManager.isPulling();
+        return mInteractLiveManager.isPulling(mAudienceUserData);
     }
 
     public void switchCamera() {
@@ -142,25 +136,19 @@ public class AnchorController {
     }
 
     public void resume() {
-        mInteractLiveManager.resume();
+        mInteractLiveManager.resumePush();
+        mInteractLiveManager.resumePlayRTCStream(mAnchorUserData);
     }
 
     public void pause() {
-        mInteractLiveManager.pause();
+        mInteractLiveManager.pausePush();
+        mInteractLiveManager.pausePlayRTCStream(mAudienceUserData);
     }
 
     public void release() {
         mInteractLiveManager.release();
         mLocalStreamReader.stopYUV();
         mLocalStreamReader.stopPcm();
-    }
-
-    /**
-     * 结束连麦
-     */
-    public void stopConnect() {
-        mInteractLiveManager.stopPull();
-        mInteractLiveManager.clearLiveMixTranscodingConfig();
     }
 
     public void setInteractLivePushPullListener(InteractLivePushPullListener listener) {

@@ -31,8 +31,14 @@ android {
 dependencies {
 
     implementation externalAndroidX
-    implementation 'com.github.leavesC:ReactiveHttp:1.0.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation ('com.github.leavesC:ReactiveHttp:1.0.1') {
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+        exclude group:'com.squareup.retrofit2', module:'retrofit'
+    }
+    implementation ('com.squareup.retrofit2:retrofit:2.9.0') {
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+    implementation externalOKHTTP
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     implementation project(':AUIVideoCommon:AliyunPlayerBase')

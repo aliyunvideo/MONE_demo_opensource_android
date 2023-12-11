@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/alivc_record_bottom_record_effect_category_tab_width"
+    android:layout_height="@dimen/alivc_record_bottom_record_effect_category_tab_height"
+    android:background="@drawable/aliyun_svideo_selector_effect_category_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/tv_category_name_source"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/alivc_common_font_12"
+        android:textColor="@color/alivc_common_font_white"
+        />
+        <com.aliyun.svideo.base.widget.CircularImageView
+            android:id="@+id/category_image_source"
+            android:padding="@dimen/alivc_common_padding_7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            />
+
+</FrameLayout>

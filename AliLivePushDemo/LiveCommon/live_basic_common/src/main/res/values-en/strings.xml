@@ -104,4 +104,9 @@
     <string name="ok">OK</string>
     <string name="push_args">Stream Ingest Parameters</string>
     <string name="stream_pusher_tip">Stream Ingest Features</string>
+
+    <string name="start_local_record">Start Local Record</string>
+    <string name="stop_local_record">Stop Local Record</string>
+    <string name="local_record_bottom_tip">Local recording provides a variety of rich configurations, \ncurrently only showing MP4 audio and video recording.</string>
+
 </resources>

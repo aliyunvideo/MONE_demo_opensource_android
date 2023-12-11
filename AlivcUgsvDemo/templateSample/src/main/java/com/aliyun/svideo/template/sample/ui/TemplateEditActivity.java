@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,6 +39,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aliyun.svideo.base.Constants;
 import com.aliyun.svideo.music.music.MusicFileBean;
 import com.aliyun.svideo.template.sample.AssetsUtils;
 import com.aliyun.svideo.template.sample.VideoClipActivity;
@@ -61,6 +63,7 @@ import com.aliyun.svideo.template.sample.ui.adapter.TemplateEditorAdapter;
 import com.aliyun.svideo.template.sample.ui.view.ProgressDialog;
 import com.aliyun.ugsv.common.utils.DensityUtil;
 import com.aliyun.ugsv.common.utils.FileUtils;
+import com.aliyun.ugsv.common.utils.PermissionUtils;
 import com.zhihu.matisse.AVMatisse;
 import com.zhihu.matisse.MimeType;
 
@@ -103,6 +106,16 @@ public class TemplateEditActivity extends AppCompatActivity implements View.OnCl
     private String mClipVideoPath;
     private int mMusicType = PanelPresenter.MUSIC_ORIGIN;
     private View mBottomCover;
+
+    private String[] permissions = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    private String[] permissions33 = new String[]{
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_VIDEO,
+            Manifest.permission.READ_MEDIA_AUDIO
+    };
     private AliyunTemplatePlayStateListener mListener = new AliyunTemplatePlayStateListener() {
         @Override
         public void onProgress(int frame) {
@@ -200,8 +213,8 @@ public class TemplateEditActivity extends AppCompatActivity implements View.OnCl
                 public void onEdit(final AliyunAETemplateAsset param, View view) {
                     mEditAsset = param;
                     if(mEditAsset instanceof AliyunAETemplateAssetMedia){
-                        if (ContextCompat.checkSelfPermission(TemplateEditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(TemplateEditActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Common.REQUEST_PERMISSION_SINGLE);
+                        if (!PermissionUtils.checkPermissionsGroup(TemplateEditActivity.this, getPermissions())) {
+                            PermissionUtils.requestPermissions(TemplateEditActivity.this, getPermissions(), Common.REQUEST_PERMISSION_SINGLE);
                         } else {
 //                        pickSingleMedia();
                             editMenu.showAsDropDown(view, 0, -DensityUtil.dip2px(getApplicationContext(), 100));
@@ -449,7 +462,7 @@ public class TemplateEditActivity extends AppCompatActivity implements View.OnCl
 
     private String getOutputPath() {
         if(mOutputPath == null){
-            mOutputPath = getExternalFilesDir("video") + File.separator + System.currentTimeMillis() + ".mp4";
+            mOutputPath = Constants.SDCardConstants.getDir(this) + DateTimeUtils.getDateTimeFromMillisecond(System.currentTimeMillis()) + Constants.SDCardConstants.TEMPLATE_SUFFIX;
         }
         return mOutputPath;
     }
@@ -564,7 +577,16 @@ public class TemplateEditActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == Common.REQUEST_PERMISSION_SINGLE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            boolean isAllGranted = true;
+
+            // 判断是否所有的权限都已经授予了
+            for (int grant : grantResults) {
+                if (grant != PackageManager.PERMISSION_GRANTED) {
+                    isAllGranted = false;
+                    break;
+                }
+            }
+            if (isAllGranted) {
                 pickSingleMedia();
             }
         } else {
@@ -580,5 +602,12 @@ public class TemplateEditActivity extends AppCompatActivity implements View.OnCl
     public void onPausePlay(){
         mAliyunTemplatePlayer.pause();
         mPlayView.setImageResource(R.drawable.aliyun_svideo_play);
+    }
+
+    public String[] getPermissions(){
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            return permissions;
+        }
+        return permissions33;
     }
 }

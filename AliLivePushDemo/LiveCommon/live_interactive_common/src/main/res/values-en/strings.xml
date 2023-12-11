@@ -18,6 +18,9 @@
     <string name="interact_setting">Interact Setting</string>
     <string name="interact_live_cancel">Cancel</string>
     <string name="interact_live_confirm">Confirm</string>
+    <string name="interact_live_stream_type">Stream Type</string>
+    <string name="interact_live_stream_type_camera">Camera</string>
+    <string name="interact_live_stream_type_screen">Screen</string>
     <string name="interact_live_next">Next</string>
     <string name="interact_live_user_id">User ID</string>
     <string name="interact_live_room_id">Room ID</string>

@@ -61,7 +61,7 @@ public class RoomAndUserInfoView extends ConstraintLayout {
 
     public void setUserInfo(String channelId, String userId) {
         mUserInfoTextView.setVisibility(View.VISIBLE);
-        mUserInfoTextView.setText(String.format("cid:%s, uid:%s", channelId, userId));
+        mUserInfoTextView.setText(String.format("Room:%s%nUser:%s", channelId, userId));
     }
 
     public void enableMute(boolean mute) {
