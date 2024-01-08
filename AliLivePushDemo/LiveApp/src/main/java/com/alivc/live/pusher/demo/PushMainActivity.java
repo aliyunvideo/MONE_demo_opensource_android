@@ -56,10 +56,10 @@ public class PushMainActivity extends AVBaseListActivity {
     @Override
     public List<ListModel> createListData() {
         List<ListModel> menu = new ArrayList<>();
-        menu.add(new ListModel(INDEX_CAMERA_PUSH, R.drawable.ic_live_push, getResources().getString(R.string.push_enter_name_tv), "手机摄像头/麦克风采集，支持参数设置、基础特效"));
-        menu.add(new ListModel(INDEX_SCREEN_PUSH, R.drawable.ic_player_luping, getResources().getString(R.string.pull_common_enter_name_tv), "手机屏幕采集，支持参数设置"));
+        menu.add(new ListModel(INDEX_CAMERA_PUSH, R.drawable.ic_live_push, getResources().getString(R.string.push_enter_name_tv), getResources().getString(R.string.push_enter_name_desc)));
+        menu.add(new ListModel(INDEX_SCREEN_PUSH, R.drawable.ic_player_luping, getResources().getString(R.string.pull_common_enter_name_tv), getResources().getString(R.string.pull_common_enter_name_desc)));
 //        menu.add(new ListModel(INDEX_LOCAL_VIDEO_PUSH, R.drawable.ic_live_bendi, getResources().getString(R.string.push_local_video_name_tv), "本期忽略"));
-        menu.add(new ListModel(INDEX_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rtc_enter_name_tv), "支持常见协议，如FLV、RTMP、HLS、RTS等"));
+        menu.add(new ListModel(INDEX_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rtc_enter_name_tv), getResources().getString(R.string.pull_rtc_enter_name_desc)));
         if (AlivcLiveBase.isSupportLiveMode(AlivcLiveMode.AlivcLiveInteractiveMode)) {
             menu.add(new ListModel(INDEX_RTS_PULL, R.drawable.ic_player_laliu, getResources().getString(R.string.pull_rts_enter_name), ""));
             menu.add(new ListModel(INDEX_INTERACT_LIVE, R.drawable.ic_live_interact, getResources().getString(R.string.interact_live), getResources().getString(R.string.interact_live)));

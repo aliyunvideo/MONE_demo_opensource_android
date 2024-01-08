@@ -56,6 +56,11 @@ allprojects {
             allowInsecureProtocol = true
             url 'http://4thline.org/m2' 
         }
+        if (this.ext.is_source_debug) {
+            flatDir {
+                dirs "${mediabox_root}/all_in_one/acps/all_aars"
+            }
+        }
         flatDir {
             dirs 'libs'
         }

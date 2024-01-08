@@ -95,7 +95,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@drawable/shape_bg_btn_green"
-            android:text="拉流"
+            android:text="@string/live_pull"
             android:textColor="@color/color_title_text_black"
             android:textSize="@dimen/view_size_text_17" />
     </RelativeLayout>

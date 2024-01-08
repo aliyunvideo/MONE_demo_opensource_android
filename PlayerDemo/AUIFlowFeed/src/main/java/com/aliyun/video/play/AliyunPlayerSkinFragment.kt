@@ -930,7 +930,7 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
 
     private fun onChooseVideoSpeed(speed: Float) {
         mViewBinding.videoView.changeSpeed(speed)
-        AVToast.show(requireContext(), true, "已切换至${speed}倍速")
+        AVToast.show(requireContext(), true, getString(R.string.play_speed_changed, "${speed}"))
         closeFunctionDialog()
     }
 

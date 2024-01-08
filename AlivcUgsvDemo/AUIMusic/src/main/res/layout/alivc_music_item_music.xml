@@ -113,7 +113,7 @@
             android:id="@+id/ugsv_music_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="拖动选择音乐片段"
+            android:text="@string/alivc_music_drap_clip"
             android:layout_marginLeft="20dp"
             android:textColor="@color/text_ultraweak"
             android:textSize="10sp"

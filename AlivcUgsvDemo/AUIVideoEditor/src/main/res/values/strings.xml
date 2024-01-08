@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ugsv_editor_music">Music</string>
-    <string name="ugsv_editor_transition">剪辑·转场</string>
+    <string name="ugsv_editor_transition">Edit&amp;Transfer</string>
     <string name="ugsv_editor_caption">Text</string>
     <string name="ugsv_editor_sticker">Sitcker</string>
     <string name="ugsv_editor_filter">Filter</string>

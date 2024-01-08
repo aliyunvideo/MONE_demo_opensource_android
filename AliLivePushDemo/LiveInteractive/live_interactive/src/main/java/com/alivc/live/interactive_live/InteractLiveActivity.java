@@ -38,7 +38,8 @@ import com.alivc.live.interactive_common.widget.InteractiveConnectView;
 import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
-import com.aliyunsdk.queen.menu.BeautyMenuPanel;
+import com.aliyunsdk.queen.menu.QueenBeautyMenu;
+import com.aliyunsdk.queen.menu.QueenMenuPanel;
 
 public class InteractLiveActivity extends AppCompatActivity {
 
@@ -78,9 +79,13 @@ public class InteractLiveActivity extends AppCompatActivity {
     private InteractiveSettingView mInteractiveSettingView;
     private ImageView mBeautyImageView;
     private ImageView mMuteLocalCameraImageView;
-    private BeautyMenuPanel mBeautyMenuPanel;
+
+    // 美颜menu
+    private QueenMenuPanel mBeautyMenuPanel;
+    private QueenBeautyMenu mQueenBeautyMenu;
+
     private ImageView mSeiImageView;
-    private AutoScrollMessagesView mSeiView;
+    private AutoScrollMessagesView mSeiMessageView;
     private boolean mMuteLocalCamera = false;
 
 
@@ -145,7 +150,16 @@ public class InteractLiveActivity extends AppCompatActivity {
         mInteractiveSettingView = findViewById(R.id.interactive_setting_view);
         mBeautyImageView = findViewById(R.id.iv_beauty);
         mMuteLocalCameraImageView = findViewById(R.id.iv_mute_local_camera);
-        mBeautyMenuPanel = findViewById(R.id.beauty_beauty_menuPanel);
+        mSeiMessageView = findViewById(R.id.sei_receive_view);
+
+        mBeautyMenuPanel = QueenBeautyMenu.getPanel(this);
+        mBeautyMenuPanel.onHideMenu();
+        mBeautyMenuPanel.onHideValidFeatures();
+        mBeautyMenuPanel.onHideCopyright();
+
+        mQueenBeautyMenu = findViewById(R.id.beauty_beauty_menuPanel);
+        mQueenBeautyMenu.addView(mBeautyMenuPanel);
+
 //        mSeiImageView = findViewById(R.id.iv_sei);
 //        mSeiView = findViewById(R.id.sei_view);
         TextView mHomeIdTextView = findViewById(R.id.tv_home_id);
@@ -167,11 +181,11 @@ public class InteractLiveActivity extends AppCompatActivity {
         //美颜
         mBeautyImageView.setOnClickListener(view -> {
             if (LivePushGlobalConfig.ENABLE_BEAUTY) {
-                if (mBeautyMenuPanel.isShown()) {
-                    mBeautyMenuPanel.setVisibility(View.GONE);
+                if (mQueenBeautyMenu.getVisibility() == View.VISIBLE) {
+                    mQueenBeautyMenu.setVisibility(View.GONE);
                     mBeautyMenuPanel.onHideMenu();
                 } else {
-                    mBeautyMenuPanel.setVisibility(View.VISIBLE);
+                    mQueenBeautyMenu.setVisibility(View.VISIBLE);
                     mBeautyMenuPanel.onShowMenu();
                 }
             }
@@ -266,7 +280,13 @@ public class InteractLiveActivity extends AppCompatActivity {
                 @Override
                 public void onPlayerSei(int i, byte[] bytes) {
                     super.onPlayerSei(i, bytes);
-//                    mSeiView.appendMessage(new String(bytes));
+//                    mSeiMessageView.appendMessage(new String(bytes));
+                }
+
+                @Override
+                public void onReceiveSEIDelay(String src, String type, String msg) {
+                    super.onReceiveSEIDelay(src, type, msg);
+                    mSeiMessageView.appendMessage("[" + src + "][" + type + "][" + msg + "ms]");
                 }
             });
         } else {
@@ -326,6 +346,12 @@ public class InteractLiveActivity extends AppCompatActivity {
                 @Override
                 public void onPlayerSei(int i, byte[] bytes) {
                     super.onPlayerSei(i, bytes);
+                }
+
+                @Override
+                public void onReceiveSEIDelay(String src, String type, String msg) {
+                    super.onReceiveSEIDelay(src, type, msg);
+                    mSeiMessageView.appendMessage("[" + src + "][" + type + "][" + msg + "ms]");
                 }
             });
         }

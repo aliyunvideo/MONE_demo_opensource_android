@@ -45,7 +45,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="47dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="64dp"
                     android:layout_marginLeft="11dp"
                     android:orientation="vertical"
@@ -63,6 +63,7 @@
                         android:text="@string/ugsv_editor_clip_reset"
                         android:textSize="12sp"
                         android:textFontWeight="500"
+                        android:maxLines="1"
                         android:textColor="@color/text_strong"
                         android:gravity="center|center_horizontal" />
 
@@ -76,8 +77,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="47dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_marginLeft="11dp"
                     android:orientation="vertical"
                     android:onClick="@{viewModel.onBrightnessClick}">
                     <ImageView
@@ -93,6 +95,7 @@
                         android:text="@string/ugsv_editor_enhance_brightness"
                         android:textSize="12sp"
                         android:textFontWeight="500"
+                        android:maxLines="1"
                         android:textColor="@color/text_strong"
                         android:gravity="center|center_horizontal" />
                     <View
@@ -105,8 +108,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="47dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_marginLeft="11dp"
                     android:orientation="vertical"
                     android:onClick="@{viewModel.onContractClick}">
                     <ImageView
@@ -122,6 +126,7 @@
                         android:text="@string/ugsv_editor_enhance_contrast"
                         android:textSize="12sp"
                         android:textFontWeight="500"
+                        android:maxLines="1"
                         android:textColor="@color/text_strong"
                         android:gravity="center|center_horizontal" />
 
@@ -135,8 +140,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="47dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_marginLeft="11dp"
                     android:orientation="vertical"
                     android:onClick="@{viewModel.onSaturationClick}">
                     <ImageView
@@ -152,6 +158,7 @@
                         android:text="@string/ugsv_editor_enhance_saturation"
                         android:textSize="12sp"
                         android:textFontWeight="500"
+                        android:maxLines="1"
                         android:textColor="@color/text_strong"
                         android:gravity="center|center_horizontal" />
 
@@ -165,8 +172,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="47dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_marginLeft="11dp"
                     android:orientation="vertical"
                     android:onClick="@{viewModel.onVignettingClick}">
                     <ImageView
@@ -182,6 +190,7 @@
                         android:text="@string/ugsv_editor_enhance_vignetting"
                         android:textSize="12sp"
                         android:textFontWeight="500"
+                        android:maxLines="1"
                         android:textColor="@color/text_strong"
                         android:gravity="center|center_horizontal" />
                     <View
@@ -194,8 +203,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="47dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="64dp"
+                    android:layout_marginLeft="11dp"
                     android:orientation="vertical"
                     android:onClick="@{viewModel.onSharpnessClick}">
                     <ImageView
@@ -211,6 +221,7 @@
                         android:text="@string/ugsv_editor_enhance_sharpness"
                         android:textSize="12sp"
                         android:textFontWeight="400"
+                        android:maxLines="1"
                         android:textColor="@color/text_strong"
                         android:gravity="center|center_horizontal" />
 

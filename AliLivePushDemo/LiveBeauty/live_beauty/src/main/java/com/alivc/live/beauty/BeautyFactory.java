@@ -2,28 +2,23 @@ package com.alivc.live.beauty;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.alivc.live.beauty.constant.BeautySDKType;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import androidx.annotation.NonNull;
-
 public class BeautyFactory {
+    private BeautyFactory() {
+    }
 
     public static BeautyInterface createBeauty(BeautySDKType type, @NonNull Context context) {
         BeautyInterface itf = null;
-        //非互动模式
         if (type == BeautySDKType.QUEEN) {
             Object[] values = {context};
             Class<?>[] params = {Context.class};
             itf = reflectInitBeauty(BeautySDKType.QUEEN.getManagerClassName(), values, params);
-        }
-        //互动模式
-        if(type == BeautySDKType.INTERACT_QUEEN){
-            Object[] values = {context};
-            Class<?>[] params = {Context.class};
-            itf = reflectInitBeauty(BeautySDKType.INTERACT_QUEEN.getManagerClassName(), values, params);
         }
         return itf;
     }

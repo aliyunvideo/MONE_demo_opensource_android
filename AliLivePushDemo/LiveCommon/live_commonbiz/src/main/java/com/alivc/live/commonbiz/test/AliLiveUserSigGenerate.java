@@ -4,25 +4,29 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @implNote 备注：该文件被直播连麦控制台的demo试用所链接，请谨慎改动此文件的目录位置。
+ */
 public class AliLiveUserSigGenerate {
 
     /**
-     * APP_ID。在阿里云控制台应用管理页面创建和查看。
+     * APP_ID，在阿里云控制台应用管理页面创建和查看。
      */
     public static final String ALILIVE_APPID = "PLACEHOLDER";
     /**
-     * APP_KEY。在阿里云控制台应用管理页面创建和查看。
+     * APP_KEY，在阿里云控制台应用管理页面创建和查看。
      */
     public static final String ALILIVE_APPKEY = "PLACEHOLDER";
+
+    /**
+     * CDN_DOMAIN，在阿里云控制台应用管理页面创建和查看。
+     */
+    public static final String ALILIVE_PLAY_DOMAIN = "PLACEHOLDER";
 
     /**
      * DOMAIN 固定字段。
      */
     public static final String ALILIVE_INTERACTIVE_DOMAIN = "live.aliyun.com";
-    /**
-     * CDN_DOMAIN。 在阿里云控制台应用管理页面创建和查看。
-     */
-    public static final String ALILIVE_PLAY_DOMAIN = "PLACEHOLDER";
 
     /**
      * 过期时间

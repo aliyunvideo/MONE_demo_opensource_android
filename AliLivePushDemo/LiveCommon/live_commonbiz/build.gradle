@@ -36,5 +36,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     api 'com.squareup.okhttp3:okhttp:4.8.1'
+    implementation 'commons-net:commons-net:3.8.0'
     implementation project(':LiveCommon:live_commonutils')
 }

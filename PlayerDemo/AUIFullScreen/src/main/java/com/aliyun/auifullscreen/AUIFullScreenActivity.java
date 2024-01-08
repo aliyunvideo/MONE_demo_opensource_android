@@ -192,7 +192,7 @@ public class AUIFullScreenActivity extends BaseActivity {
                     @Override
                     public void onVideoSpeedSelected(float speed) {
                         mAliyunVodPlayerView.changeSpeed(speed);
-                        AVToast.show(AUIFullScreenActivity.this,true,"已切换至"+speed+"倍速");
+                        AVToast.show(AUIFullScreenActivity.this,true,getString(R.string.play_speed_changed, "" + speed));
                         closeFunctionDialog();
                     }
                 });

@@ -59,4 +59,6 @@
     <string name="ugsv_template_export_tips">请努力保持屏幕点亮，不要锁屏或切换程序</string>
     <string name="crop">裁剪</string>
     <string name="save_success">保存成功</string>
+    <string name="tp_start_download">开始下载</string>
+    <string name="tp_download_finish">下载完成</string>
 </resources>

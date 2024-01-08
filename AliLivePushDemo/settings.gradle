@@ -26,17 +26,16 @@ include ':AUIFoundation:AVUtils'
 include ':LiveBeauty:live_beauty'
 include ':LiveBeauty:live_queenbeauty'
 
+include ':LiveBasic:live_basic_common'
 include ':LiveBasic:live_pull'
 include ':LiveBasic:live_screencap'
 include ':LiveBasic:live_push'
 include ':LiveBasic:live_pull_rts'
 
-include ':LiveInteractive:live_pk'
+include ':LiveInteractive:live_interactive_common'
 include ':LiveInteractive:live_interactive'
-include ':LiveInteractive:barestream_interactive'
+include ':LiveInteractive:live_pk'
+include ':LiveInteractive:live_barestream'
 
 include ':LiveCommon:live_commonbiz'
 include ':LiveCommon:live_commonutils'
-include ':LiveCommon:live_basic_common'
-include ':LiveCommon:live_interactive_common'
-

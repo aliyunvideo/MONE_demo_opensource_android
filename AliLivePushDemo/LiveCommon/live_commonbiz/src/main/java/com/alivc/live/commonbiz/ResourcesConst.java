@@ -20,7 +20,6 @@ public class ResourcesConst {
      * 441.pcm 文件本地保存路径
      */
     public static File localCapturePCMFilePath(Context context) {
-//        return new File(context.getExternalFilesDir(null).getPath() + File.separator + "441.pcm");
         return new File(context.getFilesDir().getPath() + File.separator + "alivc_resource/441.pcm");
     }
 

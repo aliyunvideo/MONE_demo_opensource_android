@@ -11,4 +11,5 @@
     <string name="ugsv_music_use">Use</string>
 
     <string name="alivc_music_play_url_null">Url is empty</string>
+    <string name="alivc_music_drap_clip">Drag to select a music clip</string>
 </resources>

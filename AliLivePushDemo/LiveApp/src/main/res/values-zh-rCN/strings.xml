@@ -84,6 +84,8 @@
     <string name="pull_common_enter_name_tv">录屏推流</string>
 
     <string name="push_enter_name_tv">摄像头推流</string>
+    <string name="pull_common_enter_name_desc">手机屏幕采集，支持参数设置</string>
+    <string name="push_enter_name_desc">手机摄像头/麦克风采集，支持参数设置、基础特效</string>
     <string name="push_local_video_name_tv">本地视频推流</string>
 
     <string name="only_audio_or_video_push">纯音或纯视频流</string>

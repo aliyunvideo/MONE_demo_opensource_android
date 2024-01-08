@@ -67,23 +67,23 @@ if (hasLive()) {
 
     include ':LiveBasic'
     project(':LiveBasic').projectDir = new File("AliLivePushDemo/LiveBasic")
+    include ':LiveBasic:live_basic_common'
     include ':LiveBasic:live_pull'
-    include ':LiveBasic:live_screencap'
-    include ':LiveBasic:live_push'
     include ':LiveBasic:live_pull_rts'
+    include ':LiveBasic:live_push'
+    include ':LiveBasic:live_screencap'
 
     include ':LiveInteractive'
     project(':LiveInteractive').projectDir = new File("AliLivePushDemo/LiveInteractive")
-    include ':LiveInteractive:live_pk'
+    include ':LiveInteractive:live_barestream'
     include ':LiveInteractive:live_interactive'
-    include ':LiveInteractive:barestream_interactive'
+    include ':LiveInteractive:live_interactive_common'
+    include ':LiveInteractive:live_pk'
 
     include ':LiveCommon'
     project(':LiveCommon').projectDir = new File("AliLivePushDemo/LiveCommon")
     include ':LiveCommon:live_commonbiz'
     include ':LiveCommon:live_commonutils'
-    include ':LiveCommon:live_basic_common'
-    include ':LiveCommon:live_interactive_common'
 
 }
 //-------------------------------直播DEMO End-------------------------------------
@@ -148,6 +148,8 @@ if(hasAUICall && hasInteractiveLive()){
     project(':AUIBaseKits:AUIMessage:AUIMessageImpl-Internal').projectDir = new File(rootProject.projectDir, 'AUIBaseKits/AUIMessage/AUIMessageImpl-Internal')
     include ':AUIBaseKits:AUIMessage:AUIMessageImpl-RongCloud'
     project(':AUIBaseKits:AUIMessage:AUIMessageImpl-RongCloud').projectDir = new File(rootProject.projectDir, 'AUIBaseKits/AUIMessage/AUIMessageImpl-RongCloud')
+    include ':AUIBaseKits:AUIMessage:AUIMessageImpl-AliVCIM'
+    project(':AUIBaseKits:AUIMessage:AUIMessageImpl-AliVCIM').projectDir = new File(rootProject.projectDir, 'AUIBaseKits/AUIMessage/AUIMessageImpl-AliVCIM')
 
 }
 //-------------------------------AUICall END-------------------------------------

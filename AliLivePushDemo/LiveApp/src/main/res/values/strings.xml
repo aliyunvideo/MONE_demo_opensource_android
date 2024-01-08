@@ -69,7 +69,9 @@
     <string name="answer">Answer</string>
 
     <string name="pull_common_enter_name_tv">Stream Ingest for Screen Recording</string>
+    <string name="pull_common_enter_name_desc">Streams are collected from your screen. You can configure the parameters.</string>
     <string name="push_enter_name_tv">Stream Ingest for Camera</string>
+    <string name="push_enter_name_desc">Streams are collected from your cameras and microphone. You can configure the parameters and basic effects.</string>
     <string name="push_local_video_name_tv">Stream Ingest for Video</string>
     <string name="only_audio_or_video_push">Only Audio Or Video Stream</string>
     <string name="ispushing">Pushing</string>

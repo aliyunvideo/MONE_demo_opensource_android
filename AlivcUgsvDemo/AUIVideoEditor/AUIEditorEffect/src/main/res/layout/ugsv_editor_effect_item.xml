@@ -43,6 +43,8 @@
             android:textSize="12sp"
             android:textFontWeight="400"
             android:textColor="@color/text_strong"
+            android:layout_marginRight="8dp"
+            android:maxLines="1"
             android:background="@drawable/ugsv_editor_effect_item_bg"
             android:gravity="center|center_horizontal" />
     </LinearLayout>

@@ -1,11 +1,14 @@
 package com.alivc.live.interactive_pk;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +19,9 @@ import com.alivc.live.annotations.AlivcLiveRecordStreamType;
 import com.alivc.live.baselive_common.AutoScrollMessagesView;
 import com.alivc.live.baselive_common.LivePushLocalRecordView;
 import com.alivc.live.baselive_common.LivePusherSEIView;
+import com.alivc.live.commonbiz.ResourcesConst;
 import com.alivc.live.commonutils.FileUtil;
+import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.ConnectionLostListener;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -30,8 +35,10 @@ import com.alivc.live.interactive_common.widget.InteractiveSettingView;
 import com.alivc.live.interactive_common.widget.RoomAndUserInfoView;
 import com.alivc.live.player.annotations.AlivcLivePlayError;
 import com.alivc.live.pusher.AlivcLiveLocalRecordConfig;
-import com.aliyunsdk.queen.menu.BeautyMenuPanel;
+import com.aliyunsdk.queen.menu.QueenBeautyMenu;
+import com.aliyunsdk.queen.menu.QueenMenuPanel;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -59,8 +66,15 @@ public class PKLiveActivity extends AppCompatActivity {
     private LivePusherSEIView mSeiView;
     private AutoScrollMessagesView mSeiMessageView;
     private ImageView mBeautyImageView;
-    private BeautyMenuPanel mBeautyMenuPanel;
+    // 美颜menu
+    private QueenBeautyMenu mQueenBeautyMenu;
+    private QueenMenuPanel mBeautyMenuPanel;
     private LivePushLocalRecordView mLivePushLocalRecordView;
+
+    private Button mExternalAudioStreamBtn;
+    private Button mExternalVideoStreamBtn;
+    private boolean mIsExternalAudioStreamSelected = false;
+    private boolean mIsExternalVideoStreamSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +102,14 @@ public class PKLiveActivity extends AppCompatActivity {
         mSeiMessageView = findViewById(R.id.sei_receive_view);
 
         mBeautyImageView = findViewById(R.id.iv_beauty);
-        mBeautyMenuPanel = findViewById(R.id.beauty_beauty_menuPanel);
+
+        mBeautyMenuPanel = QueenBeautyMenu.getPanel(this);
+        mBeautyMenuPanel.onHideMenu();
+        mBeautyMenuPanel.onHideValidFeatures();
+        mBeautyMenuPanel.onHideCopyright();
+
+        mQueenBeautyMenu = findViewById(R.id.beauty_beauty_menuPanel);
+        mQueenBeautyMenu.addView(mBeautyMenuPanel);
 
         mLivePushLocalRecordView = findViewById(R.id.local_record_v);
 
@@ -110,6 +131,9 @@ public class PKLiveActivity extends AppCompatActivity {
 
         mConnectionLostTipsView = new ConnectionLostTipsView(this);
 
+        mExternalAudioStreamBtn = findViewById(R.id.btn_external_audio_stream);
+        mExternalVideoStreamBtn = findViewById(R.id.btn_external_video_stream);
+
         mPKController.startPush(mOwnerFrameLayout);
     }
 
@@ -117,11 +141,11 @@ public class PKLiveActivity extends AppCompatActivity {
         //美颜
         mBeautyImageView.setOnClickListener(view -> {
             if (LivePushGlobalConfig.ENABLE_BEAUTY) {
-                if (mBeautyMenuPanel.isShown()) {
-                    mBeautyMenuPanel.setVisibility(View.GONE);
+                if (mQueenBeautyMenu.getVisibility() == View.VISIBLE) {
+                    mQueenBeautyMenu.setVisibility(View.GONE);
                     mBeautyMenuPanel.onHideMenu();
                 } else {
-                    mBeautyMenuPanel.setVisibility(View.VISIBLE);
+                    mQueenBeautyMenu.setVisibility(View.VISIBLE);
                     mBeautyMenuPanel.onShowMenu();
                 }
             }
@@ -174,6 +198,40 @@ public class PKLiveActivity extends AppCompatActivity {
         mCloseImageView.setOnClickListener(view -> {
             mCurrentIntent = InteractLiveIntent.INTENT_FINISH;
             showInteractLiveDialog(getResources().getString(R.string.interact_live_leave_room_tips), false);
+        });
+
+        mExternalAudioStreamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 输入外部音频流数据
+                File pcmFile = ResourcesConst.localCapturePCMFilePath(getBaseContext());
+                if (!pcmFile.exists()) {
+                    ToastUtils.show("Please ensure that the local pcm files have been downloaded!");
+                    return;
+                }
+                if (mIsExternalAudioStreamSelected) {
+                    mPKController.stopExternalAudioStream();
+                } else {
+                    mPKController.startExternalAudioStream();
+                }
+                mIsExternalAudioStreamSelected = !mIsExternalAudioStreamSelected;
+            }
+        });
+        mExternalVideoStreamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File yuvFile = ResourcesConst.localCaptureYUVFilePath(getBaseContext());
+                if (!yuvFile.exists()) {
+                    ToastUtils.show("Please ensure that the local yuv files have been downloaded!");
+                    return;
+                }
+                if (mIsExternalVideoStreamSelected) {
+                    mPKController.stopExternalVideoStream();
+                } else {
+                    mPKController.startExternalVideoStream();
+                }
+                mIsExternalVideoStreamSelected = !mIsExternalVideoStreamSelected;
+            }
         });
 
         //开始 PK
@@ -264,6 +322,12 @@ public class PKLiveActivity extends AppCompatActivity {
             @Override
             public void onPlayerSei(int i, byte[] bytes) {
                 super.onPlayerSei(i, bytes);
+            }
+
+            @Override
+            public void onReceiveSEIDelay(String src, String type, String msg) {
+                super.onReceiveSEIDelay(src, type, msg);
+                mSeiMessageView.appendMessage("[" + src + "][" + type + "][" + msg + "ms]");
             }
         });
     }

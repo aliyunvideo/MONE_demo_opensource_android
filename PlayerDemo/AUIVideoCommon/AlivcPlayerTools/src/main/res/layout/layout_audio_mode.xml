@@ -51,12 +51,15 @@
 
     <TextView
         android:id="@+id/audio_mode_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/audio_mode_title"
         android:textColor="@color/white"
         android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="@+id/audio_mode_back_video"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/audio_mode_portrait" />
 
     <ImageView

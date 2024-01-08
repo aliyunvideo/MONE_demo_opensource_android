@@ -1,6 +1,4 @@
-plugins {
-    id 'com.android.library'
-}
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -12,11 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a"
-        }
     }
 
     buildTypes {
@@ -32,25 +26,24 @@ android {
 }
 
 dependencies {
-    //api 'com.aliyunsdk.components:queen_menu:1.0.5-SNAPSHOT'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
-    implementation project(':LiveBeauty:live_beauty')
-    // list of aliyun sdk.
+
+    api project(':LiveBeauty:live_beauty')
 
     // 此处修改：根据自身项目需要，指定依赖的菜单组件sdk
-    implementation (externalAliyunQueenUI) {
+    implementation(externalAliyunQueenUI) {
         exclude group: 'com.aliyun.maliang.android', module: 'queen'
     }
 
     // 此处引用外部独立版本高级功能Queen
     implementation externalAliyunQueen
+
+    // 一体化SDK，包含基础美颜功能
     if (!"true".equalsIgnoreCase(allInOne)) {
         // 不含一体化，独立接入Queen时，需带上该framework
         implementation externalAliyunQueenFramwork
     } else {
         implementation externalAllInOne
     }
-
-
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pull_rtc_enter_name_tv">Live Streaming</string>
+    <string name="pull_rtc_enter_name_desc">Common protocols are supported, such as FLV, RTMP, HLS, and RTS.</string>
     <string name="view_string_hint_pull_url">Enter the source URL.</string>
     <string name="pull_restart">Retry</string>
+    <string name="live_pull">Pull</string>
+    <string name="live_pull_addr_error"> Pull address error, please check and re-enter </string>
 
 </resources>

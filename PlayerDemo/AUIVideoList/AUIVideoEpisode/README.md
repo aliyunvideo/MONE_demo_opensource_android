@@ -82,93 +82,108 @@ AUIEpisodeVideoInfo
 
 ### **核心能力**
 
-* **本地缓存**
+#### **本地缓存**
 
-  ```java
-  // 开启本地缓存
-  public void enableLocalCache(boolean enable, String path) {
-      AliPlayerGlobalSettings.enableLocalCache(enable, 10 * 1024, path);
-      PlayerConfig config = aliListPlayer.getConfig();
-      config.mEnableLocalCache = enable;
-      aliListPlayer.setConfig(config);
-  }
-  
-  // 设置缓存清除策略
-  public void setCacheFileClearConfig(long expireMin, long maxCapacityMB, long freeStorageMB) {
-    AliPlayerGlobalSettings.setCacheFileClearConfig(expireMin, maxCapacityMB, freeStorageMB);
-  }
-  
-  // 清除缓存
-  public void clearCache() {
-    AliPlayerGlobalSettings.clearCaches();
-  }
-  ```
-
-* **智能预加载**
-
-  ```java
-  // 设置预加载数量
-  public void setPreloadCount(int preloadCount) {
-    aliListPlayer.setPreloadCount(preloadCount);
-  }
-  
-  // 设置智能预加载策略
-  public void setPreloadStrategy(boolean enable, String params) {
-    aliListPlayer.setPreloadScene(IListPlayer.SceneType.SCENE_SHORT);
-    aliListPlayer.enablePreloadStrategy(IListPlayer.StrategyType.STRATEGY_DYNAMIC_PRELOAD_DURATION, enable);
-    if (enable) {
-      aliListPlayer.setPreloadStrategy(IListPlayer.StrategyType.STRATEGY_DYNAMIC_PRELOAD_DURATION, params);
-    }
-  }
-  ```
-
-* **智能预渲染**
-
-  ```java
-  // 设置智能预渲染
-  // 备注：当前版本，PreRender Player仅支持预渲染列表下一个视频的画面；指定预渲染上一个视频的画面，有待后续版本支持。
-  public void setSurfaceToPreRenderPlayer(Surface surface) {
-    preRenderPlayer = aliListPlayer.getPreRenderPlayer();
-    if (preRenderPlayer != null) {
-      preRenderPlayer.setOnRenderingStartListener(() -> {
-        mCurrentPreRenderPlayerState = PreRenderPlayerState.FIRST_FRAME_RENDERED;
-      });
-      preRenderPlayer.setSurface(surface);
-      if (mNeedPreRender && surface != null) {
-  
-        //RenderingStart前一直尝试刷新
-        preRenderPlayer.seekTo(0);
-        if (mCurrentPreRenderPlayerState == PreRenderPlayerState.FIRST_FRAME_RENDERED) {
-          mNeedPreRender = false;
-        }
-      }
-    } else {
-      aliListPlayer.clearScreen();
-      aliListPlayer.setSurface(surface);
-    }
-  }
-  ```
-
-* **HTTPDNS**
-
-  ```java
-  // 开启HTTPDNS
-  public void enableHTTPDNS(boolean enable) {
-    AliPlayerGlobalSettings.enableHttpDns(enable);
+```java
+// 开启本地缓存
+public void enableLocalCache(boolean enable, String path) {
+    AliPlayerGlobalSettings.enableLocalCache(enable, 10 * 1024, path);
     PlayerConfig config = aliListPlayer.getConfig();
-    config.mEnableHttpDns = -1;
+    config.mEnableLocalCache = enable;
     aliListPlayer.setConfig(config);
+}
+
+// 设置缓存清除策略
+public void setCacheFileClearConfig(long expireMin, long maxCapacityMB, long freeStorageMB) {
+  AliPlayerGlobalSettings.setCacheFileClearConfig(expireMin, maxCapacityMB, freeStorageMB);
+}
+
+// 清除缓存
+public void clearCache() {
+  AliPlayerGlobalSettings.clearCaches();
+}
+```
+
+#### **智能预加载**
+
+```java
+// 设置预加载数量
+public void setPreloadCount(int preloadCount) {
+  aliListPlayer.setPreloadCount(preloadCount);
+}
+
+// 设置智能预加载策略
+public void setPreloadStrategy(boolean enable, String params) {
+  aliListPlayer.setPreloadScene(IListPlayer.SceneType.SCENE_SHORT);
+  aliListPlayer.enablePreloadStrategy(IListPlayer.StrategyType.STRATEGY_DYNAMIC_PRELOAD_DURATION, enable);
+  if (enable) {
+    aliListPlayer.setPreloadStrategy(IListPlayer.StrategyType.STRATEGY_DYNAMIC_PRELOAD_DURATION, params);
   }
+}
+```
+
+#### **智能预渲染**
+
+```java
+// 设置智能预渲染
+// 备注：当前版本，PreRender Player仅支持预渲染列表下一个视频的画面；指定预渲染上一个视频的画面，有待后续版本支持。
+public void setSurfaceToPreRenderPlayer(Surface surface) {
+  preRenderPlayer = aliListPlayer.getPreRenderPlayer();
+  if (preRenderPlayer != null) {
+    preRenderPlayer.setOnRenderingStartListener(() -> {
+      mCurrentPreRenderPlayerState = PreRenderPlayerState.FIRST_FRAME_RENDERED;
+    });
+    preRenderPlayer.setSurface(surface);
+    if (mNeedPreRender && surface != null) {
+
+      //RenderingStart前一直尝试刷新
+      preRenderPlayer.seekTo(0);
+      if (mCurrentPreRenderPlayerState == PreRenderPlayerState.FIRST_FRAME_RENDERED) {
+        mNeedPreRender = false;
+      }
+    }
+  } else {
+    aliListPlayer.clearScreen();
+    aliListPlayer.setSurface(surface);
+  }
+}
+```
+
+#### **HTTPDNS**
+
+```java
+// 开启HTTPDNS
+public void enableHTTPDNS(boolean enable) {
+  AliPlayerGlobalSettings.enableHttpDns(enable);
+  PlayerConfig config = aliListPlayer.getConfig();
+  config.mEnableHttpDns = -1;
+  aliListPlayer.setConfig(config);
+}
+```
+
+#### **MP4私有加密**
+
+从v6.8.0版本开始（一体化SDK or 播放器SDK），播放器支持MP4加密播放能力。
+
+* 加密视频可播放，需满足以下条件：
+
+  * 1.私有加密的mp4，业务侧（app侧）需要给 URL 追加`etavirp_nuyila=1`
+
+  * 2.app的license对应的uid 与 产生私有加密mp4的uid 是一致的
+
+* 校验加密视频是否正确，以私有加密的视频URL为例：
+
+  * meta信息里面带有`AliyunPrivateKeyUri`的tag
+  * ffplay不能直接播放
+
+#### **其它功能**
+
+* **防录屏**
+
+  ```java
+  // Android特有功能，禁止app录屏和截屏
+  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
   ```
-
-* **其它功能**
-
-  * **防录屏**
-
-    ```java
-    // Android特有功能，禁止app录屏和截屏
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-    ```
 
 
 ## 四、用户指引
@@ -182,6 +197,8 @@ AUIEpisodeVideoInfo
 [视频点播控制台](https://vod.console.aliyun.com)
 
 [ApsaraVideo VOD](https://www.alibabacloud.com/zh/product/apsaravideo-for-vod)
+
+[音视频终端SDK](https://help.aliyun.com/product/261167.html)
 
 ### **FAQ**
 

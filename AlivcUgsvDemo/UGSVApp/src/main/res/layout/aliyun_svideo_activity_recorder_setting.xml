@@ -440,7 +440,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:textSize="14sp"
-                    android:text="镜像输出"
+                    android:text="@string/alivc_recorder_record_mirror"
                     android:textColor="@color/text_strong"/>
 
 
@@ -470,7 +470,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:textSize="14sp"
-                    android:text="自动清空分段视频"
+                    android:text="@string/alivc_recorder_record_auto_clear"
                     android:textColor="@color/text_strong"/>
 
 
@@ -500,7 +500,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:textSize="14sp"
-                    android:text="进入编辑"
+                    android:text="@string/alivc_recorder_record_go_to_edit"
                     android:textColor="@color/text_strong"/>
 
 

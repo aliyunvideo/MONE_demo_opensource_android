@@ -3,6 +3,7 @@ package com.aliyun.aio.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.widget.GridView;
 
 import android.widget.TextView;
@@ -102,10 +103,13 @@ public class MainActivity extends AVBaseThemeActivity {
                 getResources().getString(R.string.aio_ugsv_desc), R.drawable.ic_main_ugsv, R.drawable.ic_main_grid_item_chakan));
         list.add(new MainPageItem(INDEX_PLAYER, getResources().getString(R.string.aio_live_player),
                 getResources().getString(R.string.aio_live_player_desc), R.drawable.ic_main_player, R.drawable.ic_main_grid_item_chakan));
-        list.add(new MainPageItem(INDEX_SOLUTION, getResources().getString(R.string.aio_solution),
-                getResources().getString(R.string.aio_solution_desc), R.drawable.ic_main_more, R.drawable.ic_main_grid_item_chakan2));
-        list.add(new MainPageItem(INDEX_INTERACT_LIVE, getResources().getString(R.string.aio_interactive_live),
-                getResources().getString(R.string.aio_interactive_live_desc), R.mipmap.ic_main_interact_live, R.drawable.ic_main_grid_item_chakan));
+        boolean showMore = getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase("zh");
+        if (showMore) {
+            list.add(new MainPageItem(INDEX_SOLUTION, getResources().getString(R.string.aio_solution),
+                    getResources().getString(R.string.aio_solution_desc), R.drawable.ic_main_more, R.drawable.ic_main_grid_item_chakan2));
+            list.add(new MainPageItem(INDEX_INTERACT_LIVE, getResources().getString(R.string.aio_interactive_live),
+                    getResources().getString(R.string.aio_interactive_live_desc), R.mipmap.ic_main_interact_live, R.drawable.ic_main_grid_item_chakan));
+        }
         mMainGridAdapter.setData(list);
     }
 

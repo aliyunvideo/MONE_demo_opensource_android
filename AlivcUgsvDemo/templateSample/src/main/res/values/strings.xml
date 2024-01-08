@@ -58,4 +58,6 @@
     <string name="ugsv_template_export_tips">Please keep the screen on</string>
     <string name="crop">Crop</string>
     <string name="save_success">Save Success</string>
+    <string name="tp_start_download">Start downloading</string>
+    <string name="tp_download_finish">Finish download</string>
 </resources>

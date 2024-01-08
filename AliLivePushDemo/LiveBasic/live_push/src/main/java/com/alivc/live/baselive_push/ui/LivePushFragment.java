@@ -37,6 +37,7 @@ import com.alivc.live.annotations.AlivcLiveRecordAudioQuality;
 import com.alivc.live.annotations.AlivcLiveRecordMediaEvent;
 import com.alivc.live.annotations.AlivcLiveRecordMediaFormat;
 import com.alivc.live.annotations.AlivcLiveRecordStreamType;
+import com.alivc.live.baselive_common.AutoScrollMessagesView;
 import com.alivc.live.baselive_common.CommonDialog;
 import com.alivc.live.baselive_common.LivePushLocalRecordView;
 import com.alivc.live.baselive_common.LivePusherSEIView;
@@ -57,6 +58,8 @@ import com.alivc.live.commonutils.TextFormatUtil;
 import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.player.annotations.AlivcLivePlayVideoStreamType;
 import com.alivc.live.pusher.AlivcLiveLocalRecordConfig;
+import com.alivc.live.pusher.AlivcLiveNetworkQualityProbeConfig;
+import com.alivc.live.pusher.AlivcLiveNetworkQualityProbeResult;
 import com.alivc.live.pusher.AlivcLivePushAudioEffectReverbMode;
 import com.alivc.live.pusher.AlivcLivePushAudioEffectVoiceChangeMode;
 import com.alivc.live.pusher.AlivcLivePushBGMListener;
@@ -123,6 +126,7 @@ public class LivePushFragment extends Fragment {
     private TextView mMore;
     private TextView mRestartButton;
     private TextView mDataButton;
+    private TextView mNetworkDetectButton;
 
     private AlivcLivePushConfig mAlivcLivePushConfig = null;
     private String mPushUrl = null;
@@ -157,16 +161,13 @@ public class LivePushFragment extends Fragment {
     // 高级美颜管理类
     private BeautyInterface mBeautyManager;
     private boolean isBeautyEnable = true;
-    private DataView mDataView;
     private int mCurBr;
     private int mTargetBr;
     private boolean mBeautyOn = true;
     private int mFps;
     private int mPreviewOrientation;
     private CommonDialog mDialog;
-    private AlivcLivePushStatsInfo mPushStatsInfo;
     private boolean isConnectResult = false;//是否正在链接中
-    private TextView mTotalLivePushStatsInfoTV;//数据指标
     private QueenBeautyMenu mBeautyBeautyContainerView;
 
     private QueenMenuPanel mQueenMenuPanel;
@@ -179,6 +180,9 @@ public class LivePushFragment extends Fragment {
     private LivePusherSEIView mSeiView;
     private LivePushLocalRecordView mLocalRecordView;
     private AlivcResolutionEnum mCurrentResolution;
+
+    private AutoScrollMessagesView mMessagesView;
+    private boolean isShowStatistics = false;
 
     private boolean mIsBGMPlaying = false;
 
@@ -298,12 +302,23 @@ public class LivePushFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mBeautyBeautyContainerView = view.findViewById(R.id.beauty_beauty_menuPanel);
+
         mQueenMenuPanel = QueenBeautyMenu.getPanel(this.getContext());
         mQueenMenuPanel.onHideMenu();
         mQueenMenuPanel.onHideValidFeatures();
+        mQueenMenuPanel.onHideCopyright();
+
+        mMessagesView = view.findViewById(R.id.v_messages);
+        mMessagesView.post(new Runnable() {
+            @Override
+            public void run() {
+                mMessagesView.appendMessage("----------statistics info----------");
+            }
+        });
+
+        mBeautyBeautyContainerView = view.findViewById(R.id.beauty_beauty_menuPanel);
         mBeautyBeautyContainerView.addView(mQueenMenuPanel);
-//        mBeautyBeautyContainerView.onHideMenu();
+
         mSoundEffectView = view.findViewById(R.id.sound_effect_view);
 
         mSeiView = view.findViewById(R.id.sei_view);
@@ -353,8 +368,7 @@ public class LivePushFragment extends Fragment {
             }
         });
         mDataButton = (TextView) view.findViewById(R.id.data);
-        mDataView = (DataView) view.findViewById(R.id.ll_data);
-        mDataView.setVisibility(View.GONE);
+        mNetworkDetectButton = (TextView) view.findViewById(R.id.network_detect);
         mStatusTV = (TextView) view.findViewById(R.id.tv_status);
         mExit = (ImageView) view.findViewById(R.id.exit);
         mMusic = view.findViewById(R.id.music);
@@ -376,7 +390,6 @@ public class LivePushFragment extends Fragment {
         mBeautyButton.setSelected(SharedPreferenceUtils.isBeautyOn(getActivity().getApplicationContext()));
         mSoundEffectButton = view.findViewById(R.id.sound_effect_button);
         mRestartButton = (TextView) view.findViewById(R.id.restart_button);
-        mTotalLivePushStatsInfoTV = ((TextView) mDataView.findViewById(R.id.tv_data));
         mExit.setOnClickListener(onClickListener);
         mMusic.setOnClickListener(onClickListener);
         mFlash.setOnClickListener(onClickListener);
@@ -391,6 +404,7 @@ public class LivePushFragment extends Fragment {
         mRestartButton.setOnClickListener(onClickListener);
         mMore.setOnClickListener(onClickListener);
         mDataButton.setOnClickListener(onClickListener);
+        mNetworkDetectButton.setOnClickListener(onClickListener);
 
         if (mVideoOnly) {
             mMusic.setVisibility(View.GONE);
@@ -803,16 +817,37 @@ public class LivePushFragment extends Fragment {
                                 }
                             });
                         } else if (id == R.id.data) {
-                            mDataView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (mDataView.getVisibility() == View.VISIBLE) {
-                                        mDataView.setVisibility(View.INVISIBLE);
-                                    } else {
-                                        mDataView.setVisibility(View.VISIBLE);
+                            isShowStatistics = !isShowStatistics;
+                            ToastUtils.show((isShowStatistics ? "open" : "close") + " statistics info");
+                        } else if (id == R.id.network_detect) {
+                            if (pusher != null) {
+                                boolean isSelect = mNetworkDetectButton.isSelected();
+                                if (isSelect) {
+                                    int result = pusher.stopLastMileDetect();
+                                    if (mMessagesView != null) {
+                                        mMessagesView.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mMessagesView.appendMessage("[API] stopLastMileDetect: [end][" + result + "]");
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    AlivcLiveNetworkQualityProbeConfig probeConfig = new AlivcLiveNetworkQualityProbeConfig();
+                                    probeConfig.probeUpLink = true;
+                                    probeConfig.probeDownLink = true;
+                                    int result = pusher.startLastMileDetect(probeConfig);
+                                    if (mMessagesView != null) {
+                                        mMessagesView.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mMessagesView.appendMessage("[API] startLastMileDetect: [end][" + result + "][" + probeConfig + "]");
+                                            }
+                                        });
                                     }
                                 }
-                            });
+                                mNetworkDetectButton.setSelected(!isSelect);
+                            }
                         }
                     } catch (IllegalArgumentException e) {
                         showDialog(e.getMessage());
@@ -907,18 +942,13 @@ public class LivePushFragment extends Fragment {
 
         @Override
         public void onPushStatistics(AlivcLivePusher pusher, AlivcLivePushStatsInfo statistics) {
-            Log.i(TAG, "onPushStatistics: ");
-            if (mPushController.getLivePusher() != null) {
-                if (mTotalLivePushStatsInfoTV != null) {
-                    mTotalLivePushStatsInfoTV.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (statistics != null && statistics.getVideoEncodeBitrate() != 0) {
-                                mTotalLivePushStatsInfoTV.setText(statistics.toString());
-                            }
-                        }
-                    });
-                }
+            if (isShowStatistics && mMessagesView != null) {
+                mMessagesView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMessagesView.appendMessage("[CBK] onPushStatistics: " + statistics);
+                    }
+                });
             }
         }
 
@@ -1063,6 +1093,32 @@ public class LivePushFragment extends Fragment {
         @Override
         public void onPacketsLost(AlivcLivePusher pusher) {
             showToast("推流丢包通知");
+        }
+
+        @Override
+        public void onLastMileDetectResultWithQuality(AlivcLivePusher pusher, AlivcLiveNetworkQuality networkQuality) {
+            super.onLastMileDetectResultWithQuality(pusher, networkQuality);
+            if (mMessagesView != null) {
+                mMessagesView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMessagesView.appendMessage("[CBK] onLastMileDetectResultWithQuality: [" + networkQuality + "]");
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onLastMileDetectResultWithBandWidth(AlivcLivePusher pusher, int code, AlivcLiveNetworkQualityProbeResult networkQualityProbeResult) {
+            super.onLastMileDetectResultWithBandWidth(pusher, code, networkQualityProbeResult);
+            if (mMessagesView != null) {
+                mMessagesView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMessagesView.appendMessage("[CBK] onLastMileDetectResultWithBandWidth: [" + code + "][" + networkQualityProbeResult + "]");
+                    }
+                });
+            }
         }
     };
 

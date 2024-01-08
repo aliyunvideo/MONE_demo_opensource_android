@@ -27,6 +27,16 @@
             android:textSize="@dimen/view_size_text_16" />
     </FrameLayout>
 
+    <com.alivc.live.baselive_common.AutoScrollMessagesView
+        android:id="@+id/v_messages"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="20dp" />
+
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="wrap_content"
@@ -232,6 +242,19 @@
                 android:textSize="10sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/network_detect"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/live_network_detect"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:text="@string/network_detect"
+                android:textColor="@drawable/tools_tip_selector"
+                android:textSize="10sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/data"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
@@ -261,14 +284,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
-
-    <com.alivc.live.baselive_push.ui.widget.DataView
-        android:id="@+id/ll_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_scroll"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="116dp" />
 
     <com.alivc.live.baselive_common.LivePushLocalRecordView
         android:id="@+id/local_record_v"

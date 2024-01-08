@@ -7,5 +7,7 @@
     <string name="default_video_title">Default Title - Alibaba Cloud Video Display</string>
     <string name="default_author_name">Default Alias - Alibaba Cloud</string>
     <string name="definition">Definition</string>
+    <string name="play_detail">Detail</string>
+    <string name="play_speed_changed">Switched to $s speed</string>
 
 </resources>

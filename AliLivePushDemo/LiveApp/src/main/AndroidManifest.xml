@@ -92,12 +92,15 @@
         <!--   请在此处填写申请到的license相关信息     -->
         <!--   Demo License仅供测试和体验使用，随时可能过期，请勿直接使用     -->
         <!--   推流SDK License集成指南：https://help.aliyun.com/zh/live/developer-reference/integrate-a-push-sdk-license     -->
+         <!--    配置license    -->
         <meta-data
+            tools:node="replace"
             android:name="com.aliyun.alivc_license.licensekey"
-            android:value=""/>  <!-- TODO:请设置您的 LicenseKey-->
+            android:value=""/>  <!-- TODO:请设置您的 LicenseKey / Please set your LicenseKey -->
         <meta-data
+            tools:node="replace"
             android:name="com.aliyun.alivc_license.licensefile"
-            android:value="assets/alivc_resource/AliVideoCert-com_aliyun_AlivcLivePusherDemo-20220507171545.crt" />
+            android:value=""/>  <!-- TODO:请设置您的 LicenseFile, 选填，提供离线校验能力 / Please set your LicenseFile, optional, provide offline verification capabilities -->
     </application>
 
 </manifest>

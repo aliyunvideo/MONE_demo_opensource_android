@@ -94,6 +94,15 @@
 
     </FrameLayout>
 
+    <com.alivc.live.baselive_common.AutoScrollMessagesView
+        android:id="@+id/sei_receive_view"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ImageView
         android:layout_width="66dp"
         android:layout_height="23dp"
@@ -143,16 +152,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sei_view" />
 
-    <com.alivc.live.baselive_common.AutoScrollMessagesView
-        android:id="@+id/sei_receive_view"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintTop_toTopOf="@id/sei_view"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/sei_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/sei_view"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/sei_view">
+
+        <Button
+            android:id="@+id/btn_external_audio_stream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/external_audio_stream_tv" />
+
+        <Button
+            android:id="@+id/btn_external_video_stream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/external_video_stream_tv" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_beauty"
@@ -165,7 +185,7 @@
         app:layout_constraintStart_toStartOf="@id/interactive_setting_view"
         app:layout_constraintTop_toBottomOf="@id/interactive_setting_view"/>
 
-    <com.aliyunsdk.queen.menu.BeautyMenuPanel
+    <com.aliyunsdk.queen.menu.QueenBeautyMenu
         android:id="@+id/beauty_beauty_menuPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

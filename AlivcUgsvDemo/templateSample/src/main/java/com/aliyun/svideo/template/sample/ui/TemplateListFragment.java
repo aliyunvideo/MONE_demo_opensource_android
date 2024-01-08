@@ -210,7 +210,7 @@ public class TemplateListFragment extends Fragment {
         DownloaderManager.getInstance().startTask(model.getTaskId(), new FileDownloaderCallback() {
             @Override
             public void onFinish(int downloadId, String path) {
-                ToastUtil.showToast(getContext(), "下载完成");
+                ToastUtil.showToast(getContext(), getContext().getResources().getString(R.string.tp_download_finish));
                 Log.d(TemplateListFragment.class.getSimpleName(), "onFinish " + downloadId + ", path: " + path);
                 extractZip(template, path);
                 gotoPreview(template);
@@ -218,7 +218,7 @@ public class TemplateListFragment extends Fragment {
 
             @Override
             public void onStart(int downloadId, long soFarBytes, long totalBytes, int preProgress) {
-                ToastUtil.showToast(getContext(), "开始下载");
+                ToastUtil.showToast(getContext(), getContext().getResources().getString(R.string.tp_start_download));
                 Log.d(TemplateListFragment.class.getSimpleName(), "onStart " + downloadId);
             }
 

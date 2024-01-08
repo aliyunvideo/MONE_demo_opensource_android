@@ -283,7 +283,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/home_list_item_portrait_left_margin"
         android:drawablePadding="2dp"
-        android:text="详情"
+        android:text="@string/play_detail"
         android:textColor="@color/text_medium"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/mPortrait"

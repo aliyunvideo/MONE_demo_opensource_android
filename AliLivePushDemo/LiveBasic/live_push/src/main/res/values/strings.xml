@@ -47,6 +47,7 @@
     <string name="repush_button">Restart pushing</string>
     <string name="more_setting_button">More setting</string>
     <string name="data_args">Data Metrics</string>
+    <string name="network_detect">Network Detect</string>
     <string name="local_info">Statistics on Local Videos</string>
 
     <string name="close_ears_back">Close Ears</string>

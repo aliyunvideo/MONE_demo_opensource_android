@@ -46,6 +46,7 @@
     <string name="repush_button">Restart pushing</string>
     <string name="more_setting_button">More setting</string>
     <string name="data_args">Data Metrics</string>
+    <string name="network_detect">Network Detect</string>
     <string name="local_info">Statistics on Local Videos</string>
 
     <string name="close_ears_back">Close Ears</string>
@@ -94,5 +95,5 @@
     <string name="sound_effect_changevoice_ktv">KTV</string>
     <string name="sound_effect_changevoice_echo">Echo</string>
 
-    <string name="live_push_send_sei">Send SEI</string>
+    <string name="live_push_send_sei">Send Custom Msg</string>
 </resources>

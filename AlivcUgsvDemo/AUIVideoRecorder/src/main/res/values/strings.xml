@@ -1,40 +1,40 @@
 <resources>
     <!-- 侧边栏 -->
-    <string name="ugsv_recorder_control_music">剪音乐</string>
-    <string name="ugsv_recorder_control_filter">滤镜</string>
-    <string name="ugsv_recorder_control_ratio">切画幅</string>
-    <string name="ugsv_recorder_control_effect">特效</string>
-    <string name="ugsv_recorder_control_photo">拍照</string>
+    <string name="ugsv_recorder_control_music">Music</string>
+    <string name="ugsv_recorder_control_filter">Filters</string>
+    <string name="ugsv_recorder_control_ratio">Aspect Ratio</string>
+    <string name="ugsv_recorder_control_effect">Effects</string>
+    <string name="ugsv_recorder_control_photo">Take Photo</string>
 
     <!-- 变速栏 -->
-    <string name="ugsv_recorder_control_slowest">极慢</string>
-    <string name="ugsv_recorder_control_rate_slow">慢</string>
-    <string name="ugsv_recorder_control_rate_standard">标准</string>
-    <string name="ugsv_recorder_control_rate_fast">快</string>
-    <string name="ugsv_recorder_control_rate_fastest">极快</string>
+    <string name="ugsv_recorder_control_slowest">Very Slow</string>
+    <string name="ugsv_recorder_control_rate_slow">Slow</string>
+    <string name="ugsv_recorder_control_rate_standard">Standard</string>
+    <string name="ugsv_recorder_control_rate_fast">Fast</string>
+    <string name="ugsv_recorder_control_rate_fastest">Very Fast</string>
 
     <!-- 底部栏 -->
-    <string name="ugsv_recorder_control_beauty">美颜</string>
-    <string name="ugsv_recorder_control_props">道具</string>
-    <string name="ugsv_recorder_control_delete">回删</string>
-    <string name="ugsv_recorder_record_mode_click">单击拍摄</string>
-    <string name="ugsv_recorder_record_mode_press">长按拍摄</string>
+    <string name="ugsv_recorder_control_beauty">Beauty</string>
+    <string name="ugsv_recorder_control_props">Stickers</string>
+    <string name="ugsv_recorder_control_delete">Delete</string>
+    <string name="ugsv_recorder_record_mode_click">Click to Shoot</string>
+    <string name="ugsv_recorder_record_mode_press">Hold to Shoot</string>
 
     <!-- 浮层面板 -->
-    <string name="ugsv_recorder_panel_effect_none">原始</string>
+    <string name="ugsv_recorder_panel_effect_none">Original</string>
 
     <!-- Toast文案 -->
-    <string name="ugsv_recorder_toast_flash_disable">前置摄像头没有闪光灯</string>
-    <string name="ugsv_recorder_toast_disable_after_recording">拍摄中不可修改</string>
-    <string name="ugsv_recorder_toast_photo_saved">照片已保存</string>
-    <string name="ugsv_recorder_finish_fail">合成失败</string>
-    <string name="ugsv_recorder_toast_phone_state_calling">通话中, 录制时静音</string>
+    <string name="ugsv_recorder_toast_flash_disable">The front-facing camera has no flash</string>
+    <string name="ugsv_recorder_toast_disable_after_recording">Cannot be modified during shooting</string>
+    <string name="ugsv_recorder_toast_photo_saved">Photo saved.</string>
+    <string name="ugsv_recorder_finish_fail">Synthesis failure</string>
+    <string name="ugsv_recorder_toast_phone_state_calling">During a call, mute the recording</string>
 
     <!-- Dialog文案 -->
-    <string name="ugsv_recorder_permission_remind">需要访问 "相册"、"摄像头" 和 "外部存储器",否则会影响绝大部分功能使用, 请到 "应用信息 -> 权限" 中设置！</string>
-    <string name="ugsv_recorder_permission_not_set">暂不设置</string>
-    <string name="alivc_record_request_permission_positive_btn_text">去设置</string>
-    <string name="ugsv_recorder_record_create_video">视频合成中</string>
-    <string name="ugsv_recorder_resource_loading">资源加载中</string>
+    <string name="ugsv_recorder_permission_remind">Need to access "album "," camera "and" external memory ", otherwise it will affect the use of most functions, please go to "Application information -> Permissions" set!</string>
+    <string name="ugsv_recorder_permission_not_set">Do not set</string>
+    <string name="alivc_record_request_permission_positive_btn_text">Go to set</string>
+    <string name="ugsv_recorder_record_create_video">Exporting...</string>
+    <string name="ugsv_recorder_resource_loading">Resource loading</string>
 
 </resources>

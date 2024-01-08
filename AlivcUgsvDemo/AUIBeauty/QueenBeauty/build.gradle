@@ -27,9 +27,9 @@ android {
         implementation project(':AUIFoundation:AVTheme')
         implementation project(':AUIBeauty')
         if (!hasQueen()){
-            implementation externalAliyunQueen
+            api externalAliyunQueen
         } else {
-            implementation externalAllInOne
+            api externalAllInOne
         }
         if (!"true".equalsIgnoreCase(allInOne)) {
             // 不含一体化，独立接入Queen时，需带上该framework

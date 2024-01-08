@@ -54,7 +54,7 @@
         android:textColor="@color/text_medium"
         android:textColorHint="@color/text_ultraweak"
         android:textSize="@dimen/alivc_common_font_14"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/iv_icon"
         app:layout_constraintStart_toStartOf="parent"
         android:theme="@style/AUIEditText"
         app:layout_constraintTop_toBottomOf="@id/tv_url_title" />
@@ -80,12 +80,14 @@
 
     <TextView
         android:id="@+id/tv_tips"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="110dp"
         android:text="@string/pull_rts_url_generate_tip"
         android:textColor="@color/text_weak"
         android:textSize="@dimen/alivc_common_font_12"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/under_line" />

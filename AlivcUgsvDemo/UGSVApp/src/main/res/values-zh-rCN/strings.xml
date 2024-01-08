@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ugc_app_name">阿里云短视频</string>
+    <string name="ugc_app_name">短视频</string>
     <string name="solution_apsarav">ApsaraV</string>
     <string name="solution_push">直播推流</string>
     <string name="solution_live_room">互动直播</string>
@@ -114,5 +114,10 @@
     <string name="aliyun_start_mix_record">选择合拍视频</string>
     <string name="alivc_recorder_record_dialog_permission_remind">需要访问 "相册"、"摄像头" 和 "外部存储器",否则会影响绝大部分功能使用, 请到 "应用信息 -> 权限" 中设置！</string>
     <string name="alivc_recorder_record_dialog_not_setting">暂不设置</string>
+
+    <string name="alivc_recorder_record_mirror">镜像输出</string>
+    <string name="alivc_recorder_record_auto_clear">自动清空</string>
+    <string name="alivc_recorder_record_go_to_edit">进入编辑</string>
+    <string name="alivc_recorder_record_publish">合成后发布到云端</string>
 
 </resources>

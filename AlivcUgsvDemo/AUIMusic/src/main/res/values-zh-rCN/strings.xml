@@ -11,4 +11,5 @@
     <string name="ugsv_music_use">使用</string>
 
     <string name="alivc_music_play_url_null">播放地址为空</string>
+    <string name="alivc_music_drap_clip">拖动选择音乐片段</string>
 </resources>

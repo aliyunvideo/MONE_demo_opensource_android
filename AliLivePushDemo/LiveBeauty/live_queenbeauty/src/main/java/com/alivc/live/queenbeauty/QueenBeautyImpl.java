@@ -1,11 +1,8 @@
 package com.alivc.live.queenbeauty;
 
-import static android.opengl.GLES20.GL_FRAMEBUFFER;
-
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.SensorManager;
-import android.opengl.GLES20;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.OrientationEventListener;
@@ -16,23 +13,24 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import com.alivc.live.beauty.BeautyInterface;
-import com.alivc.live.beauty.constant.BeautyImageFormat;
 import com.aliyun.android.libqueen.aio.IBeautyParamsHolder;
+import com.aliyun.android.libqueen.aio.QueenBeautyInterface;
 import com.aliyun.android.libqueen.aio.QueenBeautyWrapper;
 import com.aliyun.android.libqueen.aio.QueenConfig;
-import com.aliyun.android.libqueen.aio.QueenBeautyInterface;
 import com.aliyun.android.libqueen.aio.QueenFlip;
+import com.aliyunsdk.queen.param.QueenParam;
+import com.aliyunsdk.queen.param.QueenParamFactory;
 import com.aliyunsdk.queen.param.QueenParamHolder;
 
-import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 非互动模式下，美颜实现相关类
+ * 美颜实现相关类
  *
- * @note v4.4.4版本-v6.1.0版本，互动模式下的美颜，处理逻辑参考BeautySDKType.INTERACT_QUEEN，即：InteractQueenBeautyImpl；
- * @note v6.1.0以后的版本（从v6.2.0开始），基础模式下的美颜，和互动模式下的美颜，处理逻辑保持一致，即：QueenBeautyImpl；
+ * @note v4.4.4~v6.1.0：基础直播下的美颜，处理逻辑参考BeautySDKType.QUEEN，即：QueenBeautyImpl；互动直播下的美颜，处理逻辑参考BeautySDKType.INTERACT_QUEEN，即：InteractQueenBeautyImpl；
+ * @note v6.2.0~v6.6.0：互动直播下的美颜，与基础直播下的美颜，完成统一，处理逻辑保持一致，即：QueenBeautyImpl；
+ * @note v6.7.0开始，一体化SDK只包含基础美颜功能，高级美颜功能需要单独集成美颜SDK，详见模块文档；
  */
 @Keep
 public class QueenBeautyImpl implements BeautyInterface {
@@ -89,10 +87,26 @@ public class QueenBeautyImpl implements BeautyInterface {
         if (mBeautyImpl != null && FLAG_ENABLE_DEBUG_LOG) {
             mBeautyImpl.enableDebugMode();
         }
+
+        // engine初始化后，更新当前默认的美颜效果
+        refreshDefaultQueenParam();
     }
 
-    @Override
-    public void init(long glContext) {
+    /**
+     * engine初始化后，更新当前默认的美颜效果
+     *
+     * @note 请自行调整直播状态下的初始美颜效果
+     */
+    private void refreshDefaultQueenParam() {
+        QueenParam defaultQueenParam = QueenParamHolder.getQueenParam();
+        // 更新默认美颜为流行风格
+        defaultQueenParam.basicBeautyRecord = QueenParamFactory.BeautyParams.getParams(QueenParamFactory.BeautyParams.ID_SIMPLE);
+        // 更新默认美型为可爱风格
+        defaultQueenParam.faceShapeRecord = QueenParamFactory.FaceShapeParams.getParams(QueenParamFactory.FaceShapeParams.TAG_SHAPE_AUTO);
+        // 若需要微调细节参数-磨皮
+        defaultQueenParam.basicBeautyRecord.skinBuffingParam = 0.4f;
+        // 若需要微调细节参数-美白
+        defaultQueenParam.basicBeautyRecord.skinWhitingParam = 0.6f;
     }
 
     @Override
@@ -119,41 +133,6 @@ public class QueenBeautyImpl implements BeautyInterface {
     }
 
     @Override
-    public void setBeautyType(int type, boolean enable) {
-
-    }
-
-    @Override
-    public void setBeautyParams(int type, float value) {
-
-    }
-
-    @Override
-    public void setFaceShapeParams(int type, float value) {
-
-    }
-
-    @Override
-    public void setMakeupParams(int type, String path) {
-
-    }
-
-    @Override
-    public void setFilterParams(String path) {
-
-    }
-
-    @Override
-    public void setMaterialParams(String path) {
-
-    }
-
-    @Override
-    public void removeMaterialParams(String path) {
-
-    }
-
-    @Override
     public int onTextureInput(int inputTexture, int textureWidth, int textureHeight) {
         // 判断美颜license是否生效，如果不生效，不做美颜处理
         if (!isLicenseValid) {
@@ -177,12 +156,12 @@ public class QueenBeautyImpl implements BeautyInterface {
         if (outAngle == 90 || outAngle == 270) {// 右 out = 90 / 左 out = 270
             // 推流的输入纹理经过处理，非原始摄像头采集纹理，这里单独针对角度适配: 右 out = 90 / 左 out = 270
             inputAngle = outAngle;
-            outAngle = (outAngle+180)%360;
+            outAngle = (outAngle + 180) % 360;
         } else { // 正 out = 180 / 倒立 out = 0
             // 解决抠图和美发头像上下翻转的问题
             // 推流的输入纹理经过处理，非原始摄像头采集纹理，这里单独针对角度适配: 正 out = 180 : 倒立 out = 0
             inputAngle = outAngle;
-            outAngle = 180-outAngle;
+            outAngle = 180 - outAngle;
         }
 
         isAlgDataRendered = true;
@@ -194,11 +173,6 @@ public class QueenBeautyImpl implements BeautyInterface {
                     + ", textureW: " + textureWidth + ", textureH: " + textureHeight + ", outAngle: " + outAngle);
         }
         return result;
-    }
-
-    @Override
-    public int onTextureInput(int inputTexture, int textureWidth, int textureHeight, float[] textureMatrix, boolean isOES) {
-        return inputTexture;
     }
 
     @Override
@@ -227,58 +201,9 @@ public class QueenBeautyImpl implements BeautyInterface {
     }
 
     @Override
-    public void onDrawFrame(long imageNativeBufferPtr, int format, int width, int height, int stride, int cameraId) {
-//        if (mMediaChainEngine != null) {
-//
-//            if (cameraId != mCurCameraId) {
-//                Camera.getCameraInfo(cameraId, mCameraInfo);
-//                mCurCameraId = cameraId;
-//            }
-//
-//            boolean isCameraFront = cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT;
-//            if (isCameraFront) {
-//                setCameraAngles4Front();
-//            } else {
-//                setCameraAngles4Back();
-//            }
-//
-//            Log.d(TAG, "inputAngle=" + inputAngle + " ,outputAngle=" + outAngle + ", flipAxis=" + flipAxis + ", cameraId=" + cameraId);
-//
-//            if (isAlgDataRendered && !isFrameSync) {
-//                long now = SystemClock.uptimeMillis();
-//                // 1、测试发现，onDrawFrame接口和onTextureInput接口虽然是不同的线程回调，但会顺序执行;
-//                //    onDrawFrame回调频率高于onTextureInput，所以保证算法结果被用于渲染之后，才会再次执行，否则会有一次冗余的算法过程，也会导致卡顿
-//                // 2、新版本的queen不支持在非渲染线程执行，所以先在native侧将buffer拷贝存储起来，在渲染线程执行算法
-//                long bufferSize = 0;
-//                switch (format) {
-//                    case BeautyImageFormat.kNV21:
-//                        bufferSize = (long) (width * height * 1.5);
-//                        break;
-//                    case BeautyImageFormat.kRGB:
-//                        bufferSize = width * height * 3;
-//                        break;
-//                    case BeautyImageFormat.kRGBA:
-//                        bufferSize = width * height * 4;
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                if (bufferSize > 0) {
-//                    mAlgNativeBufferPtr = mMediaChainEngine.copyNativeBuffer(imageNativeBufferPtr, bufferSize);
-//                    mAlgDataFormat = format;
-//                    mAlgDataWidth = width;
-//                    mAlgDataHeight = height;
-//                    nAlgDataStride = stride;
-//                }
-//            }
-//        }
-    }
-
-    @Override
     public String getVersion() {
         return "";
     }
-
 
     @Override
     public void switchCameraId(int cameraId) {

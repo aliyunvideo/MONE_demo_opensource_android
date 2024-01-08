@@ -44,6 +44,7 @@
     <string name="repush_button">重新推流</string>
     <string name="more_setting_button">更多设置</string>
     <string name="data_args">数据指标</string>
+    <string name="network_detect">网络探测</string>
     <string name="local_info">本地视频统计信息</string>
 
 
@@ -94,5 +95,5 @@
     <string name="sound_effect_changevoice_ktv">KTV</string>
     <string name="sound_effect_changevoice_echo">回声</string>
 
-    <string name="live_push_send_sei">发送 SEI</string>
+    <string name="live_push_send_sei">发送自定义消息</string>
 </resources>

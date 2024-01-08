@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pull_rtc_enter_name_tv">拉流播放</string>
+    <string name="pull_rtc_enter_name_desc">支持常见协议，如FLV、RTMP、HLS、RTS等</string>
     <string name="view_string_hint_pull_url">请输入拉流url</string>
     <string name="pull_restart">重试</string>
-    
+    <string name="live_pull">拉流</string>
+    <string name="live_pull_addr_error">拉流地址错误，请检查后重新输入</string>
 </resources>

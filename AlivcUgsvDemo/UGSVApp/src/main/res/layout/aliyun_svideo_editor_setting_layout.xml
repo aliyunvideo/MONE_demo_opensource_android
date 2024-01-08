@@ -365,7 +365,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:textSize="14sp"
-                    android:text="合成后发布到云端"
+                    android:text="@string/alivc_recorder_record_publish"
                     android:textColor="@color/text_strong"/>
 
 

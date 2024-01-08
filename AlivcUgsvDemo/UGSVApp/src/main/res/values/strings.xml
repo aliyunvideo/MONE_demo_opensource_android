@@ -8,9 +8,9 @@
     <string name="solution_svideo">Svideo</string>
     <string name="solution_upload">Upload</string>
     <string name="solution_recorder">Recorder</string>
-    <string name="solution_mix_recorder">Mix Recorder</string>
+    <string name="solution_mix_recorder">Duet Recorder</string>
     <string name="solution_camera">Camera</string>
-    <string name="solution_crop">Crop</string>
+    <string name="solution_crop">Clipper</string>
     <string name="solution_race_beauty">Race Beauty</string>
     <string name="solution_draft_box">draft box</string>
     <string name="solution_template">Template</string>
@@ -27,11 +27,11 @@
     <string name="solution_unable_merge_remind">Unable Merge Desx</string>
     <string name="resetstr">Switch Success, reloading data...</string>
     <string name="alivc_apsara_video_regist">© 2009&#8211;2018 Copyright by Alibaba Cloud All rights reserved</string>
-    <string name="aliyun_min_record_duration_more_than">The minimum length must be greater than 0 seconds.</string>
-    <string name="aliyun_min_record_duration_less_than">The minimum length cannot be greater than 300 seconds.</string>
+    <string name="aliyun_min_record_duration_more_than">must > 0s</string>
+    <string name="aliyun_min_record_duration_less_than"></string>
 
-    <string name="aliyun_max_record_duration_more_than">The maximum length must be greater than 0 seconds</string>
-    <string name="aliyun_max_record_duration_less_than">The maximum length connot be greater than 300 seconds</string>
+    <string name="aliyun_max_record_duration_more_than">must > 0s</string>
+    <string name="aliyun_max_record_duration_less_than"></string>
 
     <string name="alivc_apsara_video_title">Aparsara Video</string>
     <string name="alivc_recorder_queen_hint">Queen</string>
@@ -48,8 +48,8 @@
     <string name="alivc_recorder_setting_gop">Keyframe Interval</string>
     <string name="alivc_recorder_setting_resolution">Resolution</string>
     <string name="alivc_recorder_setting_ratio">Aspect Ratio</string>
-    <string name="alivc_recorder_setting_min_record_duration_hint">Default: 2 seconds. The minimum length must be greater than 0.</string>
-    <string name="alivc_recorder_setting_max_record_duration_hint">Default: 15 seconds, Maximum: 300 seconds</string>
+    <string name="alivc_recorder_setting_min_record_duration_hint">Default: 2 seconds. </string>
+    <string name="alivc_recorder_setting_max_record_duration_hint">Default: 15 secondsMaximum: 300 seconds</string>
     <string name="alivc_recorder_setting_gop_hint">Default: 30, Recommended: 1 to 300</string>
     <string name="alivc_recorder_setting_start_record">Record</string>
     <string name="alivc_recorder_setting_tittle">Record Settings</string>
@@ -101,5 +101,10 @@
     <string name="aliyun_start_mix_record">Select a video to create a duet</string>
     <string name="alivc_recorder_record_dialog_permission_remind">Please allow ApsaraVideo to access Photos/camera/sdcard first</string>
     <string name="alivc_recorder_record_dialog_not_setting">Cancel</string>
+
+    <string name="alivc_recorder_record_mirror">Mirror</string>
+    <string name="alivc_recorder_record_auto_clear">Auto Clear Draft</string>
+    <string name="alivc_recorder_record_go_to_edit">Go to Editor</string>
+    <string name="alivc_recorder_record_publish">Publish after export</string>
 
 </resources>

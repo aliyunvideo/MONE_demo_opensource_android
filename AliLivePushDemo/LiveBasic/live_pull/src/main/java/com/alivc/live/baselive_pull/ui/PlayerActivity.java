@@ -123,7 +123,7 @@ public class PlayerActivity extends AVBaseThemeActivity implements SurfaceHolder
                 }
                 if (mDialog == null || !mDialog.isShowing()) {
                     mDialog = new CommonDialog(PlayerActivity.this);
-                    mDialog.setDialogTitle("播放器出错");
+                    mDialog.setDialogTitle("Error");
                     mDialog.setDialogContent(errorInfo.getMsg());
                     mDialog.setConfirmButton(TextFormatUtil.getTextFormat(PlayerActivity.this, R.string.pull_cancel), new DialogInterface.OnClickListener() {
                         @Override
@@ -250,9 +250,9 @@ public class PlayerActivity extends AVBaseThemeActivity implements SurfaceHolder
 
     private void startPull(String url) {
         if (TextUtils.isEmpty(url)) {
-            showTipDialog("拉流地址错误，请检查后重新输入");
+            showTipDialog(getBaseContext().getResources().getString(R.string.live_pull_addr_error));
         } else {
-            showTipDialog( "正在拉流中");
+            showTipDialog( "pulling...");
             startPlay();
         }
     }

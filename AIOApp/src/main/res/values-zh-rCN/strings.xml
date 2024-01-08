@@ -1,6 +1,6 @@
 <resources>
-    <string name="aio_app_name">视频云终端SDK</string>
-    <string name="aio_app_title">视频云终端\nSDK</string>
+    <string name="aio_app_name">音视频终端SDK</string>
+    <string name="aio_app_title">音视频终端SDK</string>
     <string name="aio_tv_main_version">version = 1.0</string>
 
     <string name="aio_live_push">直播</string>
@@ -23,6 +23,8 @@
 
     <string name="aio_btn_cancel">取消</string>
     <string name="aio_btn_ok">确定</string>
+
+    <string name="aio_aliyun_sdk_privacy">《<a href='https://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud202112151438_20307.html?spm=a2c4g.11186623.0.0.10c739ebi5cK2M'><font color='#E6E7EC'>阿里云视频服务隐私权政策</font></a>》</string>
 
     <string name="aio_interactive_live">互动直播</string>
     <string name="aio_interactive_live_desc">音视频通话</string>
