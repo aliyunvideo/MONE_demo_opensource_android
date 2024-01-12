@@ -28,9 +28,6 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.github.kezong:fat-aar:1.3.8'
     }
-    if (this.ext.is_source_debug) {
-        apply from: "${this.ext.source_path}/config.gradle"
-    }
 }
 
 allprojects {
@@ -55,11 +52,6 @@ allprojects {
         maven { 
             allowInsecureProtocol = true
             url 'http://4thline.org/m2' 
-        }
-        if (this.ext.is_source_debug) {
-            flatDir {
-                dirs "${mediabox_root}/all_in_one/acps/all_aars"
-            }
         }
         flatDir {
             dirs 'libs'

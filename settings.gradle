@@ -7,12 +7,6 @@ include ':AUIFoundation:AVMatisse'
 include ':AUIFoundation:AVUtils'
 include ':AIOApp'
 
-apply from: 'https://code.alibaba-inc.com/apsara-media-box/imp-android-gradle-config/raw/v6.7.0/aio/media_box_debug_config.gradle' //内部调试代码，发布删除 -- 注释勿动
-if(this.ext.is_source_debug) {
-    apply from: "${this.ext.source_path}/settings.gradle"
-}
-
-
 //-------------------------------播放器DEMO Start-------------------------------------
 if (hasPlayer()) {
     include ':AUIPlayerApp'

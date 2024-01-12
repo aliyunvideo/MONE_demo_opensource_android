@@ -1,6 +1,3 @@
 project.ext {
     ugc_sdk = externalSvideopro
-    if (rootProject.hasProperty("sdk_code_path") && file(rootProject.property("sdk_code_path")).exists()) {  //内部调试代码，发布删除 -- 注释勿动
-        ugc_sdk = project(":AliyunVideoSdk")  //内部调试代码，发布删除 -- 注释勿动
-    }  //内部调试代码，发布删除 -- 注释勿动
 }
