@@ -2,7 +2,7 @@ ext {
     //==Android Third party,include Application Layer,SDK Layer==
 
     //Build Gradle Plugin
-    externalAndroidBuildGradlePlugin = 'com.android.tools.build:gradle:4.1.3'
+    externalAndroidBuildGradlePlugin = 'com.android.tools.build:gradle:7.1.2'
     externalAndroidKotlinPlugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
 
     //kotlin std lib

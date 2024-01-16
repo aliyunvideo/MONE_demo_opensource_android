@@ -14,9 +14,6 @@ buildscript {
             allowInsecureProtocol = true
             url "http://maven.aliyun.com/nexus/content/repositories/releases" 
         }
-            maven { 
-                allowInsecureProtocol = true
-                url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
 
         maven { url 'https://repo1.maven.org/maven2/' }
     }
@@ -48,9 +45,7 @@ allprojects {
             allowInsecureProtocol = true
             url "http://maven.aliyun.com/nexus/content/repositories/releases" 
         }
-            maven { 
-                allowInsecureProtocol = true
-                url 'http://mvnrepo.alibaba-inc.com/mvn/repository' 
+
         maven { url 'https://repo1.maven.org/maven2/' }
         maven { 
             allowInsecureProtocol = true

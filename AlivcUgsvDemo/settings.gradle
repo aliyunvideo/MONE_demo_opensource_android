@@ -50,12 +50,6 @@ project(':AUIFoundation:AVTheme').projectDir = new File(settingsDir, '../AUIFoun
 
 include ':AUIFoundation:AVMatisse'
 project(':AUIFoundation:AVMatisse').projectDir = new File(settingsDir, '../AUIFoundation/AVMatisse')
-Properties rootProperties = new Properties()
-rootProperties.load(new File(getRootDir().absolutePath + "/local.properties").newDataInputStream())
-def setting_gradle = rootProperties.getProperty('setting.gradle')
-if(setting_gradle != null)
-{
-    apply from: setting_gradle
-}
+
 include ':templateSample'
 include ':AUIVideoMixRecorder'

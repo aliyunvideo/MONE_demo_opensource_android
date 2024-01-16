@@ -127,33 +127,3 @@ dependencies {
 
 import java.security.MessageDigest
 def digest = MessageDigest.getInstance('MD5')
-
-afterEvaluate {
-    File localFile = new File(getRootDir().absolutePath + "/local.properties")
-    if(localFile.exists()){
-        Properties localProperties = new Properties()
-        localProperties.load(localFile.newDataInputStream())
-        def sdkDirectory = null
-        if (localProperties.getProperty('sdk.dir') != null) {
-            sdkDirectory = localProperties.getProperty('sdk.dir')
-        }
-        if (sdkDirectory == null) {
-            sdkDirectory = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
-        }
-        if (new File("${sdkDirectory}/build-tools/${androidBuildToolsVersion}/d8") && ! new File("${sdkDirectory}/build-tools/${androidBuildToolsVersion}/dx").exists()) {
-            exec {
-                commandLine 'ln','-s',"${sdkDirectory}/build-tools/${androidBuildToolsVersion}/d8","${sdkDirectory}/build-tools/${androidBuildToolsVersion}/dx"
-            }
-        }
-        if (new File("${sdkDirectory}/build-tools/${androidBuildToolsVersion}/lib/d8.jar") &&! new File("${sdkDirectory}/build-tools/${androidBuildToolsVersion}/lib/dx.jar").exists()) {
-            exec {
-                commandLine 'ln', '-s', "${sdkDirectory}/build-tools/${androidBuildToolsVersion}/lib/d8.jar", "${sdkDirectory}/build-tools/${androidBuildToolsVersion}/lib/dx.jar"
-            }
-        }
-        println("sdkDirectory = " + sdkDirectory)
-        def sourceDebug = localProperties.getProperty('source.debug')
-        if(sourceDebug != null && "true".equalsIgnoreCase(sourceDebug)){
-            return
-        }
-    }
-}
