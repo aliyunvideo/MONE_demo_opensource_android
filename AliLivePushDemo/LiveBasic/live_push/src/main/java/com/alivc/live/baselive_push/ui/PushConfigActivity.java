@@ -202,9 +202,19 @@ public class PushConfigActivity extends AVBaseThemeActivity {
         });
         mLivePushSettingView.targetVideoBitrate.observe(this, bitrate -> {
             SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), bitrate);
+            mAlivcLivePushConfig.setTargetVideoBitrate(bitrate);
         });
         mLivePushSettingView.minVideoBitrate.observe(this, bitrate -> {
             SharedPreferenceUtils.setHintMinBit(getApplicationContext(), bitrate);
+            mAlivcLivePushConfig.setMinVideoBitrate(bitrate);
+        });
+        mLivePushSettingView.initialVideoBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintMinBit(getApplicationContext(), bitrate);
+            mAlivcLivePushConfig.setInitialVideoBitrate(bitrate);
+        });
+        mLivePushSettingView.audioBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintMinBit(getApplicationContext(), bitrate);
+            mAlivcLivePushConfig.setAudioBitRate(bitrate);
         });
         mLivePushSettingView.variableResolution.observe(this, isChecked -> {
             mAlivcLivePushConfig.setEnableAutoResolution(isChecked);

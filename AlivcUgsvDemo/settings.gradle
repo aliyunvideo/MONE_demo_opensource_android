@@ -50,6 +50,5 @@ project(':AUIFoundation:AVTheme').projectDir = new File(settingsDir, '../AUIFoun
 
 include ':AUIFoundation:AVMatisse'
 project(':AUIFoundation:AVMatisse').projectDir = new File(settingsDir, '../AUIFoundation/AVMatisse')
-
 include ':templateSample'
 include ':AUIVideoMixRecorder'

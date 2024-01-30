@@ -574,10 +574,19 @@ public class AUIRecorderView extends FrameLayout
             @Override
             public void onTakePhotoClick() {
                 //拍照
-                recorder.takeSnapshot(true, new OnPictureCallback() {
+                OnPictureCallback callback = new OnPictureCallback() {
                     @Override
                     public void onPicture(final Bitmap bitmap, byte[] data) {
-                        ThreadUtils.runOnSubThread(new Runnable() {
+                        if (bitmap == null || data == null) {
+                            ThreadUtils.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    AVToast.show(getContext(), true, R.string.ugsv_recorder_toast_photo_failed);
+                                }
+                            });
+                            return;
+                        }
+                        Runnable runnable = new Runnable() {
                             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void run() {
@@ -608,9 +617,16 @@ public class AUIRecorderView extends FrameLayout
                                     e.printStackTrace();
                                 }
                             }
-                        });
+                        };
+                        ThreadUtils.runOnSubThread(runnable);
                     }
-                });
+                };
+                // 满足不同测试路径：前置摄像头走截屏、后置摄像头走拍照
+                if (mControlView.getCameraType() == AUICameraType.FRONT) {
+                    recorder.takeSnapshot(true, callback);
+                } else {
+                    recorder.takePicture(true, callback);
+                }
             }
 
             @Override

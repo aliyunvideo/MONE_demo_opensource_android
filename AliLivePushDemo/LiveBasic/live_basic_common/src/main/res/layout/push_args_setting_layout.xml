@@ -168,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="@string/display_mode"
+                android:text="@string/push_mode"
                 android:textColor="@color/text_strong"
                 android:textSize="@dimen/font_size_30px" />
 

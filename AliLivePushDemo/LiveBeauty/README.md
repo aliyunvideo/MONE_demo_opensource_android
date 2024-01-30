@@ -8,63 +8,30 @@
 
 ## **二、前置条件**
 
-**1、申请License**
+**1.申请License**
 
 参考文档：[获取美颜特效SDK License](https://help.aliyun.com/zh/live/user-guide/obtain-a-license-of-queen-sdk/)
 
-**2、配置License**
+**2.配置License**
 
-参考项目README.md文档里面的**配置License**环节。
+参考项目 README.md 文档里面的**配置License**环节。
 
-## **三、模块实现**
+## **三、接入流程**
 
-### **模块介绍**
+**1.引入插件模块**
 
-LiveBeauty，负责美颜处理的基础模块，分为live_beauty和live_queenbeauty两个模块。
-
-live_beauty模块，主要负责对于直播场景下美颜接口的抽象；
-
-live_queenbeauty是基于live_beauty抽象接口，对Queen美颜SDK的封装与具体实现。
-
-### **实现逻辑**
-
-* 对外接口：BeautyInterface
-* 核心实现：QueenBeautyImpl
-* 创建实例：BeautyFactory
-
-由于模块实现了插件化，因此beauty实例是通过反射进行实例化，即：
-
-BeautyInterface类，负责抽象出一套统一的对外接口；
-
-BeautyFactory类，通过反射创建实例；
-
-QueenBeautyImpl类，为Queen SDK美颜实现；**（核心逻辑）**
-
-**注意：如果QueenBeautyImpl的包名被修改，请注意同步在代码中修改包名，否则在实例化失败，导致美颜调用无效！**
-
-```java
-public class BeautyConstant {
-    // 由于beauty模块是插件化，因此beauty实例是通过反射进行实例化，请注意修改美颜具体实现（impl）类名，以免出现美颜初始化失败导致美颜失效的问题
-    public static final String BEAUTY_QUEEN_MANAGER_CLASS_NAME = "com.alivc.live.queenbeauty.QueenBeautyImpl";
-}
-```
-
-### **接入流程**
-
-* **引入模块依赖**
-
-如果使用LiveBeauty功能，请注意引入live_queenbeauty模块：
+如果使用 LiveBeauty 功能，请注意引入 live_queenbeauty 模块：
 
 ```groovy
 implementation project(':LiveBeauty:live_queenbeauty')
 ```
 
-* **美颜处理逻辑**
+**2.美颜处理逻辑**
 
 ```java
 private BeautyInterface mBeautyManager;
 
-mALivcLivePusher.setCustomFilter(new AlivcLivePushCustomFilter() {
+mAlivcLivePusher.setCustomFilter(new AlivcLivePushCustomFilter() {
     @Override
     public void customFilterCreate() {
         initBeautyManager();
@@ -107,32 +74,65 @@ private void destroyBeautyManager() {
 }
 ```
 
-* **美颜UI面板逻辑**
+**3.美颜UI面板逻辑**
 
-  * **UI布局**
+* **UI布局**
 
-  ```xml
-  <com.aliyunsdk.queen.menu.QueenBeautyMenu
-      android:id="@+id/beauty_beauty_menuPanel"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_centerHorizontal="true" />
-  ```
+```xml
+<com.aliyunsdk.queen.menu.QueenBeautyMenu
+    android:id="@+id/beauty_beauty_menuPanel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true" />
+```
 
-  * **UI声明**
+* **UI声明**
 
-  ```java
-  QueenMenuPanel beautyMenuPanel = QueenBeautyMenu.getPanel(context);
-  beautyMenuPanel.onHideMenu();
-  beautyMenuPanel.onHideValidFeatures();
-  beautyMenuPanel.onHideCopyright();
-  
-  QueenBeautyMenu beautyBeautyContainerView = findViewById(R.id.beauty_beauty_menuPanel);
-  beautyBeautyContainerView.addView(beautyMenuPanel);
-  ```
+```java
+QueenMenuPanel beautyMenuPanel = QueenBeautyMenu.getPanel(context);
+beautyMenuPanel.onHideMenu();
+beautyMenuPanel.onHideValidFeatures();
+beautyMenuPanel.onHideCopyright();
 
-### **依赖关系**
+QueenBeautyMenu beautyBeautyContainerView = findViewById(R.id.beauty_beauty_menuPanel);
+beautyBeautyContainerView.addView(beautyMenuPanel);
+```
+
+## **四、模块实现**
+
+### **模块介绍**
+
+LiveBeauty，负责美颜处理的基础模块，分为live_beauty和live_queenbeauty两个模块。
+
+live_beauty模块，主要负责对于直播场景下美颜接口的抽象；
+
+live_queenbeauty是基于live_beauty抽象接口，对Queen美颜SDK的封装与具体实现。
+
+### **实现逻辑**
+
+* 对外接口：BeautyInterface
+* 核心实现：QueenBeautyImpl
+* 创建实例：BeautyFactory
+
+由于模块实现了插件化，因此beauty实例是通过反射进行实例化，即：
+
+BeautyInterface类，负责抽象出一套统一的对外接口；
+
+BeautyFactory类，通过反射创建实例；
+
+QueenBeautyImpl类，为Queen SDK美颜实现；**（核心逻辑）**
+
+**注意：如果QueenBeautyImpl的包名被修改，请注意同步在代码中修改包名，否则在实例化失败，导致美颜调用无效！**
+
+```java
+public class BeautyConstant {
+    // 由于beauty模块是插件化，因此beauty实例是通过反射进行实例化，请注意修改美颜具体实现（impl）类名，以免出现美颜初始化失败导致美颜失效的问题
+    public static final String BEAUTY_QUEEN_MANAGER_CLASS_NAME = "com.alivc.live.queenbeauty.QueenBeautyImpl";
+}
+```
+
+### 依赖关系
 
 ```groovy
 dependencies {
@@ -149,7 +149,9 @@ dependencies {
 }
 ```
 
-**注明：**[Queen SDK](https://www.aliyun.com/activity/cdn/video/rtc_race)基础版和高级版区别，详见：[Android端集成美颜特效SDK](https://help.aliyun.com/zh/live/user-guide/integrate-queen-sdk-for-android)
+**注意：** 直播独立SDK不包含基础美颜功能，一体化SDK包含基础美颜功能；Queen SDK包含基础美颜+高级美颜功能。
+
+**注明：** [Queen SDK](https://www.aliyun.com/activity/cdn/video/rtc_race)基础版和高级版区别，详见：[Android端集成美颜特效SDK](https://help.aliyun.com/zh/live/user-guide/integrate-queen-sdk-for-android)
 
 * **queen_menu**
 
@@ -161,7 +163,7 @@ BeautyInterface为抽象化的美颜接口类，客户可以基于该接口类�
 
 在BeautyConstant里面定义实现类的包路径，在BeautySDKType里面定义美颜SDK类型，通过BeautyFactory指定美颜SDK类型，完成反射实例化。
 
-## 四、重要更新
+## 五、重要更新
 
 * v4.4.4~v6.1.0：基础直播下的美颜，处理逻辑参考BeautySDKType.QUEEN，即：QueenBeautyImpl；互动直播下的美颜，处理逻辑参考BeautySDKType.INTERACT_QUEEN，即：InteractQueenBeautyImpl；
 
@@ -169,7 +171,7 @@ BeautyInterface为抽象化的美颜接口类，客户可以基于该接口类�
 
 * v6.7.0开始，一体化SDK只包含基础美颜功能，高级美颜功能需要单独集成美颜SDK，详见模块文档；
 
-## 五、用户指引
+## 六、用户指引
 
 ### **文档**
 
@@ -177,9 +179,9 @@ BeautyInterface为抽象化的美颜接口类，客户可以基于该接口类�
 
 [音视频终端SDK](https://help.aliyun.com/product/261167.html)
 
-[美颜特效SDK](https://help.aliyun.com/document_detail/2392303.html)
+[美颜特效SDK](https://help.aliyun.com/zh/apsara-video-sdk/developer-reference/queen-sdk/)
 
-[美颜特效SDK通用问题](https://help.aliyun.com/document_detail/2400372.html)
+[美颜特效SDK通用问题](https://help.aliyun.com/zh/apsara-video-sdk/developer-reference/faq-related-to-queen-sdk)
 
 ### **FAQ**
 

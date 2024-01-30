@@ -13,10 +13,8 @@ import com.alivc.live.commonbiz.BuildConfig;
 import com.alivc.live.pusher.AlivcLiveBase;
 import com.alivc.live.pusher.AlivcLiveBaseListener;
 import com.alivc.live.pusher.AlivcLivePushConstants;
-import com.alivc.live.pusher.AlivcLivePushInstance;
 import com.alivc.live.pusher.AlivcLivePushLogLevel;
 import com.aliyun.aio.utils.ThreadUtils;
-import com.aliyunsdk.queen.menu.download.BeautyMenuMaterial;
 
 import java.io.File;
 
@@ -30,9 +28,6 @@ import java.io.File;
  * @see <a href="https://help.aliyun.com/zh/live/developer-reference/integrate-a-push-sdk-license">推流SDK License文档</a>
  * @see <a href="https://help.aliyun.com/zh/live/user-guide/co-streaming/">直播连麦文档</a>
  * @see <a href="https://help.aliyun.com/zh/live/developer-reference/push-sdk/">推流SDK文档</a>
- * <p>
- * @see <a href="https://www.aliyun.com/activity/cdn/video/rtc_race">美颜特效SDK官网</a>
- * @see <a href="https://help.aliyun.com/document_detail/211046.html">美颜特效SDK文档</a>
  */
 public class PushLaunchManager {
     private static final String TAG = PushLaunchManager.class.getSimpleName();
@@ -47,9 +42,8 @@ public class PushLaunchManager {
      */
     public static void launch4All(@NonNull Context context) {
         launch4LivePushDemo(context);
-        registerPushSDKLicense(context);
+        registerPushSDKLicense();
         launch4Log(context);
-        launch4QueenBeauty(context);
     }
 
     /**
@@ -67,11 +61,9 @@ public class PushLaunchManager {
     /**
      * 推流SDK申请License
      *
-     * @param context android context
      * @see <a href="https://help.aliyun.com/zh/live/developer-reference/integrate-a-push-sdk-license">推流SDK License文档</a>
      */
-    private static void registerPushSDKLicense(@NonNull Context context) {
-        AlivcLivePushInstance.loadInstance(context);
+    private static void registerPushSDKLicense() {
         AlivcLiveBase.setListener(new AlivcLiveBaseListener() {
             @Override
             public void onLicenceCheck(AlivcLivePushConstants.AlivcLiveLicenseCheckResultCode alivcLiveLicenseCheckResultCode, String s) {
@@ -82,7 +74,7 @@ public class PushLaunchManager {
     }
 
     /**
-     * 日志配置
+     * 推流SDK日志配置
      * <p>
      * 在debug环境下，使用console日志；release环境下，使用file日志；
      *
@@ -99,18 +91,6 @@ public class PushLaunchManager {
             int maxPartFileSizeInKB = 100 * 1024 * 1024; //100G
             AlivcLiveBase.setLogDirPath(logPath, maxPartFileSizeInKB);
         }
-    }
-
-    /**
-     * Queen美颜资源加载等
-     *
-     * @param context android context
-     * @see <a href="https://www.aliyun.com/activity/cdn/video/rtc_race">美颜特效SDK官网</a>
-     * @see <a href="https://help.aliyun.com/document_detail/211046.html">美颜特效SDK文档</a>
-     */
-    private static void launch4QueenBeauty(@NonNull Context context) {
-        // 新版本menu-sdk不用再prepare，内部会自动进行prepare处理
-//        BeautyMenuMaterial.getInstance().prepare(context);
     }
 
     private static String getLogFilePath(@NonNull Context context, String dir) {

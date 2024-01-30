@@ -99,9 +99,10 @@ ext {
     externalARTC = 'com.aliyun.sdk.android:AlivcArtc:6.8.0'
     externalAlivcConan = 'com.alivc.conan:AlivcConan:1.0.5'
     externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
-    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:6.8.0"
-    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:6.8.0"
-    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Standard:6.8.0'
+    externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:6.9.0"
+    externalLivePusher = "com.alivc.pusher:AlivcLivePusher:6.9.0"
+    externalAllInOne = 'com.aliyun.aio:AliVCSDK_Standard:6.9.0'
+
 
     if ("true".equalsIgnoreCase(allInOne)) {
         externalAlivcFFmpeg = externalAllInOne

@@ -6,7 +6,7 @@ This project consists of the AIOApp video cloud terminal SDK and three sub-busin
 ## 运行环境
 Android Studio
 
-Gradle 7.5, 插件版本4.1.2
+Gradle 7.5, 插件版本7.1.2
 
 Java Android Studio with jdk11
 
@@ -78,9 +78,9 @@ The specific values are as follows:
 #AliVCSDK_InteractiveLive: the SDK for interactive live streaming scenarios.
 
 ## SDK library and version
-| Version | Dependency | Capability item |
+| Version | Dependency                                    | Capability item |
 |-------------|-----------------------------------------------|----------------------------------------|
-| Standard Integrated SDK | com.aliyun.aio:AliVCSDK_Standard:6.8.0 | Player + ultra-low latency live broadcast + live broadcast + short video + RTC-connected microphone + basic beauty |
-| Short video scenario SDK | com.aliyun.aio:AliVCSDK_UGC:6.8.0 | Player + short video + basic beauty |
-| Basic live streaming SDK | com.aliyun.aio:AliVCSDK_BasicLive:6.8.0 | Player + live streaming + basic beauty + ultra-low latency live streaming |
-| Interactive live streaming SDK | com.aliyun.aio:AliVCSDK_InteractiveLive:6.8.0 | Player + ultra-low latency live streaming + live streaming + RTC link + basic beauty |
+| Standard Integrated SDK | com.aliyun.aio:AliVCSDK_Standard:6.9.0        | Player + ultra-low latency live broadcast + live broadcast + short video + RTC-connected microphone + basic beauty |
+| Short video scenario SDK | com.aliyun.aio:AliVCSDK_UGC:6.9.0             | Player + short video + basic beauty |
+| Basic live streaming SDK | com.aliyun.aio:AliVCSDK_BasicLive:6.9.0       | Player + live streaming + basic beauty + ultra-low latency live streaming |
+| Interactive live streaming SDK | com.aliyun.aio:AliVCSDK_InteractiveLive:6.9.0 | Player + ultra-low latency live streaming + live streaming + RTC link + basic beauty |

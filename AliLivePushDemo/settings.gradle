@@ -4,6 +4,10 @@ if (file(livePushSdkSourceCode).exists()) {
     project(':alivc-livepusher-lib').projectDir = file(livePushSdkSourceCode)
 }
 
+
+
+
+
 include ':AndroidThirdParty'
 include ':AUIFoundation:AVTheme'
 include ':AUIFoundation:AVBaseUI'

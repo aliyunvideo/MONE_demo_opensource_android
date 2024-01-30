@@ -27,6 +27,7 @@
     <string name="ugsv_recorder_toast_flash_disable">The front-facing camera has no flash</string>
     <string name="ugsv_recorder_toast_disable_after_recording">Cannot be modified during shooting</string>
     <string name="ugsv_recorder_toast_photo_saved">Photo saved.</string>
+    <string name="ugsv_recorder_toast_photo_failed">Photo failed.</string>
     <string name="ugsv_recorder_finish_fail">Synthesis failure</string>
     <string name="ugsv_recorder_toast_phone_state_calling">During a call, mute the recording</string>
 

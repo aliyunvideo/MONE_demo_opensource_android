@@ -27,6 +27,7 @@
     <string name="ugsv_recorder_toast_flash_disable">前置摄像头没有闪光灯</string>
     <string name="ugsv_recorder_toast_disable_after_recording">拍摄中不可修改</string>
     <string name="ugsv_recorder_toast_photo_saved">照片已保存</string>
+    <string name="ugsv_recorder_toast_photo_failed">拍照失败</string>
     <string name="ugsv_recorder_finish_fail">合成失败</string>
     <string name="ugsv_recorder_toast_phone_state_calling">通话中, 录制时静音</string>
 

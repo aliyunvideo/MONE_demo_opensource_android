@@ -17,6 +17,10 @@ buildscript {
             allowInsecureProtocol = true
             url "http://maven.aliyun.com/repository/central"
         }
+        maven {
+            allowInsecureProtocol = true
+            url "https://maven.aliyun.com/repository/gradle-plugin"
+        }
         maven { url 'https://www.jitpack.io' }
     }
     apply from: 'AndroidThirdParty/config.gradle'
@@ -48,6 +52,10 @@ allprojects {
         maven {
             allowInsecureProtocol = true
             url "http://maven.aliyun.com/repository/central"
+        }
+        maven {
+            allowInsecureProtocol = true
+            url "https://maven.aliyun.com/repository/gradle-plugin"
         }
         maven { 
             allowInsecureProtocol = true

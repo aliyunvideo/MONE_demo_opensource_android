@@ -45,7 +45,6 @@ allprojects {
             allowInsecureProtocol = true
             url "http://maven.aliyun.com/nexus/content/repositories/releases" 
         }
-
         maven { url 'https://repo1.maven.org/maven2/' }
         maven { 
             allowInsecureProtocol = true
@@ -57,11 +56,5 @@ allprojects {
 
     buildDir = new File(rootDir, "gradle-build/${path.replaceAll(':', '/')}")
 
-    Properties localProperties = new Properties()
-    localProperties.load(new File(getRootDir().absolutePath + "/local.properties").newDataInputStream())
-    def dir = localProperties.getProperty('svideo.sdk.dir')
-    if(dir != null){
-        apply from: dir + "/android/config.gradle"
-    }
 }
 

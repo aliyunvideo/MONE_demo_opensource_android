@@ -6,7 +6,7 @@
 ## 运行环境
 Android Studio
 
-Gradle 7.5, 插件版本4.1.2
+Gradle 7.5, 插件版本7.1.2
 
 Java Android Studio自带 jdk11
 
@@ -93,7 +93,7 @@ SDK_TYPE: 一体化包类型，默认为AliVCSDK_Premium，对应AndroidThirdPar
 ## SDK库及版本
 | 版本          | 依赖                                            | 能力项                                    |
 |-------------|-----------------------------------------------|----------------------------------------|
-| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:6.8.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 基础美颜 |
-| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:6.8.0             | 播放器 + 短视频 + 基础美颜                             | 
-| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:6.8.0       | 播放器  + 直播推流 + 基础美颜  + 超低延迟直播                        | 
-| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:6.8.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦  + 基础美颜       | 
+| 标准一体化SDK    | com.aliyun.aio:AliVCSDK_Standard:6.9.0        | 播放器 + 超低延迟直播 + 直播 + 短视频 + RTC连麦 + 基础美颜 |
+| 短视频场景SDK    | com.aliyun.aio:AliVCSDK_UGC:6.9.0             | 播放器 + 短视频 + 基础美颜                             | 
+| 基础直播SDK     | com.aliyun.aio:AliVCSDK_BasicLive:6.9.0       | 播放器  + 直播推流 + 基础美颜  + 超低延迟直播                        | 
+| 互动直播SDK     | com.aliyun.aio:AliVCSDK_InteractiveLive:6.9.0 | 播放器 + 超低延迟直播 + 直播推流 + RTC连麦  + 基础美颜       | 

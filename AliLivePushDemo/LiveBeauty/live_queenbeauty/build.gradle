@@ -32,7 +32,7 @@ dependencies {
     api project(':LiveBeauty:live_beauty')
 
     // 此处修改：根据自身项目需要，指定依赖的菜单组件sdk
-    implementation(externalAliyunQueenUI) {
+    api(externalAliyunQueenUI) {
         exclude group: 'com.aliyun.maliang.android', module: 'queen'
     }
 

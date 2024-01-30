@@ -46,9 +46,5 @@ dependencies {
     implementation externalARouter
     annotationProcessor externalARouterCompiler
 
-    implementation project(':LiveBeauty:live_beauty')
     implementation project(':LiveBeauty:live_queenbeauty')
-    implementation(externalAliyunQueenUI) {
-        exclude group: 'com.aliyun.maliang.android', module: 'queen'
-    }
 }

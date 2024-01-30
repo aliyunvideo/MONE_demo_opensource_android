@@ -31,12 +31,9 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.1.0'
-    implementation project(':LiveBasic:live_basic_common')
-
-    implementation project(':LiveBeauty:live_beauty')
-    implementation project(':LiveBeauty:live_queenbeauty')
 
     implementation 'com.acker:simplezxing:1.5'
 
+    implementation project(':LiveBasic:live_basic_common')
     implementation externalPlayerFull
 }

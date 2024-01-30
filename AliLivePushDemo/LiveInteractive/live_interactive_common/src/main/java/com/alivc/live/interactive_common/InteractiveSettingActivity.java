@@ -18,6 +18,7 @@ import com.alivc.live.baselive_common.Common;
 import com.alivc.live.baselive_common.LivePushSettingView;
 import com.alivc.live.baselive_common.PushWaterMarkDialog;
 import com.alivc.live.commonbiz.ResourcesDownload;
+import com.alivc.live.commonbiz.SharedPreferenceUtils;
 import com.alivc.live.commonbiz.listener.OnDownloadListener;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
@@ -103,10 +104,20 @@ public class InteractiveSettingActivity extends AppCompatActivity {
             mAlivcLivePushConfig.setEnableBitrateControl(isChecked);
         });
         mLivePushSettingView.targetVideoBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintTargetBit(getApplicationContext(), bitrate);
             mAlivcLivePushConfig.setTargetVideoBitrate(bitrate);
         });
         mLivePushSettingView.minVideoBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintMinBit(getApplicationContext(), bitrate);
             mAlivcLivePushConfig.setMinVideoBitrate(bitrate);
+        });
+        mLivePushSettingView.initialVideoBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintMinBit(getApplicationContext(), bitrate);
+            mAlivcLivePushConfig.setInitialVideoBitrate(bitrate);
+        });
+        mLivePushSettingView.audioBitrate.observe(this, bitrate -> {
+            SharedPreferenceUtils.setHintMinBit(getApplicationContext(), bitrate);
+            mAlivcLivePushConfig.setAudioBitRate(bitrate);
         });
         mLivePushSettingView.variableResolution.observe(this, isChecked -> {
             mAlivcLivePushConfig.setEnableAutoResolution(isChecked);

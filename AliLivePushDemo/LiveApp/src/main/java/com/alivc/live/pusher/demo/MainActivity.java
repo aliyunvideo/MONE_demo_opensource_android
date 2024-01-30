@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int mNoPermissionIndex = 0;
     private final int PERMISSION_REQUEST_CODE = 1;
-    // todo keria: 动态权限申请这块需要梳理一下~~~
     private final String[] permissionManifest = {
             Manifest.permission.CAMERA,
             Manifest.permission.BLUETOOTH,

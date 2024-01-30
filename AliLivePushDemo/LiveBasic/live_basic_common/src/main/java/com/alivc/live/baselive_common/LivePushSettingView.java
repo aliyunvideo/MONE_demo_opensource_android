@@ -1,7 +1,9 @@
 package com.alivc.live.baselive_common;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.alivc.live.baselive_common.databinding.PushSettingViewLayoutBinding;
+import com.alivc.live.commonutils.TextFormatUtil;
 import com.alivc.live.pusher.AlivcAudioAACProfileEnum;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
@@ -144,13 +147,21 @@ public class LivePushSettingView extends LinearLayout {
     private final MutableLiveData<Integer> mBFrameLiveData = new MutableLiveData<>();
     public LiveData<Integer> bFrame = mBFrameLiveData;
 
-    //目标码率
+    // 视频目标码率
     private final MutableLiveData<Integer> mTargetVideoBitrate = new MutableLiveData<>();
     public LiveData<Integer> targetVideoBitrate = mTargetVideoBitrate;
 
-    //最小视频码率
+    // 视频最小码率
     private final MutableLiveData<Integer> mMinVideoBitrate = new MutableLiveData<>();
     public LiveData<Integer> minVideoBitrate = mMinVideoBitrate;
+
+    // 视频初始码率
+    private final MutableLiveData<Integer> mInitialVideoBitrate = new MutableLiveData<>();
+    public LiveData<Integer> initialVideoBitrate = mInitialVideoBitrate;
+
+    // 音频码率
+    private final MutableLiveData<Integer> mAudioBitrate = new MutableLiveData<>();
+    public LiveData<Integer> audioBitrate = mAudioBitrate;
 
     //暂停图片路径
     private final MutableLiveData<String> mPauseImgPathLiveData = new MutableLiveData<>();
@@ -205,8 +216,52 @@ public class LivePushSettingView extends LinearLayout {
 
     private void initData() {
         mViewBinding.pushArgsSetting.targetRateEdit.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
+        mViewBinding.pushArgsSetting.targetRateEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mTargetVideoBitrate.setValue(TextFormatUtil.convertString2Int(String.valueOf(s)));
+            }
+        });
+
         mViewBinding.pushArgsSetting.minRateEdit.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_MIN_BITRATE.getBitrate()));
+        mViewBinding.pushArgsSetting.minRateEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mMinVideoBitrate.setValue(TextFormatUtil.convertString2Int(String.valueOf(s)));
+            }
+        });
+
         mViewBinding.pushArgsSetting.initRateEdit.setHint(String.valueOf(AlivcLivePushConstants.BITRATE_540P_RESOLUTION_FIRST.DEFAULT_VALUE_INT_TARGET_BITRATE.getBitrate()));
+        mViewBinding.pushArgsSetting.initRateEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mInitialVideoBitrate.setValue(TextFormatUtil.convertString2Int(String.valueOf(s)));
+            }
+        });
         turnOnBitRateFps(false);
     }
 
@@ -796,6 +851,7 @@ public class LivePushSettingView extends LinearLayout {
 
         mTargetVideoBitrate.setValue(targetBitrate);
         mMinVideoBitrate.setValue(minBitrate);
+        mInitialVideoBitrate.setValue(initBitrate);
     }
 
     private final PushConfigBottomSheet.OnPushConfigSelectorListener mAudioChannelListener = (data, index) -> {
@@ -973,7 +1029,7 @@ public class LivePushSettingView extends LinearLayout {
         mPushConfigDialog.destroy();
     }
 
-    public void setDefaultConfig(AlivcLivePushConfig alivcLivePushConfig,boolean isEnableBeauty,boolean isEnableLocalLog,boolean isEnableWaterMark) {
+    public void setDefaultConfig(AlivcLivePushConfig alivcLivePushConfig, boolean isEnableBeauty, boolean isEnableLocalLog, boolean isEnableWaterMark) {
         mViewBinding.pushArgsSetting.bitrateControl.setChecked(alivcLivePushConfig.isEnableBitrateControl());
         mViewBinding.pushArgsSetting.targetRateEdit.setText(String.valueOf(alivcLivePushConfig.getTargetVideoBitrate()));
         mViewBinding.pushArgsSetting.minRateEdit.setText(String.valueOf(alivcLivePushConfig.getMinVideoBitrate()));

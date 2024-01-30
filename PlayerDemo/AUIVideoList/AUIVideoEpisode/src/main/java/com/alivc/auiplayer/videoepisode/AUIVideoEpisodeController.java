@@ -31,8 +31,20 @@ public class AUIVideoEpisodeController {
     private IPlayer preRenderPlayer;
     private boolean mAutoPlayLoop;
 
+    // 通过接口设置，可以达到全屏效果，默认是 IPlayer.ScaleMode.SCALE_ASPECT_FIT
+    // 当前SDK默认是 IPlayer.ScaleMode.SCALE_ASPECT_FIT ，即：图片以自身宽高比为准填充，较短一边未铺满全屏幕，但是会导致剩余空间透明，类似于上下黑边
+    // 如果想要全屏效果，请设置为 IPlayer.ScaleMode.SCALE_ASPECT_FILL ，即：图片以自身宽高比为准填充 ，超出部分裁剪，但是会导致图片显示不全，类似于放大并显示一部分
+    private static final IPlayer.ScaleMode DEFAULT_VIDEO_SCALE_MODE = IPlayer.ScaleMode.SCALE_ASPECT_FIT;
+
+    // 通过接口设置，可以达到精准seek效果，默认是 IPlayer.SeekMode.Inaccurate
+    // 当前SDK默认是 IPlayer.SeekMode.Inaccurate ，即：非精准seek
+    // 如果想要精准seek，请设置为 IPlayer.SeekMode.Accurate
+    private static final IPlayer.SeekMode DEFAULT_SEEK_MODE = IPlayer.SeekMode.Accurate;
+
     public AUIVideoEpisodeController(Context context) {
         aliListPlayer = AliPlayerFactory.createAliListPlayer(context);
+        aliListPlayer.setScaleMode(DEFAULT_VIDEO_SCALE_MODE);
+
         preRenderPlayer = aliListPlayer.getPreRenderPlayer();
 
         initPlayerConfigs(context);
@@ -191,8 +203,9 @@ public class AUIVideoEpisodeController {
         Log.i("CheckFunc", "setSurfaceToPreRenderPlayer " + "mOldPosition " + mOldPosition);
         preRenderPlayer = aliListPlayer.getPreRenderPlayer();
         if (preRenderPlayer != null && surface != null) {
+            preRenderPlayer.setScaleMode(DEFAULT_VIDEO_SCALE_MODE);
             preRenderPlayer.setSurface(surface);
-            preRenderPlayer.seekTo(0);
+            preRenderPlayer.seekTo(0, DEFAULT_SEEK_MODE);
         }
     }
 
@@ -200,10 +213,6 @@ public class AUIVideoEpisodeController {
         Log.i("CheckFunc", "setSurface" + " surface " + surface);
 
         aliListPlayer.setSurface(surface);
-    }
-
-    public void surfaceChanged() {
-        aliListPlayer.surfaceChanged();
     }
 
     public void destroy() {
@@ -235,7 +244,7 @@ public class AUIVideoEpisodeController {
             Log.w("CheckFunc", "seek, seekTo not valid: " + seekPosition);
             return;
         }
-        aliListPlayer.seekTo(seekPosition);
+        aliListPlayer.seekTo(seekPosition, DEFAULT_SEEK_MODE);
         Log.i("CheckFunc", "seek, seekTo " + seekPosition);
 
     }

@@ -125,5 +125,3 @@ dependencies {
     }
 }
 
-import java.security.MessageDigest
-def digest = MessageDigest.getInstance('MD5')

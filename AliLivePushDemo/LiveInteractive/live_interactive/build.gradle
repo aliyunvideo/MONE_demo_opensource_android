@@ -49,9 +49,5 @@ dependencies {
 
     api project(':LiveInteractive:live_interactive_common')
 
-    implementation project(':LiveBeauty:live_beauty')
     implementation project(':LiveBeauty:live_queenbeauty')
-    implementation(externalAliyunQueenUI) {
-        exclude group: 'com.aliyun.maliang.android', module: 'queen'
-    }
 }
