@@ -32,11 +32,6 @@ public class AUIVideoStandardListAdapter extends AUIVideoListAdapter {
         }
 
         @Override
-        public void bindUrl(String url) {
-
-        }
-
-        @Override
         protected AUIVideoListViewType getViewType() {
             return AUIVideoListViewType.STANDARD_LIST;
         }

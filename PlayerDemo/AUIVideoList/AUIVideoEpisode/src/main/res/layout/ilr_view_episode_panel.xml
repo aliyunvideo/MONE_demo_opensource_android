@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="500dp"
-    android:background="@color/bg_weak"
+    android:background="#1C1D22"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/text_strong"
+            android:textColor="#FCFCFD"
             android:textSize="14dp" />
 
     </RelativeLayout>

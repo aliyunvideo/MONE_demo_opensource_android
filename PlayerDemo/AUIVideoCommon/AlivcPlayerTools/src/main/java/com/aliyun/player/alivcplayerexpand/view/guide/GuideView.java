@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.aliyun.player.alivcplayerexpand.R;
 import com.aliyun.player.alivcplayerexpand.theme.ITheme;
 import com.aliyun.player.alivcplayerexpand.theme.Theme;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
 
 /*
  * Copyright (C) 2010-2018 Alibaba Group Holding Limited.

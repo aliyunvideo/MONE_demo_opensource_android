@@ -6,7 +6,7 @@ import android.widget.FrameLayout;
 
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
-import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.commonbiz.test.AliLiveStreamURLUtil;
 import com.alivc.live.interactive_common.InteractiveMode;
 import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -38,7 +38,7 @@ public class AnchorController {
         InteractiveUserData anchorUserData = new InteractiveUserData();
         anchorUserData.userId = anchorId;
         anchorUserData.channelId = roomId;
-        anchorUserData.url = URLUtils.generateInteractivePushUrl(roomId, anchorId);
+        anchorUserData.url = AliLiveStreamURLUtil.generateInteractivePushUrl(roomId, anchorId);
         mAnchorUserData = anchorUserData;
 
         this.mContext = context;
@@ -107,7 +107,7 @@ public class AnchorController {
         if (userData == null || TextUtils.isEmpty(userData.channelId) || TextUtils.isEmpty(userData.userId)) {
             return;
         }
-        userData.url = URLUtils.generateInteractivePullUrl(userData.channelId, userData.userId);
+        userData.url = AliLiveStreamURLUtil.generateInteractivePullUrl(userData.channelId, userData.userId);
         mAudienceUserData = userData;
         mInteractLiveManager.setPullView(userData, mViewerRenderView, false);
         mInteractLiveManager.startPullRTCStream(userData);

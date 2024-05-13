@@ -9,21 +9,8 @@
         android:id="@+id/fm_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextureView
-            android:id="@+id/fm_root_textureview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
     </FrameLayout>
-
-    <ImageView
-        android:id="@+id/iv_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/seekbar"
@@ -81,7 +68,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:padding="10dp"
-        android:src="@drawable/ic_av_action_bar_back"
+        android:src="@drawable/ic_topbar_return"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

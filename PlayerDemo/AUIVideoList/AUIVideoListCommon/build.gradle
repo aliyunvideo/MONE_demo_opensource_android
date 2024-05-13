@@ -27,18 +27,15 @@ android {
 }
 
 dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:4.8.1'
 
-    implementation externalAndroidDesign
-    testImplementation externalJunit
-    androidTestImplementation externalTestJunit
-    androidTestImplementation externalEspresso
-
-    implementation project(':AUIFoundation:AVTheme')
-    implementation project(':AUIFoundation:AVBaseUI')
-    implementation project(':AUIFoundation:AVUtils')
-
-    implementation externalPlayerFull
-    api externalGSON
-    api 'com.squareup.okhttp3:okhttp:4.8.1'
+    api 'com.google.android.material:material:1.6.0'
     api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    api 'com.github.bumptech.glide:glide:4.13.0'
+    api 'com.google.code.gson:gson:2.8.0'
+
+    // 请参考 AndroidThirdParty 目录下的 config.gradle 文件，获取 播放器SDK 最新版本
+    // 或者您可以参考官网 SDK 更新情况：https://help.aliyun.com/zh/vod/developer-reference/sdk-overview-and-download
+    api externalPlayerFull
 }

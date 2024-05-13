@@ -6,6 +6,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
@@ -106,6 +107,33 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
         private OnInteractiveEventListener mOnInteractiveEventListener = null;
         private OnPanelEventListener mOnPanelEventListener = null;
 
+        private final TextureView.SurfaceTextureListener surfaceTextureListener = new TextureView.SurfaceTextureListener() {
+            @Override
+            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+                mSurface = new Surface(surface);
+                if (mOnSurfaceListener != null) {
+                    mOnSurfaceListener.onSurfaceCreate(getAdapterPosition(), mSurface);
+                }
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+            }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+                mSurface = null;
+                if (mOnSurfaceListener != null) {
+                    mOnSurfaceListener.onSurfaceDestroyed(getAdapterPosition());
+                }
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+            }
+        };
+
         private AUIVideoEpisodeViewHolder(View itemView) {
             super(itemView);
             initViews();
@@ -117,37 +145,11 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
         }
 
         private void initViews() {
-            mTextureView = itemView.findViewById(R.id.fm_root_textureview);
+            bindTextureView();
             mInteractiveComponent = itemView.findViewById(R.id.v_interactive);
             mDetailComponent = itemView.findViewById(R.id.v_detail);
             mBarComponent = itemView.findViewById(R.id.v_bar);
             mPanelComponent = itemView.findViewById(R.id.v_panel);
-            mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
-                @Override
-                public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-                    mSurface = new Surface(surface);
-                    if (mOnSurfaceListener != null) {
-                        mOnSurfaceListener.onSurfaceCreate(getAdapterPosition(), mSurface);
-                    }
-                }
-
-                @Override
-                public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-                }
-
-                @Override
-                public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-                    mSurface = null;
-                    if (mOnSurfaceListener != null) {
-                        mOnSurfaceListener.onSurfaceDestroyed(getAdapterPosition());
-                    }
-                    return false;
-                }
-
-                @Override
-                public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-                }
-            });
         }
 
         private void initCallback() {
@@ -174,6 +176,17 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
             });
         }
 
+        private void bindTextureView() {
+            mTextureView = new TextureView(itemView.getContext());
+            mTextureView.setSurfaceTextureListener(surfaceTextureListener);
+
+            ViewParent parent = mTextureView.getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(mTextureView);
+            }
+            getRootView().addView(mTextureView);
+        }
+
         public void initSurfaceListener(OnSurfaceListener listener) {
             mOnSurfaceListener = listener;
         }
@@ -193,13 +206,9 @@ public class AUIVideoEpisodeAdapter extends AUIVideoListAdapter {
         }
 
         @Override
-        public void bindUrl(String url) {
-        }
-
-        @Override
         public void onBind(VideoInfo videoInfo) {
-            mPosition = videoInfo.getPosition();
-            mEpisodeVideoInfo = mEpisodeData.list.get(mPosition);
+            mEpisodeVideoInfo = (AUIEpisodeVideoInfo) videoInfo;
+            mPosition = AUIEpisodeData.getEpisodeIndex(mEpisodeData, mEpisodeVideoInfo);
             mBarComponent.initData(mEpisodeData);
             mPanelComponent.initData(mEpisodeData, mPosition);
             mPanelComponent.updateView(mEpisodeVideoInfo, mPosition);

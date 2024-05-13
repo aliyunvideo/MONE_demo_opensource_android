@@ -80,7 +80,7 @@ The specific values are as follows:
 ## SDK library and version
 | Version | Dependency                                    | Capability item |
 |-------------|-----------------------------------------------|----------------------------------------|
-| Standard Integrated SDK | com.aliyun.aio:AliVCSDK_Standard:6.9.0        | Player + ultra-low latency live broadcast + live broadcast + short video + RTC-connected microphone + basic beauty |
-| Short video scenario SDK | com.aliyun.aio:AliVCSDK_UGC:6.9.0             | Player + short video + basic beauty |
-| Basic live streaming SDK | com.aliyun.aio:AliVCSDK_BasicLive:6.9.0       | Player + live streaming + basic beauty + ultra-low latency live streaming |
-| Interactive live streaming SDK | com.aliyun.aio:AliVCSDK_InteractiveLive:6.9.0 | Player + ultra-low latency live streaming + live streaming + RTC link + basic beauty |
+| Standard Integrated SDK | com.aliyun.aio:AliVCSDK_Standard:6.10.0        | Player + ultra-low latency live broadcast + live broadcast + short video + RTC-connected microphone + basic beauty |
+| Short video scenario SDK | com.aliyun.aio:AliVCSDK_UGC:6.10.0             | Player + short video + basic beauty |
+| Basic live streaming SDK | com.aliyun.aio:AliVCSDK_BasicLive:6.10.0       | Player + live streaming + basic beauty + ultra-low latency live streaming |
+| Interactive live streaming SDK | com.aliyun.aio:AliVCSDK_InteractiveLive:6.10.0 | Player + ultra-low latency live streaming + live streaming + RTC link + basic beauty |

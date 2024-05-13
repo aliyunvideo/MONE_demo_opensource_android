@@ -13,18 +13,12 @@ import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
 
 public abstract class AUIVideoListAdapter extends ListAdapter<VideoInfo, AUIVideoListViewHolder> {
 
-    public static PlayerListener mOnPlayerListener;
-    public static OnRecyclerViewItemClickListener mListener;
-    public static OnSeekChangedListener mSeekBarListener;
+    private PlayerListener mOnPlayerListener;
+    private OnRecyclerViewItemClickListener mListener;
+    private OnSeekChangedListener mSeekBarListener;
 
     protected AUIVideoListAdapter(@NonNull DiffUtil.ItemCallback<VideoInfo> diffCallback) {
         super(diffCallback);
-    }
-
-    @Override
-    public void onViewAttachedToWindow(@NonNull AUIVideoListViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        holder.bindUrl(getItem(holder.getAdapterPosition()).getUrl());//episode不需要该逻辑实现，原因是调用了MoveTo逻辑，不需要新传入的url
     }
 
     @NonNull
@@ -36,8 +30,10 @@ public abstract class AUIVideoListAdapter extends ListAdapter<VideoInfo, AUIVide
     @Override
     public void onBindViewHolder(@NonNull AUIVideoListViewHolder holder, int position) {
         VideoInfo videoInfo = getItem(position);
-        videoInfo.setPosition(position);
         holder.onBind(videoInfo);
+        holder.setOnItemClickListener(mListener);
+        holder.setOnSeekBarStateChangeListener(mSeekBarListener);
+        holder.setOnPlayerListener(mOnPlayerListener);
     }
 
     public abstract AUIVideoListViewHolder customCreateViewHolder(@NonNull ViewGroup parent, int viewType);

@@ -25,7 +25,7 @@ import com.aliyun.player.alivcplayerexpand.view.dlna.domain.DLANPlayState;
 import com.aliyun.player.alivcplayerexpand.view.dlna.domain.IResponse;
 import com.aliyun.player.alivcplayerexpand.view.dlna.domain.Intents;
 import com.aliyun.player.alivcplayerexpand.view.dlna.manager.ClingManager;
-import com.aliyun.player.aliyunplayerbase.util.Formatter;
+import com.aliyun.player.alivcplayerexpand.util.Formatter;
 
 import org.fourthline.cling.support.model.PositionInfo;
 import org.fourthline.cling.support.model.TransportInfo;

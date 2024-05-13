@@ -22,16 +22,6 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-    <declare-styleable name="SwitchButton">
-        <attr name="hasShadow" format="boolean"/>
-        <attr name="primaryColor" format="color"/>
-        <attr name="primaryColorDark" format="color"/>
-        <attr name="offColor" format="color"/>
-        <attr name="offColorDark" format="color"/>
-        <attr name="shadowColor" format="color"/>
-        <attr name="ratioAspect" format="float"/>
-        <attr name="isOpened" format="boolean"/>
-    </declare-styleable>
     <!--对话框弹出window背景变暗-->
     <style name="Dialog" parent="Base.Animation.AppCompat.Dialog">
         <item name="android:backgroundDimEnabled">true</item>

@@ -12,7 +12,7 @@ import com.aliyun.player.alivcplayerexpand.view.dlna.domain.ClingVolumeResponse;
 import com.aliyun.player.alivcplayerexpand.view.dlna.domain.DLANPlayState;
 import com.aliyun.player.alivcplayerexpand.view.dlna.domain.IResponse;
 import com.aliyun.player.alivcplayerexpand.view.dlna.manager.ClingManager;
-import com.aliyun.player.aliyunplayerbase.util.Formatter;
+import com.aliyun.player.alivcplayerexpand.util.Formatter;
 
 import org.fourthline.cling.controlpoint.ControlPoint;
 import org.fourthline.cling.model.action.ActionInvocation;

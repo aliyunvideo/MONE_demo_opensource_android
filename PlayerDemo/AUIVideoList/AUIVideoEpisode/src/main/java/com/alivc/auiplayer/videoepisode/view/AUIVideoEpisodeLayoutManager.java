@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.recyclerview.widget.OrientationHelper;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alivc.auiplayer.videoepisode.adapter.AUIVideoEpisodeAdapter;
@@ -19,25 +17,12 @@ public class AUIVideoEpisodeLayoutManager extends AUIVideoListLayoutManager impl
     private int mState;
     private int mdy;
 
-    private int measuredHeight;
-
-    /**
-     * 移动方向
-     */
-    private int direction;
-
     private int mCurrentPosition = -1;
 
     private RecyclerView mRecyclerView;
 
     public AUIVideoEpisodeLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
-        init();
-    }
-
-    private void init() {
-        mPagerSnapHelper = new PagerSnapHelper();
-        mOrientationHelper = OrientationHelper.createOrientationHelper(this, RecyclerView.VERTICAL);
     }
 
     @Override
@@ -69,21 +54,19 @@ public class AUIVideoEpisodeLayoutManager extends AUIVideoListLayoutManager impl
         recyclerView.addOnChildAttachStateChangeListener(mChildAttachStateChangeListener);
         recyclerView.setOnTouchListener(this);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 mState = newState;
                 switch (mState) {
                     case SCROLL_STATE_DRAGGING:
-                        measuredHeight = recyclerView.getMeasuredHeight();
+                        break;
                     case SCROLL_STATE_IDLE:
                         View viewIdle = mPagerSnapHelper.findSnapView(AUIVideoEpisodeLayoutManager.this);
                         if (viewIdle == null) {
                             return;
                         }
                         int positionIdle = getPosition(viewIdle);
-                        mCurrentPosition = mOnViewPagerListener.onSelectedPosition();
                         Log.i("CheckFunc", "onScrollStateChanged " + " positionIdle " + positionIdle + " mCurrentPosition " + mCurrentPosition + " mdy: " + mdy);
                         if (mOnViewPagerListener != null && mCurrentPosition != positionIdle) {
                             mOnViewPagerListener.onPageSelected(positionIdle);
@@ -99,35 +82,16 @@ public class AUIVideoEpisodeLayoutManager extends AUIVideoListLayoutManager impl
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 mdy = dy;
-
-                // 获取当前屏幕可视的viewHolder
-                int firstVisibleItemIndex = findFirstVisibleItemPosition();
-                int lastVisibleItemIndex = findLastVisibleItemPosition();
-
-                // 判断当前滑动趋势（往上滑1->2，还是往下滑1->0）
-                int scrollToPosition = (firstVisibleItemIndex == mCurrentPosition) ? lastVisibleItemIndex : firstVisibleItemIndex;
-
-                // 可根据firstVisibleItemIndex和lastVisibleItemIndex来判断当前可视的ViewHolder索引范围
-                if (measuredHeight > 0 && mOnViewPagerListener != null && scrollToPosition != mCurrentPosition) {
-//                     Log.i("CheckFunc", "onPageScrollTo: " + measuredHeight + ", " + mCurrentPosition + "->" + scrollToPosition);
-                   // Log.i("CheckFunc", "onScrolled " + " mdy: " + mdy);
-
-                    if (dy > 0 && mOnViewPagerListener != null) {
-                        mOnViewPagerListener.onPageScrollTo(scrollToPosition);
-                    }
-                }
             }
         });
     }
 
-
-    private RecyclerView.OnChildAttachStateChangeListener mChildAttachStateChangeListener
-            = new RecyclerView.OnChildAttachStateChangeListener() {
+    private RecyclerView.OnChildAttachStateChangeListener mChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
         public void onChildViewAttachedToWindow(View view) {
-            Log.i("CheckFunc", "onChildViewAttachedToWindow " + " mCurrentPosition " + mCurrentPosition + " childViewCount " + getChildCount());
-
-            if (mOnViewPagerListener != null && getChildCount() == 1) {
+            int position = getPosition(view);
+            Log.i("CheckFunc", "[ATTACH][" + mCurrentPosition + "->" + position + "]");
+            if (mOnViewPagerListener != null && position == 0) {
                 mOnViewPagerListener.onInitComplete();
             }
         }
@@ -135,14 +99,9 @@ public class AUIVideoEpisodeLayoutManager extends AUIVideoListLayoutManager impl
         @Override
         public void onChildViewDetachedFromWindow(View view) {
             int position = getPosition(view);
-            if (direction >= 0) {
-                if (mOnViewPagerListener != null) {
-                    mOnViewPagerListener.onPageRelease(position);
-                }
-            } else {
-                if (mOnViewPagerListener != null) {
-                    mOnViewPagerListener.onPageRelease(position);
-                }
+            Log.i("CheckFunc", "[DETACH][" + mCurrentPosition + "->" + position + "]");
+            if (mOnViewPagerListener != null) {
+                mOnViewPagerListener.onPageRelease(position);
             }
         }
     };
@@ -189,6 +148,5 @@ public class AUIVideoEpisodeLayoutManager extends AUIVideoListLayoutManager impl
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
         }
-
     }
 }

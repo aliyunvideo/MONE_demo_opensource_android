@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,7 +15,6 @@ import com.alivc.auiplayer.videoepisode.view.AUIVideoEpisodeListView;
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewModel;
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewModelFactory;
 import com.alivc.player.videolist.auivideolistcommon.listener.OnLoadDataListener;
-import com.aliyun.aio.avtheme.AVBaseThemeActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,7 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class AUIEpisodePlayerActivity extends AVBaseThemeActivity {
+public class AUIEpisodePlayerActivity extends AppCompatActivity {
 
     private AUIVideoListViewModel<AUIEpisodeData> mVideoListViewModel;
 
@@ -66,6 +66,9 @@ public class AUIEpisodePlayerActivity extends AVBaseThemeActivity {
     private void initViews() {
         mVideoEpisodeView = findViewById(R.id.aui_episode_view);
         mVideoEpisodeView.showPlayTitleContent(false);
+
+        // 设置短剧初始集数，默认从第1集开始
+//        mVideoEpisodeView.setInitialEpisodeIndex(3);
     }
 
     private void initObserver() {

@@ -4,13 +4,11 @@ import java.util.Objects;
 import java.util.Random;
 
 public class VideoInfo {
-
     private int id = new Random().nextInt();
+
     private String url;
     private String title;
     private String author;
-
-    private int position = 0;
 
     public String getUrl() {
         return url;
@@ -44,14 +42,6 @@ public class VideoInfo {
         this.id = id;
     }
 
-    public int getPosition(){
-        return position;
-    }
-
-    public void setPosition(int position){
-        this.position = position;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,5 +53,12 @@ public class VideoInfo {
     @Override
     public int hashCode() {
         return Objects.hash(id, url, title, author);
+    }
+
+    @Override
+    public String toString() {
+        return "VideoInfo{" +
+                "title=" + title +
+                '}';
     }
 }

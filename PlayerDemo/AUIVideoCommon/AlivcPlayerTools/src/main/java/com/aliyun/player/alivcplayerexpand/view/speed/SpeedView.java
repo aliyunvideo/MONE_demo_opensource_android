@@ -20,7 +20,7 @@ import com.aliyun.player.alivcplayerexpand.listener.LockPortraitListener;
 import com.aliyun.player.alivcplayerexpand.theme.ITheme;
 import com.aliyun.player.alivcplayerexpand.theme.Theme;
 import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
 
 /*
  * Copyright (C) 2010-2018 Alibaba Group Holding Limited.

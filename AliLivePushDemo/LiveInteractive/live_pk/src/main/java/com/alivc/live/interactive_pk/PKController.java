@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
-import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.commonbiz.test.AliLiveStreamURLUtil;
 import com.alivc.live.interactive_common.InteractiveMode;
 import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -53,7 +53,7 @@ public class PKController {
         InteractiveUserData userData = new InteractiveUserData();
         userData.channelId = roomId;
         userData.userId = userId;
-        userData.url = URLUtils.generateInteractivePushUrl(roomId, userId);
+        userData.url = AliLiveStreamURLUtil.generateInteractivePushUrl(roomId, userId);
         mOwnerUserData = userData;
     }
 
@@ -65,7 +65,7 @@ public class PKController {
             return;
         }
         mOtherUserData = userData;
-        mOtherUserData.url = URLUtils.generateInteractivePullUrl(userData.channelId, userData.userId);
+        mOtherUserData.url = AliLiveStreamURLUtil.generateInteractivePullUrl(userData.channelId, userData.userId);
     }
 
     /**

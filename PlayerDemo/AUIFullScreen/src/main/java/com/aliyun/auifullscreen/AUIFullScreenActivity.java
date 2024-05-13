@@ -10,27 +10,27 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.auifullscreen.widget.FunctionShadowView;
 import com.aliyun.player.IPlayer;
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig;
 import com.aliyun.player.alivcplayerexpand.listplay.ListPlayManager;
 import com.aliyun.player.alivcplayerexpand.theme.Theme;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.FastClickUtil;
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils;
 import com.aliyun.player.alivcplayerexpand.view.choice.AlivcShowMoreDialog;
 import com.aliyun.player.alivcplayerexpand.view.control.ControlView;
 import com.aliyun.player.alivcplayerexpand.view.more.AliyunShowMoreValue;
 import com.aliyun.player.alivcplayerexpand.view.more.VideoDeveloperModeView;
 import com.aliyun.player.alivcplayerexpand.view.more.VideoSpeedView;
 import com.aliyun.player.alivcplayerexpand.view.softinput.SoftInputDialogFragment;
+import com.aliyun.player.alivcplayerexpand.view.tips.OnTipsViewBackClickListener;
 import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
-import com.aliyun.player.aliyunplayerbase.util.FastClickUtil;
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils;
-import com.aliyun.player.aliyunplayerbase.view.tipsview.OnTipsViewBackClickListener;
-import com.aliyun.player.aliyunplayerbase.view.tipsview.TipsView;
+import com.aliyun.player.alivcplayerexpand.view.tips.TipsView;
 import com.aliyun.player.bean.InfoBean;
 import com.aliyun.player.source.VidSts;
 import com.aliyun.video.common.ui.BaseActivity;
@@ -192,7 +192,7 @@ public class AUIFullScreenActivity extends BaseActivity {
                     @Override
                     public void onVideoSpeedSelected(float speed) {
                         mAliyunVodPlayerView.changeSpeed(speed);
-                        AVToast.show(AUIFullScreenActivity.this,true,getString(R.string.play_speed_changed, "" + speed));
+                        Toast.makeText(AUIFullScreenActivity.this, getString(R.string.play_speed_changed, "" + speed), Toast.LENGTH_SHORT).show();
                         closeFunctionDialog();
                     }
                 });

@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 
 import android.util.AttributeSet;
 
-import com.aliyun.aio.utils.DensityUtil;
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil;
 import com.aliyun.player.alivcplayerexpand.R;
 
 /**

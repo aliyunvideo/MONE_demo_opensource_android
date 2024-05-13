@@ -9,6 +9,6 @@
     <string name="definition">清晰度</string>
 
     <string name="play_detail">详情</string>
-    <string name="play_speed_changed">已切换至$s倍速</string>
+    <string name="play_speed_changed">已切换至%1$s倍速</string>
 
 </resources>

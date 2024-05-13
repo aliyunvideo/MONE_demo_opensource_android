@@ -18,7 +18,7 @@ import com.alivc.auiplayer.videoepisode.adapter.AUIEpisodePanelAdapter;
 import com.alivc.auiplayer.videoepisode.data.AUIEpisodeData;
 import com.alivc.auiplayer.videoepisode.data.AUIEpisodeVideoInfo;
 import com.alivc.auiplayer.videoepisode.listener.OnPanelEventListener;
-import com.alivc.player.videolist.auivideolistcommon.view.CenterLayoutManager;
+import com.alivc.auiplayer.videoepisode.view.CenterLayoutManager;
 
 /**
  * @author keria

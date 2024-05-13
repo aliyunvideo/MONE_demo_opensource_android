@@ -1,10 +1,12 @@
 package com.aliyun.video.homepage
 
 import com.aliyun.auiplayerserver.bean.VideoInfo
+import com.aliyun.auiplayerserver.bean.VideoStsInfo
 import com.aliyun.auiplayerserver.flowfeed.HomePageFetcher
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig
 import com.aliyun.player.alivcplayerexpand.listplay.ListPlayManager
 import com.aliyun.player.source.StsInfo
+import com.google.gson.Gson
 import java.util.*
 
 /**
@@ -46,7 +48,14 @@ open class HomePageVideoListRepository{
     private fun requestStsAndVideoListData(callback: HomePageFetcher.VideoListDataBack){
 
         mFlowFeedServer.requestVideoStsInfo(object: HomePageFetcher.VideoStsInfoCallback{
-            override fun onResult(stsInfo: StsInfo) {
+            override fun onResult(result: String) {
+                val gson = Gson()
+                val videoStsInfo = gson.fromJson(result, VideoStsInfo::class.java)
+                val stsInfo = StsInfo()
+                stsInfo.accessKeyId = videoStsInfo.accessKeyId
+                stsInfo.securityToken = videoStsInfo.securityToken
+                stsInfo.accessKeySecret = videoStsInfo.accessKeySecret
+
                 ListPlayManager.mStsInfo = stsInfo
                 mStsInfo = stsInfo
                 mStsInit = true

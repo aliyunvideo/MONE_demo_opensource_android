@@ -13,9 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-
-import androidx.core.content.ContextCompat;
-
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -28,9 +25,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.aliyun.aio.avbaseui.widget.AVToast;
-import com.aliyun.aio.utils.DensityUtil;
-import com.aliyun.aio.utils.ThreadUtils;
+import androidx.core.content.ContextCompat;
+
 import com.aliyun.player.AliPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
@@ -39,16 +35,24 @@ import com.aliyun.player.alivcplayerexpand.R;
 import com.aliyun.player.alivcplayerexpand.background.PlayServiceHelper;
 import com.aliyun.player.alivcplayerexpand.bean.DotBean;
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig;
-import com.aliyun.player.alivcplayerexpand.listplay.IListPlayManager;
-import com.aliyun.player.alivcplayerexpand.listplay.IPlayManagerScene;
-import com.aliyun.player.alivcplayerexpand.listplay.ListPlayManager;
-import com.aliyun.player.alivcplayerexpand.theme.Theme;
 import com.aliyun.player.alivcplayerexpand.listener.LockPortraitListener;
 import com.aliyun.player.alivcplayerexpand.listener.OnAutoPlayListener;
 import com.aliyun.player.alivcplayerexpand.listener.OnScreenCostingSingleTagListener;
 import com.aliyun.player.alivcplayerexpand.listener.OnStoppedListener;
+import com.aliyun.player.alivcplayerexpand.listplay.IListPlayManager;
+import com.aliyun.player.alivcplayerexpand.listplay.IPlayManagerScene;
+import com.aliyun.player.alivcplayerexpand.listplay.ListPlayManager;
 import com.aliyun.player.alivcplayerexpand.theme.ITheme;
+import com.aliyun.player.alivcplayerexpand.theme.Theme;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
 import com.aliyun.player.alivcplayerexpand.util.BrowserCheckUtil;
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil;
+import com.aliyun.player.alivcplayerexpand.util.FileUtils;
+import com.aliyun.player.alivcplayerexpand.util.ImageLoader;
+import com.aliyun.player.alivcplayerexpand.util.NetWatchdog;
+import com.aliyun.player.alivcplayerexpand.util.OrientationWatchDog;
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils;
+import com.aliyun.player.alivcplayerexpand.util.ThreadUtils;
 import com.aliyun.player.alivcplayerexpand.util.TimeFormater;
 import com.aliyun.player.alivcplayerexpand.view.control.ControlView;
 import com.aliyun.player.alivcplayerexpand.view.dlna.callback.DLNAOptionListener;
@@ -66,16 +70,10 @@ import com.aliyun.player.alivcplayerexpand.view.more.DanmakuSettingView;
 import com.aliyun.player.alivcplayerexpand.view.more.ScreenCostingView;
 import com.aliyun.player.alivcplayerexpand.view.quality.QualityView;
 import com.aliyun.player.alivcplayerexpand.view.thumbnail.ThumbnailView;
+import com.aliyun.player.alivcplayerexpand.view.tips.OnTipsViewBackClickListener;
+import com.aliyun.player.alivcplayerexpand.view.tips.TipsView;
 import com.aliyun.player.alivcplayerexpand.view.trailers.TrailersView;
 import com.aliyun.player.alivcplayerexpand.view.voice.AudioModeView;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
-import com.aliyun.player.aliyunplayerbase.util.FileUtils;
-import com.aliyun.player.aliyunplayerbase.util.ImageLoader;
-import com.aliyun.player.aliyunplayerbase.util.NetWatchdog;
-import com.aliyun.player.aliyunplayerbase.util.OrientationWatchDog;
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils;
-import com.aliyun.player.aliyunplayerbase.view.tipsview.OnTipsViewBackClickListener;
-import com.aliyun.player.aliyunplayerbase.view.tipsview.TipsView;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 import com.aliyun.player.bean.InfoCode;
@@ -434,7 +432,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
     public void openAdvertisement() {
         List<ResolveInfo> resolveInfos = BrowserCheckUtil.checkBrowserList(getContext());
         if (resolveInfos == null || resolveInfos.size() <= 0) {
-            AVToast.show(getContext(), true, getContext().getString(R.string.alivc_player_not_check_any_browser));
+            Toast.makeText(getContext(), R.string.alivc_player_not_check_any_browser, Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent();
@@ -550,7 +548,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
 
             @Override
             public void playFailed() {
-                AVToast.show(getContext(), true, getResources().getString(R.string.alivc_player_play_screening_fail));
+                Toast.makeText(getContext(), getResources().getString(R.string.alivc_player_play_screening_fail), Toast.LENGTH_SHORT).show();
                 mIsScreenCosting = false;
                 if (mControlView != null) {
                     mControlView.setInScreenCosting(mIsScreenCosting);
@@ -631,7 +629,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         //wifi变成4G，如果不是本地视频先暂停播放
         if (!isLocalSource()) {
             if (mIsOperatorPlay) {
-                AVToast.show(getContext(), true, R.string.alivc_operator_play);
+                Toast.makeText(getContext(), R.string.alivc_operator_play, Toast.LENGTH_SHORT).show();
             } else {
                 pause();
             }
@@ -644,7 +642,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         //显示网络变化的提示
         if (!isLocalSource() && mTipsView != null) {
             if (mIsOperatorPlay) {
-                AVToast.show(getContext(), true, R.string.alivc_operator_play);
+                Toast.makeText(getContext(), R.string.alivc_operator_play, Toast.LENGTH_SHORT).show();
             } else {
                 mTipsView.hideAll();
                 mTipsView.showNetChangeTipView();
@@ -2779,7 +2777,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
             if (NetWatchdog.is4GConnected(getContext())) {
                 if (mIsOperatorPlay) {
                     //运营商自动播放,则Toast提示后,继续播放
-                    AVToast.show(getContext(), true, R.string.alivc_operator_play);
+                    Toast.makeText(getContext(), R.string.alivc_operator_play, Toast.LENGTH_SHORT).show();
                     return false;
                 } else {
                     if (mTipsView != null) {
@@ -4472,7 +4470,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                 ThreadUtils.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        AVToast.show(getContext(), true, R.string.alivc_player_snap_shot_save_success);
+                        Toast.makeText(getContext(), R.string.alivc_player_snap_shot_save_success, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

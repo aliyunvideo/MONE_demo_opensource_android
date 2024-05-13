@@ -2,12 +2,11 @@ package com.alivc.live.commonbiz.test;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.alivc.live.commonbiz.BuildConfig;
+import com.alivc.live.commonbiz.R;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
-import com.alivc.live.commonutils.BuildConfig;
 import com.alivc.live.commonutils.ContextUtils;
-import com.alivc.live.commonutils.R;
 
 
 /**
@@ -27,15 +26,6 @@ import com.alivc.live.commonutils.R;
  */
 public class PushDemoTestConstants {
     private static final String PLACEHOLDER = "PLACEHOLDER";
-
-    /**
-     * Print version info for demo apk
-     */
-    public static void printVersionInfo() {
-        Log.d("livepushdemo", "BUILD_TYPE--->" + BuildConfig.BUILD_TYPE);
-        Log.d("livepushdemo", "MTL_BUILD_ID--->" + BuildConfig.MTL_BUILD_ID);
-        Log.d("livepushdemo", "MTL_BUILD_TIMESTAMP--->" + BuildConfig.MTL_BUILD_TIMESTAMP);
-    }
 
     /**
      * Get test push url, you won't need to scan url again!!!
@@ -111,7 +101,7 @@ public class PushDemoTestConstants {
             return AliLiveUserSigGenerate.ALILIVE_APPKEY;
         }
 
-        if(!TextUtils.isEmpty(SharedPreferenceUtils.getAppKey(ContextUtils.getApplicationContext()))){
+        if (!TextUtils.isEmpty(SharedPreferenceUtils.getAppKey(ContextUtils.getApplicationContext()))) {
             return SharedPreferenceUtils.getAppKey(ContextUtils.getApplicationContext());
         }
 
@@ -143,7 +133,7 @@ public class PushDemoTestConstants {
             return AliLiveUserSigGenerate.ALILIVE_PLAY_DOMAIN;
         }
 
-        if(!TextUtils.isEmpty(SharedPreferenceUtils.getPlayDomain(ContextUtils.getApplicationContext()))){
+        if (!TextUtils.isEmpty(SharedPreferenceUtils.getPlayDomain(ContextUtils.getApplicationContext()))) {
             return SharedPreferenceUtils.getPlayDomain(ContextUtils.getApplicationContext());
         }
 

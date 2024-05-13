@@ -26,7 +26,7 @@ import com.alivc.live.baselive_pull.bean.Constants;
 import com.alivc.live.baselive_pull.listener.ButtonClickListener;
 import com.alivc.live.baselive_pull.ui.widget.SeiView;
 import com.alivc.live.commonbiz.test.PushDemoTestConstants;
-import com.alivc.live.commonutils.BuildConfig;
+import com.alivc.live.commonbiz.BuildConfig;
 import com.alivc.live.commonutils.StatusBarUtil;
 import com.alivc.live.commonutils.TextFormatUtil;
 import com.aliyun.aio.avbaseui.widget.AVToast;

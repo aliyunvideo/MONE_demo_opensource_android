@@ -25,4 +25,18 @@ public class AUIEpisodeData implements Serializable {
      */
     public List<AUIEpisodeVideoInfo> list;
 
+    public static int getEpisodeIndex(AUIEpisodeData episodeData, AUIEpisodeVideoInfo episodeVideoInfo) {
+        if (episodeData == null || episodeVideoInfo == null) {
+            return -1;
+        }
+        if (episodeData.list == null || episodeData.list.size() == 0) {
+            return -1;
+        }
+        for (AUIEpisodeVideoInfo videoInfo : episodeData.list) {
+            if (videoInfo == episodeVideoInfo) {
+                return episodeData.list.indexOf(videoInfo);
+            }
+        }
+        return -1;
+    }
 }

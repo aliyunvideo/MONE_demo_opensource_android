@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="272dp"
-    android:background="@color/bg_weak">
+    android:background="#1C1D22">
 
     <View
         android:id="@+id/img_news"
@@ -12,7 +12,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="12dp"
-        android:background="@color/bg_weak"
+        android:background="#1C1D22"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +25,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:background="@color/bg_weak"
+        android:background="#1C1D22"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_news" />
@@ -38,14 +38,14 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="9dp"
-        android:background="@color/bg_weak"
+        android:background="#1C1D22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <View
         android:id="@+id/tv_content"
         android:layout_width="66dp"
-        android:background="@color/bg_weak"
+        android:background="#1C1D22"
         android:layout_height="14dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/icon_portrait"
@@ -58,7 +58,7 @@
         android:layout_width="40dp"
         android:layout_height="14dp"
         android:layout_marginEnd="24dp"
-        android:background="@color/bg_weak"
+        android:background="#1C1D22"
         app:layout_constraintBottom_toBottomOf="@+id/icon_portrait"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/icon_portrait" />

@@ -25,10 +25,8 @@ dependencies {
     implementation externalGSON
 
     implementation project(':AUIPlayerServer')
-    implementation project(path: ':AUIVideoCommon:AlivcPlayerTools')
-    //aio
-    implementation project(':AUIFoundation:AVBaseUI')
-    implementation project(':AUIFoundation:AVTheme')
+    implementation project(':AUIVideoCommon:AlivcPlayerTools')
+    implementation project(':AUIVideoCommon:common')
 }
 repositories {
     maven {

@@ -43,7 +43,7 @@
         android:layout_toEndOf="@+id/iv_play_icon"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/text_strong"
+        android:textColor="#FCFCFD"
         android:textSize="12dp" />
 
 </RelativeLayout>

@@ -66,10 +66,10 @@ public class InformationActivity extends AppCompatActivity {
 
     private static String getDemoBuildInfo() {
         return String.format("%s%n%s%n%s%n%s",
-                "Demo Build Type: " + com.alivc.live.commonutils.BuildConfig.BUILD_TYPE,
-                "Demo Build AIO: " + com.alivc.live.commonutils.BuildConfig.MTL_BUILD_FOR_AIO,
-                "Demo Build ID: " + com.alivc.live.commonutils.BuildConfig.MTL_BUILD_ID,
-                "Demo Build Timestamp: " + com.alivc.live.commonutils.BuildConfig.MTL_BUILD_TIMESTAMP
+                "Demo Build Type: " + com.alivc.live.commonbiz.BuildConfig.BUILD_TYPE,
+                "Demo Build AIO: " + com.alivc.live.commonbiz.BuildConfig.MTL_BUILD_FOR_AIO,
+                "Demo Build ID: " + com.alivc.live.commonbiz.BuildConfig.MTL_BUILD_ID,
+                "Demo Build Timestamp: " + com.alivc.live.commonbiz.BuildConfig.MTL_BUILD_TIMESTAMP
         );
     }
 

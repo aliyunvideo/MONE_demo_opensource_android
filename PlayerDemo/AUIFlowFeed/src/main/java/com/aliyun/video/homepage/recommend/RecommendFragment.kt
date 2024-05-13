@@ -13,22 +13,20 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aliyun.aio.utils.DensityUtil
+import com.aliyun.apsaravideo.AppHomeWatcher
+import com.aliyun.apsaravideo.videocommon.message.OpenVideoPlayPageEvent
 import com.aliyun.player.alivcplayerexpand.background.BackGroundPlayChangeEvent
 import com.aliyun.player.alivcplayerexpand.background.PlayServiceHelper
 import com.aliyun.player.alivcplayerexpand.listplay.ListPlayManager
+import com.aliyun.player.alivcplayerexpand.util.OrientationWatchDog
 import com.aliyun.player.alivcplayerexpand.util.PlayConfigManager
-import com.aliyun.player.aliyunplayerbase.util.OrientationWatchDog
+import com.aliyun.video.R
+import com.aliyun.video.common.ui.*
 import com.aliyun.video.common.ui.play.IContinuePlayFragment
+import com.aliyun.video.databinding.LayoutListRecommendFragmentBinding
 import com.aliyun.video.floatview.FloatViewPlayManager
 import com.aliyun.video.homepage.recommend.adapter.RecommendItemDelegate
 import com.aliyun.video.play.VideoOrientationManager
-import com.aliyun.apsaravideo.videocommon.message.OpenVideoPlayPageEvent
-import com.aliyun.apsaravideo.AppHomeWatcher
-import com.aliyun.player.aliyunplayerbase.util.setVisible
-import com.aliyun.video.R
-import com.aliyun.video.common.ui.*
-import com.aliyun.video.databinding.LayoutListRecommendFragmentBinding
 import com.drakeet.multitype.MultiTypeAdapter
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
@@ -156,16 +154,17 @@ class RecommendFragment : BaseFragment(R.layout.layout_list_recommend_fragment),
     }
 
     private fun getItemDecoration(): RecyclerView.ItemDecoration {
-        return SpaceItemDecoration(
-            mOrientation,
-            DensityUtil.dip2px(requireContext(), 9f)
-        )
+        return SpaceItemDecoration(mOrientation, dip2px(requireContext(), 9f))
+    }
+
+    fun dip2px(paramContext: Context, paramFloat: Float): Int {
+        return (0.5f + paramFloat * paramContext.resources.displayMetrics.density).toInt()
     }
 
     private fun showEmptyView(empty: Boolean) {
         mViewBinding.apply {
-            mRcvList.setVisible(!empty)
-            mEmptyLayout.setVisible(empty)
+            mRcvList.visibility = if (empty) View.GONE else View.VISIBLE
+            mEmptyLayout.visibility = if (empty) View.VISIBLE else View.GONE
         }
     }
 
@@ -212,7 +211,10 @@ class RecommendFragment : BaseFragment(R.layout.layout_list_recommend_fragment),
     }
 
     private fun initOrientationWatchDog() {
-        mOrientationWatchDog = OrientationWatchDog(requireContext())
+        mOrientationWatchDog =
+            OrientationWatchDog(
+                requireContext()
+            )
         mOrientationWatchDog.setOnOrientationListener(object :
             OrientationWatchDog.OnOrientationListener {
             override fun changedToLandReverseScape(fromPort: Boolean) {
@@ -286,11 +288,11 @@ class RecommendFragment : BaseFragment(R.layout.layout_list_recommend_fragment),
 
     private fun hideViewWhenPlaying(rcv: RecyclerView) {
         val videoCover: View? = getRecyclerViewItemChildView(rcv, mPosition, R.id.mVideoCover)
-        videoCover?.setVisible(false)
+        videoCover?.visibility = View.GONE
         val playIcon: ImageView? =
             getRecyclerViewItemChildView(rcv, mPosition, R.id.mVideoPlayIcon)
         playIcon?.apply {
-            setVisible(false)
+            this.visibility = View.GONE
             setTag(R.id.item_playing, true)
             setImageResource(R.drawable.feed_play_pause_icon)
         }

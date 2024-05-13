@@ -9,16 +9,16 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import android.widget.RemoteViews
-import com.aliyun.aio.utils.DensityUtil
 import com.aliyun.player.alivcplayerexpand.R
 import com.aliyun.player.alivcplayerexpand.listplay.IListPlayManager
 import com.aliyun.player.alivcplayerexpand.listplay.ListPlayManager
 import com.aliyun.player.alivcplayerexpand.playlist.OnListPlayCallback
-import com.aliyun.player.aliyunplayerbase.util.ImageLoader
-import com.aliyun.player.aliyunplayerbase.util.NotificationUtils
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil
+import com.aliyun.player.alivcplayerexpand.util.ImageLoader
+import com.aliyun.player.alivcplayerexpand.util.NotificationUtils
 import com.aliyun.player.nativeclass.MediaInfo
-import com.aliyun.video.common.JJLog
 import org.greenrobot.eventbus.EventBus
 import java.lang.reflect.Method
 
@@ -39,7 +39,7 @@ class BackgroundPlayService : Service(), IForegroundService {
     private var mPlayComplete = false
     private val mListCallback = object : OnListPlayCallback {
         override fun onPrepare() {
-            JJLog.logi(
+            Log.i(
                 TAG,
                 "onPrepare mVid:$mVid currentvid:${mPlayManager.getCurrentVideo().videoId}"
             )
@@ -58,7 +58,7 @@ class BackgroundPlayService : Service(), IForegroundService {
         }
 
         override fun onPlayComplete() {
-            JJLog.logi(TAG, "onPlayComplete")
+            Log.i(TAG, "onPlayComplete")
             mPlayComplete = true
             if (mIsStartForeground) {
                 mPlaying = false
@@ -87,7 +87,7 @@ class BackgroundPlayService : Service(), IForegroundService {
 
     override fun startForeground() {
         try {
-            JJLog.logi(TAG, "startForeground mIsStartForeground:$mIsStartForeground")
+            Log.i(TAG, "startForeground mIsStartForeground:$mIsStartForeground")
             if (!mIsStartForeground) {
                 mPlayManager = ListPlayManager.getCurrentListPlayManager()
                 mSeriesPosition = mPlayManager.getSeriesPosition()
@@ -103,17 +103,17 @@ class BackgroundPlayService : Service(), IForegroundService {
                 startForeground(notifyId, notification)
                 mIsStartForeground = true
                 PlayServiceHelper.mServiceHasForeground = true
-                JJLog.logi(TAG, "startForeground start end")
+                Log.i(TAG, "startForeground start end")
 //                mNotificationUtils.manager.notify(notifyId, notification)
                 loadIcon()
             }
         } catch (e: Exception) {
-            JJLog.logi(TAG, "startForeground Exception:$e")
+            Log.i(TAG, "startForeground Exception:$e")
         }
     }
 
     private fun forceStartNotification() {
-        JJLog.logi(
+        Log.i(
             TAG,
             "forceStartNotification mIsStartForeground:$mIsStartForeground mForceStartNotification:$mForceStartNotification"
         )
@@ -133,7 +133,7 @@ class BackgroundPlayService : Service(), IForegroundService {
     }
 
     private fun updateRemoteView() {
-        JJLog.logi(TAG, "updateRemoteView")
+        Log.i(TAG, "updateRemoteView")
         val hasNext = mPlayManager.hasNextSeries()
         val hasPre = mPlayManager.hasPreviousSeries()
         val mediaInfo: MediaInfo? = mPlayManager.getCurrentVideo()
@@ -197,7 +197,7 @@ class BackgroundPlayService : Service(), IForegroundService {
                 desHeight,
                 object : ImageLoader.OnLoadBitmapCallback {
                     override fun onBitmapBack(bitmap: Bitmap?) {
-                        JJLog.logi(
+                        Log.i(
                             TAG,
                             "onBitmapBack bitmap:%$bitmap width:${bitmap?.width} height:${bitmap?.height}"
                         )
@@ -214,7 +214,7 @@ class BackgroundPlayService : Service(), IForegroundService {
                     }
                 })
         } catch (e: Exception) {
-            JJLog.logi(TAG, "loadIcon exception:$e")
+            Log.i(TAG, "loadIcon exception:$e")
         }
     }
 
@@ -249,7 +249,7 @@ class BackgroundPlayService : Service(), IForegroundService {
 
     override fun onCreate() {
         super.onCreate()
-        JJLog.logi(TAG, "onCreate")
+        Log.i(TAG, "onCreate")
         startForeground()
     }
 
@@ -262,7 +262,7 @@ class BackgroundPlayService : Service(), IForegroundService {
         mIsStartForeground = false
         PlayServiceHelper.mServiceHasForeground = false
         PlayServiceHelper.mPendingStopService = false
-        JJLog.logi(TAG, "stopForeground")
+        Log.i(TAG, "stopForeground")
         stopForeground(true)
         mPlayManager?.removePlayCallback(mListCallback)
     }
@@ -272,7 +272,7 @@ class BackgroundPlayService : Service(), IForegroundService {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        JJLog.logi(TAG, "onStartCommand")
+        Log.i(TAG, "onStartCommand")
         if (!isForeground) {
             startForeground()
         }
@@ -281,7 +281,7 @@ class BackgroundPlayService : Service(), IForegroundService {
 //        }
         if (intent != null && mIsStartForeground) {
             val action = intent.getIntExtra(IPlayNotifyEvent.KEY_NOTIFY_ACTION, -1)
-            JJLog.logi(TAG, "onStartCommand action:$action")
+            Log.i(TAG, "onStartCommand action:$action")
             when (action) {
                 IPlayNotifyEvent.NOTIFY_PLAY_NEXT -> {
                     if (mPlayManager.hasNextSeries()) {
@@ -365,7 +365,7 @@ class BackgroundPlayService : Service(), IForegroundService {
     override fun onDestroy() {
         super.onDestroy()
         stopForeground()
-        JJLog.logi(TAG, "onDestroy")
+        Log.i(TAG, "onDestroy")
     }
 
     @SuppressLint("WrongConstant")

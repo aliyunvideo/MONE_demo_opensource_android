@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_weak">
+    android:background="#1C1D22">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/mRecommendCover"
@@ -25,7 +25,7 @@
         android:ellipsize="end"
         android:gravity="start"
         android:maxLines="2"
-        android:textColor="@color/text_strong"
+        android:textColor="#FCFCFD"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/mRecommendCover"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +58,7 @@
         android:layout_marginTop="11dp"
         android:lines="1"
         android:text="01:22"
-        android:textColor="@color/text_ultraweak"
+        android:textColor="#747A8C"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/mRecommendVideoTitle"
         app:layout_constraintTop_toBottomOf="@+id/mRecommendVideoTitle"/>

@@ -1,6 +1,5 @@
 <resources>
     <string name="alivc_base_version">SDK VERSION INFO</string>
-    <string name="alivc_operator_play">Autoplay on Provider Network</string>
 
     <string name="alivc_replay">Replay</string>
     <string name="alivc_alivc_replay_msg">Video ended</string>

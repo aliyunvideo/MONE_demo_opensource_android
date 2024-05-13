@@ -2,7 +2,6 @@
     <string name="alivc_base_version">SDK版本信息</string>
 
     <string name="alivc_alivc_replay_msg">视频播放结束</string>
-    <string name="alivc_operator_play">运营商网络下播放</string>
 
     <string name="alivc_replay">重播·</string>
     <string name="alivc_error_msg">错误消息</string>

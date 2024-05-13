@@ -241,7 +241,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/alivc_info_large_seekbar"
                 app:layout_constraintBottom_toBottomOf="@id/alivc_info_large_seekbar"
-                android:textSize="@dimen/alivc_common_font_14"
+                android:textSize="14dp"
                 tools:text="00::25" />
 
             <TextView
@@ -253,7 +253,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/alivc_info_large_seekbar"
                 app:layout_constraintBottom_toBottomOf="@id/alivc_info_large_seekbar"
-                android:textSize="@dimen/alivc_common_font_14"
+                android:textSize="14dp"
                 tools:text="05::25" />
 
             <Button
@@ -265,7 +265,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="@drawable/alivc_rate_btn_nomal"
                 android:textColor="@color/alivc_common_font_white_light"
-                android:textSize="@dimen/alivc_common_font_14"
+                android:textSize="14dp"
                 android:visibility="gone" />
 
             <SeekBar

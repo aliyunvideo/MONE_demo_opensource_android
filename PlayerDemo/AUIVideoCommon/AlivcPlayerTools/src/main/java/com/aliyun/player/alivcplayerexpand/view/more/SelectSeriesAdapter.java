@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aliyun.auiplayerserver.bean.VideoInfo;
 import com.aliyun.player.alivcplayerexpand.R;
-import com.aliyun.player.aliyunplayerbase.util.ImageLoader;
+import com.aliyun.player.alivcplayerexpand.util.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -90,16 +90,10 @@ dependencies {
 
     implementation project(':AUIPlayerServer')
     implementation project(':AUIVideoCommon:skeleton')
-    implementation project(':AUIVideoCommon:AliyunPlayerBase')
     implementation project(':AUIVideoCommon:common')
     implementation project(':AUIVideoCommon:database')
     implementation project(':AUIVideoCommon:easyfloat')
     implementation project(':AUIVideoCommon:AlivcPlayerTools')
-
-    implementation project(':AUIFoundation:AVTheme')
-    implementation project(':AUIFoundation:AVUtils')
-    implementation project(':AUIFoundation:AVBaseUI')
-
 
     implementation externalKotlinStdLib
     implementation externalAndroidXCoreKtx
@@ -118,9 +112,9 @@ dependencies {
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-//    implementation ('com.github.lihangleo2:ShadowLayout:3.3.3'){
-//        exclude group: "com.github.bumptech.glide"
-//    }
 
+    implementation externalPlayerFull
+    implementation externalAliyunOSS
+    implementation externalGSON
 }
 

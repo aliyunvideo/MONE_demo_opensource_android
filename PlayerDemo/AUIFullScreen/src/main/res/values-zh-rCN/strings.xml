@@ -1,6 +1,6 @@
 <resources>
 
     <string name="aui_flow_feed_video_detail">视频详情</string>
-    <string name="play_speed_changed">已切换至$s倍速</string>
+    <string name="play_speed_changed">已切换至%1$s倍速</string>
 
 </resources>

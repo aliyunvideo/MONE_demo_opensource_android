@@ -7,14 +7,19 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.alivc.live.commonbiz.listener.OnDownloadListener;
-import com.alivc.live.commonbiz.listener.OnNetWorkListener;
+import com.alivc.live.commonbiz.download.DownloadUtil;
+import com.alivc.live.commonbiz.network.HttpUtils;
 import com.alivc.live.commonutils.FileUtil;
 
 import java.io.File;
 
 import okhttp3.Response;
 
+/**
+ * 远端资源下载管理类
+ *
+ * @note 用于下载存放在云端的yuv文件，该yuv文件在外部音视频推流时使用
+ */
 public class ResourcesDownload {
 
     private static final String TAG = "ResourcesDownload";
@@ -28,16 +33,19 @@ public class ResourcesDownload {
     private ResourcesDownload() {
     }
 
-    public static long downloadCaptureYUV(Context context, OnDownloadListener listener) {
-        Downloader downloader = new Downloader(context.getApplicationContext());
+    /**
+     * 下载yuv文件
+     */
+    public static long downloadCaptureYUV(Context context, DownloadUtil.OnDownloadListener listener) {
+        DownloadUtil downloadUtil = new DownloadUtil(context.getApplicationContext());
         File file = ResourcesConst.localCaptureYUVFilePath(context);
         Log.d(TAG, "downloadYUV file : " + file.getAbsolutePath());
 
-        downloader.setDownloadListener(new OnDownloadListener() {
+        downloadUtil.setDownloadListener(new DownloadUtil.OnDownloadListener() {
             @Override
             public void onDownloadSuccess(long downloadId) {
                 Log.d(TAG, "onDownloadSuccess : " + downloadId);
-                verifyFile(downloader, file, listener);
+                verifyFile(downloadUtil, file, listener);
             }
 
             @Override
@@ -54,25 +62,16 @@ public class ResourcesDownload {
                 if (listener != null) {
                     mHandler.post(() -> listener.onDownloadError(downloadId, errorCode, errorMsg));
                 }
-                deleteFile(file);
+                FileUtil.safeDeleteFile(file);
             }
         });
 
         if (file.exists()) {
             //文件存在，验证完整性
-            verifyFile(downloader, file, listener);
+            verifyFile(downloadUtil, file, listener);
             return -1;
         } else {
-            return downloader.startDownload(FINAL_OSS_YUV_URL, file);
-        }
-    }
-
-    /**
-     * 删除文件
-     */
-    private static void deleteFile(File file) {
-        if (file != null && file.exists()) {
-            file.delete();
+            return downloadUtil.startDownload(FINAL_OSS_YUV_URL, file);
         }
     }
 
@@ -80,8 +79,8 @@ public class ResourcesDownload {
      * 验证文件完整性
      * 通过 Response 中 etag 字段获取 OSS 文件的 MD5
      */
-    private static void verifyFile(Downloader downloader, File file, OnDownloadListener listener) {
-        HttpUtils.get(FINAL_OSS_YUV_URL, new OnNetWorkListener() {
+    private static void verifyFile(DownloadUtil downloadUtil, File file, DownloadUtil.OnDownloadListener listener) {
+        HttpUtils.get(FINAL_OSS_YUV_URL, new HttpUtils.OnNetWorkListener() {
             @Override
             public void onSuccess(Object obj) {
                 Response response = (Response) obj;
@@ -117,8 +116,8 @@ public class ResourcesDownload {
                     return;
                 }
 
-                deleteFile(file);
-                downloader.startDownload(FINAL_OSS_YUV_URL, file);
+                FileUtil.safeDeleteFile(file);
+                downloadUtil.startDownload(FINAL_OSS_YUV_URL, file);
             }
 
             @Override

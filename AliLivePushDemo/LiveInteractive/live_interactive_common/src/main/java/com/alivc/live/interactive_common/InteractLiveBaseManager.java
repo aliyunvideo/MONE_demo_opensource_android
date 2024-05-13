@@ -21,7 +21,7 @@ import com.alivc.live.beauty.constant.BeautySDKType;
 import com.alivc.live.commonbiz.seidelay.SEIDelayManager;
 import com.alivc.live.commonbiz.seidelay.SEISourceType;
 import com.alivc.live.commonbiz.seidelay.api.ISEIDelayEventListener;
-import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.commonbiz.test.AliLiveStreamURLUtil;
 import com.alivc.live.commonutils.ToastUtils;
 import com.alivc.live.interactive_common.bean.InteractiveLivePlayer;
 import com.alivc.live.interactive_common.bean.InteractiveUserData;
@@ -503,7 +503,7 @@ public class InteractLiveBaseManager {
 
         String pushUrl = userData.url;
         if (InteractiveMode.isInteractive(mInteractiveMode)) {
-            pushUrl = URLUtils.generateInteractivePushUrl(userData.channelId, userData.userId);
+            pushUrl = AliLiveStreamURLUtil.generateInteractivePushUrl(userData.channelId, userData.userId);
         }
 
         if (TextUtils.isEmpty(pushUrl)) {

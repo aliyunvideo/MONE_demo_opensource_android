@@ -7,19 +7,18 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.alivc.auiplayer.videoepisode.AUIEpisodePlayerActivity;
 import com.alivc.player.videolist.auivideofunctionlist.AUIVideoFunctionListActivity;
 import com.alivc.player.videolist.auivideostandradlist.AUIVideoStandardListActivity;
-import com.aliyun.aio.avbaseui.AVBaseListActivity;
-import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.auifullscreen.AUIFullScreenActivity;
 import com.aliyun.auiplayerapp.utils.PermissionUtils;
+import com.aliyun.auiplayerapp.view.AVBaseListActivity;
 import com.aliyun.video.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -98,7 +97,7 @@ public class PlayerMainActivity extends AVBaseListActivity {
 
         if (!isAllGranted) {
             // 弹出对话框告诉用户需要权限的原因, 并引导用户去应用权限管理中手动打开权限按钮
-            AVToast.show(this, true, R.string.alivc_recorder_camera_permission_tip);
+            Toast.makeText(this, getString(R.string.alivc_recorder_camera_permission_tip), Toast.LENGTH_SHORT).show();
         } else {
             onModelItemClick(mListModel);
         }

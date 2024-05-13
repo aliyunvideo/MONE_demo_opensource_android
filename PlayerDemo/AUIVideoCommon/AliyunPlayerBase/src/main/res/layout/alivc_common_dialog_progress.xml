@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/alivc_common_font_14"
+            android:textSize="14dp"
             />
         <ProgressBar
             android:paddingTop="@dimen/alivc_common_padding_2"

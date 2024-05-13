@@ -2,9 +2,7 @@ package com.aliyun.auiplayerserver.flowfeed
 
 import com.aliyun.auiplayerserver.bean.AliyunVideoInfoList
 import com.aliyun.auiplayerserver.bean.VideoInfo
-import com.aliyun.auiplayerserver.bean.VideoStsInfo
 import com.aliyun.auiplayerserver.okhttp.AlivcOkHttpClient
-import com.aliyun.player.source.StsInfo
 import com.google.gson.Gson
 import okhttp3.Request
 import org.json.JSONObject
@@ -29,15 +27,7 @@ class HomePageFetcher{
                 request: Request,
                 result: String
             ) {
-                val gson = Gson()
-                val videoStsInfo =
-                    gson.fromJson(result, VideoStsInfo::class.java)
-                val stsInfo = StsInfo()
-                stsInfo.accessKeyId = videoStsInfo.accessKeyId
-                stsInfo.securityToken = videoStsInfo.securityToken
-                stsInfo.accessKeySecret = videoStsInfo.accessKeySecret
-
-                callback.onResult(stsInfo)
+                callback.onResult(result)
             }
         })
     }
@@ -86,7 +76,7 @@ class HomePageFetcher{
     }
 
     interface VideoStsInfoCallback {
-        fun onResult(stsInfo: StsInfo)
+        fun onResult(result: String)
         fun onError(msg: String?)
     }
 }

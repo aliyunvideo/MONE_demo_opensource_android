@@ -18,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.aliyun.aio.utils.ThreadUtils;
 import com.aliyun.player.alivcplayerexpand.R;
+import com.aliyun.player.alivcplayerexpand.util.ThreadUtils;
 import com.aliyun.player.alivcplayerexpand.view.dlna.DeviceSearchListener;
 import com.aliyun.player.alivcplayerexpand.view.dlna.callback.DeviceListChangedListener;
 import com.aliyun.player.alivcplayerexpand.view.dlna.callback.OnDeviceItemClickListener;

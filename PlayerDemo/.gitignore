@@ -15,5 +15,8 @@ build/
 *.classpath
 AndroidThirdParty/
 AUIFoundation/
+perf/
 out/
 outZip/
+test.*
+AlivcPlayerSolution_Android/

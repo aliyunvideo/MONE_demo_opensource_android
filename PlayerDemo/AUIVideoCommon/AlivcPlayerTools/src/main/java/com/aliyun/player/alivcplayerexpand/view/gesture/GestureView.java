@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.aliyun.player.alivcplayerexpand.view.interfaces.ViewAction;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
 /*
  * Copyright (C) 2010-2018 Alibaba Group Holding Limited.
  */

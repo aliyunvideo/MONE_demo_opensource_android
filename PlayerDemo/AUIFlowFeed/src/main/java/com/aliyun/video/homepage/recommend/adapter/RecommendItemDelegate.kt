@@ -12,8 +12,7 @@ import com.aliyun.auiplayerserver.bean.VideoInfo
 import com.aliyun.player.alivcplayerexpand.theme.Theme
 import com.aliyun.player.alivcplayerexpand.util.PlayConfigManager
 import com.aliyun.player.alivcplayerexpand.view.gesture.SimplyTapGestureListener
-import com.aliyun.player.aliyunplayerbase.util.ImageLoader
-import com.aliyun.player.aliyunplayerbase.util.setVisible
+import com.aliyun.player.alivcplayerexpand.util.ImageLoader
 import com.aliyun.video.R
 import com.aliyun.video.common.ui.getItemView
 import com.aliyun.video.databinding.LayoutRecommendListItemBinding
@@ -56,10 +55,10 @@ class RecommendItemDelegate(val clickFuc: OnRecommendItemClick) :
 
         fun rebind() {
             mItemViewBinding.apply {
-                mVideoCover.setVisible(true)
-                mVideoPlayIcon.setVisible(true)
-                audioModeView.setVisible(false)
-                tvSmallDuration.setVisible(true)
+                mVideoCover.visibility = View.VISIBLE
+                mVideoPlayIcon.visibility = View.VISIBLE
+                audioModeView.visibility = View.GONE
+                tvSmallDuration.visibility = View.VISIBLE
                 mVideoPlayIcon.setTag(R.id.item_playing, false)
                 mVideoGestureView.setTag(R.id.item_audio_mode, false)
                 updateVoiceCheckBox()
@@ -75,7 +74,7 @@ class RecommendItemDelegate(val clickFuc: OnRecommendItemClick) :
                 val coverUrl =
                     if (item.firstFrameUrl.isNullOrEmpty()) item.coverUrl else item.firstFrameUrl
                 //封面
-                mVideoCover.setVisible(true)
+                mVideoCover.visibility = View.VISIBLE
                 ImageLoader.loadImg(
                     coverUrl,
                     mVideoCover,
@@ -101,7 +100,7 @@ class RecommendItemDelegate(val clickFuc: OnRecommendItemClick) :
                 //默认显示 pause icon
                 mPlayIconShow = false
                 mVideoPlayIcon.apply {
-                    setVisible(true)
+                    this.visibility = View.VISIBLE
                     tvSmallDuration.visibility = View.VISIBLE
                     showPlayIcon(false)
                     setOnClickListener {
@@ -132,13 +131,13 @@ class RecommendItemDelegate(val clickFuc: OnRecommendItemClick) :
                     clickFuc.jumpFullScreenPage(position)
                 }
                 layoutContrastPlayTip.setOnClickListener {
-                    it.setVisible(false)
+                    it.visibility = View.GONE
                     clickFuc.onSeekFinishVideo(0)
                 }
                 alivcInfoSmallSeekbar.setOnSeekBarChangeListener(mOnSeekChangeListener)
                 updateSeekBarTheme(Theme.Blue)
-                alivcInfoSmallBar.setVisible(false)
-                tvSmallDuration.setVisible(true)
+                alivcInfoSmallBar.visibility = View.GONE
+                tvSmallDuration.visibility = View.VISIBLE
                 mVideoFunctionViewShow = false
                 mVideoGestureView.setOnGestureListener(object : SimplyTapGestureListener() {
                     override fun onSingleTapClick() {
@@ -197,19 +196,19 @@ class RecommendItemDelegate(val clickFuc: OnRecommendItemClick) :
         private fun handlePlayFunctionView() {
             mItemViewBinding.apply {
                 updateVoiceCheckBox()
-                val audioMode: Boolean =
-                    mVideoGestureView.getTag(R.id.item_audio_mode) as Boolean
-                alivcInfoSmallBar.setVisible(mVideoFunctionViewShow || audioMode)
-                tvSmallDuration.setVisible(!mVideoFunctionViewShow)
-                mVideoPlayIcon.setVisible(mVideoFunctionViewShow)
-                val playing = mVideoPlayIcon.getTag(R.id.item_playing) as Boolean
-                checkBoxVoice.setVisible(!mVideoFunctionViewShow && !audioMode)
-                if (playing) {
-                    mVideoPlayIcon.setVisible(mVideoFunctionViewShow)
 
-                } else {
-                    mVideoPlayIcon.setVisible(true)
-                }
+                val audioMode: Boolean = mVideoGestureView.getTag(R.id.item_audio_mode) as Boolean
+                val isPlaying: Boolean = mVideoPlayIcon.getTag(R.id.item_playing) as Boolean
+
+                alivcInfoSmallBar.visibility =
+                    if (mVideoFunctionViewShow || audioMode) View.VISIBLE else View.GONE
+                tvSmallDuration.visibility =
+                    if (!mVideoFunctionViewShow) View.VISIBLE else View.GONE
+
+                mVideoPlayIcon.visibility =
+                    if (!isPlaying || mVideoFunctionViewShow) View.VISIBLE else View.GONE
+                checkBoxVoice.visibility =
+                    if (!mVideoFunctionViewShow && !audioMode) View.VISIBLE else View.GONE
             }
         }
 

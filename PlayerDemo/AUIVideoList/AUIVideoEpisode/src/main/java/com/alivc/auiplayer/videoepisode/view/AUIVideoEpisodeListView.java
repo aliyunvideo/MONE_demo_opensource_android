@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Surface;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +25,6 @@ import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListDiffCal
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
-import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 import com.aliyun.player.bean.InfoCode;
@@ -36,6 +36,11 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     private AUIVideoEpisodeController mController;
 
     private boolean mAutoPlayNext;
+
+    // 默认初始跳转到的短剧集数
+    private int mInitialEpisodeIndex = 0;
+
+    private boolean mInited = false;
 
     private AUIEpisodeData mEpisodeData = null;
 
@@ -61,7 +66,6 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
 
     private void init(Context context) {
         this.mContext = context;
-        initTextureView();
         setRefreshLayoutEnable(false);
         mController = new AUIVideoEpisodeController(mContext);
         mController.setPlayerListener(this);
@@ -69,7 +73,15 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
         autoPlayNext(true);
     }
 
-    private void initTextureView() {
+    /**
+     * 设置短剧初始集数
+     * <p>
+     * 通过该接口，设置短剧初始集数，则默认跳转展示第几集；如果不设置，则默认从第1集开始
+     *
+     * @param index 短剧集数
+     */
+    public void setInitialEpisodeIndex(int index) {
+        mInitialEpisodeIndex = index;
     }
 
     private void addTextureView(int position) {
@@ -99,7 +111,7 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
                 if (viewHolderByPosition instanceof AUIVideoEpisodeAdapter.AUIVideoEpisodeViewHolder) {
                     ((AUIVideoEpisodeAdapter.AUIVideoEpisodeViewHolder) viewHolderByPosition).hidePanelIfNeed();
                 }
-                int position = episodeVideoInfo.getPosition();
+                int position = AUIEpisodeData.getEpisodeIndex(mEpisodeData, episodeVideoInfo);
                 MoveToPosition(position);
                 addTextureView(position);
                 mController.onPageSelected(position);
@@ -115,9 +127,11 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
         episodeAdapter.initSurfaceListener(new OnSurfaceListener() {
             @Override
             public void onSurfaceCreate(int index, Surface surface) {
-                // TODO: 当前版本，PreRender Player仅支持预渲染列表下一个视频的画面；指定预渲染上一个视频的画面，有待后续版本支持。
-                // 只对后面的 viewHolder 进行预加载
-                if (index > mSelectedPosition) {
+                if (index == mSelectedPosition) {
+                    mController.setSurface(surface);
+                } else if (index == mSelectedPosition + 1) {
+                    // TODO: 当前版本，PreRender Player仅支持预渲染列表下一个视频的画面；指定预渲染上一个视频的画面，有待后续版本支持。
+                    // 只对后面的 viewHolder 进行预加载
                     mController.setSurfaceToPreRenderPlayer(surface);
                 }
             }
@@ -189,7 +203,7 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
 
     public void updateEpisodeData(AUIEpisodeData episodeData, boolean isRefresh) {
         if (episodeData == null || episodeData.list == null) {
-            AVToast.show(mContext, true, "网络异常，请检查网络是否正确连接");
+            Toast.makeText(mContext, "网络异常，请检查网络是否正确连接", Toast.LENGTH_SHORT).show();
             setRefreshing(false);
             return;
         }
@@ -258,15 +272,20 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     @Override
     public void onInitComplete() {
         Log.i("CheckFunc", "onInitComplete" + " mSelectedPosition: " + mSelectedPosition);
-        if (IsInited()) {
+
+        // 只允许回调一次onInitComplete；已有的逻辑，如果去掉，会导致2->1会直接跳到0，存在bug
+        if (mInited) {
             return;
         }
-        this.mSelectedPosition = 0;
+        mInited = true;
+
+        this.mSelectedPosition = mInitialEpisodeIndex;
+        mInitialEpisodeIndex = 0;
+
+        MoveToPosition(mSelectedPosition);
         addTextureView(mSelectedPosition);
         mController.onPageSelected(mSelectedPosition);
         setPreRenderViewHolder(mSelectedPosition + 1);
-
-        SetInited(true);
     }
 
     @Override
@@ -287,25 +306,12 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     }
 
     @Override
-    public void onPageScrollTo(int position) {
-        super.onPageScrollTo(position);
-        // TODO: 当前版本，PreRender Player仅支持预渲染列表下一个视频的画面；指定预渲染上一个视频的画面，有待后续版本支持。
-        // 判断当前滑动趋势，对即将要滑到的item及时增加预渲染能力，避免在滑动到位前一直处于黑屏状态，优化滑动体验
-        // setPreRenderViewHolder(position);
-    }
-
-    @Override
     public void onPageRelease(int position) {
         super.onPageRelease(position);
         AUIVideoListViewHolder viewHolderByPosition = getViewHolderByPosition(position);
         if (viewHolderByPosition != null) {
             viewHolderByPosition.showPlayIcon(false);
         }
-    }
-
-    @Override
-    public int onSelectedPosition() {
-        return mSelectedPosition;
     }
 
     @Override
@@ -349,7 +355,6 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
             Log.i("CheckFunc", "onCompletion  " + "moveToNextPosition: " + (mSelectedPosition + 1) + " duration:  " + duration + " getItemCount: " + mAUIVideoListAdapter.getItemCount());
 
             // 直接跳转，可以避免获取不到viewHolder
-//          mRecyclerView.scrollToPosition(mSelectedPosition + 1);
             mRecyclerView.smoothScrollToPosition(mSelectedPosition + 1);
             onPageSelected(mSelectedPosition + 1);
         }
@@ -358,7 +363,7 @@ public class AUIVideoEpisodeListView extends AUIVideoListView {
     @Override
     public void onError(ErrorInfo errorInfo) {
         super.onError(errorInfo);
-        AVToast.show(mContext, true, "error: " + errorInfo.getCode() + " -- " + errorInfo.getMsg());
+        Toast.makeText(mContext, "error: " + errorInfo.getCode() + " -- " + errorInfo.getMsg(), Toast.LENGTH_SHORT).show();
     }
 
     private void setPreRenderViewHolder(int preRenderPosition) {

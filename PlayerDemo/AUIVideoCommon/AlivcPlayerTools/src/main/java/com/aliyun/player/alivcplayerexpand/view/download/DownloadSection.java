@@ -18,7 +18,7 @@ import com.aliyun.player.alivcplayerexpand.R;
 import com.aliyun.player.alivcplayerexpand.util.download.AliyunDownloadMediaInfo;
 import com.aliyun.player.alivcplayerexpand.view.sectionlist.SectionParameters;
 import com.aliyun.player.alivcplayerexpand.view.sectionlist.StatelessSection;
-import com.aliyun.player.aliyunplayerbase.util.ImageLoader;
+import com.aliyun.player.alivcplayerexpand.util.ImageLoader;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;

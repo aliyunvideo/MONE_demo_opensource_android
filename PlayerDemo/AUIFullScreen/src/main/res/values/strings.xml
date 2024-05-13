@@ -1,5 +1,5 @@
 <resources>
 
     <string name="aui_flow_feed_video_detail">Video Details</string>
-    <string name="play_speed_changed">Switched to $s speed</string>
+    <string name="play_speed_changed">Switched to %1$s speed</string>
 </resources>

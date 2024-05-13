@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
-import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.commonbiz.test.AliLiveStreamURLUtil;
 import com.alivc.live.interactive_common.InteractiveMode;
 import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -116,11 +116,11 @@ public class ViewerController {
         mAnchorUserData.userId = anchorId;
 
         // 旁路观看主播拉流地址（CDN拉流地址）
-        mPullCDNUrl = URLUtils.generateCDNPullUrl(mAnchorUserData.channelId, anchorId, LivePushGlobalConfig.mAlivcLivePushConfig.isAudioOnly());
+        mPullCDNUrl = AliLiveStreamURLUtil.generateCDNPullUrl(mAnchorUserData.channelId, anchorId, LivePushGlobalConfig.mAlivcLivePushConfig.isAudioOnly());
         mInteractLiveManager.startPullCDNStream(mPullCDNUrl);
 
         // 连麦观看主播拉流地址（RTC拉流地址）
-        mPullRTCUrl = URLUtils.generateInteractivePullUrl(mAnchorUserData.channelId, anchorId);
+        mPullRTCUrl = AliLiveStreamURLUtil.generateInteractivePullUrl(mAnchorUserData.channelId, anchorId);
         mAnchorUserData.url = mPullRTCUrl;
 
         mNeedPullOtherStream = false;

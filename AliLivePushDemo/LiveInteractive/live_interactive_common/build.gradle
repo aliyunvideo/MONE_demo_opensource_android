@@ -14,7 +14,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
         javaCompileOptions {
@@ -38,13 +37,7 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    implementation externalAndroidDesign
 
     api project(':AUIFoundation:AVBaseUI')
     api project(':AUIFoundation:AVTheme')
@@ -52,15 +45,13 @@ dependencies {
     api project(':LiveCommon:live_commonutils')
     api project(':LiveCommon:live_commonbiz')
     api project(':LiveBasic:live_basic_common')
-    api externalPlayerFull
+    api project(':LiveBeauty:live_queenbeauty')
 
     if (hasInteractiveLive()) {
         api externalLivePusherInteractive
     } else {
         api externalLivePusher
     }
-
-    implementation project(':LiveBeauty:live_queenbeauty')
 
     implementation 'com.acker:simplezxing:1.5'
     implementation externalARouter

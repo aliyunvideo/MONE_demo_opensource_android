@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_weak"
+    android:background="#1C1D22"
     tools:context=".AUIFullScreenActivity">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height=  "44dp"
+        android:layout_height="44dp"
         android:text="@string/aui_flow_feed_video_detail"
-        android:textSize="@dimen/alivc_common_font_14"
-        android:textColor="@color/text_strong"
+        android:textSize="14dp"
+        android:textColor="#FCFCFD"
         android:gravity="center"
-        android:background="@color/border_infrared"
+        android:background="#23262F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:id="@+id/iv_back"
         android:layout_width="26dp"
         android:layout_height="26dp"
-        android:src="@drawable/ic_av_action_bar_back"
+        android:src="@drawable/ic_full_screen_back"
         android:layout_marginStart="20dp"
         android:layout_alignTop="@id/tv_title"
         android:layout_alignBottom="@id/tv_title"

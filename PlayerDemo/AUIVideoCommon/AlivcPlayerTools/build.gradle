@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion externalCompileSdkVersion
@@ -18,15 +19,29 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
-    api project(':AUIVideoCommon:AliyunPlayerBase')
     implementation project(':AUIPlayerServer')
+    implementation project(':AUIVideoCommon:common')
     implementation project(':AUIVideoCommon:database')
+    implementation project(':AUIVideoCommon:AliyunPlayerBase')
 
     //弹幕
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
+
+    implementation externalAndroidX
+    implementation externalAndroidDesign
+
+    implementation externalPlayerFull
+    implementation externalAliyunOSS
+    implementation externalGSON
+    implementation externalEventBus
+    implementation externalGlide
 
     //投屏相关
     // Cling library
@@ -40,4 +55,5 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.21'
     implementation 'com.koushikdutta.urlimageviewhelper:urlimageviewhelper:1.0.4'
 
+    implementation 'jp.wasabeef:blurry:4.0.0'
 }

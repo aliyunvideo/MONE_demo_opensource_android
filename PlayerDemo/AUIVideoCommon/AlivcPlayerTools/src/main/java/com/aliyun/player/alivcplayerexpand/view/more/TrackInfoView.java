@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.aliyun.aio.utils.DensityUtil;
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil;
 import com.aliyun.player.alivcplayerexpand.R;
 import com.aliyun.player.alivcplayerexpand.view.quality.QualityItem;
 import com.aliyun.player.nativeclass.TrackInfo;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/border_infrared">
+    android:background="#23262F">
 
     <FrameLayout
         android:id="@+id/mVideoContainer"
@@ -242,7 +242,7 @@
         android:gravity="start"
         android:lines="1"
         android:text="@string/default_video_title"
-        android:textColor="@color/text_strong"
+        android:textColor="#FCFCFD"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -270,7 +270,7 @@
         android:lines="1"
         android:paddingEnd="20dp"
         android:text="@string/default_author_name"
-        android:textColor="@color/text_medium"
+        android:textColor="#E6E7EC"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/mPortrait"
         app:layout_constraintEnd_toStartOf="@+id/mCommentNumber"
@@ -284,7 +284,7 @@
         android:layout_marginEnd="@dimen/home_list_item_portrait_left_margin"
         android:drawablePadding="2dp"
         android:text="@string/play_detail"
-        android:textColor="@color/text_medium"
+        android:textColor="#E6E7EC"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/mPortrait"
         app:layout_constraintEnd_toEndOf="parent"

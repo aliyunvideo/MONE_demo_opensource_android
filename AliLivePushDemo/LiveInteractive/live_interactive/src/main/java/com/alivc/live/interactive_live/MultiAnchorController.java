@@ -5,7 +5,7 @@ import android.widget.FrameLayout;
 
 import com.alivc.live.commonbiz.LocalStreamReader;
 import com.alivc.live.commonbiz.ResourcesConst;
-import com.alivc.live.commonbiz.test.URLUtils;
+import com.alivc.live.commonbiz.test.AliLiveStreamURLUtil;
 import com.alivc.live.interactive_common.InteractiveMode;
 import com.alivc.live.interactive_common.bean.InteractiveUserData;
 import com.alivc.live.interactive_common.listener.InteractLivePushPullListener;
@@ -78,7 +78,7 @@ public class MultiAnchorController {
         if (userData == null) {
             return;
         }
-        userData.url = URLUtils.generateInteractivePullUrl(mRoomId, userData.userId);
+        userData.url = AliLiveStreamURLUtil.generateInteractivePullUrl(mRoomId, userData.userId);
 
         mInteractLiveManager.setPullView(userData, frameLayout, false);
         mInteractLiveManager.startPullRTCStream(userData);

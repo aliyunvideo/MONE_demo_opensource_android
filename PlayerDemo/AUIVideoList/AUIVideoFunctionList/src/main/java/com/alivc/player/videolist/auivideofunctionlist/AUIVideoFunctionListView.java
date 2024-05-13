@@ -3,6 +3,7 @@ package com.alivc.player.videolist.auivideofunctionlist;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,9 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alivc.player.videolist.auivdieofunctionlist.R;
 import com.alivc.player.videolist.auivideofunctionlist.adapter.AUIVideoFunctionListAdapter;
 import com.alivc.player.videolist.auivideofunctionlist.adapter.AUIVideoFunctionListLayoutManager;
-import com.alivc.player.videolist.auivideofunctionlist.domain.GestureGuidanceUseCase;
-import com.alivc.player.videolist.auivideofunctionlist.player.AliPlayerPool;
-import com.alivc.player.videolist.auivideofunctionlist.utils.GlobalSettings;
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListView;
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewType;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter;
@@ -21,13 +19,11 @@ import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListDiffCal
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
-import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 import com.aliyun.player.bean.InfoCode;
 import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.List;
 
 public class AUIVideoFunctionListView extends AUIVideoListView {
@@ -62,46 +58,18 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
 
     private void init(Context context) {
         this.mContext = context;
-        AliPlayerPool.init(mContext);
-
-        //Local Cache Dir  TODO 修改文件路径
-        GlobalSettings.CACHE_DIR = mContext.getExternalCacheDir().getAbsolutePath() + File.separator + "Preload";
-        GestureGuidanceUseCase gestureGuidanceUseCase = new GestureGuidanceUseCase(mContext);
-        //TODO
-//        AUIVideoListLocalDataSource auiVideoListLocalDataSource = new AUIVideoListLocalDataSource(mContext);
-        mController = new AUIVideoFunctionListController(gestureGuidanceUseCase);
-
-        initObserver();
+        mController = new AUIVideoFunctionListController(context);
     }
 
     @Override
     protected AUIVideoListLayoutManager initLayoutManager() {
-        AUIVideoFunctionListLayoutManager mCustomLayoutManager = new AUIVideoFunctionListLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mCustomLayoutManager.setItemPrefetchEnabled(true);
-        mCustomLayoutManager.setPreloadItemCount(1);
-        return mCustomLayoutManager;
-    }
-
-
-    private void initObserver() {
-        mController.mGestureGuidanceLiveData.observe(this, shown -> {
-            if (!shown) {
-                showInteractiveGuidance();
-            }
-        });
+        return new AUIVideoFunctionListLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
     }
 
     @Override
     protected AUIVideoListAdapter initAUIVideoListAdapter(Context context) {
         mAUIVideoListAdapter = new AUIVideoFunctionListAdapter(new AUIVideoListDiffCallback());
         return mAUIVideoListAdapter;
-    }
-
-    public void showInteractiveGuidance() {
-        mController.showGestureGuidanceLiveData();
-        //TODO
-//        mGestureLinearLayout.setVisibility(View.VISIBLE);
-//        mGestureLinearLayout.postDelayed(() -> mGestureLinearLayout.setVisibility(View.GONE), 3000);
     }
 
     public void showPlayIcon(boolean isShow) {
@@ -115,10 +83,12 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
      *
      * @param duration company ms
      */
-    public void onVideoFrameShow(long duration) {
+    public void onVideoFrameShow(int position, long duration) {
         mViewHolderForAdapterPosition = findRecyclerViewLastVisibleHolder();
-        if (mViewHolderForAdapterPosition != null) {
-            mViewHolderForAdapterPosition.getSeekBar().setMax((int) duration);
+
+        AUIVideoListViewHolder videoListViewHolder = getViewHolderByPosition(position);
+        if (videoListViewHolder != null && videoListViewHolder.getSeekBar() != null) {
+            videoListViewHolder.getSeekBar().setMax((int) duration);
         }
     }
 
@@ -127,18 +97,19 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
      *
      * @param extraValue ms
      */
-    public void updateCurrentPosition(long extraValue) {
-        if (mViewHolderForAdapterPosition != null) {
-            mViewHolderForAdapterPosition.getSeekBar().setProgress((int) extraValue);
+    public void updateCurrentPosition(int position, long extraValue) {
+        AUIVideoListViewHolder videoListViewHolder = getViewHolderByPosition(position);
+        if (videoListViewHolder != null && videoListViewHolder.getSeekBar() != null) {
+            videoListViewHolder.getSeekBar().setProgress((int) extraValue);
         }
     }
 
     public void showError(ErrorInfo errorInfo) {
-        AVToast.show(mContext, true, "error: " + errorInfo.getCode() + " -- " + errorInfo.getMsg());
+        Toast.makeText(mContext, "error: " + errorInfo.getCode() + " -- " + errorInfo.getMsg(), Toast.LENGTH_SHORT).show();
     }
 
     public void loadMore() {
-        AVToast.show(mContext, true, R.string.aui_video_list_coming_soon);
+        Toast.makeText(mContext, R.string.aui_video_list_coming_soon, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -155,7 +126,6 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
 
     @Override
     public void openLoopPlay(boolean openLoopPlay) {
-        mController.openLoopPlay(openLoopPlay);
     }
 
     @Override
@@ -189,9 +159,7 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
     public void onPageSelected(int position) {
         super.onPageSelected(position);
         AUIVideoListViewHolder viewHolder = getViewHolderByPosition(position);
-        if (viewHolder != null) {
-            mController.onPageSelected(position, viewHolder);
-        }
+        mController.onPageSelected(position, viewHolder);
     }
 
     @Override
@@ -200,19 +168,6 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
         if (viewHolder != null) {
             mController.onPageRelease(position, viewHolder);
         }
-    }
-
-    @Override
-    public void onPageHideHalf(int position) {
-        AUIVideoListViewHolder viewHolder = getViewHolderByPosition(position);
-        if (viewHolder != null) {
-            mController.onPageHideHalf(position, viewHolder);
-        }
-    }
-
-    @Override
-    public int onSelectedPosition() {
-        return 0;
     }
 
     /**
@@ -231,11 +186,8 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
      */
     @Override
     public void onInfo(int position, InfoBean infoBean) {
-        if (infoBean.getCode() == InfoCode.BufferedPosition) {
-            long buffer = infoBean.getExtraValue();
-            mController.updateBufferPosition(position, buffer);
-        } else if (infoBean.getCode() == InfoCode.CurrentPosition) {
-            updateCurrentPosition(infoBean.getExtraValue());
+        if (infoBean.getCode() == InfoCode.CurrentPosition) {
+            updateCurrentPosition(position, infoBean.getExtraValue());
         }
     }
 
@@ -248,7 +200,7 @@ public class AUIVideoFunctionListView extends AUIVideoListView {
 
     @Override
     public void onRenderingStart(int position, long duration) {
-        onVideoFrameShow(duration);
+        onVideoFrameShow(position, duration);
     }
 
     @Override

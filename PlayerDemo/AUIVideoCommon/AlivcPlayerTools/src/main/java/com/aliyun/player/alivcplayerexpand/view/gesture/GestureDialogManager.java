@@ -6,7 +6,7 @@ import android.view.View;
 import com.aliyun.player.alivcplayerexpand.view.gesturedialog.BrightnessDialog;
 import com.aliyun.player.alivcplayerexpand.view.gesturedialog.SeekDialog;
 import com.aliyun.player.alivcplayerexpand.view.gesturedialog.VolumeDialog;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
 
 /*
  * Copyright (C) 2010-2018 Alibaba Group Holding Limited.

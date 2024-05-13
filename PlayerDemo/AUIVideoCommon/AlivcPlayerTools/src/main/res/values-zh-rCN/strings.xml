@@ -2,6 +2,7 @@
 <resources>
 
     <string name="alivc_player_settings_title">播放设置</string>
+    <string name="alivc_operator_play">运营商网络下播放</string>
 
     <string name="alivc_speed_one_times">正常</string>
     <string name="alivc_speed_optf_times">1.25倍速</string>

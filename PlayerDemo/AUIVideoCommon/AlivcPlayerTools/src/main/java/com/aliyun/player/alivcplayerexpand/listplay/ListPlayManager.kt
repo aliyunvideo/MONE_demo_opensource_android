@@ -17,8 +17,7 @@ import com.aliyun.player.alivcplayerexpand.common.ContrastPlayManager
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig
 import com.aliyun.player.alivcplayerexpand.playlist.OnListPlayCallback
 import com.aliyun.player.alivcplayerexpand.widget.IRenderView
-import com.aliyun.player.aliyunplayerbase.util.NetWatchdog
-import com.aliyun.player.aliyunplayerbase.util.removeSelf
+import com.aliyun.player.alivcplayerexpand.util.NetWatchdog
 import com.aliyun.player.bean.ErrorInfo
 import com.aliyun.player.bean.InfoBean
 import com.aliyun.player.bean.InfoCode
@@ -659,7 +658,7 @@ class ListPlayManager(var lifecycle: Lifecycle?) : IListPlayManager {
 
     override fun continuePlay(pause: Boolean, vid: String, position: Int) {
         if (mListPlayerTSurfaceView?.parent != mListPlayerContainer) {
-            mListPlayerTSurfaceView?.removeSelf()
+            (mListPlayerTSurfaceView?.parent as ViewGroup?)?.removeView(mListPlayerTSurfaceView)
             val lp = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
@@ -688,7 +687,7 @@ class ListPlayManager(var lifecycle: Lifecycle?) : IListPlayManager {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        mListPlayerContainer?.removeSelf()
+        (mListPlayerContainer?.parent as ViewGroup?)?.removeView(mListPlayerContainer)
         mLastSurfaceViewContainer = container
         container.addView(mListPlayerContainer, lp)
     }

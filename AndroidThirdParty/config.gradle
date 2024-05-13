@@ -94,9 +94,9 @@ ext {
     externalSvideopro = 'com.aliyun.video.android:svideopro:6.7.0'
     externalSvideostandard = 'com.aliyun.video.android:svideostandard:6.7.0'
     externalSvideosnap = 'com.aliyun.video.android:svideosnap:6.7.0'
-    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:6.8.0-full'
-    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:6.8.0-part'
-    externalARTC = 'com.aliyun.sdk.android:AlivcArtc:6.8.0'
+    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:6.10.0-full'
+    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:6.10.0-part'
+    externalARTC = 'com.aliyun.sdk.android:AlivcArtc:6.10.0'
     externalAlivcConan = 'com.alivc.conan:AlivcConan:1.0.5'
     externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
     externalLivePusherInteractive = "com.alivc.pusher:AlivcLivePusher_Interactive:6.9.0"

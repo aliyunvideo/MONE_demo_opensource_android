@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 
 import com.aliyun.player.alivcplayerexpand.R;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils;
 
 import java.lang.ref.WeakReference;
 

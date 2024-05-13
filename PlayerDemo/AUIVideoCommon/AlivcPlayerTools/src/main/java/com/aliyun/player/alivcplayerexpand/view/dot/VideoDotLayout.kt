@@ -2,16 +2,16 @@ package com.aliyun.player.alivcplayerexpand.view.dot
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.aliyun.aio.utils.DensityUtil
 import com.aliyun.player.alivcplayerexpand.bean.DotBean
 import com.aliyun.player.alivcplayerexpand.databinding.LayoutVideoDotLayoutBinding
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil
 import com.aliyun.player.alivcplayerexpand.util.TimeFormater
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils
-import com.aliyun.player.aliyunplayerbase.util.setVisible
-import com.aliyun.video.common.JJLog
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils
 
 
 private const val TAG = "VideoDotLayout"
@@ -41,35 +41,35 @@ class VideoDotLayout @JvmOverloads constructor(
                     onVideoDotPlayClick?.onDotPlayClick(mCurrentDotBean!!.time.toInt())
                 }
             }
-            videoDotContentLayout.setVisible(false)
+            videoDotContentLayout.visibility = View.GONE
         }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        JJLog.logi(TAG, "onTouchEvent")
+//        Log.i(TAG, "onTouchEvent")
         return super.onTouchEvent(event)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-//        JJLog.logi(TAG, "onInterceptTouchEvent")
+//        Log.i(TAG, "onInterceptTouchEvent")
         return super.onInterceptTouchEvent(ev)
     }
 
     private fun handleDotContentHide() {
         mViewBinding.apply {
-            videoDotContentLayout.setVisible(false)
+            videoDotContentLayout.visibility = View.GONE
             videoDotsView.setSelected(-1)
         }
     }
 
     fun onShow() {
-        mViewBinding.videoDotContentLayout.setVisible(false)
+        mViewBinding.videoDotContentLayout.visibility = View.GONE
     }
 
     private fun showDotContent(dotBean: DotBean?, show: Boolean) {
-        JJLog.logi(TAG, "showDotContent dotBean:$dotBean show:$show")
+        Log.i(TAG, "showDotContent dotBean:$dotBean show:$show")
         mViewBinding.apply {
-            videoDotContentLayout.setVisible(show)
+            videoDotContentLayout.visibility = if (show) View.VISIBLE else View.GONE
             if (show && dotBean != null) {
                 videoDotContentLayout.post {
                     val ratio = dotBean.time.toInt() / mDurationSeconds
@@ -85,7 +85,7 @@ class VideoDotLayout @JvmOverloads constructor(
                     ) - videoDotContentLayout.width
                     var leftMargin =
                         if (dotMargin > contentWidth) dotMargin.toInt() - contentWidth else 0
-                    JJLog.logi(
+                    Log.i(
                         TAG,
                         "showDotContent  ratio:$ratio dotMargin:$dotMargin contentWidth:$contentWidth leftMargin:$leftMargin maxLeftMargin:$maxLeftMargin"
                     )

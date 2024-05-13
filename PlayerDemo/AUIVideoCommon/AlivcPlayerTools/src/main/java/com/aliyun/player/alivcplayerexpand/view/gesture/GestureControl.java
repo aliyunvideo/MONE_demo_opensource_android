@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils;
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils;
 
 /*
  * Copyright (C) 2010-2018 Alibaba Group Holding Limited.

@@ -1,11 +1,11 @@
 package com.alivc.live.commonbiz.test;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @implNote 备注：该文件被直播连麦控制台的demo试用所链接，请谨慎改动此文件的目录位置。
+ * @note 备注：该文件被直播连麦控制台的demo试用所链接，请谨慎改动此文件的目录位置。
  */
 public class AliLiveUserSigGenerate {
 
@@ -22,11 +22,6 @@ public class AliLiveUserSigGenerate {
      * CDN_DOMAIN，在阿里云控制台应用管理页面创建和查看。
      */
     public static final String ALILIVE_PLAY_DOMAIN = "PLACEHOLDER";
-
-    /**
-     * DOMAIN 固定字段。
-     */
-    public static final String ALILIVE_INTERACTIVE_DOMAIN = "live.aliyun.com";
 
     /**
      * 过期时间
@@ -48,12 +43,13 @@ public class AliLiveUserSigGenerate {
      * @return token
      */
     public static String createToken(String appid, String appkey, String channelId, String userId, long timestamp) {
-        String stringBuilder = appid +
-                appkey +
-                channelId +
-                userId +
-                timestamp;
-        return getSHA256(stringBuilder);
+        StringBuilder stringBuilder = new StringBuilder()
+                .append(appid)
+                .append(appkey)
+                .append(channelId)
+                .append(userId)
+                .append(timestamp);
+        return getSHA256(stringBuilder.toString());
     }
 
     /**
@@ -63,29 +59,27 @@ public class AliLiveUserSigGenerate {
      * @return 返回签名
      */
     public static String getSHA256(String str) {
-        MessageDigest messageDigest;
-        String encodestr = "";
         try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-            messageDigest.update(str.getBytes("UTF-8"));
-            encodestr = byte2Hex(messageDigest.digest());
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = messageDigest.digest(str.getBytes(StandardCharsets.UTF_8));
+            return byte2Hex(hash);
+        } catch (NoSuchAlgorithmException e) {
+            // Consider logging the exception and/or re-throwing as a RuntimeException
             e.printStackTrace();
         }
-        return encodestr;
+        return "";
     }
 
     private static String byte2Hex(byte[] bytes) {
-        StringBuilder stringBuffer = new StringBuilder();
-        String temp = null;
-        for (byte aByte : bytes) {
-            temp = Integer.toHexString(aByte & 0xFF);
-            if (temp.length() == 1) {
-                stringBuffer.append("0");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte b : bytes) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                // Use single quote for char
+                stringBuilder.append('0');
             }
-            stringBuffer.append(temp);
+            stringBuilder.append(hex);
         }
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
-
 }

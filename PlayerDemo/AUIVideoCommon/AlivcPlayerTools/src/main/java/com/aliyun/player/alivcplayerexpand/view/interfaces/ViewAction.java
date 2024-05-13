@@ -4,7 +4,7 @@ package com.aliyun.player.alivcplayerexpand.view.interfaces;
  * Copyright (C) 2010-2018 Alibaba Group Holding Limited.
  */
 
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
 
 /**
  * 定义UI界面通用的操作。

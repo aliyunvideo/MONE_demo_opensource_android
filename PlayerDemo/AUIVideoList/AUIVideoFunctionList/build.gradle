@@ -26,18 +26,5 @@ android {
 }
 
 dependencies {
-
-    implementation externalAndroidDesign
-    testImplementation externalJunit
-    androidTestImplementation externalTestJunit
-    androidTestImplementation externalEspresso
-
-    implementation project(':AUIFoundation:AVTheme')
-    implementation project(':AUIFoundation:AVBaseUI')
     implementation project(':AUIVideoList:AUIVideoListCommon')
-
-    implementation externalAndroidXAppcompat
-    implementation externalAndroidXConstraintlayout
-    implementation externalPlayerFull
-    implementation externalGlide
 }

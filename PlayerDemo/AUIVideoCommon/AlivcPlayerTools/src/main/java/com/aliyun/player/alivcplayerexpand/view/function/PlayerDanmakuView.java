@@ -6,8 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 
 
-import com.aliyun.player.alivcplayerexpand.R;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

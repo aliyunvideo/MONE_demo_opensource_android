@@ -7,6 +7,6 @@
     android:minHeight="@dimen/alivc_player_rate_item_height"
     android:layout_gravity="center"
     android:textColor="@color/alivc_common_font_white_light"
-    android:textSize="@dimen/alivc_common_font_14">
+    android:textSize="14dp">
 
 </TextView>

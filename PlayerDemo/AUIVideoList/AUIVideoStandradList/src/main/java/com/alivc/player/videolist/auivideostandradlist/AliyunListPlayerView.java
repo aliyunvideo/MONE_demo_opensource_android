@@ -310,15 +310,6 @@ public class AliyunListPlayerView extends FrameLayout {
                 }
 
                 @Override
-                public void onPageHideHalf(int position) {
-
-                }
-
-                @Override
-                public void onPageScrollTo(int position) {
-                }
-
-                @Override
                 public void onPageSelected(int position) {
                     //重新选中视频不播放，如果该位置被stop过则会重新播放视频
                     if (mCurrentPosition == position && mLastStopPosition != position) {
@@ -338,11 +329,6 @@ public class AliyunListPlayerView extends FrameLayout {
                     //开始播放选中视频
                     startPlay(position);
                     mCurrentPosition = position;
-                }
-
-                @Override
-                public int onSelectedPosition(){
-                    return 0;
                 }
             });
         }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:background="@color/bg_weak"
+    android:background="#1C1D22"
     android:layout_height="match_parent">
 
     <TextView
@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:text="@string/aui_flow_feed_video_detail"
-        android:textSize="@dimen/alivc_common_font_14"
-        android:textColor="@color/text_strong"
+        android:textSize="14dp"
+        android:textColor="#FCFCFD"
         android:gravity="center"
-        android:background="@color/border_infrared"
+        android:background="#23262F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +23,7 @@
         android:id="@+id/iv_back"
         android:layout_width="26dp"
         android:layout_height="26dp"
-        android:src="@drawable/ic_av_action_bar_back"
+        android:src="@drawable/ic_flow_feed_action_bar_back"
         android:layout_marginStart="20dp"
         android:layout_alignTop="@id/tv_title"
         android:layout_alignBottom="@id/tv_title"
@@ -63,7 +63,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_weak">
+            android:background="#1C1D22">
 
             <ImageView
                 android:id="@+id/mAuthorPortrait"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/home_list_item_margin"
                 tools:text="@string/default_author_name"
-                android:textColor="@color/text_medium"
+                android:textColor="#E6E7EC"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/mAuthorPortrait"
                 app:layout_constraintStart_toEndOf="@+id/mAuthorPortrait"
@@ -98,7 +98,7 @@
                 android:ellipsize="end"
                 android:gravity="start"
                 android:lines="1"
-                android:textColor="@color/text_strong"
+                android:textColor="#FCFCFD"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +116,7 @@
                 android:gravity="start"
                 android:maxLines="2"
                 tools:text="故事发生在星球大战：最后的绝地武士死星陨落的五年后，围绕在远离新共和国掌控的银河系边远星带的的一位独行枪手展开。"
-                android:textColor="@color/text_medium"
+                android:textColor="#E6E7EC"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +147,7 @@
                 android:layout_marginStart="@dimen/home_list_item_left_margin"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/home_list_item_left_margin"
-                android:background="@color/ic_ultraweak"
+                android:background="#3A3D48"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +165,7 @@
                 android:gravity="start|center_vertical"
                 android:lines="1"
                 android:text="@string/recommend_title"
-                android:textColor="@color/text_strong"
+                android:textColor="#FCFCFD"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -31,6 +31,6 @@
         android:text="@string/download_no_downloaded_tips"
         android:textColor="@android:color/white"
         android:gravity="center_horizontal"
-        android:textSize="@dimen/alivc_common_font_14" />
+        android:textSize="14dp" />
 
 </LinearLayout>

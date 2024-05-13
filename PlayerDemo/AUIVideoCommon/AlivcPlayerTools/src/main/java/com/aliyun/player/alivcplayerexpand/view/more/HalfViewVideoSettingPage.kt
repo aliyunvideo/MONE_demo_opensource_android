@@ -8,8 +8,8 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aliyun.aio.utils.DensityUtil
 import com.aliyun.player.alivcplayerexpand.databinding.LayoutHalfScreenVideoMoreSettingPageBinding
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil
 import com.aliyun.video.common.ui.adapter.ItemClickDelegate
 import com.aliyun.video.common.ui.adapter.MultiSelectedAdapter
 
@@ -63,14 +63,8 @@ class HalfViewVideoSettingPage @JvmOverloads constructor(
                 GridLayoutManager(videoPageSettingRcv.context, 4, RecyclerView.VERTICAL, false)
             videoPageSettingRcv.addItemDecoration(
                 SpaceItemDecoration(
-                    DensityUtil.dip2px(
-                        context,
-                        8f
-                    ),
-                    DensityUtil.dip2px(
-                        context,
-                        8f
-                    )
+                    DensityUtil.dip2px(context, 8f),
+                    DensityUtil.dip2px(context, 8f)
                 )
             )
             multiSelectedAdapter.items = itemInfoList

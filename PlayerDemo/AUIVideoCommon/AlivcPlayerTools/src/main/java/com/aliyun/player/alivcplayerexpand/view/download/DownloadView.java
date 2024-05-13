@@ -15,9 +15,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
-import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.player.alivcplayerexpand.R;
 import com.aliyun.player.alivcplayerexpand.util.download.AliyunDownloadMediaInfo;
 import com.aliyun.player.alivcplayerexpand.view.sectionlist.SectionedRecyclerViewAdapter;
@@ -181,7 +181,7 @@ public class DownloadView extends FrameLayout implements OnClickListener, Compou
                 if (deleteDownloadMediaInfos.size() <= 0) {
                     Context context = this.context.get();
                     if (context != null) {
-                        AVToast.show(getContext(),true,getResources().getString(R.string.alivc_not_choose_video));
+                        Toast.makeText(getContext(), R.string.alivc_not_choose_video, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     onDownloadViewListener.onDeleteDownloadInfo(deleteDownloadMediaInfos);
@@ -477,7 +477,7 @@ public class DownloadView extends FrameLayout implements OnClickListener, Compou
                     info.isEncripted() == downloadMediaInfo.getAliyunDownloadMediaInfo().isEncripted()) {
                 Context context = this.context.get();
                 if (context != null) {
-                    AVToast.show(getContext(),true,context.getResources().getString(R.string.alivc_video_downloading_tips));
+                    Toast.makeText(getContext(), R.string.alivc_video_downloading_tips, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
@@ -489,7 +489,7 @@ public class DownloadView extends FrameLayout implements OnClickListener, Compou
                     info.isEncripted() == alivcDownloadMediaInfo.getAliyunDownloadMediaInfo().isEncripted()) {
                 Context context = this.context.get();
                 if (context != null) {
-                    AVToast.show(getContext(),true,context.getResources().getString(R.string.alivc_video_download_finish_tips));
+                    Toast.makeText(getContext(), R.string.alivc_video_download_finish_tips, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

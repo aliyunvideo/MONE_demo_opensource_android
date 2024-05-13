@@ -19,7 +19,7 @@ import com.alivc.live.baselive_common.LivePushSettingView;
 import com.alivc.live.baselive_common.PushWaterMarkDialog;
 import com.alivc.live.commonbiz.ResourcesDownload;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
-import com.alivc.live.commonbiz.listener.OnDownloadListener;
+import com.alivc.live.commonbiz.download.DownloadUtil;
 import com.alivc.live.interactive_common.utils.LivePushGlobalConfig;
 import com.alivc.live.pusher.AlivcAudioChannelEnum;
 import com.alivc.live.pusher.AlivcAudioSampleRateEnum;
@@ -316,7 +316,7 @@ public class InteractiveSettingActivity extends AppCompatActivity {
     }
 
     private void startDownloadYUV() {
-        long mCaptureDownloadId = ResourcesDownload.downloadCaptureYUV(this, new OnDownloadListener() {
+        long mCaptureDownloadId = ResourcesDownload.downloadCaptureYUV(this, new DownloadUtil.OnDownloadListener() {
             @Override
             public void onDownloadSuccess(long downloadId) {
                 hideProgressDialog();

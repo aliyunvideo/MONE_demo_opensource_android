@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.aliyun.player.alivcplayerexpand.view.dlna.domain.Config;
 import com.aliyun.player.alivcplayerexpand.view.dlna.domain.Intents;
-import com.aliyun.player.aliyunplayerbase.util.Formatter;
+import com.aliyun.player.alivcplayerexpand.util.Formatter;
 
 import org.fourthline.cling.model.gena.GENASubscription;
 import org.fourthline.cling.support.avtransport.lastchange.AVTransportLastChangeParser;

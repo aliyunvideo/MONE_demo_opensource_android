@@ -103,7 +103,7 @@
         <item name="android:layout_marginTop">@dimen/alivc_common_margin_8</item>
         <item name="android:background">@drawable/shape_edit_bg</item>
         <item name="android:textColor">@color/alivc_common_white</item>
-        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:paddingLeft">@dimen/alivc_common_margin_14</item>
         <item name="android:paddingRight">@dimen/alivc_common_margin_14</item>
     </style>
@@ -111,7 +111,7 @@
     <style name="AliPlayerSettingRadioButton">
         <item name="android:gravity">center</item>
         <item name="android:button">@null</item>
-        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/alivc_common_white</item>
         <item name="android:background">@drawable/aliyun_player_type_selector</item>
     </style>
@@ -123,7 +123,7 @@
         <item name="android:background">@drawable/shape_edit_bg</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@color/alivc_common_white</item>
-        <item name="android:textSize">@dimen/alivc_common_font_14</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:layout_marginTop">@dimen/alivc_common_margin_8</item>
         <item name="android:layout_marginLeft">@dimen/alivc_common_margin_16</item>
         <item name="android:layout_marginRight">@dimen/alivc_common_margin_16</item>

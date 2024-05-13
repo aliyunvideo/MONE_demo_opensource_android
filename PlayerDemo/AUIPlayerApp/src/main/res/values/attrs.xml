@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="av_actionbar">
+        <attr name="showTitle" format="boolean" />
+        <attr name="showLeftView" format="boolean" />
+        <attr name="showRightView" format="boolean" />
+        <attr name="title" format="string" />
+        <attr name="leftImageBackground" format="reference" />
+        <attr name="leftImageSrc" format="reference" />
+        <attr name="rightImageBackground" format="reference" />
+        <attr name="rightImageSrc" format="reference" />
+    </declare-styleable>
+</resources>

@@ -7,7 +7,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AVAppTheme">
+        android:theme="@style/BaseAppTheme">
 
         <activity
             android:name=".PlayerMainActivity"

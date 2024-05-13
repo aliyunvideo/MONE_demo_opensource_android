@@ -1,6 +1,6 @@
 package com.aliyun.video.play
 
-import com.alibaba.sdk.android.oss.common.utils.DateUtil
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -11,13 +11,15 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aliyun.aio.avbaseui.widget.AVToast
-import com.aliyun.aio.utils.DensityUtil
+import com.alibaba.sdk.android.oss.common.utils.DateUtil
 import com.aliyun.auiplayerserver.GetAuthInformation
+import com.aliyun.auiplayerserver.bean.AliyunPlayAuth
+import com.aliyun.auiplayerserver.bean.AliyunSts
 import com.aliyun.auiplayerserver.bean.VideoInfo
 import com.aliyun.player.AliPlayer
 import com.aliyun.player.AliPlayer.OnVerifyTimeExpireCallback
@@ -39,13 +41,9 @@ import com.aliyun.player.alivcplayerexpand.view.gesturedialog.BrightnessDialog
 import com.aliyun.player.alivcplayerexpand.view.more.*
 import com.aliyun.player.alivcplayerexpand.view.more.TrackInfoView.OnSubtitleChangedListener
 import com.aliyun.player.alivcplayerexpand.view.quality.QualityLanguage
+import com.aliyun.player.alivcplayerexpand.view.tips.OnTipsViewBackClickListener
+import com.aliyun.player.alivcplayerexpand.view.tips.TipsView.OnTipClickListener
 import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView.*
-import com.aliyun.player.aliyunplayerbase.bean.AliyunPlayAuth
-import com.aliyun.player.aliyunplayerbase.bean.AliyunSts
-import com.aliyun.player.aliyunplayerbase.util.*
-import com.aliyun.player.aliyunplayerbase.view.tipsview.ErrorInfo
-import com.aliyun.player.aliyunplayerbase.view.tipsview.OnTipsViewBackClickListener
-import com.aliyun.player.aliyunplayerbase.view.tipsview.TipsView.OnTipClickListener
 import com.aliyun.player.bean.ErrorCode
 import com.aliyun.player.bean.InfoBean
 import com.aliyun.player.bean.InfoCode
@@ -180,8 +178,8 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
 
     private fun showRecommendList() {
         mViewBinding.apply {
-            mRecommendTitle.setVisible(true)
-            mRecommendRcv.setVisible(true)
+            mRecommendTitle.visibility = View.VISIBLE
+            mRecommendRcv.visibility = View.VISIBLE
         }
     }
 
@@ -487,11 +485,11 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             } else {
-                AVToast.show(
+                Toast.makeText(
                     requireContext(),
-                    true,
-                    resources.getString(R.string.alivc_sd_card_permission)
-                )
+                    R.string.alivc_sd_card_permission,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             return
         }
@@ -529,13 +527,15 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
         if (showMoreDialog != null && showMoreDialog!!.isShowing) {
             showMoreDialog!!.dismiss()
         }
-        AVToast.show(
-            requireContext(), true, getString(
+        Toast.makeText(
+            requireContext(),
+            getString(
                 R.string.alivc_player_track_change_error,
                 errorInfo.code,
                 errorInfo.msg
-            )
-        )
+            ),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun changeTrackSuccess(trackInfo: TrackInfo?) {
@@ -548,30 +548,36 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
         when (trackInfo.type) {
             TrackInfo.Type.TYPE_VIDEO -> {
                 //码率
-                AVToast.show(
+                Toast.makeText(
                     requireContext(),
-                    true,
                     getString(
                         R.string.alivc_player_track_bitrate_change_success,
                         trackInfo.getVideoBitrate().toString()
-                    )
-                )
+                    ),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
             TrackInfo.Type.TYPE_VOD -> {
-                AVToast.show(
-                    requireContext(), true, getString(
+                Toast.makeText(
+                    requireContext(),
+                    getString(
                         R.string.alivc_player_track_definition_change_success,
                         trackInfo.getVodDefinition()
-                    )
-                )
+                    ),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
             else -> {
-                AVToast.show(
-                    requireContext(), true, getString(
+                Toast.makeText(
+                    requireContext(),
+                    getString(
                         R.string.alivc_player_track_change_success,
                         trackInfo.getDescription()
-                    )
-                )
+                    ),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -632,7 +638,7 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
             mViewBinding.tvTitle.visibility = View.VISIBLE
             val aliVcVideoViewLayoutParams = mViewBinding.videoView
                 .layoutParams as RelativeLayout.LayoutParams
-            val margin = DensityUtil.dip2px(requireContext(), 12f)
+            val margin = dip2px(requireContext(), 12f)
             aliVcVideoViewLayoutParams.height =
                 ((ScreenUtils.getWidth(requireContext()) - margin * 2) * 9.0f / 16).toInt()
             aliVcVideoViewLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -659,6 +665,10 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
             mViewBinding.videoView.layoutParams = videoViewLp
             (requestBaseActivity())?.fullScreen(true)
         }
+    }
+
+    fun dip2px(paramContext: Context, paramFloat: Float): Int {
+        return (0.5f + paramFloat * paramContext.resources.displayMetrics.density).toInt()
     }
 
     override fun onDestroyView() {
@@ -930,7 +940,11 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
 
     private fun onChooseVideoSpeed(speed: Float) {
         mViewBinding.videoView.changeSpeed(speed)
-        AVToast.show(requireContext(), true, getString(R.string.play_speed_changed, "${speed}"))
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.play_speed_changed, "${speed}"),
+            Toast.LENGTH_SHORT
+        ).show()
         closeFunctionDialog()
     }
 
@@ -1036,7 +1050,11 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
             }
 
             override fun onSubtitleCancel() {
-                AVToast.show(requireContext(), true, R.string.alivc_player_cancel_subtitle)
+                Toast.makeText(
+                    requireContext(),
+                    R.string.alivc_player_cancel_subtitle,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -1128,17 +1146,29 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
         }
 
         when (infoBean.code) {
-            InfoCode.CacheSuccess -> AVToast.show(
-                requireContext(),
-                true,
-                R.string.alivc_player_cache_success
-            )
-            InfoCode.CacheError -> AVToast.show(requireContext(), true, infoBean.extraMsg)
-            InfoCode.SwitchToSoftwareVideoDecoder -> AVToast.show(
-                requireContext(),
-                true,
-                R.string.alivc_player_switch_to_software_video_decoder
-            )
+            InfoCode.CacheSuccess -> {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.alivc_player_cache_success,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            InfoCode.CacheError -> {
+                Toast.makeText(
+                    requireContext(),
+                    infoBean.extraMsg,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            InfoCode.SwitchToSoftwareVideoDecoder -> {
+                Toast.makeText(
+                    requireContext(),
+                    R.string.alivc_player_switch_to_software_video_decoder,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -1241,10 +1271,11 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
                 GetAuthInformation.OnGetPlayAuthInfoListener {
                 override fun onGetPlayAuthError(msg: String) {
                     mViewBinding.videoView.onStop()
-                    AVToast.show(
-                        requireActivity(), true,
-                        "Get Auth Info error : $msg"
-                    )
+                    Toast.makeText(
+                        requireContext(),
+                        "Get Auth Info error : $msg",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 override fun onGetPlayAuthSuccess(dataBean: AliyunPlayAuth.PlayAuthBean) {
@@ -1270,7 +1301,7 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
                 GetAuthInformation.OnGetStsInfoListener {
                 override fun onGetStsError(msg: String) {
                     mViewBinding.videoView.onStop()
-                    AVToast.show(requireContext(), true, "Get Auth Info error : $msg")
+                    Toast.makeText(requireContext(), "Get Auth Info error : $msg", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onGetStsSuccess(dataBean: AliyunSts.StsBean) {
@@ -1358,7 +1389,7 @@ class AliyunPlayerSkinFragment : BaseFragment(R.layout.alivc_player_layout_skin)
     }
 
     private fun showFunctionShadowView(show: Boolean) {
-        mViewBinding.functionClickShadow.setVisible(show)
+        mViewBinding.functionClickShadow.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun onBackPressed(): Boolean {

@@ -36,17 +36,12 @@ dependencies {
 
     def refresh_layout_versin = '2.0.3'
 
-    implementation project(':AUIVideoCommon:skeleton')
-    implementation project(':AUIFoundation:AVTheme')
-    implementation project(':AUIFoundation:AVUtils')
-
     implementation externalAndroidX
     implementation externalAndroidDesign
     implementation externalKotlinStdLib
     implementation externalGlide
     api 'org.greenrobot:eventbus:3.2.0'
     api 'com.drakeet.multitype:multitype:4.2.0'
-    api 'jp.wasabeef:blurry:4.0.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     api "com.scwang.smart:refresh-layout-kernel:${refresh_layout_versin}"  //核心必须依赖
@@ -64,7 +59,4 @@ dependencies {
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     api 'com.makeramen:roundedimageview:2.3.0'
-//    api 'com.github.lihangleo2:ShadowLayout:3.3.3'
-
-
 }

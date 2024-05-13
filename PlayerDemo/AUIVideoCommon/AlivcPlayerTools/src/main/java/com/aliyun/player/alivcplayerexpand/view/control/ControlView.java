@@ -21,19 +21,21 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 
-import com.aliyun.aio.avbaseui.widget.AVToast;
-import com.aliyun.aio.utils.DensityUtil;
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil;
 import com.aliyun.player.alivcplayerexpand.R;
 import com.aliyun.player.alivcplayerexpand.bean.DotBean;
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig;
 import com.aliyun.player.alivcplayerexpand.theme.ITheme;
 import com.aliyun.player.alivcplayerexpand.theme.Theme;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.FastClickUtil;
 import com.aliyun.player.alivcplayerexpand.util.TimeFormater;
 import com.aliyun.player.alivcplayerexpand.view.dot.VideoDotLayout;
 import com.aliyun.player.alivcplayerexpand.view.function.AdvVideoView;
@@ -41,8 +43,6 @@ import com.aliyun.player.alivcplayerexpand.view.function.MutiSeekBarView;
 import com.aliyun.player.alivcplayerexpand.view.interfaces.ViewAction;
 import com.aliyun.player.alivcplayerexpand.view.quality.QualityItem;
 import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
-import com.aliyun.player.aliyunplayerbase.util.FastClickUtil;
 import com.aliyun.player.nativeclass.MediaInfo;
 import com.aliyun.player.nativeclass.TrackInfo;
 
@@ -684,7 +684,7 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
                 String content;
                 if (isChecked) content = getContext().getString(R.string.danmku_open_tip);
                 else content = getContext().getString(R.string.danmku_close_tip);
-                AVToast.show(getContext(),true,content);
+                Toast.makeText(getContext(), content, Toast.LENGTH_SHORT).show();
                 updateDanmuBtn();
             }
         });

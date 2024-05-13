@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alivc.player.videolist.auivdieofunctionlist.R;
 import com.alivc.player.videolist.auivideofunctionlist.player.AliPlayerPool;
@@ -16,10 +17,12 @@ import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListViewHolder;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
 import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
+import com.aliyun.player.AliPlayer;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 
 public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
+    private AliPlayerPool mAliPlayerPool;
 
     public AUIVideoFunctionListAdapter(@NonNull DiffUtil.ItemCallback<VideoInfo> diffCallback) {
         super(diffCallback);
@@ -31,14 +34,46 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
         return new AUIVideoFunctionListViewHolder(inflate);
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mAliPlayerPool = new AliPlayerPool();
+        mAliPlayerPool.init(recyclerView.getContext());
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if (mAliPlayerPool != null) {
+            mAliPlayerPool.release();
+            mAliPlayerPool = null;
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull AUIVideoListViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if (holder instanceof AUIVideoFunctionListViewHolder) {
+            AliPlayer aliPlayer = (mAliPlayerPool != null) ? mAliPlayerPool.getPlayer(holder.toString()) : null;
+            ((AUIVideoFunctionListViewHolder) holder).bindVideo(aliPlayer, getItem(holder.getAdapterPosition()));
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull AUIVideoListViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        if (holder instanceof AUIVideoFunctionListViewHolder) {
+            ((AUIVideoFunctionListViewHolder) holder).unbind();
+        }
+    }
+
     public static class AUIVideoFunctionListViewHolder extends AUIVideoListViewHolder {
 
         private final AliyunRenderView mAliyunRenderView;
 
         public AUIVideoFunctionListViewHolder(View itemView) {
             super(itemView);
-
-            mAliyunRenderView = AliPlayerPool.getPlayer();
+            mAliyunRenderView = new AliyunRenderView(itemView.getContext());
             mAliyunRenderView.setOnPlayerListener(new PlayerListener() {
                 @Override
                 public void onPrepared(int position) {
@@ -76,20 +111,25 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
                 }
 
                 @Override
-                public void onError(ErrorInfo errorInfo){
+                public void onError(ErrorInfo errorInfo) {
 
                 }
             });
         }
 
-        @Override
-        public void bindUrl(String url) {
+        public void bindVideo(AliPlayer aliPlayer, VideoInfo videoInfo) {
             TextureView textureView = mAliyunRenderView.initTextureView();
             mRootFrameLayout.addView(textureView, 0);
-            mAliyunRenderView.bindUrl(url);
+            mAliyunRenderView.bindVideo(aliPlayer, videoInfo);
         }
 
-        public AliyunRenderView getAliPlayer() {
+        public void unbind() {
+            if (mAliyunRenderView != null) {
+                mAliyunRenderView.unbind();
+            }
+        }
+
+        public AliyunRenderView getAliPlayerView() {
             return mAliyunRenderView;
         }
 
@@ -108,6 +148,11 @@ public class AUIVideoFunctionListAdapter extends AUIVideoListAdapter {
         @Override
         protected AUIVideoListViewType getViewType() {
             return AUIVideoListViewType.FUNCTION_LIST;
+        }
+
+        @Override
+        public String toString() {
+            return "ViewHolder-" + super.hashCode();
         }
     }
 }

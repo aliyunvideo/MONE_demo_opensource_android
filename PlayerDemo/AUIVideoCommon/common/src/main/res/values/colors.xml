@@ -8,6 +8,7 @@
     <color name="black">#000000</color>
     <color name="tab_indicator_color">#262626</color>
     <color name="tab_unselted_color">#cc333333</color>
+    <color name="status_bar_color">#23262F</color>
     <color name="color_333333">#333333</color>
     <color name="color_555555">#555555</color>
     <color name="color_888888">#888888</color>

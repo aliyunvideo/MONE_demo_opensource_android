@@ -1,12 +1,11 @@
 package com.aliyun.apsaravideo.videocommon.list;
 
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.aliyun.video.common.JJLog;
 
 /**
  * 监听recycleView滑动状态，
@@ -106,7 +105,7 @@ public class AutoPlayScrollListener extends RecyclerView.OnScrollListener {
      */
     private void handleVideo(VideoTagEnum handleVideoTag, int position) {
         if (mListPlayCallback == null) {
-            JJLog.INSTANCE.logi(TAG, "mListPlayCallback is null");
+            Log.i(TAG, "mListPlayCallback is null");
             return;
         }
         switch (handleVideoTag) {

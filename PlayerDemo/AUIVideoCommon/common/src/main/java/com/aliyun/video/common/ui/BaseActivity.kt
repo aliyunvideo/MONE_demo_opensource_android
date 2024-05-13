@@ -17,9 +17,7 @@ import com.gyf.immersionbar.ktx.immersionBar
  *
  */
 abstract class BaseActivity : FragmentActivity() {
-//    protected open val mStatusBarColor = R.color.white
-//    protected open val mStatusBarColor = R.color.black
-    protected open val mStatusBarColor = R.color.border_infrared
+    protected open val mStatusBarColor = R.color.status_bar_color
     protected open val mNavigationBarColor = R.color.black
 
     override fun onResume() {

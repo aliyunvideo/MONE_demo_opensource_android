@@ -34,7 +34,7 @@
                 android:gravity="center"
                 android:text="@string/alivc_player_trailer_open"
                 android:textColor="@color/alivc_common_font_white"
-                android:textSize="@dimen/alivc_common_font_14" />
+                android:textSize="14dp" />
 
         </LinearLayout>
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/alivc_player_trailer_play_again"
                 android:textColor="@color/alivc_common_font_white"
-                android:textSize="@dimen/alivc_common_font_14" />
+                android:textSize="14dp" />
 
 
         </LinearLayout>
@@ -90,7 +90,7 @@
             android:layout_marginRight="@dimen/alivc_common_margin_5"
             android:textColor="@color/alivc_common_font_white"
             android:text="@string/alivc_player_trailer_player_tips"
-            android:textSize="@dimen/alivc_common_font_14" />
+            android:textSize="14dp" />
 
         <ImageView
             android:layout_width="wrap_content"

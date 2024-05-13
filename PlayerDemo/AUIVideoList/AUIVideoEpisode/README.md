@@ -2,15 +2,44 @@
 
 ## **一、模块介绍**
 
-### **模块职责**
-
-**AUIVideoEpisode**模块，为点播短视频（短剧）模块，主要负责播放展示某一特定短剧剧集，获得沉浸式播放体验。
+**AUIVideoEpisode**模块，为微短剧场景模块。提供抽屉式剧集列表，负责播放展示指定短剧剧集，获得沉浸式播放体验。
 
 ## **二、前置条件**
 
-无
+您已获取音视频终端SDK的播放器的License授权和License Key。获取方法，请参见[申请License](https://help.aliyun.com/zh/apsara-video-sdk/user-guide/license-authorization-and-management#13133fa053843)。
 
-## **三、模块说明**
+## **三、编译运行**
+
+1. 接入已授权播放器的音视频终端SDK License。
+
+   具体操作，请参见[Android端接入License](https://help.aliyun.com/zh/apsara-video-sdk/user-guide/access-to-license#58bdccc0537vx)。
+
+2. 将 AUIVideoList 目录下的 AUIShortEpisode 和 AUIVideoListCommon 模块，拷贝到您项目工程中。
+
+   请注意修改模块 build.gradle 文件中的编译版本和 SDK 版本。编译版本以您项目工程的为准，SDK版本以 AndroidThirdParty/config.gradle 中的为准。
+
+   请确认工程的 gradle repositories 配置中，已引入了阿里云 SDK 的 Maven 源：
+
+   ```groovy
+   maven { url "https://maven.aliyun.com/repository/releases" }
+   ```
+
+3. 修改您项目工程的引入方式。
+
+   请注意在当前项目的 build.gradle 和 settings.gradle 文件中，增加模块的引用方式和依赖方式。
+
+4. 确认视频源地址。
+
+   如果视频源地址为模块提供的 MP4 私有加密地址，由于加密特性，集成到您项目工程中将会播放失效。请注意修改 AUIEpisodeConstants 文件下的 EPISODE_JSON_URL 的变量值，手动切换剧集地址。
+
+5. 配置页面跳转，在当前页面中打开短剧主界面 AUIEpisodePlayerActivity 。
+
+   ```java
+   Intent videoListEpisodeIntent = new Intent(this, AUIEpisodePlayerActivity.class);
+   startActivity(videoListEpisodeIntent);
+   ```
+
+## **四、模块说明**
 
 ### **文件说明**
 
@@ -80,9 +109,9 @@ AUIEpisodeVideoInfo
 
 取数据逻辑：AUIVideoListViewModel.DataProvider<AUIEpisodeData> dataProvider，通过onLoadData请求短剧数据。
 
-### **核心能力**
+## **五、核心能力介绍**
 
-#### **本地缓存**
+### **本地缓存**
 
 ```java
 // 开启本地缓存
@@ -104,7 +133,7 @@ public void clearCache() {
 }
 ```
 
-#### **智能预加载**
+### **智能预加载**
 
 ```java
 // 设置预加载数量
@@ -122,7 +151,7 @@ public void setPreloadStrategy(boolean enable, String params) {
 }
 ```
 
-#### **智能预渲染**
+### **智能预渲染**
 
 ```java
 // 设置智能预渲染
@@ -149,19 +178,41 @@ public void setSurfaceToPreRenderPlayer(Surface surface) {
 }
 ```
 
-#### **HTTPDNS**
+### **HTTPDNS**
 
 ```java
-// 开启HTTPDNS
+/**
+ * 开启HTTPDNS
+ */
 public void enableHTTPDNS(boolean enable) {
-  AliPlayerGlobalSettings.enableHttpDns(enable);
-  PlayerConfig config = aliListPlayer.getConfig();
-  config.mEnableHttpDns = -1;
-  aliListPlayer.setConfig(config);
+    AliPlayerGlobalSettings.enableHttpDns(enable);
+    PlayerConfig config = aliListPlayer.getConfig();
+    config.mEnableHttpDns = -1;
+    aliListPlayer.setConfig(config);
+}
+
+/**
+ * 开启增强型HTTPDNS
+ * <p>
+ * 与enableHTTPDNS互斥
+ * 如果开启增强型HTTPDNS，需要增强型HTTPDNS的高级License，否则将会失效
+ * 如果该功能开启失效，会打印错误日志“enhanced dns license is invalid, open enhanced dns failed”
+ * 播放器SDK版本要求：> 6.10.0
+ */
+public void enableEnhancedHTTPDNS(Context context, boolean enable) {
+    PrivateService.preInitService(context);
+    //打开增强型HTTPDNS
+    AliPlayerGlobalSettings.enableEnhancedHttpDns(enable);
+    //必选，添加增强型HTTPDNS域名，请确保该域名为阿里云CDN域名并完成域名配置可以正常可提供线上服务。
+    DomainProcessor.getInstance().addEnhancedHttpDnsDomain("player.***alicdn.com");
+    //可选，增加HTTPDNS预解析域名
+    DomainProcessor.getInstance().addPreResolveDomain("player.***alicdn.com");
+    // AliPlayerGlobalSettings.SET_DNS_PRIORITY_LOCAL_FIRST表示设置HTTPDNS的优先级
+    AliPlayerGlobalSettings.setOption(AliPlayerGlobalSettings.SET_DNS_PRIORITY_LOCAL_FIRST, enable ? 1 : 0);
 }
 ```
 
-#### **MP4私有加密**
+### **MP4私有加密**
 
 从v6.8.0版本开始（一体化SDK or 播放器SDK），播放器支持MP4加密播放能力。
 
@@ -176,7 +227,7 @@ public void enableHTTPDNS(boolean enable) {
   * meta信息里面带有`AliyunPrivateKeyUri`的tag
   * ffplay不能直接播放
 
-#### **其它功能**
+### **其它功能**
 
 * **防录屏**
 
@@ -186,11 +237,13 @@ public void enableHTTPDNS(boolean enable) {
   ```
 
 
-## 四、用户指引
+## 六、用户指引
 
 ### **文档**
 
 [播放器SDK](https://help.aliyun.com/zh/vod/developer-reference/apsaravideo-player-sdk/)
+
+[音视频终端SDK](https://help.aliyun.com/product/261167.html)
 
 [阿里云·视频点播](https://www.aliyun.com/product/vod)
 
@@ -198,7 +251,6 @@ public void enableHTTPDNS(boolean enable) {
 
 [ApsaraVideo VOD](https://www.alibabacloud.com/zh/product/apsaravideo-for-vod)
 
-[音视频终端SDK](https://help.aliyun.com/product/261167.html)
 
 ### **FAQ**
 

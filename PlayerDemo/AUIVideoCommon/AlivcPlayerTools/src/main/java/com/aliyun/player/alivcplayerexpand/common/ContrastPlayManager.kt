@@ -1,7 +1,7 @@
 package com.aliyun.player.alivcplayerexpand.common
 
 import android.content.Context
-import com.aliyun.player.aliyunplayerbase.bean.AccountInfo
+import com.aliyun.player.alivcplayerexpand.bean.AccountInfo
 import com.aliyun.video.database.AppDataBase
 import com.aliyun.video.database.DataBase
 import com.aliyun.video.database.entity.VideoPlayRecordInfo

@@ -5,24 +5,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.aliyun.aio.avbaseui.widget.AVToast
 import com.aliyun.auiplayerserver.bean.VideoInfo
 import com.aliyun.player.alivcplayerexpand.listplay.IListPlayManager
 import com.aliyun.player.alivcplayerexpand.listplay.IPlayManagerScene
 import com.aliyun.player.alivcplayerexpand.playlist.OnListPlayCallback
 import com.aliyun.player.alivcplayerexpand.view.gesture.GestureView
 import com.aliyun.player.alivcplayerexpand.view.gesture.SimplyTapGestureListener
-import com.aliyun.player.aliyunplayerbase.util.removeSelf
-import com.aliyun.player.aliyunplayerbase.util.setVisible
 import com.aliyun.video.R
-import com.aliyun.video.common.JJLog
 import com.aliyun.video.play.AliyunPlayerSkinFragment
 import com.lzf.easyfloat.EasyFloat
 import com.lzf.easyfloat.enums.ShowPattern
@@ -76,7 +75,7 @@ object FloatViewPlayManager {
         mPlayer = player
         mPlayer?.setPlayerScene(IPlayManagerScene.SCENE_FLOAT_PLAY)
         showFloatPlayVideoView(context, playView, player.isPlaying(), from)
-        JJLog.logi(TAG, "showFloatPlayer player:$player playView:$playView")
+        Log.i(TAG, "showFloatPlayer player:$player playView:$playView")
         return this
     }
 
@@ -118,13 +117,21 @@ object FloatViewPlayManager {
                                         from
                                     )
                                 } else {
-                                    AVToast.show(sApplication,true,"开启小窗播放，需要系统权限")
+                                    Toast.makeText(
+                                        sApplication,
+                                        "开启小窗播放，需要系统权限",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         })
                 }
                 .setNegativeButton("取消") { _, _ ->
-                    AVToast.show(sApplication,true,"开启小窗播放，需要系统权限")
+                    Toast.makeText(
+                        sApplication,
+                        "开启小窗播放，需要系统权限",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 .show()
         }
@@ -152,7 +159,7 @@ object FloatViewPlayManager {
                     val closeView =
                         findViewById<View>(R.id.float_video_close_icon)
                     closeView.setOnClickListener {
-                        rootView.setVisible(false)
+                        rootView.visibility = View.GONE
                         closeFloatPlayView(true)
                     }
                     val progressBar =
@@ -185,7 +192,7 @@ object FloatViewPlayManager {
                                 currentPlayMillis: Int,
                                 durationMillis: Int
                             ) {
-//                                JJLog.logi(TAG, "onPlayProgress  playProgress:$playProgress")
+//                                Log.i(TAG, "onPlayProgress  playProgress:$playProgress")
                                 progressBar.progress = (playProgress * 100).toInt()
                             }
 
@@ -240,21 +247,21 @@ object FloatViewPlayManager {
                         FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT
                     )
-                    playView.removeSelf()
+                    (playView?.parent as ViewGroup?)?.removeView(playView)
                     playContainer.addView(playView, lp)
                     val gestureView = findViewById<GestureView>(R.id.float_video_gesture)
                     val hideRunnable = Runnable {
                         mShowFloatFunctionView = false
-                        playStateView.setVisible(mShowFloatFunctionView)
-                        closeView.setVisible(mShowFloatFunctionView)
-                        fullScreenView.setVisible(mShowFloatFunctionView)
+                        playStateView.visibility = if (mShowFloatFunctionView) View.VISIBLE else View.GONE
+                        closeView.visibility = if (mShowFloatFunctionView) View.VISIBLE else View.GONE
+                        fullScreenView.visibility = if (mShowFloatFunctionView) View.VISIBLE else View.GONE
                     }
                     gestureView.setOnGestureListener(object : SimplyTapGestureListener() {
                         override fun onSingleTapClick() {
                             mShowFloatFunctionView = !mShowFloatFunctionView
-                            playStateView.setVisible(mShowFloatFunctionView)
-                            closeView.setVisible(mShowFloatFunctionView)
-                            fullScreenView.setVisible(mShowFloatFunctionView)
+                            playStateView.visibility = if (mShowFloatFunctionView) View.VISIBLE else View.GONE
+                            closeView.visibility = if (mShowFloatFunctionView) View.VISIBLE else View.GONE
+                            fullScreenView.visibility = if (mShowFloatFunctionView) View.VISIBLE else View.GONE
                             gestureView.removeCallbacks(hideRunnable)
                             if (mShowFloatFunctionView) {
                                 gestureView.postDelayed(hideRunnable, 3000)
@@ -288,7 +295,7 @@ object FloatViewPlayManager {
     }
 
     fun closeFloatPlayView(stopPlay: Boolean) {
-        JJLog.logi(TAG, "closeFloatPlayView stopPlay:$stopPlay")
+        Log.i(TAG, "closeFloatPlayView stopPlay:$stopPlay")
         if (stopPlay) {
             mPlayer?.apply {
                 setSeriesPlayEnable(true)
@@ -305,7 +312,7 @@ object FloatViewPlayManager {
         }
         mPlayer = null
         mListPlayCallback = null
-        mRootView?.setVisible(false)
+        mRootView?.visibility = View.GONE
         EasyFloat.dismiss()
     }
 

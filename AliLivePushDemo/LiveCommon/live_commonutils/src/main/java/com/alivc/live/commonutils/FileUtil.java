@@ -119,6 +119,20 @@ public class FileUtil {
     }
 
     /**
+     * Remove file if exists
+     * <p>
+     * If the target exists, remove it
+     *
+     * @param file file
+     */
+    public static void safeDeleteFile(@Nullable File file) {
+        if (file == null || !file.exists()) {
+            return;
+        }
+        file.delete();
+    }
+
+    /**
      * Get internal cache folder from sd card
      *
      * @param context android context

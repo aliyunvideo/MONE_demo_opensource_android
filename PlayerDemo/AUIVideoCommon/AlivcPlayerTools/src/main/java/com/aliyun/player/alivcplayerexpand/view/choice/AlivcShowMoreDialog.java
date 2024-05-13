@@ -18,11 +18,11 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 
-import com.aliyun.aio.utils.DensityUtil;
 import com.aliyun.player.alivcplayerexpand.R;
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil;
 import com.aliyun.player.alivcplayerexpand.view.more.SelectSeriesView;
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils;
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode;
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils;
 
 import java.lang.ref.WeakReference;
 

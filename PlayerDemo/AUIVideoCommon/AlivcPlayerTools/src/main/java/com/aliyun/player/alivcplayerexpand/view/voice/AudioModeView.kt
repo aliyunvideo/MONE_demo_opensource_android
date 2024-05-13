@@ -3,14 +3,13 @@ package com.aliyun.player.alivcplayerexpand.view.voice
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.aliyun.aio.utils.DensityUtil
 import com.aliyun.player.alivcplayerexpand.R
 import com.aliyun.player.alivcplayerexpand.databinding.LayoutAudioModeBinding
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode
-import com.aliyun.player.aliyunplayerbase.util.ImageLoader
-import com.aliyun.player.aliyunplayerbase.util.isVisible
-import com.aliyun.player.aliyunplayerbase.util.setVisible
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil
+import com.aliyun.player.alivcplayerexpand.util.ImageLoader
 
 class AudioModeView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -35,7 +34,7 @@ class AudioModeView @JvmOverloads constructor(
             audioModeReplay.setOnClickListener {
                 mPlaying = true
                 updatePlayIcon()
-                audioModeReplay.setVisible(false)
+                audioModeReplay.visibility = View.GONE
                 mOnAudioModeListener?.onReplay()
             }
         }
@@ -43,13 +42,13 @@ class AudioModeView @JvmOverloads constructor(
     }
 
     private fun hideSelf() {
-        setVisible(false)
+        this.visibility = View.GONE
     }
 
     private fun updatePlayIcon() {
         mViewBinding.audioModePlayStateIcon.setImageResource(if (mPlaying) R.drawable.video_pause_icon else R.drawable.video_play_icon)
         if (mPlaying) {
-            mViewBinding.audioModeReplay.setVisible(false)
+            mViewBinding.audioModeReplay.visibility = View.GONE
         }
     }
 
@@ -60,8 +59,8 @@ class AudioModeView @JvmOverloads constructor(
 
     fun onPlayEnd() {
         mPlayComplete = true
-        if (isVisible()) {
-            mViewBinding.audioModeReplay.setVisible(true)
+        if (this.visibility == View.VISIBLE) {
+            mViewBinding.audioModeReplay.visibility = View.VISIBLE
             mPlaying = false
             updatePlayIcon()
         }
@@ -74,7 +73,7 @@ class AudioModeView @JvmOverloads constructor(
         needBlurBg: Boolean = false,
         playComplete: Boolean
     ) {
-        mViewBinding.audioModeBg.setVisible(needBlurBg)
+        mViewBinding.audioModeBg.visibility = if (needBlurBg) View.VISIBLE else View.GONE
         ImageLoader.loadCircleImg(
             coverUrl,
             mViewBinding.audioModePortrait,
@@ -85,7 +84,7 @@ class AudioModeView @JvmOverloads constructor(
         if (playComplete) {
             onPlayEnd()
         } else {
-            mViewBinding.audioModeReplay.setVisible(false)
+            mViewBinding.audioModeReplay.visibility = View.GONE
         }
         mPlayComplete = playComplete
         mViewBinding.audioModePlayStateIcon.setImageResource(if (isPlaying) R.drawable.video_pause_icon else R.drawable.video_play_icon)

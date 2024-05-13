@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @implNote 该类为读取本地音视频流的实现类
+ * @note 该类为读取本地音视频流的实现类，用于外部音视频推流
  * 注意：为了适配本地不同格式的音视频流，需要传入对应的profiles才能正常播放
  * 如：当前项目中，capture0.yuv为720p，请注意调节demo配置页中的分辨率为720p
  */

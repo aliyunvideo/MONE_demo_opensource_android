@@ -43,7 +43,7 @@ import com.alivc.live.baselive_push.R;
 import com.alivc.live.baselive_push.test.InformationActivity;
 import com.alivc.live.commonbiz.ResourcesDownload;
 import com.alivc.live.commonbiz.SharedPreferenceUtils;
-import com.alivc.live.commonbiz.listener.OnDownloadListener;
+import com.alivc.live.commonbiz.download.DownloadUtil;
 import com.alivc.live.commonbiz.test.PushDemoTestConstants;
 import com.alivc.live.commonutils.FastClickUtil;
 import com.alivc.live.commonutils.LogcatHelper;
@@ -64,8 +64,6 @@ import com.alivc.live.pusher.WaterMarkInfo;
 import com.aliyun.aio.avbaseui.widget.AVLoadingDialog;
 import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.aio.avtheme.AVBaseThemeActivity;
-import com.aliyunsdk.queen.menu.download.BeautyMenuMaterial;
-import com.aliyunsdk.queen.menu.download.OnDownloadUICallback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -635,7 +633,7 @@ public class PushConfigActivity extends AVBaseThemeActivity {
 
     private void startDownloadYUV() {
         //    private PushConfigDialogImpl mPushConfigDialog = new PushConfigDialogImpl();
-        long mCaptureDownloadId = ResourcesDownload.downloadCaptureYUV(this, new OnDownloadListener() {
+        long mCaptureDownloadId = ResourcesDownload.downloadCaptureYUV(this, new DownloadUtil.OnDownloadListener() {
             @Override
             public void onDownloadSuccess(long downloadId) {
                 hideProgressDialog();

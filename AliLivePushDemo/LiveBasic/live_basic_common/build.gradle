@@ -12,7 +12,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -33,8 +32,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation externalAndroidDesign
 
     api project(':LiveCommon:live_commonutils')
     api project(':LiveCommon:live_commonbiz')
@@ -44,7 +42,7 @@ dependencies {
     api project(':AUIFoundation:AVUtils')
 
     // 音频智能降噪组件库，如果需要使用pusher里面的音频智能降噪功能，需集成此依赖库，否则调用相关接口将会失效
-    api 'com.alivc.live.component:intelligentdenoise:1.0.0'
+    implementation 'com.alivc.live.component:intelligentdenoise:1.0.0'
 
         api hasInteractiveLive() ? externalLivePusherInteractive : externalLivePusher
 }

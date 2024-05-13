@@ -1,6 +1,7 @@
 package com.aliyun.video.play
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,7 @@ import com.aliyun.player.alivcplayerexpand.bean.DotBean
 import com.aliyun.player.alivcplayerexpand.widget.IRenderView
 import com.aliyun.player.alivcplayerexpand.listplay.ListPlayManager
 import com.aliyun.player.alivcplayerexpand.util.PlayConfigManager
-import com.aliyun.player.aliyunplayerbase.bean.AliyunVideoListBean
-import com.aliyun.video.common.JJLog
+import com.aliyun.auiplayerserver.bean.AliyunVideoListBean
 import com.aliyun.video.database.entity.VideoPlayConfig
 import com.aliyun.video.homepage.viewmodel.BaseListViewModel
 import com.aliyun.player.alivcplayerexpand.listplay.IPlayManagerScene
@@ -67,9 +67,9 @@ class VideoDetailViewModel :
         mRemoteDataSource.enqueue({ getVideoDetailInfo(vodId) }) {
             onSuccess {
                 mLoadingState.value = ResponseStateCode.SUCCESS
-                JJLog.logi(TAG, "requestSeriesList onSuccess,vodId:$vodId VideoDetailInfo:$it")
+                Log.i(TAG, "requestSeriesList onSuccess,vodId:$vodId VideoDetailInfo:$it")
                 if (it.episodes.isNullOrEmpty() || it.episodes.size == 1) {
-                    JJLog.logi(
+                    Log.i(
                         TAG,
                         "requestSeriesList onSuccess,vodId:$vodId episodes is empty or size is 1!"
                     )
@@ -91,7 +91,7 @@ class VideoDetailViewModel :
                 requestDotInfo(mVideoDetail!!.duration)
             }
             onFailed {
-                JJLog.logi(TAG, "requestSeriesList onSuccess,vodId:$vodId error:$it")
+                Log.i(TAG, "requestSeriesList onSuccess,vodId:$vodId error:$it")
                 mLoadingState.value = ResponseStateCode.SUCCESS
                 mSeriesListData.value = emptyList()
             }
@@ -237,13 +237,13 @@ class VideoDetailViewModel :
 
 
     private fun requestDotInfo(duration: Double) {
-        JJLog.logi(TAG, "requestDotInfo")
+        Log.i(TAG, "requestDotInfo")
         viewModelScope.launch {
             //模拟
             val requestDots = Math.random() > 0.5f
             if (requestDots) {
                 withMain {
-                    JJLog.logi(TAG, "requestDotInfo start request ")
+                    Log.i(TAG, "requestDotInfo start request ")
                     mDotList.clear()
                     //每10秒打一个点
                     for (index in 1..VideoDotInfoData.dotInfoArray.size) {
@@ -257,7 +257,7 @@ class VideoDetailViewModel :
                             )
                         )
                     }
-                    JJLog.logi(TAG, "requestDotInfo success mDotList:$mDotList")
+                    Log.i(TAG, "requestDotInfo success mDotList:$mDotList")
                     mDotListLiveData.value = mDotList
                 }
             }
@@ -266,7 +266,7 @@ class VideoDetailViewModel :
 
     override fun onCleared() {
         super.onCleared()
-        JJLog.logi(TAG, "onCleared")
+        Log.i(TAG, "onCleared")
     }
 
     fun resetLoadingState() {

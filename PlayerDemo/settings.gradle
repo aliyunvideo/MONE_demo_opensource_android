@@ -7,11 +7,6 @@ if (withExternalPlayer != 'false') {
 
 include ':AndroidThirdParty'
 
-include ':AUIFoundation:AVTheme'
-include ':AUIFoundation:AVBaseUI'
-include ':AUIFoundation:AVMatisse'
-include ':AUIFoundation:AVUtils'
-
 include ':AUIFlowFeed'
 include ':AUIFullScreen'
 include ':AUIPlayerServer'

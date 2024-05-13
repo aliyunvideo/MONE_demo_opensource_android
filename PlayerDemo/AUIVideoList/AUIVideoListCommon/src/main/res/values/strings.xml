@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="alivc_player_tip_last_video">敬请期待~</string>
-
-    <string name="aui_video_list_gesture_title">Slide up to view more videos.</string>
 </resources>

@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion externalCompileSdkVersion
@@ -8,8 +6,6 @@ android {
     defaultConfig {
         minSdkVersion externalMinSdkVersion
         targetSdkVersion externalTargetSdkVersion
-
-
     }
 
     buildTypes {
@@ -18,36 +14,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    repositories {
-        flatDir { dirs 'libs' }
-    }
-
-    androidExtensions {
-        experimental = true
-    }
-
 }
 
 dependencies {
-
-    api project(':AUIFoundation:AVBaseUI')
-    api project(':AUIFoundation:AVUtils')
     api project(':AUIVideoCommon:common')
-    api externalPlayerFull
-//    api extrenalConan
-//    api  externalFfmpeg //必须依赖
-//    api externalPlayerAliyunArtc
-//    api externalPlayerAliyunArtcNet
-    api externalGSON//第三方依赖库
-    api externalOKHTTP//第三方依赖库
+
+    api externalGSON
+    api externalOKHTTP
     api externalAndroidX
     api externalAndroidDesign
-    api externalAliyunOSS
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
-
-    implementation (externalGlide){
+    implementation(externalGlide) {
         exclude group: "com.android.support"
     }
 }

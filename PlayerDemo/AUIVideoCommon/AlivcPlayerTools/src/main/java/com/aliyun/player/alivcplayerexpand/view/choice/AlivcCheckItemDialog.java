@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aliyun.player.alivcplayerexpand.R;
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils;
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,11 +3,10 @@
     package="com.alivc.player.videolist.auivideostandradlist">
 
     <application>
-        <activity android:name="com.alivc.player.videolist.auivideostandradlist.AliyunListPlayerActivity" />
-
         <activity
             android:name="com.alivc.player.videolist.auivideostandradlist.AUIVideoStandardListActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 </manifest>

@@ -2,15 +2,17 @@ package com.alivc.player.videolist.auivideofunctionlist.player;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
 import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
 import com.aliyun.player.AliPlayer;
-import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
 import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
@@ -19,27 +21,24 @@ import com.aliyun.player.source.UrlSource;
  * bind AliyunPlayer And TextureView
  */
 public class AliyunRenderView {
+    private static final String TAG = "[AUI]AliyunRenderView";
 
-    private final AliPlayer mAliPlayer;
     private final TextureView mTextureView;
 
+    private AliPlayer mAliPlayer;
     private int mPlayerState;
     private boolean mHasPrepared = false;
     private boolean mHasCreateSurface = false;
     private PlayerListener mOnPlayerListener;
 
-    public AliyunRenderView(Context context) {
-        //create AliPlayer and set AliPlayer config
-        mAliPlayer = AliPlayerFactory.createAliPlayer(context);
-        PlayerConfig config = mAliPlayer.getConfig();
-        config.mClearFrameWhenStop = true;
-        mAliPlayer.setConfig(config);
-        mAliPlayer.setLoop(true);
+    // 通过接口设置，可以达到精准seek效果，默认是 IPlayer.SeekMode.Inaccurate
+    // 当前SDK默认是 IPlayer.SeekMode.Inaccurate ，即：非精准seek
+    // 如果想要精准seek，请设置为 IPlayer.SeekMode.Accurate
+    private static final IPlayer.SeekMode DEFAULT_SEEK_MODE = IPlayer.SeekMode.Accurate;
 
+    public AliyunRenderView(Context context) {
         //create TextureView
         mTextureView = new TextureView(context);
-
-        initListener();
     }
 
     private void initListener() {
@@ -66,7 +65,7 @@ public class AliyunRenderView {
 
         mAliPlayer.setOnRenderingStartListener(() -> {
             if (mOnPlayerListener != null) {
-                mOnPlayerListener.onRenderingStart(-1,mAliPlayer.getDuration());
+                mOnPlayerListener.onRenderingStart(-1, mAliPlayer.getDuration());
             }
         });
 
@@ -122,7 +121,7 @@ public class AliyunRenderView {
      */
     private void invokeSeekTo() {
         if (mHasCreateSurface && mHasPrepared) {
-            mAliPlayer.seekTo(0);
+            mAliPlayer.seekTo(0, DEFAULT_SEEK_MODE);
             mHasCreateSurface = false;
             mHasPrepared = false;
         }
@@ -131,7 +130,20 @@ public class AliyunRenderView {
     /**
      * Player set data source and prepare
      */
-    public void bindUrl(String url) {
+    public void bindVideo(AliPlayer aliPlayer, VideoInfo videoInfo) {
+        if (aliPlayer == null) {
+            return;
+        }
+
+        if (videoInfo == null || TextUtils.isEmpty(videoInfo.getUrl())) {
+            return;
+        }
+
+        Log.i(TAG, "[BIND] [" + this + "][" + videoInfo.getTitle() + "]");
+        mAliPlayer = aliPlayer;
+        initListener();
+
+        String url = videoInfo.getUrl();
         UrlSource urlSource = new UrlSource();
         urlSource.setUri(url);
         if (url.startsWith("artc://")) {
@@ -145,6 +157,14 @@ public class AliyunRenderView {
         mAliPlayer.prepare();
     }
 
+    public void unbind() {
+        Log.i(TAG, "[UNBIND] [" + this + "]");
+        if (mAliPlayer != null) {
+            mAliPlayer.pause();
+            mAliPlayer.stop();
+        }
+    }
+
     public AliPlayer getAliPlayer() {
         return mAliPlayer;
     }
@@ -153,41 +173,32 @@ public class AliyunRenderView {
         return mPlayerState == IPlayer.started;
     }
 
-    public TextureView getTextureView() {
-        initTextureView();
-        return mTextureView;
-    }
-
-    public void release() {
-        mAliPlayer.stop();
-        mAliPlayer.release();
-    }
-
     public void setOnPlayerListener(PlayerListener playerListener) {
         this.mOnPlayerListener = playerListener;
     }
 
-    public boolean playerListenerIsNull() {
-        return mOnPlayerListener == null;
-    }
-
     public void start() {
-        mAliPlayer.start();
+        Log.i(TAG, "[START] [" + this + "]");
+        if (mAliPlayer != null) {
+            mAliPlayer.start();
+        }
     }
 
     public void pause() {
-        mAliPlayer.pause();
-    }
-
-    public void stop() {
-        mAliPlayer.stop();
-    }
-
-    public void openLoopPlay(boolean openLoopPlay) {
-        mAliPlayer.setLoop(openLoopPlay);
+        Log.i(TAG, "[PAUSE] [" + this + "]");
+        if (mAliPlayer != null) {
+            mAliPlayer.pause();
+        }
     }
 
     public void seekTo(long progress) {
-        mAliPlayer.seekTo(progress);
+        if (mAliPlayer != null) {
+            mAliPlayer.seekTo(progress, DEFAULT_SEEK_MODE);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "RenderView-" + super.hashCode();
     }
 }

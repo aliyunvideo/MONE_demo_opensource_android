@@ -1,10 +1,10 @@
 package com.aliyun.auiplayerserver;
 
 import com.aliyun.auiplayerserver.okhttp.AlivcOkHttpClient;
-import com.aliyun.player.aliyunplayerbase.bean.AliyunMps;
-import com.aliyun.player.aliyunplayerbase.bean.AliyunPlayAuth;
-import com.aliyun.player.aliyunplayerbase.bean.AliyunSts;
-import com.aliyun.player.aliyunplayerbase.bean.AliyunVideoList;
+import com.aliyun.auiplayerserver.bean.AliyunMps;
+import com.aliyun.auiplayerserver.bean.AliyunPlayAuth;
+import com.aliyun.auiplayerserver.bean.AliyunSts;
+import com.aliyun.auiplayerserver.bean.AliyunVideoList;
 import com.google.gson.Gson;
 
 import java.io.IOException;

@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.aliyun.auifullscreen.R
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils
 
 class FunctionShadowView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

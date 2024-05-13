@@ -19,7 +19,7 @@ import com.aliyun.player.alivcplayerexpand.playlist.OnListPlayCallback
 import com.aliyun.player.alivcplayerexpand.util.PlayConfigManager
 import com.aliyun.player.alivcplayerexpand.view.voice.AudioModeView
 import com.aliyun.player.alivcplayerexpand.widget.IRenderView
-import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode
+import com.aliyun.player.alivcplayerexpand.util.AliyunScreenMode
 import com.aliyun.video.database.entity.VideoPlayConfig
 import com.aliyun.video.floatview.FloatViewPlayManager
 import com.aliyun.video.homepage.viewmodel.BaseListViewModel
@@ -27,7 +27,6 @@ import com.aliyun.apsaravideo.videocommon.list.AutoPlayScrollListener
 import com.aliyun.apsaravideo.videocommon.list.ListPlayCallback
 import com.aliyun.auiplayerserver.bean.VideoInfo
 import com.aliyun.auiplayerserver.flowfeed.HomePageFetcher
-import com.aliyun.player.aliyunplayerbase.util.setVisible
 import com.aliyun.video.R
 import com.aliyun.video.homepage.HomePageVideoListRepository
 import kotlinx.coroutines.delay
@@ -192,13 +191,13 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
         }
         val videoCover: View? =
             getRecyclerViewItemChildView(rcv, position, R.id.mVideoCover)
-        videoCover?.setVisible(!playing)
+        videoCover?.visibility = if (playing) View.GONE else View.VISIBLE
         val durationTv: View? =
             getRecyclerViewItemChildView(rcv, position, R.id.mVideoDuration)
-        durationTv?.setVisible(!playing)
+        durationTv?.visibility = if (playing) View.GONE else View.VISIBLE
         val progressbarLayout: View? =
             getRecyclerViewItemChildView(rcv, position, R.id.alivc_info_small_bar)
-        progressbarLayout?.setVisible(playing)
+        progressbarLayout?.visibility = if (playing) View.VISIBLE else View.GONE
     }
 
     private fun onVideoPause(
@@ -206,10 +205,10 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
     ) {
         val durationTv: View? =
             getRecyclerViewItemChildView(rcv, position, R.id.mVideoDuration)
-        durationTv?.setVisible(false)
+        durationTv?.visibility = View.GONE
         val progressbarLayout: View? =
             getRecyclerViewItemChildView(rcv, position, R.id.alivc_info_small_bar)
-        progressbarLayout?.setVisible(true)
+        progressbarLayout?.visibility = View.VISIBLE
         updatePlayIcon(position, rcv, show = true, playing = false)
     }
 
@@ -232,7 +231,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
         val audioModeView =
             getRecyclerViewItemChildView<AudioModeView>(rcv, position, R.id.audio_mode_view)
         audioModeView?.apply {
-            setVisible(audioMode)
+            this.visibility = if (audioMode) View.VISIBLE else View.GONE
             mOnAudioModeListener = if (audioMode) {
                 object : AudioModeView.OnAudioModeListener {
                     override fun closeAudioMode() {
@@ -266,7 +265,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
         }
         val seekBarLayout: View? =
             getRecyclerViewItemChildView<View>(rcv, position, R.id.alivc_info_small_bar)
-        seekBarLayout?.setVisible(audioMode)
+        seekBarLayout?.visibility = if (audioMode) View.VISIBLE else View.GONE
         if (audioMode) {
             audioModeView?.setUpData(
                 mListData[mPosition].coverUrl ?: "",
@@ -297,7 +296,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
 
     private fun hideViewWhenPlaying(rcv: RecyclerView) {
         val videoCover: View? = getRecyclerViewItemChildView(rcv, mPosition, R.id.mVideoCover)
-        videoCover?.setVisible(false)
+        videoCover?.visibility = View.GONE
         updatePlayIcon(mPosition, rcv, show = false, playing = true)
     }
 
@@ -369,7 +368,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
                 //显示播放按钮
                 playIcon?.apply {
                     setImageResource(R.drawable.feed_play_play_icon)
-                    setVisible(true)
+                    this.visibility = View.VISIBLE
                 }
             }
 
@@ -546,7 +545,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
         mListPlayManager.seekVideo(progress)
         val seekTipLayout: View? =
             getRecyclerViewItemChildView(rcv, mPosition, R.id.seek_duration_tip_layout)
-        seekTipLayout?.setVisible(false)
+        seekTipLayout?.visibility = View.GONE
         if (!mListPlayManager.isPlaying()) {
             onVideoPause(mPosition, rcv)
         } else {
@@ -557,7 +556,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
                     if (showPosition == mPosition && mListPlayManager.getPlayerScene() != IPlayManagerScene.SCENE_ONLY_VOICE) {
                         val seekLayout: View? =
                             getRecyclerViewItemChildView(rcv, mPosition, R.id.alivc_info_small_bar)
-                        seekLayout?.setVisible(false)
+                        seekLayout?.visibility = View.GONE
                     }
                 }
             }
@@ -571,7 +570,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
     fun showLongPressTip(rcv: RecyclerView, show: Boolean) {
         val longPressVideoSpeedTipView =
             getRecyclerViewItemChildView<View>(rcv, mPosition, R.id.video_speed_up_tip)
-        longPressVideoSpeedTipView?.setVisible(show)
+        longPressVideoSpeedTipView?.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     fun openVoice(open: Boolean) {
@@ -596,7 +595,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
         val playIcon: ImageView? =
             getRecyclerViewItemChildView(rcv, position, R.id.mVideoPlayIcon)
         playIcon?.apply {
-            setVisible(show)
+            this.visibility = if (show) View.VISIBLE else View.GONE
             setTag(R.id.item_playing, playing)
             setImageResource(if (playing) R.drawable.feed_play_pause_icon else R.drawable.feed_play_play_icon)
         }
@@ -605,11 +604,11 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
     private fun onShowContrastPlayTip(show: Boolean, position: Int, rcv: RecyclerView) {
         val contrastPlayTipLayout: View? =
             getRecyclerViewItemChildView(rcv, position, R.id.layout_contrast_play_tip)
-        contrastPlayTipLayout?.setVisible(show)
+        contrastPlayTipLayout?.visibility = if (show) View.VISIBLE else View.GONE
         if (show) {
             //延迟三秒
             contrastPlayTipLayout?.postDelayed({
-                contrastPlayTipLayout?.setVisible(false)
+                contrastPlayTipLayout?.visibility = View.GONE
             }, 3000L)
         }
     }
@@ -620,7 +619,7 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
         val seekTipLayout: View? =
             getRecyclerViewItemChildView(rcv, mPosition, R.id.seek_duration_tip_layout)
         seekTipLayout?.apply {
-            setVisible(true)
+            this.visibility = View.VISIBLE
             val videoDurationSeconds = mListPlayManager.getListPlayer().mediaInfo.duration / 1000
             val playDurationTv: TextView = findViewById(R.id.seek_play_duration_tv)
             val playDurationText = (videoDurationSeconds * (progress / 100f)).toLong()
@@ -635,11 +634,11 @@ class RecommendViewModel : BaseListViewModel<VideoInfo>() {
         //隐藏play 按钮
         val playIcon: ImageView? =
             getRecyclerViewItemChildView(rcv, mPosition, R.id.mVideoPlayIcon)
-        playIcon?.setVisible(false)
+        playIcon?.visibility = View.GONE
         //显示进度条
         val seekLayout: View? =
             getRecyclerViewItemChildView(rcv, mPosition, R.id.alivc_info_small_bar)
-        seekLayout?.setVisible(true)
+        seekLayout?.visibility = View.VISIBLE
     }
 
     fun getAuthorName(): String? {

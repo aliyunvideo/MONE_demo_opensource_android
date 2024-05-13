@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aliyun.auiplayerserver.bean.VideoInfo
-import com.aliyun.player.aliyunplayerbase.util.ImageLoader
+import com.aliyun.player.alivcplayerexpand.util.ImageLoader
 import com.aliyun.video.R
 import com.aliyun.video.common.ui.adapter.ItemClickDelegate
 import com.aliyun.video.common.ui.getItemView

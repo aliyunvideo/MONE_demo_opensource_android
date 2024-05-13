@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:lines="2"
             android:textColor="@color/white"
-            android:textSize="@dimen/alivc_common_font_14"
+            android:textSize="14dp"
             tools:text="AirPlay" />
 
         <TextView

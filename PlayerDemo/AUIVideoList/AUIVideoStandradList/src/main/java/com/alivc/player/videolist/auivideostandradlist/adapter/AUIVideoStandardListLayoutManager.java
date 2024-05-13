@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.recyclerview.widget.OrientationHelper;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListLayoutManager;
@@ -14,7 +12,6 @@ import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
  * ViewPager效果的LayoutManager
- *
  */
 public class AUIVideoStandardListLayoutManager extends AUIVideoListLayoutManager implements View.OnTouchListener {
 
@@ -30,14 +27,7 @@ public class AUIVideoStandardListLayoutManager extends AUIVideoListLayoutManager
 
     public AUIVideoStandardListLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
-        init();
     }
-
-    private void init() {
-        mPagerSnapHelper = new PagerSnapHelper();
-        mOrientationHelper = OrientationHelper.createOrientationHelper(this, RecyclerView.VERTICAL);
-    }
-
 
     @Override
     public void onAttachedToWindow(RecyclerView recyclerView) {

@@ -8,6 +8,6 @@
     <string name="default_author_name">Default Alias - Alibaba Cloud</string>
     <string name="definition">Definition</string>
     <string name="play_detail">Detail</string>
-    <string name="play_speed_changed">Switched to $s speed</string>
+    <string name="play_speed_changed">Switched to %1$s speed</string>
 
 </resources>

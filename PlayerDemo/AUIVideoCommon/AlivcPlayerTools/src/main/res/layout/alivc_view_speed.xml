@@ -19,7 +19,7 @@
             android:layout_marginTop="@dimen/alivc_common_margin_40"
             android:text="@string/alivc_speed_mode"
             android:textColor="#e7e7e7"
-            android:textSize="@dimen/alivc_common_font_14" />
+            android:textSize="14dp" />
 
         <RadioGroup
             android:id="@+id/speed_group"
@@ -95,5 +95,5 @@
         android:gravity="center"
         android:padding="15dp"
         android:textColor="#e7e7e7"
-        android:textSize="@dimen/alivc_common_font_14" />
+        android:textSize="14dp" />
 </merge>

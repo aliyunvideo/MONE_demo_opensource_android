@@ -5,7 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.aliyun.player.aliyunplayerbase.util.ScreenUtils
+import com.aliyun.player.alivcplayerexpand.util.ScreenUtils
 import com.aliyun.video.R
 
 class FunctionShadowView @JvmOverloads constructor(

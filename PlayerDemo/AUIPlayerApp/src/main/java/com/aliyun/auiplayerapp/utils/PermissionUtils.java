@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.aliyun.aio.avbaseui.widget.AVToast;
 import com.aliyun.auiplayerapp.R;
 
 /**
@@ -114,14 +113,4 @@ public class PermissionUtils {
 
         return true;
     }
-
-    /**
-     * 没有权限的提示
-     * @param context Context
-     * @param tip 对于的提示 {@link #NO_PERMISSION_TIP}
-     */
-    public static void showNoPermissionTip(Context context, String tip) {
-        AVToast.show(context,true,tip);
-    }
-
 }

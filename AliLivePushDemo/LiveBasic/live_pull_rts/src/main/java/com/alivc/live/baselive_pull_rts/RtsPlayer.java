@@ -10,7 +10,7 @@ import com.aliyun.player.bean.InfoCode;
 import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
 import com.cicada.player.utils.Logger;
-import com.alivc.live.commonutils.BuildConfig;
+import com.alivc.live.commonbiz.BuildConfig;
 
 /**
  * RTS 播放

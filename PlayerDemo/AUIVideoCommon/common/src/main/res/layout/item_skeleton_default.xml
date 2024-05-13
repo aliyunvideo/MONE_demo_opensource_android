@@ -22,7 +22,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/light_transparent"
+        android:background="#16000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
         android:layout_height="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="50dp"
-        android:background="@color/light_transparent"
+        android:background="#16000000"
         app:layout_constraintLeft_toRightOf="@+id/img_news"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/img_news" />
@@ -43,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="14dp"
         android:layout_marginRight="16dp"
-        android:background="@color/light_transparent"
+        android:background="#16000000"
         app:layout_constraintBottom_toBottomOf="@+id/img_news"
         app:layout_constraintLeft_toLeftOf="@+id/tv_title"
         app:layout_constraintRight_toRightOf="parent"
@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:layout_marginRight="50dp"
-        android:background="@color/light_transparent"
+        android:background="#16000000"
         app:layout_constraintBottom_toBottomOf="@+id/img_news"
         app:layout_constraintLeft_toLeftOf="@+id/tv_title"
         app:layout_constraintRight_toRightOf="parent" />

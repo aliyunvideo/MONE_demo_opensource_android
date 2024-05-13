@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/replay_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/alivc_dialog_error_bg"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/video_play_complete_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/mAuthorPortrait"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:src="@drawable/default_portrait_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mAuthorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#FCFCFD"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/mAuthorPortrait"
+        app:layout_constraintTop_toTopOf="@+id/mAuthorPortrait"
+        android:text="阿里云视频云"/>
+
+    <TextView
+        android:id="@+id/mThumbsUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#4DCFE1"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/mAuthorPortrait"
+        app:layout_constraintStart_toStartOf="@+id/mAuthorName"
+        android:text="148视频·56万点赞" />
+
+    <TextView
+        android:id="@+id/mTvReplay"
+        android:layout_width="84dp"
+        android:layout_height="38dp"
+        android:text="@string/alivc_replay"
+        android:textColor="#4DCFE1"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/shape_btn_round_background"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

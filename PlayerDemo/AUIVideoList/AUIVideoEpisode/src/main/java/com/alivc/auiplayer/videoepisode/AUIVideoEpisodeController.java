@@ -8,6 +8,7 @@ import android.view.Surface;
 
 import com.alivc.auiplayer.videoepisode.data.AUIEpisodeVideoInfo;
 import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
+import com.aliyun.dns.DomainProcessor;
 import com.aliyun.player.AliListPlayer;
 import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.AliPlayerGlobalSettings;
@@ -15,6 +16,8 @@ import com.aliyun.player.IListPlayer;
 import com.aliyun.player.IPlayer;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.nativeclass.PlayerConfig;
+import com.aliyun.private_service.PrivateService;
+import com.cicada.player.utils.Logger;
 
 import java.io.File;
 import java.util.List;
@@ -23,13 +26,14 @@ import java.util.UUID;
 public class AUIVideoEpisodeController {
 
     private final AliListPlayer aliListPlayer;
+    private IPlayer preRenderPlayer;
+
     private int mOldPosition = 0;
+
     private int mCurrentPlayerState;
     private int mCurrentPlayerStateCallBack;
     private final SparseArray<String> mIndexWithUUID = new SparseArray<>();
     private PlayerListener mPlayerListener;
-    private IPlayer preRenderPlayer;
-    private boolean mAutoPlayLoop;
 
     // 通过接口设置，可以达到全屏效果，默认是 IPlayer.ScaleMode.SCALE_ASPECT_FIT
     // 当前SDK默认是 IPlayer.ScaleMode.SCALE_ASPECT_FIT ，即：图片以自身宽高比为准填充，较短一边未铺满全屏幕，但是会导致剩余空间透明，类似于上下黑边
@@ -42,6 +46,10 @@ public class AUIVideoEpisodeController {
     private static final IPlayer.SeekMode DEFAULT_SEEK_MODE = IPlayer.SeekMode.Accurate;
 
     public AUIVideoEpisodeController(Context context) {
+        // AF_LOG_LEVEL_INFO，默认info级别
+//        Logger.getInstance(context).enableConsoleLog(true);
+//        Logger.getInstance(context).setLogLevel(Logger.LogLevel.AF_LOG_LEVEL_TRACE);
+
         aliListPlayer = AliPlayerFactory.createAliListPlayer(context);
         aliListPlayer.setScaleMode(DEFAULT_VIDEO_SCALE_MODE);
 
@@ -60,13 +68,13 @@ public class AUIVideoEpisodeController {
         String preloadStrategyParam = "{\"algorithm\":\"sub\",\"offset\":\"500\"}";
         setPreloadStrategy(true, preloadStrategyParam);
 
-        //开启本地缓存
-        String cacheDir = context.getFilesDir() + File.separator + "aliyunPlayer" + File.separator + "Preload";
+        //开启本地缓存，统一约定在cache路径下的Preload目录
+        String cacheDir = context.getExternalCacheDir() + File.separator + "Preload";
         enableLocalCache(true, cacheDir);
         setCacheFileClearConfig(30 * 24 * 60, 20 * 1024, 0);
 
-        //设置HttpDNS
-        enableHTTPDNS(true);
+        //开启增强型HTTPDNS，需要增强型HTTPDNS的高级License，否则将会失效
+        enableEnhancedHTTPDNS(context, true);
 
         //配置网络超时重试时间与次数
         setNetworkRetryTimes(5000, 2);
@@ -118,80 +126,81 @@ public class AUIVideoEpisodeController {
     }
 
     public void openLoopPlay(boolean openLoopPlay) {
-        aliListPlayer.setLoop(openLoopPlay);
-        mAutoPlayLoop = openLoopPlay;
+        if (aliListPlayer != null) {
+            aliListPlayer.setLoop(openLoopPlay);
+        }
+        if (preRenderPlayer != null) {
+            preRenderPlayer.setLoop(openLoopPlay);
+        }
     }
 
     public void setPlayerListener(PlayerListener listener) {
         this.mPlayerListener = listener;
     }
 
-    //用于剧集的跳转
+    // 用于剧集的跳转
     public void onPageSelected(int position) {
         Log.i("CheckFunc", "onPageSelected (int) position " + position);
-
-        aliListPlayer.moveTo(mIndexWithUUID.get(position));
+        moveToPosition(position, null);
         this.mOldPosition = position;
     }
 
-    //用于短视频的上下滑动
+    // 用于短视频的上下滑动
     public void onPageSelected(int position, Surface surface) {
         Log.i("CheckFunc", "onPageSelected (int, surface)" + " position " + position);
-        if (position == 0) {
-            aliListPlayer.setSurface(surface);
-            aliListPlayer.moveTo(mIndexWithUUID.get(position));
-        } else {
-            int gap = Math.abs(position - mOldPosition);
-            if (gap == 1) {
-                if (mOldPosition < position) {
-                    IPlayer preRenderPlayer = aliListPlayer.getPreRenderPlayer();
-                    if (preRenderPlayer != null) {
-                        //clearScreen() will refresh the screen hereby cause a black screen issue
-                        //preRenderPlayer.clearScreen();
-                        preRenderPlayer.setSurface(surface);
-                        if (mAutoPlayLoop) {
-                            preRenderPlayer.setLoop(true);
-                        }
-                        preRenderPlayer.start();
-                        aliListPlayer.setSurface(null);
-
-                        preRenderPlayer.setOnInfoListener(infoBean -> {
-                                    long duration = preRenderPlayer.getDuration();
-                                    mPlayerListener.onInfo((int) duration, infoBean);
-                                    toRenderingStartOnInfo();
-                                }
-                        );
-                        preRenderPlayer.setOnStateChangedListener(i -> {
-                            mCurrentPlayerStateCallBack = i;
-                            mPlayerListener.onPlayStateChanged(-1, mCurrentPlayerStateCallBack == IPlayer.paused);
-                        });
-
-                        preRenderPlayer.setOnPreparedListener(() -> {
-                            mPlayerListener.onPrepared(-1);
-                        });
-
-
-                        preRenderPlayer.setOnErrorListener((ErrorInfo errorInfo) -> {
-                            mPlayerListener.onError(errorInfo);
-                            preRenderPlayer.stop();
-                        });
-
-                        aliListPlayer.moveToNextWithPrerendered();
-                    } else {
-                        aliListPlayer.clearScreen();
-                        aliListPlayer.setSurface(surface);
-                        aliListPlayer.moveToNext();
-                    }
-                } else {
-                    aliListPlayer.setSurface(surface);
-                    aliListPlayer.moveToPrev();
-                }
-            } else {
-                aliListPlayer.setSurface(surface);
-                aliListPlayer.moveTo(mIndexWithUUID.get(position));
-            }
-        }
+        moveToPosition(position, surface);
         this.mOldPosition = position;
+    }
+
+    // 移动到指定位置的共用方法
+    private void moveToPosition(int position, Surface surface) {
+        setSurface(surface);
+
+        // 如果是第一个位置或者跳跃式改变位置
+        if (position == 0 || Math.abs(position - mOldPosition) != 1) {
+            aliListPlayer.moveTo(mIndexWithUUID.get(position));
+            return;
+        }
+
+        // 如果是相邻位置的平滑过渡
+        if (mOldPosition < position) {
+            handleNextWithPreRender(surface);
+        } else { // 向前滑动
+            aliListPlayer.moveToPrev();
+        }
+    }
+
+    // 处理预渲染的播放器逻辑
+    private void handleNextWithPreRender(Surface surface) {
+        if (preRenderPlayer == null) {
+            aliListPlayer.clearScreen();
+            return;
+        }
+
+        // 使用预渲染的播放器播放下一个视频
+        preRenderPlayer.setSurface(surface);
+        preRenderPlayer.start();
+        aliListPlayer.setSurface(null);
+        aliListPlayer.moveToNextWithPrerendered();
+        setupPreRenderedPlayerListeners(preRenderPlayer);
+    }
+
+    // 设置预渲染播放器的监听器
+    private void setupPreRenderedPlayerListeners(IPlayer preRenderPlayer) {
+        preRenderPlayer.setOnInfoListener(infoBean -> {
+            long duration = preRenderPlayer.getDuration();
+            mPlayerListener.onInfo((int) duration, infoBean);
+            toRenderingStartOnInfo();
+        });
+        preRenderPlayer.setOnStateChangedListener(i -> {
+            mCurrentPlayerStateCallBack = i;
+            mPlayerListener.onPlayStateChanged(-1, mCurrentPlayerStateCallBack == IPlayer.paused);
+        });
+        preRenderPlayer.setOnPreparedListener(() -> mPlayerListener.onPrepared(-1));
+        preRenderPlayer.setOnErrorListener((ErrorInfo errorInfo) -> {
+            mPlayerListener.onError(errorInfo);
+            preRenderPlayer.stop();
+        });
     }
 
     /**
@@ -210,7 +219,7 @@ public class AUIVideoEpisodeController {
     }
 
     public void setSurface(Surface surface) {
-        Log.i("CheckFunc", "setSurface" + " surface " + surface);
+        Log.w("CheckFunc", "setSurface: [" + surface + "]");
 
         aliListPlayer.setSurface(surface);
     }
@@ -223,7 +232,7 @@ public class AUIVideoEpisodeController {
 
     public void onPlayStateChange() {
         Log.i("CheckFunc", "onPlayStateChange" + " mCurrentPlayerState " + mCurrentPlayerState + " moldPosition " + mOldPosition + " mCurrentPlayerStateCallBack " + mCurrentPlayerStateCallBack);
-        if (mCurrentPlayerStateCallBack < IPlayer.prepared){
+        if (mCurrentPlayerStateCallBack < IPlayer.prepared) {
             return;
         }
         if (mCurrentPlayerState == IPlayer.paused) {
@@ -236,11 +245,11 @@ public class AUIVideoEpisodeController {
     }
 
     public void seek(long seekPosition) {
-        if(seekPosition >= aliListPlayer.getDuration()){
+        if (seekPosition >= aliListPlayer.getDuration()) {
             // 避免直接跳转到视频尾部，与自动跳转到下一集出现逻辑上的冲突，出现黑屏的的情况。
             seekPosition -= 10;
         }
-        if(seekPosition < 0 || seekPosition > aliListPlayer.getDuration()){
+        if (seekPosition < 0 || seekPosition > aliListPlayer.getDuration()) {
             Log.w("CheckFunc", "seek, seekTo not valid: " + seekPosition);
             return;
         }
@@ -257,7 +266,7 @@ public class AUIVideoEpisodeController {
         aliListPlayer.start();
     }
 
-    public boolean isCurrentPlayerStateCallBackPaused(){
+    public boolean isCurrentPlayerStateCallBackPaused() {
         return mCurrentPlayerStateCallBack == IPlayer.paused;
     }
 
@@ -318,6 +327,26 @@ public class AUIVideoEpisodeController {
         PlayerConfig config = aliListPlayer.getConfig();
         config.mEnableHttpDns = -1;
         aliListPlayer.setConfig(config);
+    }
+
+    /**
+     * 开启增强型HTTPDNS
+     * <p>
+     * 与enableHTTPDNS互斥
+     * 如果开启增强型HTTPDNS，需要增强型HTTPDNS的高级License，否则将会失效
+     * 如果该功能开启失效，会打印错误日志“enhanced dns license is invalid, open enhanced dns failed”
+     * 播放器SDK版本要求：> 6.10.0
+     */
+    public void enableEnhancedHTTPDNS(Context context, boolean enable) {
+        PrivateService.preInitService(context);
+        //打开增强型HTTPDNS
+        AliPlayerGlobalSettings.enableEnhancedHttpDns(enable);
+        //必选，添加增强型HTTPDNS域名，请确保该域名为阿里云CDN域名并完成域名配置可以正常可提供线上服务。
+        DomainProcessor.getInstance().addEnhancedHttpDnsDomain("player.***alicdn.com");
+        //可选，增加HTTPDNS预解析域名
+        DomainProcessor.getInstance().addPreResolveDomain("player.***alicdn.com");
+        // AliPlayerGlobalSettings.SET_DNS_PRIORITY_LOCAL_FIRST表示设置HTTPDNS的优先级
+        AliPlayerGlobalSettings.setOption(AliPlayerGlobalSettings.SET_DNS_PRIORITY_LOCAL_FIRST, enable ? 1 : 0);
     }
 
     /**

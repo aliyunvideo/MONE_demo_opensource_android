@@ -1,5 +1,6 @@
 package com.alivc.auiplayer.videoepisode.adapter;
 
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,6 @@ public class AUIEpisodePanelAdapter extends RecyclerView.Adapter<AUIEpisodePanel
             return;
         }
         AUIEpisodeVideoInfo episodeVideoInfo = mEpisodeVideoInfos.get(position);
-        episodeVideoInfo.setPosition(position);
         holder.bind(episodeVideoInfo);
         //Log.i("CheckFunc", "setSelected: " + position + ", " + mSelectedPosition);
         holder.setSelected(position == mSelectedPosition);
@@ -97,7 +97,7 @@ public class AUIEpisodePanelAdapter extends RecyclerView.Adapter<AUIEpisodePanel
 
         private void setSelected(boolean selected) {
             mSoundImageView.setVisibility(selected ? View.VISIBLE : View.GONE);
-            mContainerView.setBackgroundColor(itemView.getContext().getResources().getColor(selected ? R.color.fill_medium : R.color.bg_weak));
+            mContainerView.setBackgroundColor(Color.parseColor(selected ? "#3A3D48" : "#1C1D22"));
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.alivc.player.videolist.auivideolistcommon.adapter;
 
-import static com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter.mListener;
-import static com.alivc.player.videolist.auivideolistcommon.adapter.AUIVideoListAdapter.mSeekBarListener;
-
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alivc.player.videolist.auivideolistcommon.AUIVideoListViewType;
 import com.alivc.player.videolist.auivideolistcommon.R;
 import com.alivc.player.videolist.auivideolistcommon.bean.VideoInfo;
-import com.aliyun.aio.utils.DensityUtil;
+import com.alivc.player.videolist.auivideolistcommon.listener.OnRecyclerViewItemClickListener;
+import com.alivc.player.videolist.auivideolistcommon.listener.OnSeekChangedListener;
+import com.alivc.player.videolist.auivideolistcommon.listener.PlayerListener;
 
 public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,6 +25,10 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
     private static boolean mEnableAuth = true;
     private static boolean mEnableSeekbar = true;
     protected static boolean mEnablePlayIcon = true;
+
+    protected PlayerListener mOnPlayerListener;
+    protected OnRecyclerViewItemClickListener mListener;
+    protected OnSeekChangedListener mSeekBarListener;
 
     public void onBind(VideoInfo videoInfo) {
         mVideoTitleTextView.setText(videoInfo.getTitle());
@@ -36,7 +40,6 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected final FrameLayout mRootFrameLayout;
-    protected final ImageView mIvCover;
     protected final AppCompatSeekBar mSeekBar;
     protected final TextView mVideoTitleTextView;
     protected final TextView mAuthorTextView;
@@ -47,7 +50,6 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         mRootFrameLayout = itemView.findViewById(R.id.fm_root);
-        mIvCover = itemView.findViewById(R.id.iv_cover);
         mSeekBar = itemView.findViewById(R.id.seekbar);
         mVideoTitleTextView = itemView.findViewById(R.id.tv_video_title);
         mAuthorTextView = itemView.findViewById(R.id.tv_author);
@@ -57,7 +59,7 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
         mSeekBar.setVisibility(mEnableSeekbar ? View.VISIBLE : View.GONE);
         if (getViewType() == AUIVideoListViewType.EPISODE) {
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mSeekBar.getLayoutParams();
-            layoutParams.bottomMargin = DensityUtil.dip2px(mSeekBar.getContext(), 84);
+            layoutParams.bottomMargin = dip2px(mSeekBar.getContext(), 84);
             mSeekBar.setLayoutParams(layoutParams);
             mSeekBar.requestLayout();
         }
@@ -99,19 +101,22 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    /*
-            update video source
-         */
-    public abstract void bindUrl(String url);
+    public void setOnPlayerListener(PlayerListener listener) {
+        mOnPlayerListener = listener;
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public void setOnSeekBarStateChangeListener(OnSeekChangedListener listener) {
+        mSeekBarListener = listener;
+    }
 
     protected abstract AUIVideoListViewType getViewType();
 
     public ViewGroup getRootView() {
         return mRootFrameLayout;
-    }
-
-    public View getCoverView() {
-        return mIvCover;
     }
 
     public static void enableTitleTextView(boolean isShown) {
@@ -144,5 +149,9 @@ public abstract class AUIVideoListViewHolder extends RecyclerView.ViewHolder {
 
     public void changePlayState() {
 
+    }
+
+    private static int dip2px(Context paramContext, float paramFloat) {
+        return (int)(0.5F + paramFloat * paramContext.getResources().getDisplayMetrics().density);
     }
 }

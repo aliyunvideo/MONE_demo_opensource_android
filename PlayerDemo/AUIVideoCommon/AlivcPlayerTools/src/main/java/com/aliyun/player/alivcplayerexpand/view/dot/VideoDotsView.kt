@@ -7,9 +7,9 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.aliyun.aio.utils.DensityUtil
 import com.aliyun.player.alivcplayerexpand.R
 import com.aliyun.player.alivcplayerexpand.bean.DotBean
+import com.aliyun.player.alivcplayerexpand.util.DensityUtil
 
 private const val TAG = "VideoDotsView"
 
@@ -54,7 +54,7 @@ class VideoDotsView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-//        JJLog.logi(TAG, "onTouchEvent")
+//        Log.i(TAG, "onTouchEvent")
         var consume = false
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -76,7 +76,7 @@ class VideoDotsView @JvmOverloads constructor(
                 (mDotList[index].time.toFloat()) / mDurationSeconds * (measuredWidth - paddingRight - paddingLeft)
             if (cx - mDotRadius * 3 < x && cx + mDotRadius * 3 > x) {
                 setSelected(index)
-//                JJLog.logi(TAG, "handleTouchEvent select index:$index")
+//                Log.i(TAG, "handleTouchEvent select index:$index")
                 mDotClick?.onDotClick(index, mDotList[index])
                 return true
             }
