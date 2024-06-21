@@ -10,34 +10,9 @@
 
 ## **三、编译运行**
 
-1. 接入已授权播放器的音视频终端SDK License。
-
-   具体操作，请参见[Android端接入License](https://help.aliyun.com/zh/apsara-video-sdk/user-guide/access-to-license#58bdccc0537vx)。
-
-2. 将 AUIVideoList 目录下的 AUIShortEpisode 和 AUIVideoListCommon 模块，拷贝到您项目工程中。
-
-   请注意修改模块 build.gradle 文件中的编译版本和 SDK 版本。编译版本以您项目工程的为准，SDK版本以 AndroidThirdParty/config.gradle 中的为准。
-
-   请确认工程的 gradle repositories 配置中，已引入了阿里云 SDK 的 Maven 源：
-
-   ```groovy
-   maven { url "https://maven.aliyun.com/repository/releases" }
-   ```
-
-3. 修改您项目工程的引入方式。
-
-   请注意在当前项目的 build.gradle 和 settings.gradle 文件中，增加模块的引用方式和依赖方式。
-
-4. 确认视频源地址。
-
-   如果视频源地址为模块提供的 MP4 私有加密地址，由于加密特性，集成到您项目工程中将会播放失效。请注意修改 AUIEpisodeConstants 文件下的 EPISODE_JSON_URL 的变量值，手动切换剧集地址。
-
-5. 配置页面跳转，在当前页面中打开短剧主界面 AUIEpisodePlayerActivity 。
-
-   ```java
-   Intent videoListEpisodeIntent = new Intent(this, AUIEpisodePlayerActivity.class);
-   startActivity(videoListEpisodeIntent);
-   ```
+参见AUIVideoList/README.md。
+                                                           
+注：请确认您的视频源地址，如果视频源地址为模块提供的 MP4 私有加密地址，由于加密特性，集成到您项目工程中将会播放失效。请注意修改 AUIEpisodeConstants 文件下的 EPISODE_JSON_URL 的变量值，手动切换剧集地址。
 
 ## **四、模块说明**
 

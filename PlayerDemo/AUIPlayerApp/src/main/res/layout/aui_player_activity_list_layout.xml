@@ -7,8 +7,8 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.aliyun.auiplayerapp.view.AVActionBar
-        android:id="@+id/av_base_title"
+    <com.aliyun.auiplayerapp.view.AUIPlayerActionBar
+        android:id="@+id/aui_player_base_title"
         style="@style/BaseActionBar_Style"
         tools:leftImageSrc="@drawable/ic_av_action_bar_back"
         tools:rightImageSrc="@drawable/ic_actionbar_more"
@@ -17,7 +17,7 @@
         tools:showTitle="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/av_base_main_recyclerView"
+        android:id="@+id/aui_player_base_main_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />

@@ -16,7 +16,7 @@ import com.alivc.player.videolist.auivideofunctionlist.AUIVideoFunctionListActiv
 import com.alivc.player.videolist.auivideostandradlist.AUIVideoStandardListActivity;
 import com.aliyun.auifullscreen.AUIFullScreenActivity;
 import com.aliyun.auiplayerapp.utils.PermissionUtils;
-import com.aliyun.auiplayerapp.view.AVBaseListActivity;
+import com.aliyun.auiplayerapp.view.AUIPlayerBaseListActivity;
 import com.aliyun.video.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Route(path = "/player/MainActivity")
-public class AUIPlayerAppMainActivity extends AVBaseListActivity {
-
+public class AUIPlayerAppMainActivity extends AUIPlayerBaseListActivity {
     private static final int REQUEST_PERMISSION_STORAGE = 0x0001;
 
     private static final int INDEX_FEED_FLOW = 0;
@@ -35,7 +34,7 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
     private static final int INDEX_FULL_SCREEN = 3;
     private static final int INDEX_CUSTOM = 4;
 
-    private static final int INDEX_VIDEO_LIST_Episode = 5;
+    private static final int INDEX_VIDEO_LIST_EPISODE = 5;
 
     private ListModel mListModel;
 
@@ -56,7 +55,7 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
         menu.add(new ListModel(INDEX_VIDEO_LIST_FUNCTION, R.drawable.ic_player_chenjin, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_function_msg)));
         menu.add(new ListModel(INDEX_VIDEO_LIST_STANDARD, R.drawable.ic_player_quanping, getResources().getString(R.string.player_video_list), getResources().getString(R.string.player_feed_flow_standard_msg)));
         menu.add(new ListModel(INDEX_FULL_SCREEN, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_full_screen), getResources().getString(R.string.player_video_full_screen_msg)));
-        menu.add(new ListModel(INDEX_VIDEO_LIST_Episode, R.drawable.ic_player_quanping, getResources().getString(R.string.player_episode), getResources().getString(R.string.player_video_episode_msg)));
+        menu.add(new ListModel(INDEX_VIDEO_LIST_EPISODE, R.drawable.ic_player_quanping, getResources().getString(R.string.player_episode), getResources().getString(R.string.player_video_episode_msg)));
 //        menu.add(new ListModel(INDEX_CUSTOM, R.drawable.ic_player_zidingyi, getResources().getString(R.string.player_custom), null));
         return menu;
     }
@@ -65,8 +64,8 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
     public void onListItemClick(ListModel model) {
         mListModel = model;
         String[] per = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ?
-                new String[] {Manifest.permission.READ_EXTERNAL_STORAGE} :
-                new String[] {Manifest.permission.READ_MEDIA_IMAGES,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE} :
+                new String[]{Manifest.permission.READ_MEDIA_IMAGES,
                         Manifest.permission.READ_MEDIA_VIDEO,
                         Manifest.permission.READ_MEDIA_AUDIO};
         if (PermissionUtils.checkPermissionsGroup(this, per)) {
@@ -115,7 +114,7 @@ public class AUIPlayerAppMainActivity extends AVBaseListActivity {
                 Intent fullscreenIntent = new Intent(this, AUIFullScreenActivity.class);
                 startActivity(fullscreenIntent);
                 break;
-            case INDEX_VIDEO_LIST_Episode:
+            case INDEX_VIDEO_LIST_EPISODE:
                 Intent videoListEpisodeIntent = new Intent(this, AUIEpisodePlayerActivity.class);
                 startActivity(videoListEpisodeIntent);
                 break;

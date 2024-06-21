@@ -18,7 +18,7 @@ import com.alivc.player.videolist.auivideofunctionlist.AUIVideoFunctionListActiv
 import com.alivc.player.videolist.auivideostandradlist.AUIVideoStandardListActivity;
 import com.aliyun.auifullscreen.AUIFullScreenActivity;
 import com.aliyun.auiplayerapp.utils.PermissionUtils;
-import com.aliyun.auiplayerapp.view.AVBaseListActivity;
+import com.aliyun.auiplayerapp.view.AUIPlayerBaseListActivity;
 import com.aliyun.video.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerMainActivity extends AVBaseListActivity {
+public class PlayerMainActivity extends AUIPlayerBaseListActivity {
 
     private static final int REQUEST_PERMISSION_STORAGE = 0x0001;
 

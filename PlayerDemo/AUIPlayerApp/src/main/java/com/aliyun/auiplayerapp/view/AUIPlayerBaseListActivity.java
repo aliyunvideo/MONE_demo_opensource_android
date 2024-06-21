@@ -22,9 +22,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AVBaseListActivity extends AppCompatActivity {
+public abstract class AUIPlayerBaseListActivity extends AppCompatActivity {
 
-    private AVActionBar mAVActionBar;
+    private AUIPlayerActionBar mAUIPlayerActionBar;
     private RecyclerView mRecyclerView;
     private AVListAdapter mAVListAdapter;
 
@@ -33,18 +33,18 @@ public abstract class AVBaseListActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(null);
         getDelegate().setLocalNightMode(specifiedThemeMode());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.av_activity_list_layout);
+        setContentView(R.layout.aui_player_activity_list_layout);
         initBaseView();
         initBaseData();
     }
 
     private void initBaseView() {
-        mAVActionBar = findViewById(R.id.av_base_title);
-        mRecyclerView = findViewById(R.id.av_base_main_recyclerView);
+        mAUIPlayerActionBar = findViewById(R.id.aui_player_base_title);
+        mRecyclerView = findViewById(R.id.aui_player_base_main_recyclerView);
         mAVListAdapter = new AVListAdapter(this);
         mRecyclerView.setAdapter(mAVListAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAVActionBar.getLeftImageView().setOnClickListener(new OnClickListener() {
+        mAUIPlayerActionBar.getLeftImageView().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
@@ -53,11 +53,11 @@ public abstract class AVBaseListActivity extends AppCompatActivity {
     }
 
     private void initBaseData() {
-        mAVActionBar.getTitleView().setText(getTitleResId());
+        mAUIPlayerActionBar.getTitleView().setText(getTitleResId());
         if (showBackBtn()) {
-            mAVActionBar.showLeftView();
+            mAUIPlayerActionBar.showLeftView();
         } else {
-            mAVActionBar.hideLeftView();
+            mAUIPlayerActionBar.hideLeftView();
         }
         mAVListAdapter.setData(createListData());
     }
@@ -101,9 +101,9 @@ public abstract class AVBaseListActivity extends AppCompatActivity {
     private static class AVListAdapter extends RecyclerView.Adapter<AVListHolder> {
 
         private List<ListModel> mData = new ArrayList<>();
-        private WeakReference<AVBaseListActivity> mAVBaseListActivityRef;
+        private WeakReference<AUIPlayerBaseListActivity> mAVBaseListActivityRef;
 
-        public AVListAdapter(AVBaseListActivity activity) {
+        public AVListAdapter(AUIPlayerBaseListActivity activity) {
             mAVBaseListActivityRef = new WeakReference<>(activity);
         }
 
@@ -120,7 +120,7 @@ public abstract class AVBaseListActivity extends AppCompatActivity {
         @NonNull
         @Override
         public AVListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.av_base_list_item, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.aui_player_base_list_item, parent, false);
             AVListHolder avListHolder = new AVListHolder(itemView);
             avListHolder.mImageView = itemView.findViewById(R.id.av_list_item_image);
             avListHolder.mTitle = itemView.findViewById(R.id.av_list_item_title);

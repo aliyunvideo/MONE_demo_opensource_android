@@ -10,30 +10,30 @@ import android.widget.TextView;
 
 import com.aliyun.auiplayerapp.R;
 
-public class AVActionBar extends RelativeLayout {
+public class AUIPlayerActionBar extends RelativeLayout {
 
     private ImageView mLeftImageView;
     private ImageView mRightImageView;
     private TextView mTitleView;
 
-    public AVActionBar(Context context) {
+    public AUIPlayerActionBar(Context context) {
         this(context, null);
     }
 
-    public AVActionBar(Context context, AttributeSet attrs) {
+    public AUIPlayerActionBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AVActionBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AUIPlayerActionBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
-        LayoutInflater.from(context).inflate(R.layout.av_actionbar_layout, this, true);
-        mLeftImageView = findViewById(R.id.av_actionbar_left_image);
-        mRightImageView = findViewById(R.id.av_actionbar_right_image);
-        mTitleView = findViewById(R.id.av_actionbar_title);
+        LayoutInflater.from(context).inflate(R.layout.aui_player_actionbar_layout, this, true);
+        mLeftImageView = findViewById(R.id.aui_player_actionbar_left_image);
+        mRightImageView = findViewById(R.id.aui_player_actionbar_right_image);
+        mTitleView = findViewById(R.id.aui_player_actionbar_title);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.av_actionbar);
         if (ta == null) {
